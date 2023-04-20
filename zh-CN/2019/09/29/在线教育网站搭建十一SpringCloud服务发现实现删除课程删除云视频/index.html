@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SpringCloud eureka feign">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(十一)在线教育网站搭建一SpringCloud服务发现实现操作">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="SpringCloud eureka feign">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/register.png">
+<meta property="article:published_time" content="2019-09-28T23:21:24.000Z">
+<meta property="article:modified_time" content="2021-10-29T05:58:05.606Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="SpringCloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/register.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>(十一)在线教育网站搭建一SpringCloud服务发现实现操作 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          (十一)在线教育网站搭建一SpringCloud服务发现实现操作
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-29 07:21:24" itemprop="dateCreated datePublished" datetime="2019-09-29T07:21:24+08:00">2019-09-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-29 13:58:05" itemprop="dateModified" datetime="2021-10-29T13:58:05+08:00">2021-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">项目</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99/" itemprop="url" rel="index"><span itemprop="name">在线教育网站</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">SpringCloud eureka feign</blockquote>
+
+<span id="more"></span>
+
+<h1 id="分布式-SpringCloud-服务实现-Netflix-Eureka">1. 分布式-SpringCloud-服务实现 Netflix Eureka</h1><h1 id="介绍">2. 介绍</h1><p>Eureka是Netflix开发的服务发现框架，SpringCloud将它集成在自己的子项目 spring-cloud-netflix中，实现SpringCloud的服务发现功能。Eureka包含两个组件： Eureka Server和Eureka Client。</p>
+<p>Eureka Server提供服务注册服务，各个节点启动后，会在Eureka Server中进行注册，这样EurekaServer中的服务注册表中将会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观的看到。</p>
+<p>Eureka Client是一个java客户端，用于简化与Eureka Server的交互，客户端同时也包含一个内置的、使用轮询(round-robin)负载算法的负载均衡器。在应用启动后，将会 向Eureka Server发送心跳,默认周期为30秒，如果Eureka Server在多个心跳周期内没有 接收到某个节点的心跳，Eureka Server将会从服务注册表中把这个服务节点移除(默认90 秒)。</p>
+<p>Eureka Server之间通过复制的方式完成数据的同步，Eureka还提供了客户端缓存机制，即使所有的Eureka Server都挂掉，客户端依然可以利用缓存中的信息消费其他服务的API。综上，Eureka通过心跳检查、客户端缓存等机制，确保了系统的高可用性、灵活性和可伸缩性。 </p>
+<h1 id="启动eureka服务器">3. 启动eureka服务器</h1><h2 id="Maven依赖">3.1. Maven依赖</h2><p>父项目pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Hoxton.SR3<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- springcloud--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>子项目pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>edueureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置eureka-server">3.2. 配置eureka-server</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8003</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring.application.name</span>=<span class="string">online-eureka</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#服务器本身是否注册到服务器</span></span><br><span class="line"><span class="attr">eureka.client.register-with-eureka</span>=<span class="string">false</span></span><br><span class="line"><span class="comment">#从eureka获取注册信息</span></span><br><span class="line"><span class="attr">eureka.client.fetch-registry</span>=<span class="string">false</span></span><br><span class="line"><span class="comment">#通信地址</span></span><br><span class="line"><span class="attr">eureka.client.service-url.defaultZone</span>=<span class="string">http://127.0.0.1:$&#123;server.port&#125;/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动-EnableEurekaServer">3.3. 启动@EnableEurekaServer</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EurekaApplcation</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(EurekaApplcation.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问http-localhost-8003">3.4. 访问http://localhost:8003/</h2><h1 id="eureka客户端-eduservice-videoservice">4. eureka客户端 - eduservice,videoservice</h1><h2 id="eureka-client-Maven依赖">4.1. eureka-client Maven依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置eureka-client">4.2. 配置eureka-client</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#服务端口号</span></span><br><span class="line"><span class="attr">server.port</span>=<span class="string">8001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#服务名</span></span><br><span class="line"><span class="attr">spring.application.name</span>=<span class="string">online-edu</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#eureka 注册</span></span><br><span class="line"><span class="comment">#eureka 服务器中获取的服务器的ip地址是否为主机名</span></span><br><span class="line"><span class="attr">eureka.instance.prefer-ip-address</span>=<span class="string">true</span></span><br><span class="line"><span class="comment">#指定注册中心地址</span></span><br><span class="line"><span class="attr">eureka.client.service-url.defaultZone</span>=<span class="string">http://127.0.0.1:8003/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动客户端">4.3. 启动客户端</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EduServiceApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(EduServiceApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动eduservice-videoservice">4.4. 启动eduservice,videoservice</h2><p>服务器端出现注册信息</p>
+<p><code>Registered instance ONLINE-EDU/192.168.0.101:online-edu:8001 with status UP (replication=true)</code></p>
+<p><code>Registered instance ONLINE-VIDEO/192.168.0.101:online-video:8002 with status UP (replication=true)</code></p>
+<h1 id="删除课程并删除阿里云中对应的video">5. 删除课程并删除阿里云中对应的video</h1><h2 id="eduservice调用videoservice">5.1. eduservice调用videoservice</h2><h2 id="添加Maven依赖">5.2. 添加Maven依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--服务调用--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="主配置类中配置-EnableFeignClients">5.3. 主配置类中配置@EnableFeignClients</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EduServiceApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(EduServiceApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加接口-FeignClient">5.4. 添加接口@FeignClient</h2><p>videoservice中的videocontroller的访问路径就是<code>/videoservice/video/delete/&#123;videoId&#125;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/videoservice/video&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">VideoController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    VideoService videoService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/delete/&#123;videoId&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">deleteById</span><span class="params">(<span class="meta">@PathVariable</span> String videoId)</span>&#123;</span><br><span class="line">        videoService.deleteVideoById(videoId);</span><br><span class="line">        <span class="keyword">return</span> R.ok().message(<span class="string">&quot;删除视频成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@FeignClient注解用于指定从哪个服务中调用功能 ，名称与被调用的服务名保持一致。</p>
+<p>@RequestMapping注解用于对被调用的微服务进行地址映射。</p>
+<p>@PathVariable注解<font color="#f00"><b>一定要指定参数名称</b></font>，否则出错</p>
+<p>@Component注解防止，在其他位置注入CodClient时idea报错</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.eduservice.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.DeleteMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"></span><br><span class="line"><span class="meta">@FeignClient(&quot;online-video&quot;)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">VodClient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/videoservice/video/delete/&#123;videoId&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">deleteAliyunVideo</span><span class="params">(<span class="meta">@PathVariable(&quot;videoId&quot;)</span> String videoId)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加到删除课程方法中-单个-多个">5.5. 添加到删除课程方法中 - 单个+多个</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutoWired</span></span><br><span class="line">VodClient vodClient;</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据id删除</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">deleteById</span><span class="params">(String id)</span>&#123;</span><br><span class="line">    <span class="comment">//查询课程对应视频源Id</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">videoId</span> <span class="operator">=</span>  baseMapper.selectById(id).getVideoSourceId();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!StringUtils.isEmpty(videoId)) &#123;</span><br><span class="line"></span><br><span class="line">        vodClient.deleteAliyunVideo(videoId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">flag</span> <span class="operator">=</span> baseMapper.deleteById(id);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> flag&gt;<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据条件删除</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteWrapper</span><span class="params">(QueryWrapper&lt;EduVideo&gt; queryWrapper)</span> &#123;</span><br><span class="line">    <span class="comment">//仅查询video_source_id</span></span><br><span class="line">    queryWrapper.select(<span class="string">&quot;video_source_id&quot;</span>);</span><br><span class="line">    List&lt;EduVideo&gt; videos = baseMapper.selectList(queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除所有云视频</span></span><br><span class="line">    <span class="keyword">for</span>(EduVideo video:videos)&#123;</span><br><span class="line">        vodClient.deleteAliyunVideo(video.getVideoSourceId());</span><br><span class="line">    &#125;</span><br><span class="line">    baseMapper.delete(queryWrapper);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用swagger-ui测试-error">5.6. 使用swagger-ui测试 -error</h2><p><code>feign.RetryableException: Read timed out executing DELETE</code></p>
+<p>大概是响应时间限制，响应默认为3s</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接时长</span></span><br><span class="line"><span class="attr">feign.httpclient.connection-timeout</span>=<span class="string">2000</span></span><br><span class="line"><span class="attr">feign.httpclient.connection-timer-repeat</span>=<span class="string">3000</span></span><br></pre></td></tr></table></figure>
+
+<p>修改时间</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#连接时长</span></span><br><span class="line"><span class="attr">feign.httpclient.connection-timeout</span>=<span class="string">20000</span></span><br><span class="line"><span class="attr">feign.httpclient.connection-timer-repeat</span>=<span class="string">30000</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="成功返回操作">5.7. 成功返回操作</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">INFO</span>  <span class="string">com.netflix.discovery.DiscoveryClient - DiscoveryClient_ONLINE-EDU/192.168.0.101:online-edu:8001: registering service...</span></span><br><span class="line"><span class="attr">INFO</span>  <span class="string">s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed</span></span><br><span class="line"><span class="attr">INFO</span>  <span class="string">s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">INFO</span>  <span class="string">c.n.loadbalancer.DynamicServerListLoadBalancer - DynamicServerListLoadBalancer for client online-video initialized: DynamicServerListLoadBalancer:&#123;NFLoadBalancer:name=online-video,current list of Servers=[192.168.0.101:8002],Load balancer stats=Zone stats: &#123;defaultzone=[Zone:defaultzone;	Instance count:1;	Active connections count: 0;	Circuit breaker tripped count: 0;	Active connections per server: 0.0;]</span></span><br><span class="line"><span class="attr">&#125;,Server</span> <span class="string">stats: [[Server:192.168.0.101:8002;	Zone:defaultZone;	Total Requests:0;	Successive connection failure:0;	Total blackout seconds:0;	Last connection made:Thu Jan 01 08:00:00 CST 1970;	First connection made: Thu Jan 01 08:00:00 CST 1970;	Active Connections:0;	total failure count in last (1000) msecs:0;	average resp time:0.0;	90 percentile resp time:0.0;	95 percentile resp time:0.0;	min resp time:0.0;	max resp time:0.0;	stddev resp time:0.0]</span></span><br><span class="line"><span class="attr">]&#125;ServerList</span>:<span class="string">org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList@71b75228</span></span><br><span class="line"></span><br><span class="line"><span class="attr">INFO</span>  <span class="string">com.netflix.config.ChainedDynamicProperty - Flipping property: online-video.ribbon.ActiveConnectionsLimit to use NEXT property: niws.loadbalancer.availabilityFilteringRule.activeConnectionsLimit = 2147483647</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="统计日注册人数">6. 统计日注册人数</h1><h2 id="用户注册表">6.1. 用户注册表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> ucenter_member;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> ucenter_member (</span><br><span class="line">  id <span class="type">char</span>(<span class="number">19</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;会员id&#x27;</span>,</span><br><span class="line">  openid <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;微信openid&#x27;</span>,</span><br><span class="line">  mobile <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;手机号&#x27;</span>,</span><br><span class="line">  password <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;密码&#x27;</span>,</span><br><span class="line">  nickname <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;昵称&#x27;</span>,</span><br><span class="line">  sex tinyint(<span class="number">2</span>) unsigned <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;性别 1 女，2 男&#x27;</span>,</span><br><span class="line">  age tinyint(<span class="number">3</span>) unsigned <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">  avatar <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户头像&#x27;</span>,</span><br><span class="line">  sign <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户签名&#x27;</span>,</span><br><span class="line">  is_disabled tinyint(<span class="number">1</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span>  <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;是否禁用 1（true）已禁用，  0（false）未禁用&#x27;</span>,</span><br><span class="line">  is_deleted tinyint(<span class="number">1</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span>  <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;逻辑删除 1（true）已删除， 0（false）未删除&#x27;</span>,</span><br><span class="line">  gmt_create datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  gmt_modified datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;更新时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">primary</span> key (id)</span><br><span class="line">) comment<span class="string">&#x27;会员表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计某天注册的人数">6.2. 统计某天注册的人数</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> ucenter_member u <span class="keyword">where</span> <span class="type">Date</span>(u.gmt_create)<span class="operator">=</span><span class="string">&#x27;2019-01-19&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="UcenterMemberController">6.3. UcenterMemberController</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.memberservice.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.memberservice.service.UcenterMemberService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/memberservice/ucenter-member&quot;)</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UcenterMemberController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    UcenterMemberService ucenterMemberService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/getDailyRegisterNumber/&#123;day&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">getDailyRegisterNumber</span><span class="params">(<span class="meta">@PathVariable</span> String day)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> ucenterMemberService.getDailyRegisterMember(day);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> R.ok().data(<span class="string">&quot;registerNum&quot;</span>,count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UcenterMemberMapper-xml">6.4. UcenterMemberMapper.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">mapper</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.online.edu.memberservice.mapper.UcenterMemberMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getRegisterNum&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;java.lang.Integer&quot;</span>&gt;</span></span><br><span class="line">        select count(*) from ucenter_member u where Date(u.gmt_create) = #&#123;day&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="UcenterMemberMapper">6.5. UcenterMemberMapper</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UcenterMemberMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;UcenterMember&gt; &#123;</span><br><span class="line"></span><br><span class="line">    Integer <span class="title function_">getRegisterNum</span><span class="params">(String day)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置扫描xml">6.6. 配置扫描xml</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mybatis-plus</span></span><br><span class="line"><span class="attr">mybatis-plus.mapper-locations</span>=<span class="string">classpath:com/online/edu/memberservice/mapper/xml/*.xml</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#mybatis日志</span></span><br><span class="line"><span class="attr">mybatis-plus.configuration.log-impl</span>=<span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="UcenterMemberServiceImpl">6.7. UcenterMemberServiceImpl</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UcenterMemberServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;UcenterMemberMapper, UcenterMember&gt; <span class="keyword">implements</span> <span class="title class_">UcenterMemberService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getDailyRegisterMember</span><span class="params">(String day)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> baseMapper.getRegisterNum(day);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试swagger-ui">6.8. 测试swagger-ui</h2><p><img src="/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/register.png"></p>
+<h2 id="控制台">6.9. 控制台</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">==&gt;  Preparing: select count(*) from ucenter_member u where Date(u.gmt_create) = ? </span><br><span class="line">==&gt; Parameters: 2019-01-02(String)</span><br><span class="line">&lt;==    Columns: count(*)</span><br><span class="line">&lt;==        Row: 2</span><br><span class="line">&lt;==      Total: 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="将注册人数加入到统计表中">6.10. 将注册人数加入到统计表中</h2><h1 id="统计结果放入日统计表">7. 统计结果放入日统计表</h1><h2 id="日统计表">7.1. 日统计表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> statistics_daily;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> statistics_daily (</span><br><span class="line">  id <span class="type">char</span>(<span class="number">19</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;主键&#x27;</span>,</span><br><span class="line">  date_calculate <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;统计日期&#x27;</span>,</span><br><span class="line">  register_num <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;注册人数&#x27;</span>,</span><br><span class="line">  login_num <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;登录人数&#x27;</span>,</span><br><span class="line">  video_view_num <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;每日播放视频数&#x27;</span>,</span><br><span class="line">  course_num <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="string">&#x27;0&#x27;</span> comment <span class="string">&#x27;每日新增课程数&#x27;</span>,</span><br><span class="line">  gmt_create datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  gmt_modified datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;更新时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">primary</span> key (id),</span><br><span class="line">  key statistics_day (date_calculate)</span><br><span class="line">)comment<span class="operator">=</span><span class="string">&#x27;网站统计日数据&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="调用memberservice项目路径，得到日注册量">7.2. 调用memberservice项目路径，得到日注册量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.statisticsservice.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"></span><br><span class="line"><span class="meta">@FeignClient(&quot;online-member&quot;)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MemberClient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/memberservice/ucenter-member/getDailyRegisterNumber/&#123;day&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">getDailyRegisterNumber</span><span class="params">(<span class="meta">@PathVariable(&quot;day&quot;)</span> String day)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="StatisticsDailyServiceImpl调用MemberClient">7.3. StatisticsDailyServiceImpl调用MemberClient</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.statisticsservice.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.statisticsservice.client.MemberClient;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.statisticsservice.entity.StatisticsDaily;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.statisticsservice.mapper.StatisticsDailyMapper;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.statisticsservice.service.StatisticsDailyService;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StatisticsDailyServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;StatisticsDailyMapper, StatisticsDaily&gt; <span class="keyword">implements</span> <span class="title class_">StatisticsDailyService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    MemberClient memberClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getDailyRegister</span><span class="params">(String day)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将统计表已有日期删除</span></span><br><span class="line">        QueryWrapper&lt;StatisticsDaily&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.eq(<span class="string">&quot;date_calculate&quot;</span>,day);</span><br><span class="line">        baseMapper.delete(queryWrapper);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//调用member中的统计</span></span><br><span class="line">        <span class="type">Integer</span> <span class="variable">count</span> <span class="operator">=</span>(Integer) memberClient.getDailyRegisterNumber(day).getData().get(<span class="string">&quot;registerNum&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">StatisticsDaily</span> <span class="variable">daily</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StatisticsDaily</span>();</span><br><span class="line">        daily.setDateCalculate(day);</span><br><span class="line">        daily.setRegisterNum(count);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//随机生成数据</span></span><br><span class="line">        daily.setCourseNum((<span class="type">int</span>)(Math.random()*<span class="number">200</span>));</span><br><span class="line">        daily.setLoginNum((<span class="type">int</span>)(Math.random()*<span class="number">200</span>));</span><br><span class="line">        daily.setVideoViewNum((<span class="type">int</span>)(Math.random()*<span class="number">200</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//注册</span></span><br><span class="line">        <span class="type">int</span> flag= baseMapper.insert(daily);</span><br><span class="line">        <span class="keyword">return</span> flag&gt;<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="StatisticsDailyController">7.4. StatisticsDailyController</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.statisticsservice.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.statisticsservice.service.StatisticsDailyService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 网站统计日数据 前端控制器</span></span><br><span class="line"><span class="comment"> * &lt;/p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Wang T</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2020-03-09</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/statisticsservice/statistics-daily&quot;)</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StatisticsDailyController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    StatisticsDailyService dailyService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/dailyRegister/&#123;day&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">getDailyRegister</span><span class="params">(<span class="meta">@PathVariable</span> String day)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> flag=dailyService.getDailyRegister(day);</span><br><span class="line">        <span class="keyword">if</span>(flag) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.ok().message(<span class="string">&quot;生成成功&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> R.error().message(<span class="string">&quot;生成失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成语句">7.5. 生成语句</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">==<span class="attr">&gt;</span>  <span class="string">Preparing: INSERT INTO statistics_daily ( id, date_calculate, register_num, login_num, video_view_num, course_num, gmt_create, gmt_modified ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) </span></span><br><span class="line">==<span class="attr">&gt;</span> <span class="string">Parameters: 1236923304708902913(String), 2019-01-19(String), 5(Integer), 137(Integer), 56(Integer), 155(Integer), 2019-04-19 15:54:31.425(Timestamp), 2019-04-19 15:54:31.425(Timestamp)</span></span><br><span class="line"><span class="attr">&lt;</span>=<span class="string">=    Updates: 1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="前端通过日期选择统计当天注册数">8. 前端通过日期选择统计当天注册数</h1><h2 id="router-x2F-index-js-生成路由链接">8.1. router&#x2F;index.js - 生成路由链接</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/statistic&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="title class_">Layout</span>,</span><br><span class="line">    <span class="attr">redirect</span>: <span class="string">&#x27;/statistic/list&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;统计分析&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;  <span class="attr">title</span>:<span class="string">&#x27;统计分析&#x27;</span>,  <span class="attr">icon</span>: <span class="string">&#x27;chart&#x27;</span>&#125;,</span><br><span class="line">    <span class="attr">children</span>:[</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;generte&#x27;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;生成数据&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/edu/statistic/generte&#x27;</span>),</span><br><span class="line">        <span class="attr">meta</span>: &#123;<span class="attr">title</span>:<span class="string">&#x27;生成数据&#x27;</span>, <span class="attr">icon</span>: <span class="string">&#x27;guide&#x27;</span>&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;图表显示&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/edu/statistic/list&#x27;</span>),</span><br><span class="line">        <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&#x27;图表显示&#x27;</span>, <span class="attr">icon</span>: <span class="string">&#x27;table&#x27;</span> &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="api-x2F-edu-x2F-statistis-js-请求方法">8.2. api&#x2F;edu&#x2F;statistis.js - 请求方法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">&#x27;@/utils/request&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> base = <span class="string">&#x27;/statisticsservice/statistics-daily&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="title function_">getDailyRegisterNum</span>(<span class="params">day</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">request</span>(&#123;</span><br><span class="line">            <span class="attr">url</span>:<span class="string">`<span class="subst">$&#123;base&#125;</span>/dailyRegister/`</span>+day,</span><br><span class="line">            <span class="attr">method</span>:<span class="string">&#x27;get&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="views-x2F-edu-x2F-statistic-x2F-generte-vue-页面展示">8.3. views&#x2F;edu&#x2F;statistic&#x2F;generte.vue - 页面展示</h2><p>el-date-picker 日期组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div class=&quot;app-container&quot;&gt;</span><br><span class="line">    &lt;el-form :inline=&quot;true&quot; class=&quot;demo-form-inline&quot;&gt;</span><br><span class="line">        &lt;el-form-item&gt;</span><br><span class="line">            &lt;el-date-picker</span><br><span class="line">                    v-model=&quot;date&quot;</span><br><span class="line">                    type=&quot;date&quot;</span><br><span class="line">                    placeholder=&quot;请选择日期&quot;</span><br><span class="line">                    value-format=&quot;yyyy-MM-dd&quot;/&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">        &lt;el-form-item&gt;</span><br><span class="line">            &lt;el-button type=&quot;primary&quot; icon=&quot;el-icon-s-open&quot; @click=&quot;getDailyRegisterNum&quot;&gt;生成&lt;/el-button&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">    &lt;/el-form&gt; </span><br><span class="line">&lt;/div&gt;  </span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import statistic from &#x27;@/api/edu/statistic&#x27;</span><br><span class="line">export default &#123;</span><br><span class="line">    data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            date:&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    methods:&#123;</span><br><span class="line">        getDailyRegisterNum()&#123;</span><br><span class="line">            statistic.getDailyRegisterNum(this.date).then(response=&gt;&#123;</span><br><span class="line">                this.$message(&#123;</span><br><span class="line">                    type:&#x27;success&#x27;,</span><br><span class="line">                    message:response.message</span><br><span class="line">                &#125;)</span><br><span class="line">                this.$router.push(&#123;</span><br><span class="line">                    path:&#x27;/statistic/list&#x27;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%80SpringCloud%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%88%A0%E9%99%A4%E4%BA%91%E8%A7%86%E9%A2%91/" title="(十一)在线教育网站搭建一SpringCloud服务发现实现操作">https://wtlumos.github.io/zh-CN/2019/09/29/在线教育网站搭建十一SpringCloud服务发现实现删除课程删除云视频/</a> -->
+    
+       <a href ="/zh-CN/2019/09/29/在线教育网站搭建十一SpringCloud服务发现实现删除课程删除云视频/" >/zh-CN/2019/09/29/在线教育网站搭建十一SpringCloud服务发现实现删除课程删除云视频/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-09-29 07:21
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2021-10-29 13:58
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/SpringCloud/" rel="tag"><i class="fa fa-tag"></i> SpringCloud</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/29/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%BA%8C%E9%A1%B9%E7%9B%AE%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E5%8A%9F%E8%83%BD/" rel="prev" title="(十二)在线教育网站搭建-项目统计分析功能-Echarts">
+      <i class="fa fa-chevron-left"></i> (十二)在线教育网站搭建-项目统计分析功能-Echarts
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/28/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E9%98%BF%E9%87%8C%E4%BA%91%E8%A7%86%E9%A2%91%E7%82%B9%E6%92%AD%E4%B8%8A%E4%BC%A0%E5%AE%9E%E7%8E%B0/" rel="next" title="(十)在线教育网站搭建-阿里云视频点播上传实现">
+      (十)在线教育网站搭建-阿里云视频点播上传实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F-SpringCloud-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0-Netflix-Eureka"><span class="nav-text">1. 分布式-SpringCloud-服务实现 Netflix Eureka</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-text">2. 介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8eureka%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">3. 启动eureka服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven%E4%BE%9D%E8%B5%96"><span class="nav-text">3.1. Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEeureka-server"><span class="nav-text">3.2. 配置eureka-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-EnableEurekaServer"><span class="nav-text">3.3. 启动@EnableEurekaServer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AEhttp-localhost-8003"><span class="nav-text">3.4. 访问http:&#x2F;&#x2F;localhost:8003&#x2F;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#eureka%E5%AE%A2%E6%88%B7%E7%AB%AF-eduservice-videoservice"><span class="nav-text">4. eureka客户端 - eduservice,videoservice</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#eureka-client-Maven%E4%BE%9D%E8%B5%96"><span class="nav-text">4.1. eureka-client Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEeureka-client"><span class="nav-text">4.2. 配置eureka-client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-text">4.3. 启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8eduservice-videoservice"><span class="nav-text">4.4. 启动eduservice,videoservice</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E5%B9%B6%E5%88%A0%E9%99%A4%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%AD%E5%AF%B9%E5%BA%94%E7%9A%84video"><span class="nav-text">5. 删除课程并删除阿里云中对应的video</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#eduservice%E8%B0%83%E7%94%A8videoservice"><span class="nav-text">5.1. eduservice调用videoservice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0Maven%E4%BE%9D%E8%B5%96"><span class="nav-text">5.2. 添加Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%85%8D%E7%BD%AE%E7%B1%BB%E4%B8%AD%E9%85%8D%E7%BD%AE-EnableFeignClients"><span class="nav-text">5.3. 主配置类中配置@EnableFeignClients</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%8E%A5%E5%8F%A3-FeignClient"><span class="nav-text">5.4. 添加接口@FeignClient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%88%A0%E9%99%A4%E8%AF%BE%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%AD-%E5%8D%95%E4%B8%AA-%E5%A4%9A%E4%B8%AA"><span class="nav-text">5.5. 添加到删除课程方法中 - 单个+多个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8swagger-ui%E6%B5%8B%E8%AF%95-error"><span class="nav-text">5.6. 使用swagger-ui测试 -error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E8%BF%94%E5%9B%9E%E6%93%8D%E4%BD%9C"><span class="nav-text">5.7. 成功返回操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E6%97%A5%E6%B3%A8%E5%86%8C%E4%BA%BA%E6%95%B0"><span class="nav-text">6. 统计日注册人数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-text">6.1. 用户注册表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E6%9F%90%E5%A4%A9%E6%B3%A8%E5%86%8C%E7%9A%84%E4%BA%BA%E6%95%B0"><span class="nav-text">6.2. 统计某天注册的人数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UcenterMemberController"><span class="nav-text">6.3. UcenterMemberController</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UcenterMemberMapper-xml"><span class="nav-text">6.4. UcenterMemberMapper.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UcenterMemberMapper"><span class="nav-text">6.5. UcenterMemberMapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%89%AB%E6%8F%8Fxml"><span class="nav-text">6.6. 配置扫描xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UcenterMemberServiceImpl"><span class="nav-text">6.7. UcenterMemberServiceImpl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95swagger-ui"><span class="nav-text">6.8. 测试swagger-ui</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%8F%B0"><span class="nav-text">6.9. 控制台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E6%B3%A8%E5%86%8C%E4%BA%BA%E6%95%B0%E5%8A%A0%E5%85%A5%E5%88%B0%E7%BB%9F%E8%AE%A1%E8%A1%A8%E4%B8%AD"><span class="nav-text">6.10. 将注册人数加入到统计表中</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E7%BB%93%E6%9E%9C%E6%94%BE%E5%85%A5%E6%97%A5%E7%BB%9F%E8%AE%A1%E8%A1%A8"><span class="nav-text">7. 统计结果放入日统计表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E7%BB%9F%E8%AE%A1%E8%A1%A8"><span class="nav-text">7.1. 日统计表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8memberservice%E9%A1%B9%E7%9B%AE%E8%B7%AF%E5%BE%84%EF%BC%8C%E5%BE%97%E5%88%B0%E6%97%A5%E6%B3%A8%E5%86%8C%E9%87%8F"><span class="nav-text">7.2. 调用memberservice项目路径，得到日注册量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatisticsDailyServiceImpl%E8%B0%83%E7%94%A8MemberClient"><span class="nav-text">7.3. StatisticsDailyServiceImpl调用MemberClient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatisticsDailyController"><span class="nav-text">7.4. StatisticsDailyController</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AF%AD%E5%8F%A5"><span class="nav-text">7.5. 生成语句</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E9%80%9A%E8%BF%87%E6%97%A5%E6%9C%9F%E9%80%89%E6%8B%A9%E7%BB%9F%E8%AE%A1%E5%BD%93%E5%A4%A9%E6%B3%A8%E5%86%8C%E6%95%B0"><span class="nav-text">8. 前端通过日期选择统计当天注册数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#router-x2F-index-js-%E7%94%9F%E6%88%90%E8%B7%AF%E7%94%B1%E9%93%BE%E6%8E%A5"><span class="nav-text">8.1. router&#x2F;index.js - 生成路由链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#api-x2F-edu-x2F-statistis-js-%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-text">8.2. api&#x2F;edu&#x2F;statistis.js - 请求方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#views-x2F-edu-x2F-statistic-x2F-generte-vue-%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA"><span class="nav-text">8.3. views&#x2F;edu&#x2F;statistic&#x2F;generte.vue - 页面展示</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'd4d2dc7ff546e024f15856beaebda575',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

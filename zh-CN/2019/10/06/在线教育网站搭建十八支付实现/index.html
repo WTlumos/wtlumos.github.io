@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="支付宝沙箱开发使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(十八)在线教育网站搭建一支付实现">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="支付宝沙箱开发使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/deve.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/paysch.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/parammap.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/3.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/4.png">
+<meta property="article:published_time" content="2019-10-05T16:10:40.000Z">
+<meta property="article:modified_time" content="2021-10-29T05:57:39.474Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/deve.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>(十八)在线教育网站搭建一支付实现 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          (十八)在线教育网站搭建一支付实现
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-06 00:10:40" itemprop="dateCreated datePublished" datetime="2019-10-06T00:10:40+08:00">2019-10-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-29 13:57:39" itemprop="dateModified" datetime="2021-10-29T13:57:39+08:00">2021-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">项目</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99/" itemprop="url" rel="index"><span itemprop="name">在线教育网站</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">支付宝沙箱开发使用</blockquote>
+
+<span id="more"></span>
+
+<h1 id="Order表设计">1. Order表设计</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> edu_order;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> edu_order(</span><br><span class="line">  id <span class="type">char</span>(<span class="number">19</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;订单ID&#x27;</span>,</span><br><span class="line">	trade_no <span class="type">char</span>(<span class="number">40</span>) <span class="keyword">null</span> comment <span class="string">&#x27;支付宝交易号&#x27;</span>,</span><br><span class="line">	course_id <span class="type">char</span>(<span class="number">19</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;课程ID&#x27;</span>,</span><br><span class="line">	ucenter_id <span class="type">char</span>(<span class="number">19</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户ID&#x27;</span>,</span><br><span class="line">	ucenter_username <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">default</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户名&#x27;</span>,</span><br><span class="line">	ucenter_mobile <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;用户手机号&#x27;</span>,</span><br><span class="line">	course_title <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;课程标题&#x27;</span>,</span><br><span class="line">	course_price <span class="type">decimal</span>(<span class="number">10</span>,<span class="number">2</span>) unsigned <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="string">&#x27;0.00&#x27;</span> comment <span class="string">&#x27;课程价格&#x27;</span>,</span><br><span class="line">	trade_status <span class="type">int</span>(<span class="number">2</span>) <span class="keyword">not</span> <span class="keyword">null</span> <span class="keyword">default</span> <span class="number">0</span> comment <span class="string">&#x27;交易状态：WAIT_BUYER_PAY（交易创建，等待买家付款）0、TRADE_CLOSED（未付款交易超时关闭，或支付完成后全额退款）1、TRADE_SUCCESS（交易支付成功）2、TRADE_FINISHED（交易结束，不可退款）3&#x27;</span>,</span><br><span class="line">	gmt_create datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">	gmt_modified datetime <span class="keyword">not</span> <span class="keyword">null</span> comment <span class="string">&#x27;更新时间&#x27;</span>,</span><br><span class="line">	<span class="keyword">primary</span> key(id)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> edu_order;</span><br></pre></td></tr></table></figure>
+
+<h1 id="https-open-alipay-com-platform-home-htm开发中心">2. https://open.alipay.com/platform/home.htm开发中心</h1><p>支付宝扫码登录后，进入网页和应用开发，创建一个新应用</p>
+<p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/deve.png"></p>
+<h1 id="https-opendocs-alipay-com-open-270-105899开发文档">3. https://opendocs.alipay.com/open/270/105899开发文档</h1><p>这里需要下载一个开发助手，用于生成公钥和私钥</p>
+<p>支付宝采用公钥+内容匹配私钥的方式</p>
+<p>生成密钥 <a target="_blank" rel="noopener" href="https://opendocs.alipay.com/open/291/105971">https://opendocs.alipay.com/open/291/105971</a> </p>
+<p>复制公钥到指定位置后等待验审上线，但应用的签约功能需要营业执照。</p>
+<p>选用支付宝沙箱开发</p>
+<p>沙箱环境<a target="_blank" rel="noopener" href="https://openhome.alipay.com/platform/appDaily.htm?tab=info">https://openhome.alipay.com/platform/appDaily.htm?tab=info</a></p>
+<h1 id="沙箱环境">4. 沙箱环境</h1><p>沙箱环境是开放平台提供给开发者调试接口的环境，模拟真实的支付环境</p>
+<p>配置信息 <a target="_blank" rel="noopener" href="https://opendocs.alipay.com/open/200/105311">https://opendocs.alipay.com/open/200/105311</a></p>
+<h1 id="支付接入">5. 支付接入</h1><p>配置说明 <a target="_blank" rel="noopener" href="https://opendocs.alipay.com/open/270/105899">https://opendocs.alipay.com/open/270/105899</a></p>
+<h2 id="支付时序图">5.1. 支付时序图</h2><p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/paysch.png"></p>
+<h2 id="下单实现">5.2. 下单实现</h2><h3 id="controller">5.2.1. controller</h3><p>通过请求中有的logintoken取得用户头像，id，昵称信息，并根据课程信息生成订单</p>
+<p>返回orderId是为了支付的时候接收订单号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/create&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">createOrder</span><span class="params">(HttpServletRequest request,</span></span><br><span class="line"><span class="params">                     <span class="meta">@RequestBody</span> EduOrder eduOrder)</span>&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span>request.getHeader(<span class="string">&quot;logintoken&quot;</span>);</span><br><span class="line">    String orderId=eduOrderService.createOrder(token,eduOrder);</span><br><span class="line">    <span class="keyword">if</span>(!StringUtils.isEmpty(orderId)) &#123;</span><br><span class="line">        <span class="keyword">return</span> R.ok().message(<span class="string">&quot;订单创建成功，及时付款&quot;</span>).data(<span class="string">&quot;orderId&quot;</span>,orderId);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.error().message(<span class="string">&quot;订单创建失败，请稍后再试&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="service">5.2.2. service</h3><p>将下单信息通过rabbit中的order-queue队列，实现分布式事务</p>
+<p>memberClient 来自SpringCloud中的openfeign，调用用户表中的路由得到手机号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">createOrder</span><span class="params">(String token, EduOrder eduOrder)</span> &#123;</span><br><span class="line"></span><br><span class="line">       <span class="type">Claims</span> <span class="variable">claims</span> <span class="operator">=</span> JwtUtils.checkJWT(token);</span><br><span class="line">       <span class="type">String</span> <span class="variable">ucenterId</span> <span class="operator">=</span> (String)claims.get(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">       <span class="type">String</span> <span class="variable">ucenterName</span> <span class="operator">=</span> (String) claims.get(<span class="string">&quot;nickname&quot;</span>);</span><br><span class="line">       <span class="keyword">if</span>(StringUtils.isEmpty(ucenterId))&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="type">R</span> <span class="variable">result</span> <span class="operator">=</span> memberClient.getMember(ucenterId);</span><br><span class="line">       Map&lt;String,Object&gt; data = result.getData();</span><br><span class="line">       <span class="type">String</span> <span class="variable">mobile</span> <span class="operator">=</span> (String)data.get(<span class="string">&quot;mobile&quot;</span>);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//UcenterMember member = (UcenterMember) obj;</span></span><br><span class="line"></span><br><span class="line">       eduOrder.setUcenterId(ucenterId);</span><br><span class="line">       eduOrder.setUcenterUsername(ucenterName);</span><br><span class="line">       eduOrder.setUcenterMobile(mobile);</span><br><span class="line"></span><br><span class="line">       baseMapper.insert(eduOrder);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//发送订单信息</span></span><br><span class="line">       rabbitTemplate.convertAndSend(<span class="string">&quot;order-exchange&quot;</span>,<span class="string">&quot;order-binding&quot;</span>,eduOrder);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> eduOrder.getId();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Maven依赖">5.3. Maven依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alipay.sdk<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>alipay-sdk-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.9.79.ALL<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- rabbitmq--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--服务调用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="支付实现">5.4. 支付实现</h2><h3 id="发起支付请求">5.4.1. 发起支付请求</h3><h4 id="application-properties中相关配置">5.4.1.1. application.properties中相关配置</h4><p>这里的回调地址和返回地址都必须是公网域名，通过ngrok，花生壳等注册域名</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8008</span></span><br><span class="line"><span class="attr">spring.application.name</span>=<span class="string">edu-alipay</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#eureka</span></span><br><span class="line"><span class="attr">eureka.instance.prefer-ip-address</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">eureka.client.service-url.defaultZone</span>=<span class="string">http://127.0.0.1:8010/eureka</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#mysql数据库连接</span></span><br><span class="line"><span class="attr">spring.datasource.driver-class-name</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/online</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">&lt;&lt;账号&gt;&gt;</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">&lt;&lt;密码&gt;&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">alipay.config.APP_ID</span> = <span class="string">&lt;&lt;沙箱中的app_id&gt;&gt;</span></span><br><span class="line"><span class="attr">alipay.config.APP_PRIVATE_KEY</span> = <span class="string">&lt;&lt;私钥&gt;&gt;</span></span><br><span class="line"><span class="attr">alipay.config.GATEWAY_URL</span>=<span class="string">https://openapi.alipaydev.com/gateway.do</span></span><br><span class="line"><span class="attr">alipay.config.SIGN_TYPE</span>=<span class="string">RSA2</span></span><br><span class="line"><span class="attr">alipay.config.CHARSET</span>=<span class="string">utf-8</span></span><br><span class="line"><span class="attr">alipay.config.FORMAT</span>=<span class="string">json</span></span><br><span class="line"><span class="attr">alipay.config.ALIPAY_PUBLIC_KEY</span>=<span class="string"></span></span><br><span class="line"><span class="attr">alipay.config.NOTIFY_URL</span>=<span class="string">http://&lt;&lt;内网穿透注册的域名&gt;&gt;/alipay/edu-order/payback</span></span><br><span class="line"><span class="attr">alipay.config.RETURN_URL</span>=<span class="string">http://&lt;&lt;内网穿透注册的域名&gt;&gt;/alipay/edu-order/return</span></span><br><span class="line"><span class="attr">alipay.config.SERVICE_PROVIDER_ID</span>=<span class="string">&lt;&lt;沙箱中卖家app_id&gt;&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring.rabbitmq.host</span>=<span class="string">192.168.0.112</span></span><br><span class="line"><span class="attr">spring.rabbitmq.port</span>=<span class="string">5672</span></span><br><span class="line"><span class="attr">spring.rabbitmq.listener.direct.acknowledge-mode</span>=<span class="string">manual</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#全局时间</span></span><br><span class="line"><span class="attr">spring.jackson.date-format</span>=<span class="string">yyyy-MM-dd HH:mm:ss</span></span><br><span class="line"><span class="attr">spring.jackson.time-zone</span>=<span class="string">GMT+8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mybatis-plus.configuration.log-impl</span>=<span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line"><span class="comment">#mapper配置指定</span></span><br><span class="line"><span class="attr">mybatis-plus.mapper-locations</span>=<span class="string">classpath:com/online/edu/alipay/mapper/xml/*.xml</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="config">5.4.1.2. config</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.alipay.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayClient;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.DefaultAlipayClient;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;alipay.config&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlipayConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String APP_ID;</span><br><span class="line">    <span class="keyword">private</span> String APP_PRIVATE_KEY;</span><br><span class="line">    <span class="keyword">private</span> String CHARSET;</span><br><span class="line">    <span class="keyword">private</span> String ALIPAY_PUBLIC_KEY;</span><br><span class="line">    <span class="comment">//这是沙箱接口路径,正式路径为https://openapi.alipay.com/gateway.do</span></span><br><span class="line">    <span class="keyword">private</span> String GATEWAY_URL;</span><br><span class="line">    <span class="keyword">private</span> String FORMAT;</span><br><span class="line">    <span class="comment">//签名方式</span></span><br><span class="line">    <span class="keyword">private</span> String SIGN_TYPE;</span><br><span class="line">    <span class="comment">//支付宝异步通知路径,付款完毕后会异步调用本项目的方法,必须为公网地址</span></span><br><span class="line">    <span class="keyword">private</span> String NOTIFY_URL;</span><br><span class="line">    <span class="comment">//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址</span></span><br><span class="line">    <span class="keyword">private</span> String RETURN_URL;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String SERVICE_PROVIDER_ID;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  AlipayClient <span class="title function_">getClient</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">AlipayClient</span> <span class="variable">alipayClient</span> <span class="operator">=</span>  <span class="keyword">new</span> <span class="title class_">DefaultAlipayClient</span>( <span class="built_in">this</span>.getGATEWAY_URL() ,</span><br><span class="line">                <span class="built_in">this</span>.getAPP_ID(), <span class="built_in">this</span>.getAPP_PRIVATE_KEY(), <span class="built_in">this</span>.getFORMAT(),</span><br><span class="line">                <span class="built_in">this</span>.getCHARSET(), <span class="built_in">this</span>.getALIPAY_PUBLIC_KEY(), <span class="built_in">this</span>.getSIGN_TYPE());</span><br><span class="line">        <span class="keyword">return</span> alipayClient;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="controller-1">5.4.1.3. controller</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.online.edu.alipay.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.online.edu.alipay.config.AlipayConfig;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.alipay.entity.Query.FileVo;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.alipay.service.PayService;</span><br><span class="line"><span class="keyword">import</span> com.online.edu.common.R;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.util.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/alipay/edu-order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlipayController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    PayService payService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    AlipayConfig alipayConfig;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/pay&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">(<span class="meta">@RequestParam(&quot;orderId&quot;)</span> String orderId,</span></span><br><span class="line"><span class="params">                 HttpServletResponse response)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line"></span><br><span class="line">        payService.createForm(orderId,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/payback&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">payBack</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> payService.notify(request,response);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (flag)&#123;</span><br><span class="line">            <span class="keyword">return</span> R.ok().message(<span class="string">&quot;验签成功&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> R.error().message(<span class="string">&quot;验签失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/return&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">returnUrl</span><span class="params">(HttpServletRequest request,HttpServletResponse response)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">courseId</span> <span class="operator">=</span> payService.backtToCourseId(request);</span><br><span class="line">        response.sendRedirect(<span class="string">&quot;http://localhost:3000/course/&quot;</span>+courseId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="service-1">5.4.1.4. service</h4><h5 id="发起请求">5.4.1.4.1. 发起请求</h5><p>这里的rabbit最终会将信息放到死信队列中，得到30分钟交易关闭后的交易订单</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createForm</span><span class="params">(String orderId, HttpServletResponse response)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">EduOrder</span> <span class="variable">eduOrder</span> <span class="operator">=</span> eduOrderService.getById(orderId);</span><br><span class="line">    <span class="type">BigDecimal</span> <span class="variable">coursePrice</span> <span class="operator">=</span> eduOrder.getCoursePrice();</span><br><span class="line">    String courseTitle=eduOrder.getCourseTitle();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得初始化的AlipayClient</span></span><br><span class="line">    <span class="type">AlipayClient</span> <span class="variable">alipayClient</span> <span class="operator">=</span> alipayConfig.getClient();</span><br><span class="line">    <span class="comment">//创建API对应的request</span></span><br><span class="line">    <span class="type">AlipayTradePagePayRequest</span> <span class="variable">alipayRequest</span> <span class="operator">=</span>  <span class="keyword">new</span>  <span class="title class_">AlipayTradePagePayRequest</span>();</span><br><span class="line">    <span class="comment">//在公共参数中设置回跳和通知地址</span></span><br><span class="line">    alipayRequest.setReturnUrl(alipayConfig.getRETURN_URL() );</span><br><span class="line">    alipayRequest.setNotifyUrl(alipayConfig.getNOTIFY_URL());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">SERVICE_PROVIDER_ID</span> <span class="operator">=</span> alipayConfig.getSERVICE_PROVIDER_ID();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//out_trade_no 商户订单号</span></span><br><span class="line">    <span class="comment">//product_code 销售产品码，与支付宝签约的产品码名称</span></span><br><span class="line">    <span class="comment">//total_amount 订单总金额，单位为元，精确到小数点后两位</span></span><br><span class="line">    <span class="comment">//subject 订单标题</span></span><br><span class="line">    <span class="comment">//body 订单描述</span></span><br><span class="line">    <span class="comment">//sys_service_provider_id 系统商编号</span></span><br><span class="line">    alipayRequest.setBizContent( <span class="string">&quot;&#123;&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;out_trade_no\&quot;:\&quot;&quot;</span>+orderId+<span class="string">&quot;\&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;product_code\&quot;:\&quot;FAST_INSTANT_TRADE_PAY\&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;total_amount\&quot;:&quot;</span>+coursePrice+<span class="string">&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;subject\&quot;:\&quot;&quot;</span>+courseTitle+<span class="string">&quot;\&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;body\&quot;:\&quot;&quot;</span>+courseTitle+<span class="string">&quot;\&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;timeout_express\&quot;:\&quot;30m\&quot;,&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;extend_params\&quot;:&#123;&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    \&quot;sys_service_provider_id\&quot;:\&quot;&quot;</span>+SERVICE_PROVIDER_ID+<span class="string">&quot;\&quot;&quot;</span>  +</span><br><span class="line">            <span class="string">&quot;    &#125;&quot;</span> +</span><br><span class="line">            <span class="string">&quot;  &#125;&quot;</span> ); <span class="comment">//填充业务参数</span></span><br><span class="line">    String form= <span class="string">&quot;&quot;</span> ;</span><br><span class="line">    <span class="keyword">try</span>  &#123;</span><br><span class="line">        form = alipayClient.pageExecute(alipayRequest).getBody();  <span class="comment">//调用SDK生成表单</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        response.setContentType( <span class="string">&quot;text/html;charset=&quot;</span>  + alipayConfig.getCHARSET());</span><br><span class="line">        <span class="comment">//直接将完整的表单html输出到页面</span></span><br><span class="line">        response.getWriter().write(form);</span><br><span class="line">        response.getWriter().flush();</span><br><span class="line">        response.getWriter().close();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//支付交易号创建后，无论怎样，30m后过期</span></span><br><span class="line">        rabbitTemplate.convertAndSend(<span class="string">&quot;user.order.delay.exchange&quot;</span>,<span class="string">&quot;user.order.delay.queue&quot;</span>,orderId);</span><br><span class="line"></span><br><span class="line">    &#125;  <span class="keyword">catch</span>  (AlipayApiException e) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;getAliPayOrderStr error :&#123;&#125;&quot;</span>, e);</span><br><span class="line">    &#125;  <span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">        log.error(<span class="string">&quot;Alipay response error :&#123;&#125;&quot;</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="回调">5.4.1.4.2. 回调</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">notify</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取支付宝GET过来反馈信息</span></span><br><span class="line">        Map&lt;String, String&gt; paramsMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        Map&lt;String, String[]&gt; param = request.getParameterMap();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//System.out.println(&quot;请求参数 &quot;+param.toString());</span></span><br><span class="line"></span><br><span class="line">        Set&lt;String&gt; keys = param.keySet();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(String key:keys)&#123;</span><br><span class="line">            String[] values = param.get(key);</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; values.length; i++) &#123;</span><br><span class="line">                value = (i == values.length - <span class="number">1</span>) ? value + values[i] : value + values[i] + <span class="string">&quot;,&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            paramsMap.put(key,value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//System.out.println(&quot;转换后参数 &quot;+paramsMap);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//调用SDK验证签名</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">signVerified</span> <span class="operator">=</span>AlipaySignature.rsaCheckV1(paramsMap, alipayConfig.getALIPAY_PUBLIC_KEY(),</span><br><span class="line">                    alipayConfig.getCHARSET(), alipayConfig.getSIGN_TYPE());</span><br><span class="line">            <span class="keyword">if</span> (signVerified)&#123;</span><br><span class="line"></span><br><span class="line">                log.info(<span class="string">&quot;订单创建时间戳:&#123;&#125; 商户订单号:&#123;&#125; 交易金额:&#123;&#125; 支付宝交易号:&#123;&#125; 收款支付宝账号:&#123;&#125;&quot;</span>,</span><br><span class="line">                        paramsMap.get(<span class="string">&quot;gmt_create&quot;</span>),</span><br><span class="line">                        paramsMap.get(<span class="string">&quot;out_trade_no&quot;</span>),</span><br><span class="line">                        paramsMap.get(<span class="string">&quot;total_amount&quot;</span>),</span><br><span class="line">                        paramsMap.get(<span class="string">&quot;trade_no&quot;</span>),</span><br><span class="line">                        paramsMap.get(<span class="string">&quot;seller_id&quot;</span>));</span><br><span class="line"></span><br><span class="line">                <span class="type">String</span> <span class="variable">orderId</span> <span class="operator">=</span> paramsMap.get(<span class="string">&quot;out_trade_no&quot;</span>);</span><br><span class="line">                <span class="type">String</span> <span class="variable">trade_no</span> <span class="operator">=</span> paramsMap.get(<span class="string">&quot;trade_no&quot;</span>);</span><br><span class="line">                <span class="type">String</span> <span class="variable">status</span> <span class="operator">=</span> paramsMap.get(<span class="string">&quot;trade_status&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="type">Integer</span> <span class="variable">resultStatus</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StatusUtils</span>().getStatus(status);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//更新订单状态</span></span><br><span class="line">                <span class="type">EduOrder</span> <span class="variable">order</span> <span class="operator">=</span> eduOrderService.getById(orderId);</span><br><span class="line">                order.setTradeNo(trade_no);</span><br><span class="line">                order.setTradeStatus(resultStatus);</span><br><span class="line"></span><br><span class="line">                eduOrderService.updateById(order);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (AlipayApiException e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;getAliPayOrderStr error :&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回参数列表</p>
+<p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/parammap.png"></p>
+<p>参数定义</p>
+<p><a target="_blank" rel="noopener" href="https://opendocs.alipay.com/apis/api_1/alipay.trade.page.pay">https://opendocs.alipay.com/apis/api_1/alipay.trade.page.pay</a></p>
+<h5 id="成功返回到课程页">5.4.1.4.3. 成功返回到课程页</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">backtToCourseId</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">orderId</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;out_trade_no&quot;</span>);</span><br><span class="line">    <span class="type">EduOrder</span> <span class="variable">order</span> <span class="operator">=</span> eduOrderService.getById(orderId);</span><br><span class="line">    <span class="keyword">return</span> order.getCourseId();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="支付过程">5.4.2. 支付过程</h3><p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/1.png"></p>
+<p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/2.png"></p>
+<p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/3.png"></p>
+<p><img src="/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/4.png"></p>
+<h3 id="账单下载">5.4.3. 账单下载</h3><p><a target="_blank" rel="noopener" href="https://opendocs.alipay.com/apis/api_15/alipay.data.dataservice.bill.downloadurl.query">https://opendocs.alipay.com/apis/api_15/alipay.data.dataservice.bill.downloadurl.query</a></p>
+<p>传入的是文件要保存的路径和要下载的时间日期</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">import lombok.Data;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"><span class="doctag">@Data</span></span></span><br><span class="line"><span class="comment">public class FileVo &#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    private String date;</span></span><br><span class="line"><span class="comment">    private String path;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMonthInfo</span><span class="params">(FileVo file)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获得初始化的AlipayClient</span></span><br><span class="line">        <span class="type">AlipayClient</span> <span class="variable">alipayClient</span> <span class="operator">=</span>  alipayConfig.getClient();</span><br><span class="line">        <span class="type">AlipayDataDataserviceBillDownloadurlQueryRequest</span> <span class="variable">request</span> <span class="operator">=</span>  <span class="keyword">new</span> <span class="title class_">AlipayDataDataserviceBillDownloadurlQueryRequest</span>(); <span class="comment">//创建API对应的request类</span></span><br><span class="line">        <span class="type">AlipayDataDataserviceBillDownloadurlQueryModel</span> <span class="variable">model</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlipayDataDataserviceBillDownloadurlQueryModel</span>();</span><br><span class="line"></span><br><span class="line">        model.setBillDate(file.getDate());</span><br><span class="line">        model.setBillType(<span class="string">&quot;trade&quot;</span>);</span><br><span class="line"></span><br><span class="line">        request.setBizModel(model);</span><br><span class="line"></span><br><span class="line">        <span class="type">AlipayDataDataserviceBillDownloadurlQueryResponse</span> <span class="variable">response</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            response = alipayClient.execute(request);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (AlipayApiException e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;Alipay response error :&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;response body: &#123;&#125;&quot;</span>,response.getBody());</span><br><span class="line">        <span class="comment">//根据response中的结果继续业务逻辑处理</span></span><br><span class="line">        <span class="comment">//将接口返回的对账单下载地址传入urlStr</span></span><br><span class="line">        <span class="comment">//http://dwbillcenter.alipaydev.com/downloadBillFile.resource?bizType=trade&amp;userId=20881021802170590156&amp;fileType=csv.zip&amp;bizDates=20200325&amp;downloadFileName=20881021802170590156_20200325.csv.zip&amp;fileId=%2Ftrade%2F20881021802170590156%2F20200325.csv.zip&amp;timestamp=1585244116&amp;token=4eeaed9a05fb4ea3c91c035fbc52d3bb</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">urlStr</span> <span class="operator">=</span> response.getBillDownloadUrl();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//指定希望保存的文件路径</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> file.getPath();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建文件夹</span></span><br><span class="line">        <span class="type">File</span> <span class="variable">outFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(filePath);</span><br><span class="line">        outFile.mkdirs();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//System.out.println(filePath);</span></span><br><span class="line"></span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span>  <span class="literal">null</span> ;</span><br><span class="line">        <span class="type">HttpURLConnection</span> <span class="variable">httpUrlConnection</span> <span class="operator">=</span>  <span class="literal">null</span> ;</span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">fis</span> <span class="operator">=</span>  <span class="literal">null</span> ;</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span>  <span class="literal">null</span> ;</span><br><span class="line">        <span class="keyword">try</span>  &#123;</span><br><span class="line">            url =  <span class="keyword">new</span>  <span class="title class_">URL</span>(urlStr);</span><br><span class="line">            httpUrlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">            httpUrlConnection.setConnectTimeout( <span class="number">5</span>  *  <span class="number">1000</span> );</span><br><span class="line">            httpUrlConnection.setDoInput( <span class="literal">true</span> );</span><br><span class="line">            httpUrlConnection.setDoOutput( <span class="literal">true</span> );</span><br><span class="line">            httpUrlConnection.setUseCaches( <span class="literal">false</span> );</span><br><span class="line">            httpUrlConnection.setRequestMethod( <span class="string">&quot;GET&quot;</span> );</span><br><span class="line">            httpUrlConnection.setRequestProperty( <span class="string">&quot;Charsert&quot;</span> ,  <span class="string">&quot;UTF-8&quot;</span> );</span><br><span class="line">            httpUrlConnection.connect();</span><br><span class="line">            fis = httpUrlConnection.getInputStream();</span><br><span class="line">            <span class="type">byte</span> [] temp =  <span class="keyword">new</span>   <span class="title class_">byte</span> [ <span class="number">1024</span> ];</span><br><span class="line">            <span class="type">int</span>  b;</span><br><span class="line">            fos =  <span class="keyword">new</span>  <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(outFile,file.getDate()+<span class="string">&quot;.csv.zip&quot;</span>));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>  ((b = fis.read(temp)) != - <span class="number">1</span> ) &#123;</span><br><span class="line">                fos.write(temp,  <span class="number">0</span> , b);</span><br><span class="line">                fos.flush();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  <span class="keyword">catch</span>  (MalformedURLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;  <span class="keyword">catch</span>  (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">EduException</span>(<span class="number">20001</span>,<span class="string">&quot;文件路径不存在&quot;</span>);</span><br><span class="line">        &#125;  <span class="keyword">finally</span>  &#123;</span><br><span class="line">            <span class="keyword">try</span>  &#123;</span><br><span class="line">                <span class="keyword">if</span> (fis!= <span class="literal">null</span> ) fis.close();</span><br><span class="line">                <span class="keyword">if</span> (fos!= <span class="literal">null</span> ) fos.close();</span><br><span class="line">                <span class="keyword">if</span> (httpUrlConnection!= <span class="literal">null</span> ) httpUrlConnection.disconnect();</span><br><span class="line">            &#125;  <span class="keyword">catch</span>  (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> filePath+<span class="string">&quot;/&quot;</span>+file.getDate()+<span class="string">&quot;.csv.zip&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Error">5.4.3.1. Error</h4><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;alipay_data_dataservice_bill_downloadurl_query_response&quot;:&#123;&quot;code&quot;:&quot;40004&quot;,&quot;msg&quot;:&quot;Business Failed&quot;,&quot;sub_code&quot;:&quot;isv.invalid_arguments&quot;,&quot;sub_msg&quot;:&quot;入参不合法&quot;&#125;,&quot;sign&quot;:&quot;PDmYgxlhULgz/pPFT/qCU6XafHNhwLqbGYQ+NhBeqlg34UTU6toOTNCuocfGJ/sJn3lO2bO0eqMVE3PGrwRWH+QkuoJ3hSKXylfroJCkus5FZhWi5ErczVnIWRXy49t/MIOwOaBXWYzZTJb86aNyBYDurXS+t7LVr6SA7yDDxNsdksHC3IDLWqcM76ox4fKlrtTOpljrsZAMnubBk0WCMju3NT2kD6h3cMirdXGI7WJX8Fw70o19cM9+qScQTFjobaXWD3o8NrFCJHd9drUt5NRBymmkHAyR5W4CXW3JaiksLGeUABXAXgApf48mdNWxFMCLi2BDhFIwCCLA+BYu7g==&quot;&#125;2019-10-06 14:06:00.611  INFO 1010 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : false</span><br></pre></td></tr></table></figure>
+
+<p>时间不合适，只有得到今日之前的账单</p>
+<h3 id="得到账单信息">5.4.4. 得到账单信息</h3><p>传入 订单ID 和 支付交易号</p>
+<p><a target="_blank" rel="noopener" href="https://opendocs.alipay.com/apis/api_1/alipay.trade.query">https://opendocs.alipay.com/apis/api_1/alipay.trade.query</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPayInfoById</span><span class="params">(String orderId)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">EduOrder</span> <span class="variable">order</span> <span class="operator">=</span> eduOrderService.getById(orderId);</span><br><span class="line"></span><br><span class="line">        <span class="type">AlipayClient</span> <span class="variable">alipayClient</span> <span class="operator">=</span> alipayConfig.getClient();</span><br><span class="line">        <span class="type">AlipayTradeQueryRequest</span> <span class="variable">request</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlipayTradeQueryRequest</span>();</span><br><span class="line">        <span class="type">AlipayTradeQueryModel</span> <span class="variable">model</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlipayTradeQueryModel</span>();</span><br><span class="line">        model.setOutTradeNo(orderId);</span><br><span class="line">        model.setTradeNo(order.getTradeNo());</span><br><span class="line"></span><br><span class="line">        request.setBizModel(model);</span><br><span class="line"></span><br><span class="line">        <span class="type">AlipayTradeQueryResponse</span> <span class="variable">response</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            response=alipayClient.execute(request);</span><br><span class="line">            <span class="keyword">return</span> response.getBody();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (AlipayApiException e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;alipay error: &#123;&#125;&quot;</span>,e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="超时后支付url">5.4.5. 超时后支付url</h3><p><a target="_blank" rel="noopener" href="https://excashier.alipaydev.com/standard/auth.htm?payOrderId=107792034adb49d8958183b198f7c817.00">https://excashier.alipaydev.com/standard/auth.htm?payOrderId=107792034adb49d8958183b198f7c817.00</a></p>
+<p><a target="_blank" rel="noopener" href="https://excashier.alipaydev.com/standard/timeOutPage.htm?payOrderId=1112dd699d4a468e9bf5fca83477178b.00">https://excashier.alipaydev.com/standard/timeOutPage.htm?payOrderId=1112dd699d4a468e9bf5fca83477178b.00</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/10/06/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E5%85%AB%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0/" title="(十八)在线教育网站搭建一支付实现">https://wtlumos.github.io/zh-CN/2019/10/06/在线教育网站搭建十八支付实现/</a> -->
+    
+       <a href ="/zh-CN/2019/10/06/在线教育网站搭建十八支付实现/" >/zh-CN/2019/10/06/在线教育网站搭建十八支付实现/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-10-06 00:10
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2021-10-29 13:57
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/SpringBoot/" rel="tag"><i class="fa fa-tag"></i> SpringBoot</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/10/07/TypeScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="TypeScript学习笔记">
+      <i class="fa fa-chevron-left"></i> TypeScript学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/10/05/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E5%8D%81%E4%B8%83%E5%B0%86%E8%AE%B2%E5%B8%88%E5%88%97%E8%A1%A8%E5%92%8C%E8%AF%BE%E7%A8%8B%E5%88%97%E8%A1%A8%E5%AD%98%E5%85%A5redis%E7%BC%93%E5%AD%98/" rel="next" title="(十七)在线教育网站搭建-将讲师列表和课程列表存入redis缓存">
+      (十七)在线教育网站搭建-将讲师列表和课程列表存入redis缓存 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Order%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="nav-text">1. Order表设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#https-open-alipay-com-platform-home-htm%E5%BC%80%E5%8F%91%E4%B8%AD%E5%BF%83"><span class="nav-text">2. https:&#x2F;&#x2F;open.alipay.com&#x2F;platform&#x2F;home.htm开发中心</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#https-opendocs-alipay-com-open-270-105899%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3"><span class="nav-text">3. https:&#x2F;&#x2F;opendocs.alipay.com&#x2F;open&#x2F;270&#x2F;105899开发文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B2%99%E7%AE%B1%E7%8E%AF%E5%A2%83"><span class="nav-text">4. 沙箱环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%AF%E4%BB%98%E6%8E%A5%E5%85%A5"><span class="nav-text">5. 支付接入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E4%BB%98%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="nav-text">5.1. 支付时序图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="nav-text">5.2. 下单实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#controller"><span class="nav-text">5.2.1. controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service"><span class="nav-text">5.2.2. service</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven%E4%BE%9D%E8%B5%96"><span class="nav-text">5.3. Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E4%BB%98%E5%AE%9E%E7%8E%B0"><span class="nav-text">5.4. 支付实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E8%B5%B7%E6%94%AF%E4%BB%98%E8%AF%B7%E6%B1%82"><span class="nav-text">5.4.1. 发起支付请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#application-properties%E4%B8%AD%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="nav-text">5.4.1.1. application.properties中相关配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#config"><span class="nav-text">5.4.1.2. config</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#controller-1"><span class="nav-text">5.4.1.3. controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service-1"><span class="nav-text">5.4.1.4. service</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82"><span class="nav-text">5.4.1.4.1. 发起请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83"><span class="nav-text">5.4.1.4.2. 回调</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E8%BF%94%E5%9B%9E%E5%88%B0%E8%AF%BE%E7%A8%8B%E9%A1%B5"><span class="nav-text">5.4.1.4.3. 成功返回到课程页</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E4%BB%98%E8%BF%87%E7%A8%8B"><span class="nav-text">5.4.2. 支付过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%A6%E5%8D%95%E4%B8%8B%E8%BD%BD"><span class="nav-text">5.4.3. 账单下载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Error"><span class="nav-text">5.4.3.1. Error</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E8%B4%A6%E5%8D%95%E4%BF%A1%E6%81%AF"><span class="nav-text">5.4.4. 得到账单信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E5%90%8E%E6%94%AF%E4%BB%98url"><span class="nav-text">5.4.5. 超时后支付url</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '888cd71f7a22710f60af6e954763a0b4',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

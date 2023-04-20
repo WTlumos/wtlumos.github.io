@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="理解浏览器执行js过程，内核实质 ，v8引擎原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript学习笔记01-理解运行原理">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="理解浏览器执行js过程，内核实质 ，v8引擎原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/engine.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/webkit1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/webkit2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/v8.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/v8guan.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test3.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test4.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test5.png">
+<meta property="article:published_time" content="2019-08-24T13:38:46.000Z">
+<meta property="article:modified_time" content="2023-04-18T15:38:45.761Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/engine.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JavaScript学习笔记01-理解运行原理 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript学习笔记01-理解运行原理
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-24 21:38:46" itemprop="dateCreated datePublished" datetime="2019-08-24T21:38:46+08:00">2019-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-18 23:38:45" itemprop="dateModified" datetime="2023-04-18T23:38:45+08:00">2023-04-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">理解浏览器执行js过程，内核实质 ，v8引擎原理</blockquote>
+
+<span id="more"></span>
+
+<h1 id="JavaScript的重要性">1. JavaScript的重要性</h1><ul>
+<li><p><strong>JavaScript是前端万丈高楼的根基</strong></p>
+<p>前端行业在近几年快速发展，并且开发模式，框架越来越丰富。但是不管学习的是 Vue，React，Angular包括 jQuery，以及一些新出的框架。他们本身都是基于JavaScript的。使用他们的过程中都必须好好掌握JavaScript。所以<code>JavaScript是前端万丈高楼的根基</code>，无论是前端发展的万丈高楼，还是筑建自己的万丈高楼</p>
+</li>
+<li><p><strong>JavaScript在工作中至关重要</strong></p>
+<p>在工作中无论使用什么技术，比如Vue，React，Angular，uniapp，taro，ReactNatice。也无论做什么平台的应用程序，比如 pc Web，移动端web，小程序，公众号，移动端App。他们都离不开JavaScript，并且深入掌握JavaScript不仅可以提高开发效率，也可以快速解决在开发中遇到的各种问题</p>
+<p>面试时，往往会考察JavaScript的功底</p>
+</li>
+<li><p><strong>前端的未来依然是JavaScript</strong></p>
+<p>在可预见的未来中，依然离不开JavaScript。目前前端快速发展，无论是框架还是构建工具，都像雨后春笋一样，琳琅满目。而且框架也会进行不断的更新，比如 Vue3，react18，vite2，TypeScript4.x。前端开发者面对这些不断变化的内容，往往内心会有很多的焦虑，但是其实只要深入掌握了JavaScript，这些框架或者工具都是离不开JavaScript的</p>
+</li>
+</ul>
+<h1 id="Atwood定律">2. Atwood定律</h1><p>Stack Overflow的创立者之一的 Jeff Atwood 在2007年提出了著名的 Atwood定律:</p>
+<ul>
+<li><p>Any application that can be written in JavaScript, will eventually be written in JavaScript.</p>
+<p>任何<code>可以使用JavaScript</code>来实现的应用都最终<code>都会使用JavaScript实现</code></p>
+</li>
+</ul>
+<h1 id="JavaScript应用">3. JavaScript应用</h1><h2 id="web开发">3.1. web开发</h2><ul>
+<li>原生JavaScript</li>
+<li>React开发</li>
+<li>Vue开发</li>
+<li>Angular开发</li>
+</ul>
+<h2 id="移动端开发">3.2. 移动端开发</h2><ul>
+<li>ReactNative</li>
+<li>Weex</li>
+</ul>
+<h2 id="小程序端开发">3.3. 小程序端开发</h2><ul>
+<li>微信小程序</li>
+<li>支付宝小程序</li>
+<li>uniapp</li>
+<li>taro</li>
+</ul>
+<h2 id="桌面应用开发">3.4. 桌面应用开发</h2><ul>
+<li><p>Electron</p>
+<p>VSCode就是Electron开发的</p>
+</li>
+</ul>
+<h2 id="后端开发">3.5. 后端开发</h2><ul>
+<li>Node环境<ul>
+<li>express，koa，egg.js</li>
+</ul>
+</li>
+</ul>
+<h1 id="历史">4. 历史</h1><ul>
+<li>Brendan Eich，1961~</li>
+<li>在1995年利用10天完成</li>
+<li>网景公司最初命名为LiveScript，后来在与Sun合作之后将其改名为JavaScript</li>
+</ul>
+<h1 id="概念">5. 概念</h1><ul>
+<li>JavaScript是一门<code>高级的编程语言</code><ul>
+<li>计算机本身只认识0&#x2F;1的机器语言</li>
+<li>编程语言作为高级语言，需要转换成机器指令才能在计算机上运行</li>
+</ul>
+</li>
+<li>JavaScript是一种运行在客户端的脚本语言<ul>
+<li>脚本语言：不需要编译，运行过程中由js引擎逐行来进行解释并执行</li>
+</ul>
+</li>
+<li>JavaScript可以基于node.js进行服务器编程</li>
+</ul>
+<h1 id="浏览器执行js过程">6. 浏览器执行js过程</h1><p>渲染引擎+js引擎</p>
+<ul>
+<li>渲染引擎：用来解析html+css，俗称内核，比如chrome浏览器的blink，老版本的Webkit</li>
+<li>js引擎：用来读取网页中的JavaScript代码，对其处理后运行</li>
+</ul>
+<p>浏览器本身并不会执行js代码，而是通过内置JavaScript引擎来执行js代码。</p>
+<p>js引擎执行代码时逐行解释每一句源码，将其转换为机器语言，然后由计算机去执行，所以JavaScript语言归为脚本语言，会<code>逐行解释执行</code></p>
+<h2 id="不同浏览器不同内核">6.1. 不同浏览器不同内核</h2><ul>
+<li><p><code>Gecko</code>：早期被Netscape和Mozilla Firefox浏览器使用</p>
+</li>
+<li><p><code>Trident</code>：微软开发，被IE4~IE10浏览器使用，但是Edge浏览器已经转向Blink</p>
+</li>
+<li><p><code>Webkit</code>：苹果基于KHTML开发，开源的，用于Safari，Google Chrome之前也在使用</p>
+</li>
+<li><p><code>Blink</code>：webkit的分支，Google开发的，目前应用于Google Chrome，Edge，Opera等</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p>常说的浏览器内核指的是浏览器的排版引擎(layout engine)，也称为浏览器引擎(browser engine)，页面渲染引擎(rendering engine)，样板引擎</p>
+<h2 id="渲染引擎工作过程">6.2. 渲染引擎工作过程</h2><p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/engine.png"></p>
+<ul>
+<li><p>DOM Tree：在执行过程中，HTML解析的时候遇到script标签，会停止解析HTML，而去加载和执行JavaScript代码（比如document.createElement()，js可以直接创建元素）</p>
+</li>
+<li><p>Layout：显示尺寸不同导致元素布局不同</p>
+</li>
+</ul>
+<p><code>为什么不直接异步加载js代码？</code></p>
+<p>JavaScript代码可以操作网页DOM，浏览器希望把HTML解析的DOM和JavaScript操作之后的DOM放到一起最终生成DOM树，而不是频繁生成新的DOM树</p>
+<h2 id="为什么需要js引擎">6.3. 为什么需要js引擎</h2><ul>
+<li>高级的编程语言都是需要转成最终的机器指令来执行的，而js就是高级编程语言；</li>
+<li>事实上编写的JavaScript代码无论是交给浏览器或者Node执行，最后都是需要被CPU执行的; </li>
+<li>但是CPU只认识自己的指令集，实际上是机器语言，才能被CPU所执行;</li>
+<li>所以需要<code>JavaScript引擎</code>帮忙将<code>JavaScript代码</code>翻译成<code>CPU指令</code>来执行;</li>
+</ul>
+<h2 id="常见js引擎">6.4. 常见js引擎</h2><ul>
+<li><code>SpiderMonkey</code>：第一款JavaScript引擎，由Brendan Eich开发(也就是JavaScript作者); </li>
+<li><code>Chakra</code>：微软开发，用于IT浏览器;  </li>
+<li><code>JavaScriptCore</code>：WebKit中的JavaScript引擎，Apple公司开发;  </li>
+<li><code>V8</code>⭐️：Google开发的强大JavaScript引擎，也帮助Chrome从众多浏览器中脱颖而出;</li>
+</ul>
+<h1 id="webkit内核">7. webkit内核</h1><p>以WebKit内核为例，WebKit事实上由两部分组成的：</p>
+<ul>
+<li><code>WebCore</code>：负责HTML解析、布局、渲染等等相关的工作;</li>
+<li><code>JavaScriptCore</code>：解析、执行JavaScript代码;</li>
+</ul>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/webkit1.png"></p>
+<p>类似的在小程序中编写的JavaScript代码就是被<code>JSCore</code>执行的;</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/webkit2.png"></p>
+<h1 id="V8引擎">8. V8引擎</h1><p>官方对V8引擎的定义:</p>
+<ul>
+<li>V8是用<code>C++</code>编写的Google开源高性能JavaScript和WebAssembly引擎，它用于Chrome和Node.js等</li>
+<li>它实现ECMAScript和WebAssembly，并在Windows 7或更高版本，macOS 10.12+和使用x64，IA-32， ARM或MIPS处理器的Linux系统上运行</li>
+<li>V8可以独立运行，也可以嵌入到任何C ++应用程序中</li>
+<li>源码 <a target="_blank" rel="noopener" href="https://github.com/v8/v8/tree/master/src">https://github.com/v8/v8/tree/master/src</a></li>
+</ul>
+<h2 id="V8引擎的原理">8.1. V8引擎的原理</h2><p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/v8.png"></p>
+<p>V8引擎本身的源码非常复杂，大概有超过100w行C++代码，但是可以简单了解一下它执行JavaScript代码的原理</p>
+<h3 id="Parse">8.1.1. Parse</h3><p><code>Parse</code>模块会将JavaScript代码转换成<code>AST(抽象语法树)</code>，这是因为解释器并不直接认识JavaScript代码; </p>
+<ul>
+<li><p>如果函数没有被调用，那么是不会被转换成AST的;</p>
+</li>
+<li><p>Parse的V8官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/scanner">https://v8.dev/blog/scanner</a></p>
+</li>
+<li><p>包括 <code>词法分析</code> 和 <code>语法分析</code></p>
+<p>在 <a target="_blank" rel="noopener" href="https://astexplorer.net/">https://astexplorer.net/</a> 中输入 <code>const name=&quot;Hello&quot;</code>，得到词法分析树</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Program&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;end&quot;</span><span class="punctuation">:</span> <span class="number">20</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VariableDeclaration&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end&quot;</span><span class="punctuation">:</span> <span class="number">20</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;declarations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VariableDeclarator&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="number">6</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;end&quot;</span><span class="punctuation">:</span> <span class="number">20</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Identifier&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="number">6</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;end&quot;</span><span class="punctuation">:</span> <span class="number">10</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;name&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;init&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Literal&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="number">13</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;end&quot;</span><span class="punctuation">:</span> <span class="number">20</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;raw&quot;</span><span class="punctuation">:</span> <span class="string">&quot;\&quot;Hello\&quot;&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;const&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;sourceType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;module&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Ignition">8.1.2. Ignition</h3><p><code>Ignition</code>是一个<code>解释器</code>，会将AST转换成<code>ByteCode</code>(字节码)</p>
+<ul>
+<li>同时会收集TurboFan优化所需要的信息(比如函数参数的类型信息，有了类型才能进行真实的运算);</li>
+<li>如果函数只调用一次，Ignition会执行解释执行ByteCode;</li>
+<li>根据<code>不同的平台生成不同的字节码</code>，而生成的字节码是V8引擎约定好的，是<code>跨平台</code>的</li>
+<li>Ignition的V8官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/ignition-interpreter">https://v8.dev/blog/ignition-interpreter</a></li>
+</ul>
+<h3 id="TurboFan">8.1.3. TurboFan</h3><p><code>TurboFan</code>是一个<code>编译器</code>，可以将<code>字节码</code>编译为CPU可以直接执行的<code>机器码</code>;</p>
+<ul>
+<li>如果一个函数被多次调用，那么就会被标记为<code>热点函数</code>，那么就会经过TurboFan转换成优化的机器码，提高代码的执行性能;</li>
+<li>但是，机器码实际上也会被还原为ByteCode，这是因为如果后续执行函数的过程中，类型发生了变化(比如sum函数原来执行的是number类型，后来执行变成了string类型)，之前优化的机器码并不能正确的处理运算，就会逆向的转换成字节码;</li>
+<li>TurboFan的V8官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/turbofan-jit">https://v8.dev/blog/turbofan-jit</a></li>
+</ul>
+<h3 id="内存回收">8.1.4. 内存回收</h3><p>上面是JavaScript代码的执行过程，事实上V8的内存回收也是其强大的另外一个原因: </p>
+<ul>
+<li>Orinoco模块，负责垃圾回收，将程序中不需要的内存回收;</li>
+<li>Orinoco的V8官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/trash-talk">https://v8.dev/blog/trash-talk</a></li>
+</ul>
+<h2 id="js源码是如何被解析的">8.2. js源码是如何被解析的</h2><p>v8引擎官方解析图</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/v8guan.png"></p>
+<p><strong>JavaScript源码是如何被解析(Parse)的？</strong></p>
+<ul>
+<li>Blink内核（Webkit内核分支）遇到script标签时，会下载js源码，并放入数据流(Stream)中传递给v8引擎，Stream会对数据进行编码转换</li>
+<li>Scanner会进行<code>词法分析</code>（lexical analysis），词法分析会将代码转换成tokens</li>
+<li>接下来tokens会被转换成AST树，经过Parser和PreParser：<ul>
+<li>Parser就是直接将token转成AST树架构</li>
+<li>PreParse 称为预解析，为什么需要预解析？<ul>
+<li>这是因为并不是所有的JavaScript代码，在一开始就会被执行。那么对所有的JavaScript代码进行解析，必然会影响网页的运行效率</li>
+<li>所以v8引擎就实现了<code>Lazy Parsing(延迟解析)</code>的方案，它的作用是<code>将不必要的函数进行预解析</code>，也就是只解析暂时需要的内容，而对函数的<code>全量解析</code>是<code>在函数被调用时</code>才会进行</li>
+<li>比如在一个函数outer内部定义了另一个函数inner，那么inner函数就会进行预解析</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="js代码是怎么执行的">8.3. js代码是怎么执行的</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;test&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> num1 = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">30</span></span><br><span class="line"><span class="keyword">var</span> result = num1 + num2</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="初始化全局对象">8.3.1. 初始化全局对象</h3><ul>
+<li><p>v8引擎会在解析源代码到AST的过程中，在<code>堆内存</code>中创建一个全局对象： <code>GlobalObject(GO)</code> </p>
+<ul>
+<li><p>该对象所有作用域(scope)都可以访问</p>
+</li>
+<li><p>这个对象会包含浏览器或者node环境下的全局对象：Date，Array，String，Number，setTimeout，setInterval等</p>
+</li>
+<li><p>其中的<code>window属性</code>会执行globalobject这个<code>对象本身</code></p>
+</li>
+</ul>
+</li>
+<li><p>在解析过程中会把代码加入到 globalobject 这个对象里，并不会给属性赋值，只有当代码被执行时才会赋值，代码被运行前会从磁盘中取出再加入到内存，在内存中转为机器指令后又到cpu中执行</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">GlobalObject</span> = &#123;</span><br><span class="line">  <span class="title class_">String</span>: <span class="string">&quot;类&quot;</span>, </span><br><span class="line">  <span class="title class_">Date</span>: <span class="string">&quot;类&quot;</span>, </span><br><span class="line">  <span class="title class_">Number</span>: <span class="string">&quot;类&quot;</span>, </span><br><span class="line">  <span class="attr">setTimeout</span>: 函数, </span><br><span class="line">  <span class="attr">setInterval</span>: <span class="string">&quot;函数&quot;</span>, </span><br><span class="line">  <span class="attr">window</span>: <span class="variable language_">this</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="literal">undefined</span>,</span><br><span class="line">  <span class="attr">num1</span>: <span class="literal">undefined</span>,</span><br><span class="line">  <span class="attr">num2</span>: <span class="literal">undefined</span>,</span><br><span class="line">  <span class="attr">result</span>: <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="执行上下文栈">8.3.2. 执行上下文栈</h3><ul>
+<li>内存会被划分为 <code>栈结构</code> 和 <code>堆结构</code></li>
+<li>v8引擎内部会有一个<code>执行上下文栈(execution contenxt stack，简称ECS)</code>，它是用于执行代码的调用栈，代码被执行前需要先放到这个栈结构中</li>
+<li>它执行的是<code>全局的代码块</code><ul>
+<li>全局的代码块为了执行会创建一个<code>全局执行上下文栈(global execution context，GEC)</code></li>
+<li>GEC会被放入到ECS中执行</li>
+</ul>
+</li>
+<li>GEC被放入到ECS中里面包含两部分内容：<ul>
+<li>第一部分：在代码之前，在parser转成AST的过程中，会将全局定义的变量，函数等加入到GlobalObject中，但是并不会赋值<ul>
+<li>这个过程也称为变量的作用域提升(hoisting)</li>
+</ul>
+</li>
+<li>第二部分：在代码执行中，对变量赋值，或者执行其他的函数</li>
+</ul>
+</li>
+</ul>
+<h3 id="遇到函数如何执行">8.3.3. 遇到函数如何执行</h3><ul>
+<li><p>在执行的过程中<strong>执行到一个函数时</strong>，就会根据<strong>函数体</strong>创建一个<strong>函数执行上下文(Functional Execution Context，简称FEC)<strong>，并且压入到</strong>EC Stack</strong>中</p>
+</li>
+<li><p>函数执行上下文中包含三部分内容</p>
+<ul>
+<li><p>第一部分：在解析函数成为AST树结构时，会创建一个Activation Object(AO)</p>
+<ul>
+<li>AO中包含形参、arguments、函数定义和指向函数对象、定义的变量;</li>
+</ul>
+</li>
+<li><p>第二部分：作用域链(scope chain)由VO(在函数中就是AO对象)和父级VO组成，查找时会一层层查找</p>
+</li>
+<li><p>第三部分：this绑定的值</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="变量环境和记录">8.4. 变量环境和记录</h2><ul>
+<li><p><strong>上面的讲解都是基于早期ECMA的版本规范</strong></p>
+<ul>
+<li>Every execution context has associated with it a variable object. Variables and functions declared in the source text are added as properties of the variable object. For function code, parameters are added as properties of the variable object.</li>
+<li>每一个执行上下文会被关联到一个变量对象，在源代码中的便利和函数声明会被作为属性添加到VO中。对于函数来说，参数也会被添加到VO中</li>
+</ul>
+</li>
+<li><p><strong>在最新的ECMA的版本规范中，对于一些词汇进行了修改</strong></p>
+<ul>
+<li>Every execution context has an associated VariableEnvironment. Variables and functions declared in ECMAScript code evlauated in an execution context are added as bindings in that VariableEnvironment’s Environment Record. For function code, parameters are also added as bindings to that Environment Record.</li>
+<li>每一个执行上下文会关联到一个<code>变量环境</code>(VariableEnvironment)中，在执行代码中变量和函数的声明会作为环境记录(Environment Record)添加到变量环境中。对于函数来说，参数也会被作为环境记录添加到变量环境中</li>
+</ul>
+</li>
+<li><p><strong>通过上面的变化可以知道，在最新的ECMA标注中，前面的变量对象VO已经有另外一个称呼了变量环境VE</strong></p>
+</li>
+</ul>
+<h1 id="作用域提升面试题">9. 作用域提升面试题</h1><h2 id="1">9.1. 1</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> n = <span class="number">100</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  n = <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>()</span><br><span class="line"><span class="comment">//200</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(n)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test1.png"></p>
+<h2 id="2">9.2. 2</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">//undefined</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(n)</span><br><span class="line">  <span class="keyword">var</span> n = <span class="number">200</span></span><br><span class="line">  <span class="comment">//200</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n = <span class="number">100</span></span><br><span class="line"><span class="title function_">foo</span>()</span><br></pre></td></tr></table></figure>
+
+<p>在解析foo函数过程中，n会被加入到AO中，只是不会被赋值</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test2.png"></p>
+<h2 id="3">9.3. 3</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> n = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo1</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">// 100</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo2</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> n = <span class="number">200</span></span><br><span class="line">  <span class="comment">//200</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(n)</span><br><span class="line">  <span class="title function_">foo1</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo2</span>()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test3.png"></p>
+<h2 id="4">9.4. 4</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">100</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">// undefined</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br><span class="line">  <span class="keyword">return</span> </span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>()</span><br></pre></td></tr></table></figure>
+
+<p>在解析foo函数过程中，不论是否存在return，a都会被加入到AO中，只是不会被赋值</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test4.png"></p>
+<h2 id="5">9.5. 5</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> a = b = <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/test5.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/" title="JavaScript学习笔记01-理解运行原理">https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript学习笔记01-理解运行原理/</a> -->
+    
+       <a href ="/zh-CN/2019/08/24/JavaScript学习笔记01-理解运行原理/" >/zh-CN/2019/08/24/JavaScript学习笔记01-理解运行原理/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-08-24 21:38
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-18 23:38
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/" rel="prev" title="JavaScript学习笔记02-内存管理和闭包">
+      <i class="fa fa-chevron-left"></i> JavaScript学习笔记02-内存管理和闭包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E8%AF%AD%E6%B3%95/" rel="next" title="JavaScript学习笔记02-语法">
+      JavaScript学习笔记02-语法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-text">1. JavaScript的重要性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Atwood%E5%AE%9A%E5%BE%8B"><span class="nav-text">2. Atwood定律</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E5%BA%94%E7%94%A8"><span class="nav-text">3. JavaScript应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#web%E5%BC%80%E5%8F%91"><span class="nav-text">3.1. web开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">3.2. 移动端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">3.3. 小程序端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91"><span class="nav-text">3.4. 桌面应用开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">3.5. 后端开发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2"><span class="nav-text">4. 历史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-text">5. 概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%A7%E8%A1%8Cjs%E8%BF%87%E7%A8%8B"><span class="nav-text">6. 浏览器执行js过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8D%E5%90%8C%E5%86%85%E6%A0%B8"><span class="nav-text">6.1. 不同浏览器不同内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-text">6.2. 渲染引擎工作过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81js%E5%BC%95%E6%93%8E"><span class="nav-text">6.3. 为什么需要js引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81js%E5%BC%95%E6%93%8E"><span class="nav-text">6.4. 常见js引擎</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webkit%E5%86%85%E6%A0%B8"><span class="nav-text">7. webkit内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V8%E5%BC%95%E6%93%8E"><span class="nav-text">8. V8引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#V8%E5%BC%95%E6%93%8E%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">8.1. V8引擎的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Parse"><span class="nav-text">8.1.1. Parse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ignition"><span class="nav-text">8.1.2. Ignition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TurboFan"><span class="nav-text">8.1.3. TurboFan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-text">8.1.4. 内存回收</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js%E6%BA%90%E7%A0%81%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E8%A7%A3%E6%9E%90%E7%9A%84"><span class="nav-text">8.2. js源码是如何被解析的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js%E4%BB%A3%E7%A0%81%E6%98%AF%E6%80%8E%E4%B9%88%E6%89%A7%E8%A1%8C%E7%9A%84"><span class="nav-text">8.3. js代码是怎么执行的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%85%A8%E5%B1%80%E5%AF%B9%E8%B1%A1"><span class="nav-text">8.3.1. 初始化全局对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E6%A0%88"><span class="nav-text">8.3.2. 执行上下文栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C"><span class="nav-text">8.3.3. 遇到函数如何执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%8E%AF%E5%A2%83%E5%92%8C%E8%AE%B0%E5%BD%95"><span class="nav-text">8.4. 变量环境和记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%8F%90%E5%8D%87%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-text">9. 作用域提升面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-text">9.1. 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-text">9.2. 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3"><span class="nav-text">9.3. 3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-text">9.4. 4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5"><span class="nav-text">9.5. 5</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '9100aa2782107d9e41dc8496b1dcea8c',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

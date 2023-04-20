@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="module.exports,require &#x2F; export,import &#x2F; Nodejs内置模块 path，fs，events">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs学习笔记02-模块化">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="module.exports,require &#x2F; export,import &#x2F; Nodejs内置模块 path，fs，events">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/module.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/exports.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/require.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/esmodule1.png">
+<meta property="article:published_time" content="2020-06-01T07:30:01.000Z">
+<meta property="article:modified_time" content="2023-04-15T08:19:14.163Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/module.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>nodejs学习笔记02-模块化 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nodejs学习笔记02-模块化
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-01 15:30:01" itemprop="dateCreated datePublished" datetime="2020-06-01T15:30:01+08:00">2020-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-15 16:19:14" itemprop="dateModified" datetime="2023-04-15T16:19:14+08:00">2023-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>26k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>24 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">module.exports,require / export,import / Nodejs内置模块 path，fs，events</blockquote>
+
+<span id="more"></span>
+
+
+<h1 id="模块化">1. 模块化</h1><h2 id="什么是模块化">1.1. 什么是模块化?</h2><ul>
+<li><p>事实上模块化开发最终的目的是将程序划分成一个个小的结构;  </p>
+</li>
+<li><p>这个结构中编写属于自己的逻辑代码，有自己的作用域，不会影响到其他的结构; </p>
+</li>
+<li><p>这个结构可以将希望暴露的变量、函数、对象等导出给其结构使用;  </p>
+</li>
+<li><p>也可以通过某种方式，导入另外结构中的变量、函数、对象等; 								</p>
+</li>
+<li><p>上面说提到的<code>结构</code>，就是<code>模块</code>；按照这种结构划分开发程序的过程，就是<code>模块化开发</code>的过程; </p>
+</li>
+<li><p>无论你多么喜欢JavaScript，以及它现在发展的有多好，我们都需要承认在Brendan Eich用了10天写出了JavaScript的时候，它都有很多的缺陷:  </p>
+<ul>
+<li><p>比如var定义的变量作用域问题;  </p>
+</li>
+<li><p>比如JavaScript的面向对象并不能像常规面向对象语言一样使用class; </p>
+</li>
+<li><p>比如JavaScript没有模块化的问题;</p>
+</li>
+</ul>
+<p> 								</p>
+</li>
+<li><p>Brendan Eich本人也多次承认过JavaScript设计之初的缺陷，但是随着JavaScript的发展以及标准化，存在的缺陷问题基 本都得到了完善。无论是web、移动端、小程序端、服务器端、桌面应用都被广泛的使用;</p>
+</li>
+</ul>
+<p><code>JavaScript是披着c语言外衣的lisp -- 《黑客与画家》</code></p>
+<h2 id="早期的JavaScript">1.2. 早期的JavaScript</h2><ul>
+<li><p>在网页开发的早期，Brendan Eich开发JavaScript仅仅作为一种脚本语言，做一些简单的表单验证或动画实现等，那个时候代码还是很少的: </p>
+<ul>
+<li>这个时候我们只需要讲JavaScript代码写到 <code>&lt;script&gt;</code>标签中即可;  </li>
+<li>并没有必要放到多个文件中来编写；甚至流行:通常来说 JavaScript 程序的长度只有一行</li>
+</ul>
+</li>
+<li><p>但是随着前端和JavaScript的快速发展，JavaScript代码变得越来越复杂了:  </p>
+<ul>
+<li>ajax的出现，前后端开发分离，意味着后端返回数据后，需要通过JavaScript进行前端页面的渲染; </li>
+<li>SPA的出现，前端页面变得更加复杂：包括前端路由、状态管理等等一系列复杂的需求需要通过JavaScript来实现; </li>
+<li>包括Node的实现，JavaScript编写复杂的后端程序，没有模块化是致命的硬伤;</li>
+</ul>
+</li>
+<li><p>所以，模块化已经是JavaScript一个非常迫切的需求:  </p>
+<ul>
+<li>但是JavaScript本身，直到ES6(2015)才推出了自己的模块化方案;  </li>
+<li>在此之前，为了让JavaScript支持模块化，涌现出了很多不同的模块化规范：<code>AMD、CMD、CommonJS</code>等;</li>
+</ul>
+</li>
+</ul>
+<h2 id="没有模块化带来很多的问题">1.3. 没有模块化带来很多的问题</h2><p>早期没有模块化带来了很多的问题：比如<code>命名冲突</code>的问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// -----bar.js---------</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;bar&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line"></span><br><span class="line"><span class="comment">// -----foo.js---------</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line"></span><br><span class="line"><span class="comment">// -----barz.js---------</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br></pre></td></tr></table></figure>
+
+<p>html引入顺序为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./bar.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./foo.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./barz.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出的就是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bar</span><br><span class="line">foo</span><br><span class="line">foo</span><br></pre></td></tr></table></figure>
+
+<p>html引入顺序为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./bar.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./barz.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./foo.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出的就是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bar</span><br><span class="line">bar</span><br><span class="line">foo</span><br></pre></td></tr></table></figure>
+
+<p><code>这样的代码对于script标签的前后顺序有极强的依赖</code></p>
+<p>解决上面的问题：立即函数调用表达式(IIFE)</p>
+<ul>
+<li><p><strong>IIFE</strong> (Immediately Invoked Function Expression)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// -----bar.js---------</span></span><br><span class="line"><span class="keyword">var</span> moduleBar = (<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&#x27;bar&#x27;</span>;</span><br><span class="line">  <span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name,</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// -----barz.js---------</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(moduleBar.<span class="property">name</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>但是，带来了新的问题:</p>
+<ol>
+<li>必须记得每一个模块中返回对象的命名，才能在其他模块使用过程中正确的使用;</li>
+<li>代码写起来混乱不堪，每个文件中的代码都需要包裹在一个匿名函数中来编写;</li>
+<li>在没有合适的规范情况下，每个人、每个公司都可能会任意命名、甚至出现模块名称相同的情况;</li>
+</ol>
+<p><strong>所以，虽然实现了模块化，但是实现过于简单，并且是没有规范的</strong></p>
+<ul>
+<li><p>需要制定一定的规范来约束每个人都按照这个规范去编写模块化的代码;</p>
+</li>
+<li><p>这个规范中应该包括核心功能:模块本身可以导出暴露的属性，模块又可以导入自己需要的属性;</p>
+</li>
+<li><p>JavaScript社区为了解决上面的问题，涌现出一系列好用的规范，接下来我们就学习具有代表性的一些规范</p>
+</li>
+</ul>
+<h2 id="CommonJS和Node">1.4. CommonJS和Node</h2><ul>
+<li><p>CommonJS是一个<code>规范</code>，最初提出来是在浏览器以外的地方使用，并且当时被命名为 <code>ServerJS</code>，后来为了 体现它的广泛性，修改为 <code>CommonJS</code>，平时我们也会简称为<code>CJS</code> 								</p>
+<ul>
+<li><p>Node是CommonJS在服务器端一个具有代表性的实现; </p>
+</li>
+<li><p>Browserify是CommonJS在浏览器中的一种实现;  </p>
+</li>
+<li><p>webpack打包工具具备对CommonJS的支持和转换;</p>
+</li>
+</ul>
+</li>
+<li><p>所以，Node中对 <code>CommonJS</code> 进行了支持和实现，在开发node的过程中可以方便的进行模块化开发: </p>
+<ul>
+<li>在Node中<code>每一个js文件都是一个单独的模块</code>;  </li>
+<li>这个模块中包括CommonJS规范的核心变量：<code>exports</code>、<code>module.exports</code>、<code>require</code>;  </li>
+<li>可以使用这些变量来方便的进行模块化开发;</li>
+</ul>
+<p> 								</p>
+</li>
+<li><p>前面我们提到过模块化的核心是导出和导入，Node中对其进行了实现:  </p>
+<ul>
+<li><code>exports</code>和<code>module.exports</code>可以负责对模块中的内容进行<code>导出</code>;  </li>
+<li><code>require</code>函数可以<code>导入</code>其他模块(自定义模块、系统模块、第三方库模块)中的内容;</li>
+</ul>
+</li>
+</ul>
+<h3 id="exports">1.4.1. exports</h3><p>exports是一个对象，可以在这个对象中添加很多个属性，添加的属性会导出;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//--------bar.js---------</span></span><br><span class="line"><span class="keyword">var</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi &quot;</span>+name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.<span class="property">uname</span> = uname;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">age</span> = age;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">sayHello</span> = sayHello;</span><br><span class="line"><span class="comment">// &#123; uname: &#x27;uname&#x27;, age: 18, sayHello: [Function: sayHello] &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="built_in">exports</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//----------barz.js--------</span></span><br><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"><span class="comment">//uname</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">uname</span>);</span><br><span class="line"><span class="comment">//18</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">age</span>);</span><br><span class="line"><span class="comment">//Hi John</span></span><br><span class="line">bar.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面完成了什么操作呢?</p>
+<ul>
+<li><code>意味着main中的bar变量等于exports对象;</code></li>
+<li>也就是require通过各种查找方式，最终找到了exports这个对象;</li>
+<li>并且将这个exports对象赋值给了bar变量;</li>
+<li>bar变量就是exports对象了;</li>
+</ul>
+<h4 id="对象的引用赋值">1.4.1.1. 对象的引用赋值</h4><p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/module.png"></p>
+<p>exports 实际就是一个对象</p>
+<p>而且bar和exports是同一个对象:</p>
+<p>bar对象是exports对象的浅拷贝(引用赋值); </p>
+<p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/exports.png"></p>
+<p>exports对象中的属性修改，main中bar对象也会被修改</p>
+<p><code>浅拷贝的本质就是一种引用的赋值而已;</code></p>
+<h3 id="module-exports">1.4.2. module.exports</h3><p>module.exports和exports有什么关系或者区别呢?</p>
+<ul>
+<li><p>追根溯源，通过维基百科中对CommonJS规范的解析:</p>
+<ul>
+<li><p>CommonJS中是没有module.exports的概念的;</p>
+</li>
+<li><p>但是为了实现模块的导出，Node中使用的是Module的类，每一个模块都是Module的一个实例，也就是 <code>module</code>;</p>
+</li>
+<li><p>所以在Node中真正用于导出的其实根本不是exports，而是module.exports; </p>
+</li>
+<li><p>因为module才是导出的真正实现者;</p>
+</li>
+</ul>
+</li>
+<li><p>但是，为什么exports也可以导出呢?</p>
+<ul>
+<li>这是因为module对象的exports属性是exports对象的一个引用;</li>
+<li>也就是说，<code>module.exports = exports = bar</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="真正的导出对象">1.4.2.1. 真正的导出对象</h4><p>如果使用了module.exports，exports就失效了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// =========bar.js============</span></span><br><span class="line"><span class="keyword">var</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi &quot;</span>+name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.<span class="property">uname</span> = uname;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">age</span> = age;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">sayHello</span> = sayHello;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">uname</span>: <span class="string">&#x27;module&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">20</span>,</span><br><span class="line">    <span class="attr">sayHello</span>: <span class="keyword">function</span>(<span class="params">name</span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// =========barz.js================</span></span><br><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"><span class="comment">// module</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">uname</span>);</span><br><span class="line"><span class="comment">//20</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">age</span>);</span><br><span class="line"><span class="comment">// Hello john</span></span><br><span class="line">bar.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="源码">1.4.2.2. 源码</h4><p><a target="_blank" rel="noopener" href="https://github.com/nodejs/node/blob/main/lib/internal/modules/cjs/loader.js">https://github.com/nodejs/node/blob/main/lib/internal/modules/cjs/loader.js</a></p>
+<p>定义了exports，并定义 <code>exports = module.exports</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Module</span>(<span class="params">id = <span class="string">&#x27;&#x27;</span>, parent</span>) &#123;</span><br><span class="line">  <span class="comment">// 这里的exports应该理解为 module.exports</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">exports</span> = &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Module</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">load</span> = <span class="keyword">function</span>(<span class="params">filename</span>) &#123;</span><br><span class="line">  <span class="comment">// Create module entry at load time to snapshot exports correctly</span></span><br><span class="line">  <span class="keyword">const</span> <span class="built_in">exports</span> = <span class="variable language_">this</span>.<span class="property">exports</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="require">1.4.3. require</h3><p>require是一个函数，可以引入一个文件(模块)中导入的对象</p>
+<h4 id="require的查找规则是怎么样的呢">1.4.3.1. require的查找规则是怎么样的呢?</h4><p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/modules.html#modules_all_together">https://nodejs.org/dist/latest-v16.x/docs/api/modules.html#modules_all_together</a></p>
+<p>导入格式：<code>require(X)</code></p>
+<ul>
+<li><p><strong>X 是一个核心模块，比如path、http</strong></p>
+<ul>
+<li>直接返回核心模块，并且停止查找</li>
+</ul>
+</li>
+<li><p><strong>X 是以 .&#x2F; 或 ..&#x2F; 或 &#x2F;(根目录)开头的</strong></p>
+<ol>
+<li>将X当做一个文件在对应的目录下查找;<ul>
+<li>如果有后缀名，按照后缀名的格式查找对应的文件；</li>
+<li>如果没有后缀名，会按照如下顺序:<ul>
+<li>直接查找文件X</li>
+<li>查找X.js文件</li>
+<li>查找X.json文件</li>
+<li>查找X.node文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>没有找到对应的文件，将X作为一个目录;<ul>
+<li>查找目录下面的index文件<ul>
+<li>查找X&#x2F;index.js文件</li>
+<li>查找X&#x2F;index.json文件</li>
+<li>查找X&#x2F;index.node文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果没有找到，那么报错：not found</li>
+</ol>
+</li>
+<li><p><strong>直接是一个 X (没有路径)，并且X不是一个核心模块</strong></p>
+<ul>
+<li><p>bar.js中编写 require(“X”)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">module</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;X&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Module &#123;</span><br><span class="line">  <span class="built_in">id</span>: <span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">  path: <span class="string">&#x27;/Users/xx/Resource/workspace/visualstdio/HTML/node-demo&#x27;</span>,</span><br><span class="line">  exports: &#123;&#125;,</span><br><span class="line">  filename: <span class="string">&#x27;/Users/xx/Resource/workspace/visualstdio/HTML/node-demo/bar.js&#x27;</span>,</span><br><span class="line">  loaded: <span class="literal">false</span>,</span><br><span class="line">  children: [],</span><br><span class="line">  paths: [</span><br><span class="line">    <span class="string">&#x27;/Users/xx/Resource/workspace/visualstdio/HTML/node-demo/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/xx/Resource/workspace/visualstdio/HTML/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/xx/Resource/workspace/visualstdio/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/xx/Resource/workspace/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/xx/Resource/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/xx/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/Users/node_modules&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/node_modules&#x27;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Error: Cannot find module <span class="string">&#x27;X&#x27;</span></span><br><span class="line">Require stack:</span><br><span class="line">	code: <span class="string">&#x27;MODULE_NOT_FOUND&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>node会根据路径，一层层向上寻找模块X。如果以上路径都没有找到，报错  not found</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="模块的加载过程">1.4.3.2. 模块的加载过程</h4><ul>
+<li><p>结论一：<code>模块在被第一次引入时，模块中的js代码会被运行一次</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=======bar.js=========</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//=======barz.js========</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>运行 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node barz.js</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bar</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>结论二：<code>模块被多次引入时，会缓存，最终只加载(运行)一次</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=======bar.js=========</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">module</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//=======barz.js========</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">module</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//========foo.js=========</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./barz&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>运行 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node foo.js</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">bar</span><br><span class="line">Module &#123;</span><br><span class="line">  <span class="built_in">id</span>: <span class="string">&#x27;xx/bar.js&#x27;</span>,</span><br><span class="line">  loaded: <span class="literal">false</span>,</span><br><span class="line">  children: []</span><br><span class="line">&#125;</span><br><span class="line">Module &#123;</span><br><span class="line">  <span class="built_in">id</span>: <span class="string">&#x27;xx/barz.js&#x27;</span>,</span><br><span class="line">  loaded: <span class="literal">false</span>,</span><br><span class="line">  children: [</span><br><span class="line">    Module &#123;</span><br><span class="line">      <span class="built_in">id</span>: <span class="string">&#x27;xx/bar.js&#x27;</span>,</span><br><span class="line">      loaded: <span class="literal">true</span>,</span><br><span class="line">      children: []</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  paths: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是否多次加载，跟模块的 loaded 有关</p>
+</li>
+<li><p>结论三：如果有循环引入，那么加载顺序是什么?</p>
+<p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/require.png"></p>
+<p>这个其实是一种数据结构 — 图结构;</p>
+<ul>
+<li>图结构在遍历的过程中，有深度优先搜索(DFS, depth first search)和广度优先搜索(BFS, breadth first search);</li>
+<li>Node采用的是<code>深度优先算法</code>：main -&gt; aaa -&gt; ccc -&gt; ddd -&gt; eee -&gt;bbb</li>
+</ul>
+</li>
+</ul>
+<h2 id="CommonJS规范缺点">1.5. CommonJS规范缺点</h2><ul>
+<li><p>CommonJS加载模块是同步的:</p>
+<ul>
+<li>同步的意味着只有等到对应的模块加载完毕，当前模块中的内容才能被运行;</li>
+<li>这个在服务器不会有什么问题，因为服务器加载的js文件都是本地文件，加载速度非常快;</li>
+</ul>
+</li>
+<li><p>如果将它应用于浏览器呢?</p>
+<ul>
+<li>浏览器加载js文件需要先从服务器将文件下载下来，之后在加载运行;</li>
+<li>那么采用同步的就意味着后续的js代码都无法正常运行，即使是一些简单的DOM操作;</li>
+</ul>
+</li>
+<li><p>所以在浏览器中，我们通常不使用CommonJS规范:</p>
+</li>
+<li><p>当然在webpack中使用CommonJS是另外一回事;</p>
+</li>
+<li><p>因为它会将代码转成浏览器可以直接执行的代码;</p>
+</li>
+<li><p>在早期为了可以在浏览器中使用模块化，通常会采用AMD或CMD:</p>
+<ul>
+<li>但是目前一方面现代的浏览器已经支持ES Modules，另一方面借助于webpack等工具可以实现对CommonJS或者ES Module代码的转换;</li>
+<li>AMD和CMD已经使用非常少了</li>
+</ul>
+</li>
+</ul>
+<h2 id="AMD规范">1.6. AMD规范</h2><ul>
+<li>AMD主要是应用于浏览器的一种模块化规范:  <ul>
+<li>AMD是 <code>Asynchronous Module Definition</code>(异步模块定义)的缩写;  </li>
+<li>它采用的是异步加载模块;  </li>
+<li>事实上AMD的规范还要早于CommonJS，但是CommonJS目前依然在被使用，而AMD使用的较少了;</li>
+</ul>
+</li>
+<li>规范只是定义代码的应该如何去编写，只有有了具体的实现才能被应用:<ul>
+<li>AMD实现的比较常用的库是require.js和curl.js;</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用">1.6.1. 使用</h3><ol>
+<li><p>下载require.js：<a target="_blank" rel="noopener" href="https://github.com/requirejs/requirejs">https://github.com/requirejs/requirejs</a> 中的 <code>require.js</code></p>
+</li>
+<li><p>建立目录结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|- node-demo</span><br><span class="line">  |- lib</span><br><span class="line">    | - Sea.js</span><br><span class="line">  |- modules</span><br><span class="line">    |- bar.js</span><br><span class="line">    |- barz.js</span><br><span class="line">    |- foo.js</span><br><span class="line">  |- index.html</span><br><span class="line">  |- index.js</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>index.html 中定义HTML的script标签引入require.js和定义入口文件:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- data-main属性的作用是在加载完src的文件后会加载执行该文件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/require.js&quot;</span> <span class="attr">data-main</span>=<span class="string">&quot;./index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写入口文件index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="built_in">require</span>.<span class="title function_">config</span>(&#123;</span><br><span class="line">        <span class="attr">baseUrl</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">paths</span>: &#123;</span><br><span class="line">            <span class="attr">foo</span>: <span class="string">&#x27;./modules/foo&#x27;</span>,</span><br><span class="line">            <span class="attr">bar</span>: <span class="string">&#x27;./modules/bar&#x27;</span>,</span><br><span class="line">            <span class="attr">barz</span>: <span class="string">&#x27;./modules/barz&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">require</span>([<span class="string">&#x27;foo&#x27;</span>],<span class="keyword">function</span>(<span class="params">foo</span>)&#123;</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name</span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi &quot;</span>+name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        uname,</span><br><span class="line">        age,</span><br><span class="line">        sayHello</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>barz.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;barz&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>([<span class="string">&#x27;bar&#x27;</span>,<span class="string">&#x27;barz&#x27;</span>],<span class="keyword">function</span>(<span class="params">bar,barz</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">uname</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">age</span>);</span><br><span class="line">    bar.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>运行index.html，控制台输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">barz</span><br><span class="line"><span class="built_in">uname</span></span><br><span class="line">18</span><br><span class="line">Hi john</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="CMD规范">1.7. CMD规范</h2><ul>
+<li><p>CMD规范也是应用于浏览器的一种模块化规范:</p>
+<ul>
+<li>CMD 是 <code>Common Module Definition</code> (通用模块定义)的缩写;</li>
+<li>它也采用了异步加载模块，但是它将CommonJS的优点吸收了过来; </li>
+<li>但是目前CMD使用也非常少了;</li>
+</ul>
+</li>
+<li><p>CMD也有自己比较优秀的实现方案:</p>
+<ul>
+<li>SeaJS</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用-1">1.7.1. 使用</h3><ol>
+<li><p>下载SeaJS：<a target="_blank" rel="noopener" href="https://github.com/seajs/seajs%EF%BC%8C%E6%89%BE%E5%88%B0dist%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E7%9A%84sea.js">https://github.com/seajs/seajs，找到dist文件夹下的sea.js</a></p>
+</li>
+<li><p>目录结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|- node-demo</span><br><span class="line">  |- lib</span><br><span class="line">    | - Sea.js</span><br><span class="line">  |- modules</span><br><span class="line">    |- bar.js</span><br><span class="line">    |- barz.js</span><br><span class="line">    |- foo.js</span><br><span class="line">  |- index.html</span><br><span class="line">  |- index.js</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>index.html 中 引入sea.js和使用主入口文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./lib/Sea.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// seajs是指定主入口文件的</span></span></span><br><span class="line"><span class="language-javascript">        seajs.<span class="title function_">use</span>(<span class="string">&quot;./index.js&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>,<span class="built_in">exports</span>,<span class="variable language_">module</span></span>)&#123;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&quot;./modules/foo&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>,<span class="built_in">exports</span>,<span class="variable language_">module</span></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">        uname,</span><br><span class="line">        age,</span><br><span class="line">        sayHello</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>barz.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>,<span class="built_in">exports</span>,<span class="variable language_">module</span></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">uname</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">age</span>);</span><br><span class="line">    bar.<span class="title function_">sayHello</span>(bar.<span class="property">uname</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;barz&quot;</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>,<span class="built_in">exports</span>,<span class="variable language_">module</span></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> barz = <span class="built_in">require</span>(<span class="string">&quot;./barz&quot;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>运行index.html</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span></span><br><span class="line">18</span><br><span class="line">Hello <span class="built_in">uname</span></span><br><span class="line">barz</span><br><span class="line">foo</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="认识-ES-Module">1.8. 认识 ES Module</h2><ul>
+<li><p>JavaScript没有模块化一直是它的痛点，所以才会产生社区规范：CommonJS、AMD、CMD等， 然后在ES推出了自己的模块化系统 								</p>
+</li>
+<li><p>ES Module和CommonJS的模块化有一些不同之处:  </p>
+<ul>
+<li>一方面它使用了import和export关键字; </li>
+<li>另一方面它采用编译期的静态分析，并且也加入了动态引用的方式;</li>
+</ul>
+<p> 								</p>
+</li>
+<li><p>ES Module模块采用 <code>export</code> 和 <code>import</code> 关键字来实现模块化: </p>
+<ul>
+<li>export负责将模块内的内容导出;  </li>
+<li>import负责从其他模块导入内容;</li>
+</ul>
+<p> 								</p>
+</li>
+<li><p>采用ES Module将自动采用严格模式：**use strict ** </p>
+<p> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode</a></p>
+</li>
+</ul>
+<h3 id="案例代码结构组件">1.8.1. 案例代码结构组件</h3><p>创建代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;ES Module&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在浏览器控制台出现错误</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access to script at <span class="string">&#x27;file:///xx/index.js&#x27;</span> from origin <span class="string">&#x27;null&#x27;</span> has been blocked by CORS policy: Cross origin requests are only supported <span class="keyword">for</span> protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在MDN上面有给出解释:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4</a></li>
+<li>需要注意本地测试 — 如果通过本地加载Html 文件 (比如一个 file:&#x2F;&#x2F; 路径的文件), 你将会遇到 CORS 错误，因 为Javascript 模块安全性需要</li>
+<li>需要通过一个服务器来测试</li>
+<li>在 VSCode 中使用 <code>Live Server插件</code></li>
+</ul>
+<h3 id="export关键字">1.8.2. export关键字</h3><p>export关键字将一个模块中的变量、函数、类等导出</p>
+<p>使用方式：</p>
+<ol>
+<li><p>在语句声明的前面直接加上export关键字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>将所有需要导出的标识符，放到export后面的 {}中</p>
+<p><code>这里的 &#123;&#125;里面不是ES6的对象字面量的增强写法，&#123;&#125;也不是表示一个对象的;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 放置的是要导出的变量的引用列表</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname,</span><br><span class="line">    age,</span><br><span class="line">    sayHello</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>导出时给标识符起一个别名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname <span class="keyword">as</span> <span class="title class_">Name</span>,</span><br><span class="line">    age <span class="keyword">as</span> <span class="title class_">Age</span>,</span><br><span class="line">    sayHello <span class="keyword">as</span> <span class="title class_">SayHello</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="import关键字">1.8.3. import关键字</h3><p>import关键字负责从另外一个模块中导入内容</p>
+<p>使用方式：</p>
+<ol>
+<li><p>import {标识符列表} from ‘模块’;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; uname,age,sayHello &#125; <span class="keyword">from</span> <span class="string">&quot;./modules/bar.js&quot;</span>;</span><br><span class="line"><span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>导入时给标识符起别名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;sayHello <span class="keyword">as</span> <span class="title class_">Hello</span>&#125; <span class="keyword">from</span> <span class="string">&quot;./modules/bar.js&quot;</span>;</span><br><span class="line"><span class="title class_">Hello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>通过 <code>*</code> 将模块功能放到一个模块功能对象上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> bar <span class="keyword">from</span> <span class="string">&quot;./modules/bar.js&quot;</span>;</span><br><span class="line">bar.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Export和import结合使用">1.8.4. Export和import结合使用</h3><ul>
+<li>在开发和封装一个功能库时，通常希望将暴露的所有接口放到一个文件中;</li>
+<li>这样方便指定统一的接口规范，也方便阅读;</li>
+<li>这个时候，就可以使用export和import结合使用;</li>
+</ul>
+<p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 放置的是要导出的变量的引用列表</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname,</span><br><span class="line">    age,</span><br><span class="line">    sayHello</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>oo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> &#123;uname,age,sayHello&#125; <span class="keyword">from</span> <span class="string">&#x27;./bar.js&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br><span class="line">foo.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="default用法">1.8.5. default用法</h3><ul>
+<li><p>前面所讲的导出功能都是有名字的导出(named exports): </p>
+<ul>
+<li>在导出export时指定了名字;</li>
+<li>在导入import时需要知道具体的名字;</li>
+</ul>
+</li>
+<li><p>还有一种导出叫做默认导出(default export)</p>
+<ul>
+<li>默认导出export时可以不需要指定名字;</li>
+<li>在导入时不需要使用 {}，并且可以自己来指定名字; </li>
+<li>它也可以跟现有的CommonJS等规范相互操作;</li>
+</ul>
+</li>
+</ul>
+<p><code>在一个模块中，只能有一个默认导出(default export)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//===================bar.js===================</span></span><br><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname,</span><br><span class="line">    age,</span><br><span class="line">    sayHello</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//===================foo.js===================</span></span><br><span class="line"><span class="keyword">export</span> &#123;uname,age,sayHello&#125; <span class="keyword">from</span> <span class="string">&#x27;./bar.js&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;default export&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//===================index.js===================</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br><span class="line">foo.<span class="title function_">sayHello</span>(<span class="string">&quot;john&quot;</span>);</span><br><span class="line"><span class="keyword">import</span> format <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br><span class="line"><span class="title function_">format</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="import函数">1.8.6. import函数</h3><p>通过import加载一个模块，是<code>不可以</code>在其放到逻辑代码中的，比如:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么会出现这个情况呢?</p>
+<ul>
+<li>这是因为ES Module在被JS引擎解析(parsing)时，就必须知道它的依赖关系;</li>
+<li>由于这个时候js代码没有任何的运行，所以无法在进行类似于if判断中根据代码的执行情况; </li>
+<li>必须到运行时才能确定path的值;</li>
+</ul>
+<p>但是某些情况下，确确实实希望动态的来加载某一个模块:</p>
+<ul>
+<li>如果根据不懂的条件，动态来选择加载模块的路径;</li>
+<li>这个时候需要使用 import() 函数来动态加载;</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=================bar.js========================</span></span><br><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">uname</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>+uname);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname,</span><br><span class="line">    age,</span><br><span class="line">    sayHello</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//=================foo.js========================</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span>(<span class="params">flag</span>)&#123;</span><br><span class="line">   <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">    <span class="keyword">import</span>(<span class="string">&quot;./bar.js&quot;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">bar</span>=&gt;</span>&#123;</span><br><span class="line">        bar.<span class="title function_">sayHello</span>(bar.<span class="property">uname</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//=================index.js========================</span></span><br><span class="line"><span class="keyword">import</span> format <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br><span class="line"><span class="title function_">format</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CommonJS的加载过程">1.9. CommonJS的加载过程</h2><ul>
+<li><p>CommonJS模块加载js文件的过程是<code>运行时加载</code> 的，并且是 <code>同步</code>的：</p>
+<ul>
+<li><p>运行时加载意味着是js引擎在执行js代码的过程中加载 模块;</p>
+</li>
+<li><p>同步的就意味着一个文件没有加载结束之前，后面的代码都不会执行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> flag = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span>(flag)&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = <span class="built_in">require</span>(<span class="string">&quot;./modules/foo&quot;</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;if语句继续执行&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>CommonJS通过module.exports导出的是一个对象:</p>
+<ul>
+<li><p>导出的是一个对象意味着可以将这个对象的引用在其他模块中赋值给其他变量;</p>
+</li>
+<li><p>但是最终指向的都是同一个对象，那么一个变量修改了对象的属性，所有的地方都会被修改;;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ES-Module加载过程">1.10. ES Module加载过程</h2><ul>
+<li><p>ES Module加载js文件的过程是 <code>编译(解析)时加载</code> 的，并且是<code>异步</code>的：</p>
+<ul>
+<li>编译时(解析)时加载，意味着import不能和运行时相关的内容放在一起使用: </li>
+<li>比如from后面的路径需要动态获取;</li>
+<li>比如不能将import放到if等语句的代码块中;</li>
+<li>所以也称ES Module是静态解析的，而不是动态或者运行时解析的;</li>
+</ul>
+</li>
+<li><p>异步的意味着：JS引擎在遇到import时会去获取这个js文件，但是这个获取的过程是异步的，并不会阻塞主线程继续执行;</p>
+<ul>
+<li><p>也就是说设置了 type&#x3D;module 的代码，相当于在script标签上也加上了 async 属性;</p>
+</li>
+<li><p>如果后面有普通的script标签以及对应的代码，那么ES Module对应的js文件和代码不会阻塞它们的执行;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- index.js可以被执行，不会被阻塞 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>ES Module通过export导出的是变量本身的引用:</p>
+<ul>
+<li>export在导出一个变量时，js引擎会解析这个语法，并且创建 <code>模块环境记录(module environment record)</code>;</li>
+<li><code>模块环境记录</code>会和变量进行绑定(binding)，并且这个绑定是实时的; </li>
+<li>而在导入的地方，我们是可以实时的获取到绑定的最新值的;</li>
+</ul>
+</li>
+<li><p>所以，如果在导出的模块中修改了变化，那么导入的地方可以实时获取最新的变量;</p>
+</li>
+<li><p>注意：在导入的地方不可以修改变量，因为它只是被绑定到了这个变量上(其实是一个常量)</p>
+</li>
+<li><p>如果bar.js中导出的是一个对象，那么main.js中是否可以修改对象中的属性呢?</p>
+<ul>
+<li>答案是可以的，因为他们指向同一块内存空间;</li>
+</ul>
+</li>
+</ul>
+<h2 id="画图解析赋值的过程">1.11. 画图解析赋值的过程</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=============bar.js==============</span></span><br><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 放置的是要导出的变量的引用列表</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    uname,</span><br><span class="line">    age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    uname=<span class="string">&quot;aaaaaaa&quot;</span>;</span><br><span class="line">&#125;,<span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//=============foo.js================</span></span><br><span class="line"><span class="keyword">import</span> &#123; uname &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo &quot;</span>+uname);</span><br><span class="line">&#125;,<span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//==============index.js==============</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&quot;./modules/foo.js&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>浏览器控制台</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo aaaaaaa</span><br></pre></td></tr></table></figure>
+
+<p><code>图解</code></p>
+<p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/esmodule1.png"></p>
+<h2 id="Node对ES-Module的支持">1.12. Node对ES Module的支持</h2><ul>
+<li><p>直接执行 <code>node index.js</code>会出现错误，并提示执行方式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(node:23606) Warning: To load an ES module, <span class="built_in">set</span> <span class="string">&quot;type&quot;</span>: <span class="string">&quot;module&quot;</span> <span class="keyword">in</span> the package.json or use the .mjs extension.</span><br><span class="line">(Use `node --trace-warnings ...` to show <span class="built_in">where</span> the warning was created)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>说明node为了支持 es module 需要进行如下操作:</p>
+<ol>
+<li>方式一：在package.json中配置 type: module</li>
+<li>方式二：文件以 .mjs 结尾，表示使用的是ES Module;</li>
+</ol>
+</li>
+</ul>
+<h2 id="CommonJS和ES-Module交互">1.13. CommonJS和ES Module交互</h2><ol>
+<li><p>通常情况下，CommonJS不能加载ES Module</p>
+<ul>
+<li><p>因为CommonJS是同步加载的，但是ES Module必须经过静态分析等，无法在这个时候执行JavaScript代码;</p>
+</li>
+<li><p>但是这个并非绝对的，某些平台在实现的时候可以对代码进行针对性的解析，也可能会支持;</p>
+</li>
+<li><p>Node当中是不支持的;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//===============foo.js===============</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> uname = <span class="string">&quot;foo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//===============index.js==============</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="built_in">require</span>(<span class="string">&quot;./modules/foo&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">uname</span>);</span><br></pre></td></tr></table></figure>
+
+<p>无法运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node index.js</span><br><span class="line">SyntaxError: Unexpected token <span class="string">&#x27;export&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>多数情况下，ES Module可以加载CommonJS</p>
+<ul>
+<li><p>ES Module在加载CommonJS时，会将其module.exports导出的内容作为default导出方式来使用;</p>
+</li>
+<li><p>这个依然需要看具体的实现，比如webpack中是支持的、Node也是支持的;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//===============bar.js================</span></span><br><span class="line"><span class="keyword">let</span> uname = <span class="string">&#x27;uname&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span>=&#123;</span><br><span class="line">    uname,</span><br><span class="line">    age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//================foo.mjs================</span></span><br><span class="line"><span class="keyword">export</span> &#123; uname,age &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//================index.mjs===============</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&quot;./modules/foo.mjs&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">uname</span>);</span><br></pre></td></tr></table></figure>
+
+<p>正常运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node index.mjs</span><br><span class="line"><span class="built_in">uname</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h1 id="内置模块path">2. 内置模块path</h1><ul>
+<li><p>path模块用于对路径和文件进行处理，提供了很多好用的方法</p>
+</li>
+<li><p>并且在Mac OS、Linux和window上的路径时不一样</p>
+<ul>
+<li>window上会使用 <code>\</code> 或者 <code>\\</code> 来作为文件路径的分隔符，当然目前也支持 &#x2F;; </li>
+<li>在Mac OS、Linux的Unix操作系统上使用 &#x2F; 来作为文件路径的分隔符;</li>
+</ul>
+</li>
+<li><p>那么如果在window上使用 \ 来作为分隔符开发了一个应用程序，要部署到Linux上面应该怎么办呢? </p>
+<ul>
+<li>显示路径会出现一些问题;</li>
+<li>所以为了屏蔽他们之间的差异，在开发中对于路径的操作可以使用 path 模块;</li>
+</ul>
+</li>
+</ul>
+<h2 id="path常见的API">2.1. path常见的API</h2><p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/path.html">https://nodejs.org/dist/latest-v16.x/docs/api/path.html</a></p>
+<ul>
+<li><p>从路径中获取信息</p>
+<ul>
+<li><p><code>dirname</code>：获取文件的父文件夹; </p>
+</li>
+<li><p><code>basename</code>：获取文件名;</p>
+</li>
+<li><p><code>extname</code>：获取文件扩展名;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">&#x27;/User/vscode/a.txt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// /User/vscode</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(path.<span class="title function_">dirname</span>(filePath));</span><br><span class="line"><span class="comment">//a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(path.<span class="title function_">basename</span>(filePath));</span><br><span class="line"><span class="comment">//.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(path.<span class="title function_">extname</span>(filePath));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>路径的拼接</p>
+<ul>
+<li><p>如果将多个路径进行拼接，但是不同的操作系统可能使用的是不同的分隔符; </p>
+</li>
+<li><p>可以使用path.join函数;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> basePath = <span class="string">&quot;/User/VSCode&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> fileName = <span class="string">&#x27;a.txt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> filePath = path.<span class="title function_">join</span>(basePath,fileName);</span><br><span class="line"><span class="comment">//   /User/VSCode/a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>将文件和某个文件夹拼接</p>
+<ul>
+<li><p>如果将某个文件和文件夹拼接，可以使用 path.resolve; </p>
+</li>
+<li><p>resolve函数会判断我们拼接的路径前面是否有 &#x2F;或..&#x2F;或.&#x2F;;</p>
+</li>
+<li><p>如果有，会返回对应的拼接路径;</p>
+</li>
+<li><p>如果没有，那么会和当前执行文件所在的文件夹进行路径的拼接</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> basePath = <span class="string">&quot;/User/VSCode&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> fileName = <span class="string">&#x27;a.txt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> filePath = path.<span class="title function_">resolve</span>(basePath,fileName);</span><br><span class="line"><span class="comment">// /User/VSCode/a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br><span class="line"></span><br><span class="line">basePath = <span class="string">&quot;./User/VSCode&quot;</span>;</span><br><span class="line">filePath = path.<span class="title function_">resolve</span>(basePath,fileName);</span><br><span class="line"><span class="comment">// /Users/xx/Resource/workspace/vscode/HTML/node-demo/node-path/User/VSCode/a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br><span class="line"></span><br><span class="line">basePath = <span class="string">&quot;../User/VSCode&quot;</span>;</span><br><span class="line">filePath = path.<span class="title function_">resolve</span>(basePath,fileName);</span><br><span class="line"><span class="comment">// /Users/xx/Resource/workspace/vscode/HTML/node-demo/User/VSCode/a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br><span class="line"></span><br><span class="line">fileName = <span class="string">&#x27;/a.txt&#x27;</span>;</span><br><span class="line">filePath = path.<span class="title function_">resolve</span>(basePath,fileName);</span><br><span class="line"><span class="comment">// /a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br><span class="line"></span><br><span class="line">basePath = <span class="string">&quot;VSCode&quot;</span>;</span><br><span class="line">fileName = <span class="string">&#x27;a.txt&#x27;</span>;</span><br><span class="line">filePath = path.<span class="title function_">resolve</span>(basePath,fileName);</span><br><span class="line"><span class="comment">// /Users/xx/Resource/workspace/vscode/HTML/node-demo/node-path/VSCode/a.txt</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h1 id="内置模块fs">3. 内置模块fs</h1><ul>
+<li><p>fs是File System的缩写，表示文件系统</p>
+</li>
+<li><p>对于任何一个为服务器端服务的语言或者框架通常都会有自己的文件系统:</p>
+<ul>
+<li>因为服务器需要将各种数据、文件等放置到不同的地方;</li>
+<li>比如用户数据可能大多数是放到数据库中;</li>
+<li>比如某些配置文件或者用户资源(图片、音视频)都是以文件的形式存在于操作系统上的;</li>
+</ul>
+</li>
+<li><p>Node也有自己的文件系统操作模块，就是fs:</p>
+<ul>
+<li>借助于Node封装的文件系统，可以在任何的操作系统(window、Mac OS、Linux)上面直接去操作文件;</li>
+<li>这也是Node可可以开发服务器的一大原因，也是它可以成为前端自动化脚本等热门工具的原因；</li>
+</ul>
+</li>
+</ul>
+<h2 id="fs的API介绍">3.1. fs的API介绍</h2><p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html">https://nodejs.org/dist/latest-v16.x/docs/api/fs.html</a></p>
+<p>这些API大多数都提供三种操作方式:</p>
+<ol>
+<li>同步操作文件:代码会被阻塞，不会继续执行;</li>
+<li>异步回调函数操作文件:代码不会被阻塞，需要传入回调函数，当获取到结果时，回调函数被执行;</li>
+<li>异步Promise操作文件：代码不会被阻塞，通过 fs.promises 调用方法操作，会返回一个Promise， 可以通过then、catch进行处理;</li>
+</ol>
+<h2 id="案例-获取一个文件的状态">3.2. 案例:获取一个文件的状态</h2><h3 id="同步操作">3.2.1. 同步操作</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">&quot;./a.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同步</span></span><br><span class="line"><span class="keyword">const</span> info = fs.<span class="title function_">statSync</span>(filePath);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(info);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;阻塞执行&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Stats &#123;</span><br><span class="line">  dev: 16777220,</span><br><span class="line">  mode: 33188,</span><br><span class="line">  nlink: 1,</span><br><span class="line">  uid: 501,</span><br><span class="line">  gid: 20,</span><br><span class="line">  rdev: 0,</span><br><span class="line">  blksize: 4096,</span><br><span class="line">  ino: 8674790088,</span><br><span class="line">  size: 8,</span><br><span class="line">  blocks: 8,</span><br><span class="line">  atimeMs: 1657472099416.351,</span><br><span class="line">  mtimeMs: 1657472098143.433,</span><br><span class="line">  ctimeMs: 1657472098143.433,</span><br><span class="line">  birthtimeMs: 1657472092502.4236,</span><br><span class="line">  atime: 2020-06-01T13:48:20.416Z,</span><br><span class="line">  mtime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  ctime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  birthtime: 2020-06-01T13:48:18.502Z</span><br><span class="line">&#125;</span><br><span class="line">阻塞执行</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="异步执行">3.2.2. 异步执行</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">&quot;./a.txt&quot;</span>;</span><br><span class="line"><span class="comment">// 异步</span></span><br><span class="line">fs.<span class="title function_">stat</span>(filePath,<span class="function">(<span class="params">err,state</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(state);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;执行代码&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">执行代码</span><br><span class="line">Stats &#123;</span><br><span class="line">  dev: 16777220,</span><br><span class="line">  mode: 33188,</span><br><span class="line">  nlink: 1,</span><br><span class="line">  uid: 501,</span><br><span class="line">  gid: 20,</span><br><span class="line">  rdev: 0,</span><br><span class="line">  blksize: 4096,</span><br><span class="line">  ino: 8674790088,</span><br><span class="line">  size: 8,</span><br><span class="line">  blocks: 8,</span><br><span class="line">  atimeMs: 1657472099416.351,</span><br><span class="line">  mtimeMs: 1657472098143.433,</span><br><span class="line">  ctimeMs: 1657472098143.433,</span><br><span class="line">  birthtimeMs: 1657472092502.4236,</span><br><span class="line">  atime: 2020-06-01T13:48:20.416Z,</span><br><span class="line">  mtime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  ctime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  birthtime: 2020-06-01T13:48:18.502Z</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Promise方式">3.2.3. Promise方式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">&quot;./a.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">fs.<span class="property">promises</span>.<span class="title function_">stat</span>(filePath).<span class="title function_">then</span>(<span class="function"><span class="params">state</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(state);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(state.<span class="title function_">isDirectory</span>());</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;执行代码&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">执行代码</span><br><span class="line">Stats &#123;</span><br><span class="line">  dev: 16777220,</span><br><span class="line">  mode: 33188,</span><br><span class="line">  nlink: 1,</span><br><span class="line">  uid: 501,</span><br><span class="line">  gid: 20,</span><br><span class="line">  rdev: 0,</span><br><span class="line">  blksize: 4096,</span><br><span class="line">  ino: 8674790088,</span><br><span class="line">  size: 8,</span><br><span class="line">  blocks: 8,</span><br><span class="line">  atimeMs: 1657472099416.351,</span><br><span class="line">  mtimeMs: 1657472098143.433,</span><br><span class="line">  ctimeMs: 1657472098143.433,</span><br><span class="line">  birthtimeMs: 1657472092502.4236,</span><br><span class="line">  atime: 2020-06-01T13:48:20.416Z,</span><br><span class="line">  mtime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  ctime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  birthtime: 2020-06-01T13:48:18.502Z</span><br><span class="line">&#125;</span><br><span class="line"><span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件描述符">3.3. 文件描述符</h2><ul>
+<li><p>可移植操作系统接口(Portable Operating System Interface，缩写为POSIX) </p>
+<ul>
+<li>Linux和Mac OS都实现了POSIX接口;</li>
+<li>Window部分实现了POSIX接口;</li>
+</ul>
+</li>
+<li><p>文件描述符(File descriptors)是什么呢?</p>
+<ul>
+<li><p>在 POSIX 系统上，对于每个进程，内核都维护着一张当前打开着的文件和资源的表格</p>
+</li>
+<li><p>每个打开的文件都分配了一个称为文件描述符的简单的数字标识符</p>
+</li>
+<li><p>在系统层，所有文件系统操作都使用这些文件描述符来标识和跟踪每个特定的文件</p>
+</li>
+<li><p>Windows 系统使用了一个虽然不同但概念上类似的机制来跟踪资源</p>
+</li>
+</ul>
+</li>
+<li><p>为了简化用户的工作，Node.js 抽象出操作系统之间的特定差异，并为所有打开的文件分配一个数字型的文件描述符</p>
+</li>
+<li><p>fs.open() 方法用于分配新的文件描述符</p>
+<ul>
+<li>一旦被分配，则文件描述符可用于从文件读取数 据、向文件写入数据、或请求关于文件的信息。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">&quot;./a.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">open</span>(filePath,<span class="string">&quot;r&quot;</span>,<span class="function">(<span class="params">err,fd</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(fd);</span><br><span class="line">    fs.<span class="title function_">fstat</span>(fd,<span class="function">(<span class="params">err,state</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(state);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">20</span><br><span class="line">Stats &#123;</span><br><span class="line">  dev: 16777220,</span><br><span class="line">  mode: 33188,</span><br><span class="line">  nlink: 1,</span><br><span class="line">  uid: 501,</span><br><span class="line">  gid: 20,</span><br><span class="line">  rdev: 0,</span><br><span class="line">  blksize: 4096,</span><br><span class="line">  ino: 8674790088,</span><br><span class="line">  size: 8,</span><br><span class="line">  blocks: 8,</span><br><span class="line">  atimeMs: 1657472099416.351,</span><br><span class="line">  mtimeMs: 1657472098143.433,</span><br><span class="line">  ctimeMs: 1657472098143.433,</span><br><span class="line">  birthtimeMs: 1657472092502.4236,</span><br><span class="line">  atime: 2020-06-01T13:48:20.416Z,</span><br><span class="line">  mtime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  ctime: 2020-06-01T13:48:19.143Z,</span><br><span class="line">  birthtime: 2020-06-01T13:48:18.502Z</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件的读写">3.4. 文件的读写</h2><ul>
+<li><p>fs.readFile(path[, options], callback)：读取文件的内容;</p>
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fsreadfilepath-options-callback">https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fsreadfilepath-options-callback</a></p>
+</li>
+<li><p>fs.writeFile(file, data[, options], callback)：在文件中写入内容;</p>
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fswritefilefile-data-options-callback">https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fswritefilefile-data-options-callback</a></p>
+</li>
+<li><p>写入时填写的option参数: </p>
+<ul>
+<li><p>flag：写入的方式</p>
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#file-system-flags">https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#file-system-flags</a></p>
+<ul>
+<li>w 打开文件写入，默认值;</li>
+<li>w+ 打开文件进行读写，如果不存在则创建文件;</li>
+<li>r+ 打开文件进行读写，如果不存在那么抛出异常;</li>
+<li>r 打开文件读取，读取时的默认值;</li>
+<li>a 打开要写入的文件，将流放在文件末尾。如果不存在则创建文件; </li>
+<li>a+ 打开文件以进行读写，将流放在文件末尾。如果不存在则创建文件</li>
+</ul>
+</li>
+<li><p>encoding：字符的编码;</p>
+<ul>
+<li>如果不填写encoding，返回的结果是Buffer;</li>
+<li>字符编码的文章:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/899e749be47c">https://www.jianshu.com/p/899e749be47c</a></li>
+<li>目前基本用的都是UTF-8编码</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> content = <span class="string">&quot;Hello fs 模块&quot;</span>;</span><br><span class="line">filePath = <span class="string">&quot;./b.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">writeFile</span>(filePath,content,&#123;<span class="attr">encoding</span>:<span class="string">&#x27;utf-8&#x27;</span>&#125;,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">readFile</span>(filePath,&#123;<span class="attr">encoding</span>:<span class="string">&#x27;utf-8&#x27;</span>&#125;,<span class="function">(<span class="params">err,data</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件夹操作">3.5. 文件夹操作</h2><ul>
+<li><p>新建一个文件夹</p>
+<p>使用<code>fs.mkdir(path[, options], callback)</code>或 fs.mkdirSync()创建一个新文件夹</p>
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fsmkdirpath-options-callback">https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fsmkdirpath-options-callback</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">mkdir</span>(<span class="string">&quot;files&quot;</span>,&#123;<span class="attr">recursive</span>:<span class="literal">true</span>&#125;,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//更好的方式</span></span><br><span class="line"><span class="keyword">const</span> dirname = <span class="string">&#x27;files&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span>(!fs.<span class="title function_">existsSync</span>(dirname))&#123;</span><br><span class="line">    fs.<span class="title function_">mkdir</span>(dirname,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>获取文件夹的所有内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dirname = <span class="string">&#x27;files&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readFolders</span>(<span class="params">folder,idx</span>)&#123;</span><br><span class="line">    fs.<span class="title function_">readdir</span>(folder,&#123;<span class="attr">withFileTypes</span>:<span class="literal">true</span>&#125;,<span class="function">(<span class="params">err,files</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(err)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        files.<span class="title function_">forEach</span>(<span class="function"><span class="params">file</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(file.<span class="title function_">isDirectory</span>())&#123;</span><br><span class="line">                <span class="keyword">const</span> newFolder = path.<span class="title function_">resolve</span>(folder,file.<span class="property">name</span>);</span><br><span class="line"></span><br><span class="line">                <span class="title function_">readFolders</span>(newFolder,idx+<span class="number">1</span>); </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">let</span> fileName = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; idx; i++) &#123;</span><br><span class="line">                fileName+=<span class="string">&#x27;-&#x27;</span>;   </span><br><span class="line">            &#125;</span><br><span class="line">            fileName+=file.<span class="property">name</span>;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(fileName);</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">readFolders</span>(dirname,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node</span><br><span class="line">-file</span><br><span class="line">--a.txt</span><br><span class="line">--b.txt</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>文件重命名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dirname = <span class="string">&#x27;files&#x27;</span>;</span><br><span class="line">fs.<span class="title function_">rename</span>(dirname,<span class="string">&quot;uploads&quot;</span>,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="文件夹的复制">3.6. 文件夹的复制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> srcDir = process.<span class="property">argv</span>[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">const</span> destDir = process.<span class="property">argv</span>[<span class="number">3</span>];</span><br><span class="line"><span class="title function_">copy</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">copy</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(fs.<span class="title function_">existsSync</span>(destDir))&#123;</span><br><span class="line">        <span class="comment">//删除文件夹</span></span><br><span class="line">        fs.<span class="title function_">rm</span>(destDir,&#123;<span class="attr">recursive</span>:<span class="literal">true</span>&#125;,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(err)&#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    fs.<span class="title function_">mkdir</span>(destDir,<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!err)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;文件创建成功，开始拷贝：&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> srcFiles = fs.<span class="title function_">readdirSync</span>(srcDir);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> file <span class="keyword">of</span> srcFiles)&#123;</span><br><span class="line">            <span class="keyword">if</span>(file.<span class="title function_">startsWith</span>(<span class="string">&quot;b&quot;</span>))&#123;</span><br><span class="line">                <span class="keyword">const</span> srcFile = path.<span class="title function_">resolve</span>(srcDir,file);</span><br><span class="line">                <span class="keyword">const</span> destFile = path.<span class="title function_">resolve</span>(destDir,file);</span><br><span class="line">                <span class="comment">//   export function copyFileSync(src: PathLike, dest: PathLike, mode?: number): void;</span></span><br><span class="line">                fs.<span class="title function_">copyFileSync</span>(srcFile,destFile);</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(file,<span class="string">&quot;拷贝成功&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="events模块">4. events模块</h1><p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/events.html">https://nodejs.org/dist/latest-v16.x/docs/api/events.html</a></p>
+<ul>
+<li>Node中的核心API都是基于异步事件驱动的:<ul>
+<li>在这个体系中，某些对象(发射器(Emitters))发出某一个事件;</li>
+<li>可以监听这个事件(监听器 Listeners)，并且传入的回调函数，这个回调函数会在监听到事件时调用;</li>
+</ul>
+</li>
+<li>发出事件和监听事件都是通过EventEmitter类来完成的，它们都属于events对象。<ul>
+<li>emitter.on(eventName, listener):监听事件，也可以使用 addListener;</li>
+<li>emitter.off(eventName, listener):移除事件监听，也可以使用removeListener;</li>
+<li>emitter.emit(eventName[, …args]):发出事件，可以携带一些参数;</li>
+</ul>
+</li>
+<li>EventEmitter的实例有一些属性，可以记录一些信息:<ul>
+<li>emitter.eventNames()：返回当前 EventEmitter对象注册的事件字符串数组;</li>
+<li>emitter.getMaxListeners()：返回当前 EventEmitter对象的最大监听器数量，可以通过setMaxListeners() 来修改，默认是10;</li>
+<li>emitter.listenerCount(事件名称)：返回当前 EventEmitter对象某一个事件名称，监听器的个数;</li>
+<li>emitter.listeners(事件名称)：返回当前 EventEmitter对象某个事件监听器上所有的监听器数组;</li>
+<li>emitter.once(eventName, listener)：事件监听一次</li>
+<li>emitter.prependListener()：将监听事件添加到最前面</li>
+<li>emitter.prependOnceListener()：将监听事件添加到最前面，但是只监听一次</li>
+<li>emitter.removeAllListeners([eventName])：移除所有的监听器</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">EventEmitter</span> = <span class="built_in">require</span>(<span class="string">&#x27;events&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 创建发射器</span></span><br><span class="line"><span class="keyword">const</span> emitter = <span class="keyword">new</span> <span class="title class_">EventEmitter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">clickHandle</span>(<span class="params">args</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;监听到click事件&quot;</span>,args);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 2. 监听事件</span></span><br><span class="line">emitter.<span class="title function_">on</span>(<span class="string">&quot;click&quot;</span>,clickHandle);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 3. 发射事件，可以携带一些参数;</span></span><br><span class="line">    emitter.<span class="title function_">emit</span>(<span class="string">&quot;click&quot;</span>,<span class="string">&quot;events&quot;</span>);</span><br><span class="line">    <span class="comment">// 4. 移除事件监听</span></span><br><span class="line">    emitter.<span class="title function_">off</span>(<span class="string">&quot;click&quot;</span>,clickHandle);</span><br><span class="line">    emitter.<span class="title function_">emit</span>(<span class="string">&quot;click&quot;</span>,<span class="string">&quot;EventEmitter&quot;</span>);</span><br><span class="line">&#125;,<span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取注册的事件字符串数组</span></span><br><span class="line">emitter.<span class="title function_">on</span>(<span class="string">&quot;tap&quot;</span>,<span class="function"><span class="params">arg</span>=&gt;</span><span class="variable language_">console</span>.<span class="title function_">log</span>(arg));</span><br><span class="line"><span class="keyword">let</span> names = emitter.<span class="title function_">eventNames</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(names);</span><br><span class="line"><span class="comment">// [ &#x27;click&#x27;, &#x27;tap&#x27; ]</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E6%A8%A1%E5%9D%97%E5%8C%96/" title="nodejs学习笔记02-模块化">https://wtlumos.github.io/zh-CN/2020/06/01/nodejs学习笔记02-模块化/</a> -->
+    
+       <a href ="/zh-CN/2020/06/01/nodejs学习笔记02-模块化/" >/zh-CN/2020/06/01/nodejs学习笔记02-模块化/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2020-06-01 15:30
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-15 16:19
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+              <a href="/tags/nodejs/" rel="tag"><i class="fa fa-tag"></i> nodejs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-npm/" rel="prev" title="nodejs学习笔记03-npm">
+      <i class="fa fa-chevron-left"></i> nodejs学习笔记03-npm
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E5%9F%BA%E7%A1%80%E8%AE%A4%E7%9F%A5/" rel="next" title="nodejs学习笔记01-基础认知">
+      nodejs学习笔记01-基础认知 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-text">1. 模块化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-text">1.1. 什么是模块化?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A9%E6%9C%9F%E7%9A%84JavaScript"><span class="nav-text">1.2. 早期的JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E6%A8%A1%E5%9D%97%E5%8C%96%E5%B8%A6%E6%9D%A5%E5%BE%88%E5%A4%9A%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.3. 没有模块化带来很多的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E5%92%8CNode"><span class="nav-text">1.4. CommonJS和Node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exports"><span class="nav-text">1.4.1. exports</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%B5%8B%E5%80%BC"><span class="nav-text">1.4.1.1. 对象的引用赋值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#module-exports"><span class="nav-text">1.4.2. module.exports</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%B9%E8%B1%A1"><span class="nav-text">1.4.2.1. 真正的导出对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-text">1.4.2.2. 源码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#require"><span class="nav-text">1.4.3. require</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#require%E7%9A%84%E6%9F%A5%E6%89%BE%E8%A7%84%E5%88%99%E6%98%AF%E6%80%8E%E4%B9%88%E6%A0%B7%E7%9A%84%E5%91%A2"><span class="nav-text">1.4.3.1. require的查找规则是怎么样的呢?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-text">1.4.3.2. 模块的加载过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E8%A7%84%E8%8C%83%E7%BC%BA%E7%82%B9"><span class="nav-text">1.5. CommonJS规范缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AMD%E8%A7%84%E8%8C%83"><span class="nav-text">1.6. AMD规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">1.6.1. 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMD%E8%A7%84%E8%8C%83"><span class="nav-text">1.7. CMD规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-1"><span class="nav-text">1.7.1. 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-ES-Module"><span class="nav-text">1.8. 认识 ES Module</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E7%BB%84%E4%BB%B6"><span class="nav-text">1.8.1. 案例代码结构组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#export%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">1.8.2. export关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">1.8.3. import关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Export%E5%92%8Cimport%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-text">1.8.4. Export和import结合使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#default%E7%94%A8%E6%B3%95"><span class="nav-text">1.8.5. default用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import%E5%87%BD%E6%95%B0"><span class="nav-text">1.8.6. import函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-text">1.9. CommonJS的加载过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES-Module%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-text">1.10. ES Module加载过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%BB%E5%9B%BE%E8%A7%A3%E6%9E%90%E8%B5%8B%E5%80%BC%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">1.11. 画图解析赋值的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node%E5%AF%B9ES-Module%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-text">1.12. Node对ES Module的支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E5%92%8CES-Module%E4%BA%A4%E4%BA%92"><span class="nav-text">1.13. CommonJS和ES Module交互</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97path"><span class="nav-text">2. 内置模块path</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#path%E5%B8%B8%E8%A7%81%E7%9A%84API"><span class="nav-text">2.1. path常见的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97fs"><span class="nav-text">3. 内置模块fs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fs%E7%9A%84API%E4%BB%8B%E7%BB%8D"><span class="nav-text">3.1. fs的API介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-%E8%8E%B7%E5%8F%96%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-text">3.2. 案例:获取一个文件的状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%93%8D%E4%BD%9C"><span class="nav-text">3.2.1. 同步操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C"><span class="nav-text">3.2.2. 异步执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise%E6%96%B9%E5%BC%8F"><span class="nav-text">3.2.3. Promise方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="nav-text">3.3. 文件描述符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%BB%E5%86%99"><span class="nav-text">3.4. 文件的读写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E6%93%8D%E4%BD%9C"><span class="nav-text">3.5. 文件夹操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%A4%8D%E5%88%B6"><span class="nav-text">3.6. 文件夹的复制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#events%E6%A8%A1%E5%9D%97"><span class="nav-text">4. events模块</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '37444ace883910660edb38349ff3c97d',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

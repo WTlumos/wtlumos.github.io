@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Aria2 本质是一个下载工具，支持多协议、多来源，可以下载磁力链接和种子资源，几乎支持所有下载方式的工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac安装aria2">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="Aria2 本质是一个下载工具，支持多协议、多来源，可以下载磁力链接和种子资源，几乎支持所有下载方式的工具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/AriaNg.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/get.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/open.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/app.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/icon.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/speed.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/line.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/download.png">
+<meta property="article:published_time" content="2020-11-14T13:18:44.000Z">
+<meta property="article:modified_time" content="2023-04-16T13:55:30.993Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="aria2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/AriaNg.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Mac安装aria2 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mac安装aria2
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-14 21:18:44" itemprop="dateCreated datePublished" datetime="2020-11-14T21:18:44+08:00">2020-11-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-16 21:55:30" itemprop="dateModified" datetime="2023-04-16T21:55:30+08:00">2023-04-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">Aria2 本质是一个下载工具，支持多协议、多来源，可以下载磁力链接和种子资源，几乎支持所有下载方式的工具</blockquote>
+
+<span id="more"></span>
+
+<h1 id="博客推荐">1. 博客推荐</h1><p><a target="_blank" rel="noopener" href="https://www.mintimate.cn/2019/06/21/Aria2/#macOS%E4%B8%8A%E6%90%AD%E5%BB%BAAria2">雨月空间站</a></p>
+<h1 id="下载aria2安装包">2. 下载aria2安装包</h1><p><a target="_blank" rel="noopener" href="https://github.com/aria2/aria2/releases">https://github.com/aria2/aria2/releases</a></p>
+<p>Mac能直接安装的版本是 <a target="_blank" rel="noopener" href="https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0-osx-darwin.dmg">1.35.0</a></p>
+<p>下载后直接安装</p>
+<p>运行终端 aria2c，出现 <code>aria2c: command not found</code></p>
+<ol>
+<li><p>查找aria2c执行文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find aria2c /usr/local/aria2</span></span><br><span class="line">find: aria2c: No such file or directory</span><br><span class="line">/usr/local/aria2</span><br><span class="line">/usr/local/aria2/bin</span><br><span class="line">/usr/local/aria2/bin/aria2c</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>软连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/bin</span><br><span class="line">sudo ln -s /usr/local/aria2/bin/aria2c aria2c</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="配置文件">3. 配置文件</h1><ol>
+<li><p>下载<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1BJgL1X2Nzv2S7Fh19X7NIw?pwd=aria">配置文件</a>，解压后放在 <code>/Users/用户名</code>中</p>
+</li>
+<li><p>文件夹命名为 <code>.aria2</code>，被称为隐藏文件，Mac中需要 <code>Shift+Command+.</code>来显示隐藏文件</p>
+</li>
+<li><p>终端中打开文件夹中的Aria2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .aria2</span><br><span class="line">vim Aria2</span><br></pre></td></tr></table></figure>
+
+<p>按键 <code>i</code>，进入编辑状态</p>
+<p>修改其中的 <code>你的名字</code> 为 <code>你的用户名</code></p>
+<p>按键 <code>esc</code>，结束编辑</p>
+<p>输入 <code>:wq</code>，退出文件</p>
+</li>
+<li><p>打开 aria2.conf，将所有的 <code>你的名字</code> 换成 <code>你的用户名</code></p>
+<p>可以使用 sublime Text，VSCode等软件，实现一键替换所有</p>
+</li>
+<li><p>双击 Aria2 执行文件</p>
+<p>如果出现listening，successfully等字样，即为成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">11/14 21:59:21 [NOTICE] IPv4 RPC: listening on TCP port 6800</span><br><span class="line">                                                                                                                       </span><br><span class="line">11/14 21:59:26 [NOTICE] Serialized session to &#x27;/users/xx/.aria2/aria2.session&#x27; successfully.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>若想关闭连接，按键 <code>control+c</code></p>
+</li>
+</ol>
+<h1 id="可视化页面">4. 可视化页面</h1><p>打开文件夹里 AriaNG文件夹，里面有个 index.html，用浏览器打开</p>
+<p>注意：要保持上一步 aria2的开启</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/AriaNg.png"></p>
+<h1 id="修改配置">5. 修改配置</h1><p>确定下载路径，同时下载数等</p>
+<ul>
+<li>可以在AriaNg界面在修改</li>
+<li>也可以在aria.conf中修改</li>
+</ul>
+<h1 id="自动操作APP">6. 自动操作APP</h1><p>如果希望一次性打开 网页+Aria服务，可以使用Mac中的自动操作</p>
+<ol>
+<li><p><code>control+空格键</code> 打开  <code>聚焦搜索</code>，搜索 <code>自动操作.app</code></p>
+</li>
+<li><p>选择 <code>新建文稿</code> -&gt; <code>工作流程</code></p>
+</li>
+<li><p>将 <code>aria执行文件</code> 和 AiraNg的<code>index.html</code> 放入 操作台</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/get.png"></p>
+</li>
+<li><p>指定操作 <code>打开访达项目</code></p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/open.png"></p>
+</li>
+<li><p>将项目存储为app，放在桌面</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/app.png"></p>
+</li>
+<li><p>查看这个自动流程app，右键显示包内容，找到它的图标，替换成 .aria2文件夹中的图标</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv -f /Users/xx/.aria2/AutomatorApplet.icns /Users/xx/Desktop/aria2.app/Contents/Resources/AutomatorApplet.icns</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>下次双击这个app就可以自动打开网页和aria2服务</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/icon.png"></p>
+</li>
+</ol>
+<h1 id="网盘直链下载">7. 网盘直链下载</h1><h2 id="倍速播放">7.1. 倍速播放</h2><p><a target="_blank" rel="noopener" href="https://chrome.zzzmh.cn/info/jpbjcnkcffbooppibceonlgknpkniiff">GlobalSpeed 视频速度控制</a></p>
+<p>下载后解压，打开chrome浏览器的扩展程序 <a href="chrome://extensions/">chrome://extensions/</a>，打开 <code>开发者模式</code>，将解压的 <code>crx</code> 文件拖入扩展程序</p>
+<p>实现倍速播放</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/speed.png"></p>
+<h2 id="下载助手">7.2. 下载助手</h2><p>下载 <a target="_blank" rel="noopener" href="https://chrome.zzzmh.cn/info/gcalenpjmijncebpfijmoaglllgpjagf">Tampermonkey Beta 油猴脚本</a></p>
+<p>同样安装到chrome浏览器中</p>
+<p>打开 Greasy 安装 <a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN/scripts/418182-%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E7%AE%80%E6%98%93%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B-%E7%9B%B4%E9%93%BE%E4%B8%8B%E8%BD%BD%E5%A4%8D%E6%B4%BB%E7%89%88">百度网盘简易下载助手（直链下载复活版）</a></p>
+<p>此时打开网盘，在网页中出现 <code>简易下载助手</code>按钮，勾选任一个文件，获取下载链接</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/line.png"></p>
+<p>双击创建的aria2.app，准备好环境后，点击 <code>发送至Aria2</code>，在index.html网页中就出现了下载进度</p>
+<p><img src="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/download.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/" title="Mac安装aria2">https://wtlumos.github.io/zh-CN/2020/11/14/Mac安装aria2/</a> -->
+    
+       <a href ="/zh-CN/2020/11/14/Mac安装aria2/" >/zh-CN/2020/11/14/Mac安装aria2/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2020-11-14 21:18
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-16 21:55
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Mac/" rel="tag"><i class="fa fa-tag"></i> Mac</a>
+              <a href="/tags/aria2/" rel="tag"><i class="fa fa-tag"></i> aria2</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2021/02/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%B8%B2/" rel="prev" title="数据结构与算法分析-串">
+      <i class="fa fa-chevron-left"></i> 数据结构与算法分析-串
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/10/19/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012-%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" rel="next" title="Vue学习笔记12-后台管理系统">
+      Vue学习笔记12-后台管理系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%9A%E5%AE%A2%E6%8E%A8%E8%8D%90"><span class="nav-text">1. 博客推荐</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDaria2%E5%AE%89%E8%A3%85%E5%8C%85"><span class="nav-text">2. 下载aria2安装包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">3. 配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E9%A1%B5%E9%9D%A2"><span class="nav-text">4. 可视化页面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="nav-text">5. 修改配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9CAPP"><span class="nav-text">6. 自动操作APP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%9B%98%E7%9B%B4%E9%93%BE%E4%B8%8B%E8%BD%BD"><span class="nav-text">7. 网盘直链下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%8D%E9%80%9F%E6%92%AD%E6%94%BE"><span class="nav-text">7.1. 倍速播放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B"><span class="nav-text">7.2. 下载助手</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'b5a969f82b0e8ec865ff6cc5056753b3',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

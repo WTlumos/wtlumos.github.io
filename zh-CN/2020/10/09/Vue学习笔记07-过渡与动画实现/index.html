@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="transition组件，animation动画，animate.css，gsap库，transition-group，mixin，extends">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记07-过渡与动画实现">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="transition组件，animation动画，animate.css，gsap库，transition-group，mixin，extends">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/v-.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/num.png">
+<meta property="article:published_time" content="2020-10-09T11:10:17.000Z">
+<meta property="article:modified_time" content="2023-04-15T08:16:23.346Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/v-.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue学习笔记07-过渡与动画实现 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue学习笔记07-过渡与动画实现
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-09 19:10:17" itemprop="dateCreated datePublished" datetime="2020-10-09T19:10:17+08:00">2020-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-15 16:16:23" itemprop="dateModified" datetime="2023-04-15T16:16:23+08:00">2023-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">transition组件，animation动画，animate.css，gsap库，transition-group，mixin，extends</blockquote>
+
+<span id="more"></span>
+
+<h1 id="认识动画">1. 认识动画</h1><ul>
+<li>在开发中，一个组件的显示和消失添加某种过渡动画，可以很好的增加用户体验:<ul>
+<li><code>React</code>框架本身并没有提供任何动画相关的API，所以在React中使用过渡动画需要使用一个第三方库 <code>react-transition-group</code>;</li>
+<li><code>Vue</code>中提供一些<code>内置组件和对应的API</code>来完成动画，可以方便的实现过渡动画效果;</li>
+<li>给单元素或者组件实现过渡动画，可以使用 <code>transition 内置组件</code>来完成动画;</li>
+</ul>
+</li>
+</ul>
+<h1 id="transition动画">2. transition动画</h1><p><a target="_blank" rel="noopener" href="https://vuejs.org/guide/built-ins/transition.html#the-transition-component">https://vuejs.org/guide/built-ins/transition.html#the-transition-component</a></p>
+<ul>
+<li>Vue 提供了 transition 的封装组件，在下列情形中，可以给任何元素和组件添加进入&#x2F;离开过渡: <ul>
+<li><code>条件渲染</code> (使用 v-if)条件展示 (使用 v-show)</li>
+<li><code>动态组件</code></li>
+<li><code>组件根节点</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;Toogle&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;transition name=&quot;fade&quot;&gt;</span><br><span class="line">            &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .fade-enter-from,</span><br><span class="line">    .fade-leave-to&#123;</span><br><span class="line">        opacity: 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .fade-enter-to,</span><br><span class="line">    .fade-leave-from&#123;</span><br><span class="line">        opacity: 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .fade-enter-active,</span><br><span class="line">    .fade-leave-active&#123;</span><br><span class="line">        transition: opacity 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="transition组件的原理">2.1. transition组件的原理</h2><ul>
+<li><p>Vue自动给h2元素添加了动画，这是什么原因呢?</p>
+</li>
+<li><p>当插入或删除包含在 transition 组件中的元素时，Vue 将会做以下处理:</p>
+<ol>
+<li>自动嗅探目标元素<code>是否应用了CSS过渡或者动画</code>，如果有，那么在恰当的时机<code>添加/删除 CSS类名</code>; </li>
+<li>如果 transition 组件提供了<code>JavaScript钩子函数</code>，这些钩子函数将在恰当的时机被调用;</li>
+<li>如果没有找到 JavaScript 钩子并且也没有检测到CSS过渡&#x2F;动画，DOM插入、删除操作将会立即执行;</li>
+</ol>
+</li>
+<li><p>那么都会添加或者删除哪些class呢?</p>
+</li>
+</ul>
+<h2 id="过渡动画class">2.2. 过渡动画class</h2><ul>
+<li><p>事实上Vue就是在这些class之间来回切换完成的动画:</p>
+</li>
+<li><p><code>v-enter-from</code>：定义<code>进入过渡的开始状态</code>。在元素被插入之前生效，在元素被插入之后的下一帧移除。</p>
+</li>
+<li><p><code>v-enter-active</code>：定义<code>进入过渡生效时的状态</code>。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡&#x2F;动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。</p>
+</li>
+<li><p><code>v-enter-to</code>：定义<code>进入过渡的结束状态</code>。在元素被插入之后下一帧生效 (与此同时 v-enter-from 被移除)，在过渡&#x2F; 动画完成之后移除。</p>
+</li>
+<li><p><code>v-leave-from</code>：定义<code>离开过渡的开始状态</code>。在离开过渡被触发时立刻生效，下一帧被移除。</p>
+</li>
+<li><p><code>v-leave-active</code>：定义<code>离开过渡生效时的状态</code>。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡&#x2F;动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。</p>
+</li>
+<li><p><code>v-leave-to</code>：定义<code>离开过渡的结束状态</code>。在离开过渡被触发之后下一帧生效 (与此同时 v-leave-from 被删除)，在过渡&#x2F;动画完成之后移除。</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/v-.png"></p>
+<h2 id="class添加的时机和命名规则">2.3. class添加的时机和命名规则</h2><ul>
+<li>class的name命名规则如下:<ul>
+<li>如果使用的是一个没有name的transition，那么所有的class是以 v- 作为默认前缀; </li>
+<li>如果添加了一个name属性，比如 <code>&lt;transition name=&quot;why&quot;&gt;</code>，那么所有的class会以 why- 开头;</li>
+</ul>
+</li>
+</ul>
+<h1 id="过渡css动画">3. 过渡css动画</h1><p>通过animation来实现动画效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;Toogle&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;transition name=&quot;bounce&quot;&gt;</span><br><span class="line">            &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">    div&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">    &#125;</span><br><span class="line">    .bounce-enter-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease reverse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @keyframes bounce-in&#123;</span><br><span class="line">        0%&#123;</span><br><span class="line">            transform: translateY(0);</span><br><span class="line">        &#125;</span><br><span class="line">        50%&#123;</span><br><span class="line">            transform: translateY(100px);</span><br><span class="line">        &#125;</span><br><span class="line">        100%&#123;</span><br><span class="line">            transform: translateY(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="同时设置过渡和动画">4. 同时设置过渡和动画</h1><ul>
+<li>Vue为了知道过渡的完成，内部是在监听 <code>transitionend</code> 或 <code>animationend</code>，到底使用哪一个取决于元素应用的CSS规则:<ul>
+<li>如果只是使用了其中的一个，那么Vue能自动识别类型并设置监听;</li>
+<li>如果同时使用了过渡和动画呢?<ul>
+<li>并且在这个情况下可能某一个动画执行结束时，另外一个动画还没有结束; </li>
+<li>在这种情况下，可以设置 <code>type 属性为 animation 或者 transition</code> 来明确的告知Vue监听的类型;（一般设置时间较长者）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;Toogle&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;transition name=&quot;bounce&quot; type=&quot;transition&quot;&gt;</span><br><span class="line">            &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    div&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">        display: flex;</span><br><span class="line">        flex-direction: column;</span><br><span class="line">        justify-content: center;</span><br><span class="line">        align-items: center;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    .bounce-enter-from,</span><br><span class="line">    .bounce-leave-to&#123;</span><br><span class="line">        opacity: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    .bounce-enter-active,</span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        transition: opacity 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .bounce-enter-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease reverse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @keyframes bounce-in&#123;</span><br><span class="line">        0%&#123;</span><br><span class="line">            transform: scale(0);</span><br><span class="line">        &#125;</span><br><span class="line">        50%&#123;</span><br><span class="line">            transform: scale(1.5);</span><br><span class="line">        &#125;</span><br><span class="line">        100%&#123;</span><br><span class="line">            transform: scale(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="显示的指定动画时间">5. 显示的指定动画时间</h1><ul>
+<li><p>通过  duration 属性来指定过渡的时间</p>
+</li>
+<li><p>duration可以设置两种类型的值:</p>
+<ul>
+<li><code>number类型</code>：同时设置进入和离开的过渡时间; </li>
+<li><code>object类型</code>：分别设置进入和离开的过渡时间;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- number --&gt;</span><br><span class="line">&lt;transition name=&quot;bounce&quot; </span><br><span class="line">            type=&quot;transition&quot;</span><br><span class="line">            :duration= &quot;1000&quot;</span><br><span class="line">            &gt;</span><br><span class="line">    &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">&lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- object --&gt;</span><br><span class="line">&lt;transition name=&quot;bounce&quot; </span><br><span class="line">            type=&quot;transition&quot;</span><br><span class="line">            :duration= &quot;&#123; enter:800, leave:1000&#125;&quot;</span><br><span class="line">            &gt;</span><br><span class="line">    &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="过渡的模式mode">6. 过渡的模式mode</h1><ul>
+<li>多个元素在同一个transition组件中时 ，元素之间切换的时候存在着问题<ul>
+<li>默认情况下进入和离开动画是同时发生的</li>
+</ul>
+</li>
+<li>但是如果不希望同时执行进入和离开动画，需要设置transition的过渡模式: <ul>
+<li><code>in-out</code>: 新元素先进行过渡，完成之后当前元素过渡离开;</li>
+<li><code>out-in</code>: 当前元素先进行过渡，完成之后新元素过渡进入;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;app&quot;&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;Toogle&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">            &lt;div class=&quot;title&quot;&gt;</span><br><span class="line">                &lt;Transition name=&quot;bounce&quot; mode=&quot;out-in&quot;&gt;</span><br><span class="line">                    &lt;h2 v-if=&quot;show&quot;&gt;Hello World&lt;/h2&gt;</span><br><span class="line">                    &lt;h2 v-else&gt;您好&lt;/h2&gt;</span><br><span class="line">                &lt;/Transition&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            </span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .bounce-enter-from,</span><br><span class="line">    .bounce-leave-to&#123;</span><br><span class="line">        opacity: 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    .bounce-enter-active,</span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        transition: opacity 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .app&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">        display: flex;</span><br><span class="line">        flex-direction: column;</span><br><span class="line">        justify-content: center;</span><br><span class="line">        align-items: center;</span><br><span class="line">    &#125;</span><br><span class="line">    .title&#123;</span><br><span class="line">        width: 100%;</span><br><span class="line">        height: 30px;</span><br><span class="line">        display: flex;</span><br><span class="line">        justify-content: center;</span><br><span class="line">    &#125;</span><br><span class="line">    .title h2&#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">    &#125;</span><br><span class="line">    .bounce-enter-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease reverse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @keyframes bounce-in&#123;</span><br><span class="line">        0%&#123;</span><br><span class="line">            transform: scale(0);</span><br><span class="line">        &#125;</span><br><span class="line">        50%&#123;</span><br><span class="line">            transform: scale(1.5);</span><br><span class="line">        &#125;</span><br><span class="line">        100%&#123;</span><br><span class="line">            transform: scale(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="动态组件的切换">7. 动态组件的切换</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;app&quot;&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;Toogle&lt;/button&gt;</span><br><span class="line">        &lt;transition name=&quot;bounce&quot; mode=&quot;out-in&quot;&gt;</span><br><span class="line">            &lt;component :is=&quot;show?&#x27;Home&#x27;:&#x27;About&#x27;&quot;&gt;&lt;/component&gt;</span><br><span class="line">        &lt;/transition&gt;     </span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import Home from &#x27;./Home.vue&#x27;;</span><br><span class="line">    import About from &#x27;./About.vue&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        components: &#123;</span><br><span class="line">            Home,</span><br><span class="line">            About</span><br><span class="line">        &#125;,</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .bounce-enter-from,</span><br><span class="line">    .bounce-leave-to&#123;</span><br><span class="line">        opacity: 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    .bounce-enter-active,</span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        transition: opacity 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .app&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">        display: flex;</span><br><span class="line">        flex-direction: column;</span><br><span class="line">        justify-content: center;</span><br><span class="line">        align-items: center;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    .bounce-enter-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .bounce-leave-active&#123;</span><br><span class="line">        animation: bounce-in 1s ease reverse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @keyframes bounce-in&#123;</span><br><span class="line">        0%&#123;</span><br><span class="line">            transform: scale(0);</span><br><span class="line">        &#125;</span><br><span class="line">        50%&#123;</span><br><span class="line">            transform: scale(1.5);</span><br><span class="line">        &#125;</span><br><span class="line">        100%&#123;</span><br><span class="line">            transform: scale(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="appear初次渲染">8. appear初次渲染</h1><p>默认情况下，首次渲染的时候是没有动画的，如果希望添加上动画，那么就可以增加另外一个属性 appear</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&quot;bounce&quot; mode=&quot;out-in&quot; appear&gt;</span><br><span class="line">    &lt;component :is=&quot;show?&#x27;home&#x27;:&#x27;about&#x27;&quot;&gt;&lt;/component&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="animate-css">9. animate.css</h1><ul>
+<li>手动一个个来编写这些动画，效率是比较低的，在开发中可能会引用一些第三方库的动画库，比如animate.css</li>
+<li>什么是 <a target="_blank" rel="noopener" href="https://animate.style/">animate.css</a>呢?<ul>
+<li><code>Animate.css</code> is a library of ready-to-use, cross-browser animations for use in your web projects. Great for emphasis, home pages, sliders, and attention-guiding hints.</li>
+<li>Animate.css 是一个已经准备好的、跨平台的动画库为web项目，对于强调、主页、滑动、注意力引导 非常有用;</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义过渡class">9.1. 自定义过渡class</h2><ul>
+<li><p>通过以下 attribute 来自定义过渡类名:</p>
+<ul>
+<li>enter-from-class</li>
+<li>enter-active-class</li>
+<li>enter-to-class</li>
+<li>leave-from-class</li>
+<li>leave-active-class</li>
+<li>leave-to-class</li>
+</ul>
+</li>
+<li><p>其优先级高于普通的类名，这对于Vue 的过渡系统和其他第三方 CSS 动画库，如 <a target="_blank" rel="noopener" href="https://daneden.github.io/animate.css/">Animate.css</a>. 结合使用十分有用</p>
+</li>
+</ul>
+<h2 id="animate-css库的使用">9.2. animate.css库的使用</h2><ul>
+<li><p>安装animate.css:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install animate.css</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在main.js中导入animate.css:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import <span class="string">&quot;animate.css&quot;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>两种用法:</p>
+<ol>
+<li>用法一：直接使用animate库中定义的 keyframes 动画; </li>
+<li>用法二：直接使用animate库提供给我们的类;</li>
+</ol>
+</li>
+</ul>
+<h3 id="使用-keyframes-动画">9.2.1. 使用 keyframes 动画</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;troggle&lt;/button&gt;</span><br><span class="line">        &lt;div class=&quot;title&quot;&gt;</span><br><span class="line">            &lt;transition name=&quot;flip&quot; appear=&quot;true&quot;&gt;</span><br><span class="line">                &lt;h2 v-if=&quot;show&quot;&gt;Hello&lt;/h2&gt;</span><br><span class="line">            &lt;/transition&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .title&#123;</span><br><span class="line">        width: 200px;</span><br><span class="line">    &#125;</span><br><span class="line">    .flip-enter-active&#123;</span><br><span class="line">        animation: flip 1s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .flip-leave-active&#123;</span><br><span class="line">        animation: flip 1s reverse;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用提供的类">9.2.2. 使用提供的类</h3><p><a target="_blank" rel="noopener" href="https://animate.style/">https://animate.style/</a> 直接复制粘贴</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;troggle&lt;/button&gt;</span><br><span class="line">        &lt;div class=&quot;title&quot;&gt;</span><br><span class="line">            &lt;!-- &lt;transition name=&quot;flip&quot; appear=&quot;true&quot;&gt;</span><br><span class="line">                &lt;h2 v-if=&quot;show&quot;&gt;Hello&lt;/h2&gt;</span><br><span class="line">            &lt;/transition&gt; --&gt;</span><br><span class="line"></span><br><span class="line">            &lt;transition enter-active-class=&quot;animate__backInDown animate__animated&quot;</span><br><span class="line">                        leave-active-class=&quot;animate__backOutDown animate__animated&quot;</span><br><span class="line">            &gt;</span><br><span class="line">                &lt;h2 v-if=&quot;show&quot;&gt;Vue&lt;/h2&gt;</span><br><span class="line">            &lt;/transition&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .title&#123;</span><br><span class="line">        width: 200px;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="gsap库">10. gsap库</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/greensock/GSAP">https://github.com/greensock/GSAP</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://greensock.com/docs/">https://greensock.com/docs/</a></p>
+</li>
+<li><p>通过 JavaScript来实现一些动画的效果，可以选择使用<strong>gsap库</strong>来完成</p>
+</li>
+<li><p>什么是gsap呢?</p>
+<ul>
+<li>GSAP是The GreenSock Animation Platform(GreenSock动画平台)的缩写;</li>
+<li>它可以通过JavaScript<code>为CSS属性、SVG、Canvas等设置动画</code>，并且是浏览器兼容的;</li>
+</ul>
+</li>
+<li><p>这个库应该如何使用呢?</p>
+<ol>
+<li><p>第一步：需要安装gsap库; </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gsap</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二步：导入gsap库;</p>
+</li>
+<li><p>第三步：使用对应的api即可;</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="JavaScript钩子">10.1. JavaScript钩子</h2><ul>
+<li>在使用动画之前，先来看一下 transition组件提供的JavaScript钩子，这些钩子可以监听动画执行到什么阶段了</li>
+<li>当使用JavaScript来执行过渡动画时，需要 进行 done 回调，否则它们将会被同步调用，过渡会立即完成</li>
+<li>添加  :css&#x3D;”false”，也会让 Vue 会跳过 CSS 的检测，除了性能略高之外，这可以避免过渡过程中 CSS 规则的影响</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;troggle&lt;/button&gt;</span><br><span class="line">        &lt;transition @before-enter=&quot;beforeEnter&quot;</span><br><span class="line">                    @enter=&quot;enter&quot;</span><br><span class="line">                    @after-enter=&quot;afterEnter&quot;</span><br><span class="line">                    @enter-cancelled=&quot;enterCancelled&quot;</span><br><span class="line">                    @before-leave=&quot;beforeLeave&quot;</span><br><span class="line">                    @leave=&quot;leave&quot;</span><br><span class="line">                    @after-leave=&quot;afterLeave&quot;</span><br><span class="line">                    @leave-cancelled=&quot;leaveCancelled&quot;</span><br><span class="line">                    :css=&quot;false&quot;</span><br><span class="line">            appear&gt;</span><br><span class="line">            &lt;h2 v-if=&quot;show&quot;&gt;Hello&lt;/h2&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods:&#123;</span><br><span class="line">            beforeEnter()&#123;</span><br><span class="line">                console.log(&quot;before enter&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            enter()&#123;</span><br><span class="line">                console.log(&quot;enter&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            afterEnter()&#123;</span><br><span class="line">                console.log(&quot;after enter&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            enterCancelled()&#123;</span><br><span class="line">                console.log(&quot;enter cancelled&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            beforeLeave()&#123;</span><br><span class="line">                console.log(&quot;before leave&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            leave()&#123;</span><br><span class="line">                console.log(&quot;leave&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            afterLeave()&#123;</span><br><span class="line">                console.log(&quot;after leave&quot;);</span><br><span class="line">            &#125;,</span><br><span class="line">            leaveCancelled()&#123;</span><br><span class="line">                console.log(&quot;leave cancelled&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="gsap库的使用">10.2. gsap库的使用</h2><p><a target="_blank" rel="noopener" href="https://greensock.com/get-started/">https://greensock.com/get-started/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;title&quot;&gt;</span><br><span class="line">        &lt;button @click=&quot;show=!show&quot;&gt;troggle&lt;/button&gt;</span><br><span class="line">        &lt;transition @enter=&quot;enter&quot;</span><br><span class="line">                    @leave=&quot;leave&quot;</span><br><span class="line">                    :css=&quot;false&quot;</span><br><span class="line">            appear&gt;</span><br><span class="line">            &lt;h2 v-if=&quot;show&quot;&gt;Hello&lt;/h2&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import gsap from &#x27;gsap&#x27;;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods:&#123;</span><br><span class="line">            enter(el,done)&#123;</span><br><span class="line">                gsap.from(el,&#123;</span><br><span class="line">                    opacity: 0,</span><br><span class="line">                    x: -100,</span><br><span class="line">                    onComplete: done</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            leave(el,done)&#123;</span><br><span class="line">                gsap.to(el,&#123;</span><br><span class="line">                    opacity: 0,</span><br><span class="line">                    y: 100,</span><br><span class="line">                    onComplete: done</span><br><span class="line"></span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .title&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="gsap实现数字变化">10.3. gsap实现数字变化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;title&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;number&quot; step=&quot;100&quot; v-model=&quot;counter&quot;&gt;</span><br><span class="line">        &lt;h2&gt;&#123;&#123;showCounter&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import gsap from &#x27;gsap&#x27;;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                counter: 0,</span><br><span class="line">                showCounter: 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        watch:&#123;</span><br><span class="line">            counter(newValue)&#123;</span><br><span class="line">                gsap.to(this,&#123;</span><br><span class="line">                    duration: 1,</span><br><span class="line">                    showCounter: newValue</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        computed: &#123;</span><br><span class="line">            showCounter()&#123;</span><br><span class="line">                return this.showCounter.toFixed(0);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    .title&#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="列表的过渡">11. 列表的过渡</h1><ul>
+<li><p>如果希望渲染的是一个列表，并且该列表中添加删除数据也希望有动画执行呢? </p>
+<ul>
+<li>这个时候要使用 <code>&lt;transition-group&gt;</code> 组件来完成;</li>
+</ul>
+</li>
+<li><p>使用 <code>&lt;transition-group&gt;</code> 有如下的特点:</p>
+<ul>
+<li>默认情况下，它不会渲染一个元素的<code>包裹器</code>，但是可以指定一个元素并以 <code>tag</code> 进行渲染; </li>
+<li>过渡模式不可用，因为不再相互切换特有的元素;</li>
+<li>内部元素总是需要提供唯一的 key attribute 值;</li>
+<li>CSS 过渡的类将会应用在内部的元素中，而不是这个组&#x2F;容器本身;</li>
+</ul>
+</li>
+</ul>
+<h2 id="列表过渡的基本使用">11.1. 列表过渡的基本使用</h2><ul>
+<li>来做一个案例:<ul>
+<li>案例是一列数字，可以继续添加或者删除数字;</li>
+<li>在添加和删除数字的过程中，对添加的或者移除的数字添加动画;</li>
+</ul>
+</li>
+</ul>
+<p><img src="/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/num.png"></p>
+<h2 id="列表过渡的移动动画">11.2. 列表过渡的移动动画</h2><ul>
+<li>虽然新增的或者删除的节点是有动画的，但是对于哪些其他需要移动的节点是没有动画的: <ul>
+<li>通过使用一个新增的 <code>v-move</code> 的class来完成动画;</li>
+<li>它会在元素改变位置的过程中应用;</li>
+<li>像之前的名字一样，可以通过name来自定义前缀;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;increment&quot;&gt;添加数字&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;decrement&quot;&gt;删除数字&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;shuffle&quot;&gt;洗牌&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 元素用p元素包裹 --&gt;</span><br><span class="line">        &lt;transition-group tag=&quot;p&quot; name=&quot;num&quot;&gt;</span><br><span class="line">            &lt;span v-for=&quot;item in items&quot; :key=&quot;item&quot;&gt;</span><br><span class="line">                &#123;&#123;item&#125;&#125;</span><br><span class="line">            &lt;/span&gt;</span><br><span class="line">        &lt;/transition-group&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import _ from &#x27;loadsh&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                items: [0,1,2,3,4,5,6],</span><br><span class="line">                len: 7</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods:&#123;</span><br><span class="line">            increment()&#123;</span><br><span class="line">                this.items.splice(this.nextNum(),0,this.len++);</span><br><span class="line">            &#125;,</span><br><span class="line">            decrement()&#123;</span><br><span class="line">                this.items.splice(this.nextNum(),1);</span><br><span class="line">            &#125;,</span><br><span class="line">            nextNum()&#123;</span><br><span class="line">                return Math.floor(Math.random()*this.items.length);</span><br><span class="line">            &#125;,</span><br><span class="line">            shuffle()&#123;</span><br><span class="line">                this.items=_.shuffle(this.items);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">    span&#123;</span><br><span class="line">        display: inline-block;</span><br><span class="line">        margin-right: 5px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .num-enter-from,</span><br><span class="line">    .num-leave-to&#123;</span><br><span class="line">        opacity: 0;</span><br><span class="line">        transform: translateY(30px);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .num-enter-active,</span><br><span class="line">    .num-leave-active&#123;</span><br><span class="line">        transition: all .5s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .num-leave-active&#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .num-move&#123;</span><br><span class="line">        transition: all .6s ease;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="列表的交错过渡案例">11.3. 列表的交错过渡案例</h2><p>通过gsap的延迟delay属性，做一个交替消失的动画</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;input type=&quot;text&quot; v-model=&quot;keyword&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 元素用p元素包裹 --&gt;</span><br><span class="line">        &lt;transition-group   tag=&quot;ul&quot; </span><br><span class="line">                            name=&quot;num&quot;</span><br><span class="line">                            @before-enter=&quot;beforeEnter&quot;</span><br><span class="line">                            @enter=&quot;enter&quot;</span><br><span class="line">                            @leave=&quot;leave&quot;</span><br><span class="line">                            :css=&quot;false&quot;&gt;</span><br><span class="line">            &lt;li v-for=&quot;(item,index) in showWords&quot; :key=&quot;item&quot; :data-index=&quot;index&quot;&gt;</span><br><span class="line">                &#123;&#123;item&#125;&#125;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">        &lt;/transition-group&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import gsap from &#x27;gsap&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                keyword: &#x27;&#x27;,</span><br><span class="line">                words: [&#x27;abc&#x27;,&#x27;cba&#x27;,&#x27;dna&#x27;,&#x27;why&#x27;,&#x27;kobe&#x27;,&#x27;james&#x27;,&#x27;curry&#x27;]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        computed:&#123;</span><br><span class="line">            showWords()&#123;</span><br><span class="line">                return this.words.filter(item=&gt;item.indexOf(this.keyword)!=-1)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods:&#123;</span><br><span class="line">            beforeEnter(el)&#123;</span><br><span class="line">                el.style.opacity=0;</span><br><span class="line">                el.style.height=0;</span><br><span class="line">            &#125;,</span><br><span class="line">            enter(el,done)&#123;</span><br><span class="line">                gsap.to(el,&#123;</span><br><span class="line">                    opacity: 1,</span><br><span class="line">                    height: &#x27;1.5em&#x27;,</span><br><span class="line">                    onComplete: done</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            leave(el,done)&#123;</span><br><span class="line">                gsap.to(el,&#123;</span><br><span class="line">                    opacity: 0,</span><br><span class="line">                    height: 0,</span><br><span class="line">                    // 对应于元素的data-index</span><br><span class="line">                    duration: el.dataset.index * 0.2,</span><br><span class="line">                    onComplete: done</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">    .num-enter-from,</span><br><span class="line">    .num-leave-to&#123;</span><br><span class="line">        opacity: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .num-enter-active,</span><br><span class="line">    .num-leave-active&#123;</span><br><span class="line">        transition: all .5s ease;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    li&#123;</span><br><span class="line">        list-style: none;</span><br><span class="line">        margin-bottom: 15px;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="Mixin">12. Mixin</h1><p><a target="_blank" rel="noopener" href="https://vuejs.org/api/options-composition.html#mixins">https://vuejs.org/api/options-composition.html#mixins</a></p>
+<ul>
+<li><p>组件和组件之间有时候会存在相同的代码逻辑，希望对相同的代码逻辑进行抽取</p>
+</li>
+<li><p>在Vue2和Vue3中都支持的一种方式就是 <code>使用Mixin来完成</code>:</p>
+<ul>
+<li>Mixin提供了一种非常灵活的方式，来<code>分发Vue组件中的可复用功能</code>;</li>
+<li>一个Mixin对象可以<code>包含任何组件选项</code>; </li>
+<li>当组件使用Mixin对象时，所有Mixin对象的选项将被 <code>混合</code> 进入该组件本身的选项中;</li>
+</ul>
+</li>
+</ul>
+<h2 id="基本使用">12.1. 基本使用</h2><h3 id="sayHello-js">12.1.1. sayHello.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> sayHello= &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attr">methods</span>: &#123;</span><br><span class="line">        <span class="title function_">sayHello</span>(<span class="params">value</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> value+<span class="string">&quot; Component&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Home-vue">12.1.2. Home.vue</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;&#123;&#123;message&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import &#123; sayHello &#125;  from &#x27;../mixins/sayHello&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        mixins: [sayHello],</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                message: this.sayHello(&quot;Home&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Hello-vue">12.1.3. Hello.vue</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;&#123;&#123;message&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import &#123; sayHello &#125; from &#x27;../mixins/sayHello&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        mixins: [sayHello],</span><br><span class="line">        data()&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                message: this.sayHello(&quot;Hello&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="App-vue">12.1.4. App.vue</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;home&gt;&lt;/home&gt;</span><br><span class="line">        &lt;hello&gt;&lt;/hello&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">    import Home from &#x27;./pages/Home.vue&#x27;;</span><br><span class="line">    import Hello from &#x27;./pages/Hello.vue&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        </span><br><span class="line">        components: &#123;</span><br><span class="line">            Home,</span><br><span class="line">            Hello</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="合并规则">12.2. 合并规则</h2><ul>
+<li><p>如果Mixin对象中的选项和组件对象中的选项发生了冲突，那么Vue会如何操作呢?</p>
+</li>
+<li><p>情况一：如果是<code>data函数的返回值对象</code></p>
+<ul>
+<li>返回值<code>对象默认情况下会进行合并</code>;</li>
+<li>如果data返回值对象的<code>属性</code>发生了冲突，那么<code>会保留组件自身的数据</code>;</li>
+</ul>
+</li>
+<li><p>情况二：如何<code>生命周期钩子函数</code></p>
+<ul>
+<li>生命周期的钩子函数会被<code>合并</code>到数组中，都会被调用;</li>
+</ul>
+</li>
+<li><p>情况三：值为对象的选项，例如 methods、components 和 directives，将被合并为同一个对象</p>
+<ul>
+<li>比如都有<code>methods</code>选项，并且都定义了方法，那么它们<code>都会生效</code>;</li>
+<li>但是如果<code>对象的key相同</code>，那么会取<code>组件对象的键值对</code>;</li>
+</ul>
+</li>
+</ul>
+<h2 id="全局混入Mixin">12.3. 全局混入Mixin</h2><ul>
+<li>如果组件中的某些选项，是所有的组件都需要拥有的，这个时候可以使用全局的mixin:<ul>
+<li>全局的Mixin可以使用 <code>应用app的方法 mixin</code> 来完成注册;</li>
+<li>一旦注册，那么<code>全局混入的选项将会影响每一个组件</code>;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./11.mixin/App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">mixin</span>(&#123;</span><br><span class="line">    <span class="title function_">created</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;global mixin created&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="extends">13. extends</h1><ul>
+<li><p>另外一个类似于Mixin的方式是<strong>通过extends属性</strong>:</p>
+<ul>
+<li>允许声明扩展另外一个组件，类似于Mixins;</li>
+</ul>
+</li>
+<li><p>在开发中extends用的非常少，在Vue2中比较推荐大家使用Mixin，而在Vue3中推荐使用<code>Composition API</code></p>
+</li>
+</ul>
+<h2 id="BasePage-vue">13.1. BasePage.vue</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    export default &#123;</span><br><span class="line">        data()&#123;</span><br><span class="line">            return&#123;</span><br><span class="line">                counter: 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="About-vue">13.2. About.vue</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;counter--&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import BasePage from &#x27;./BasePage.vue&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        extends: BasePage</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Home-vue-1">13.3. Home.vue</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;button @click=&quot;counter++&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import BasePage from &#x27;./BasePage.vue&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        extends: BasePage</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="App-vue-1">13.4. App.vue</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;home&gt;&lt;/home&gt;</span><br><span class="line">        &lt;about&gt;&lt;/about&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import Home from &#x27;./Home.vue&#x27;;</span><br><span class="line">    import About from &#x27;./About.vue&#x27;;</span><br><span class="line"></span><br><span class="line">    export default &#123;</span><br><span class="line">        components: &#123;</span><br><span class="line">            Home,</span><br><span class="line">            About</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2020/10/09/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/" title="Vue学习笔记07-过渡与动画实现">https://wtlumos.github.io/zh-CN/2020/10/09/Vue学习笔记07-过渡与动画实现/</a> -->
+    
+       <a href ="/zh-CN/2020/10/09/Vue学习笔记07-过渡与动画实现/" >/zh-CN/2020/10/09/Vue学习笔记07-过渡与动画实现/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2020-10-09 19:10
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-15 16:16
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+              <a href="/tags/Vue/" rel="tag"><i class="fa fa-tag"></i> Vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/10/10/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-Composition-API/" rel="prev" title="Vue学习笔记08-Composition_API">
+      <i class="fa fa-chevron-left"></i> Vue学习笔记08-Composition_API
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/10/07/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" rel="next" title="Vue学习笔记06-组件化开发">
+      Vue学习笔记06-组件化开发 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E5%8A%A8%E7%94%BB"><span class="nav-text">1. 认识动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transition%E5%8A%A8%E7%94%BB"><span class="nav-text">2. transition动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transition%E7%BB%84%E4%BB%B6%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">2.1. transition组件的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BBclass"><span class="nav-text">2.2. 过渡动画class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class%E6%B7%BB%E5%8A%A0%E7%9A%84%E6%97%B6%E6%9C%BA%E5%92%8C%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="nav-text">2.3. class添加的时机和命名规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%B8%A1css%E5%8A%A8%E7%94%BB"><span class="nav-text">3. 过渡css动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E8%AE%BE%E7%BD%AE%E8%BF%87%E6%B8%A1%E5%92%8C%E5%8A%A8%E7%94%BB"><span class="nav-text">4. 同时设置过渡和动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E7%9A%84%E6%8C%87%E5%AE%9A%E5%8A%A8%E7%94%BB%E6%97%B6%E9%97%B4"><span class="nav-text">5. 显示的指定动画时间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%B8%A1%E7%9A%84%E6%A8%A1%E5%BC%8Fmode"><span class="nav-text">6. 过渡的模式mode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-text">7. 动态组件的切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#appear%E5%88%9D%E6%AC%A1%E6%B8%B2%E6%9F%93"><span class="nav-text">8. appear初次渲染</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#animate-css"><span class="nav-text">9. animate.css</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%B8%A1class"><span class="nav-text">9.1. 自定义过渡class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animate-css%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">9.2. animate.css库的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-keyframes-%E5%8A%A8%E7%94%BB"><span class="nav-text">9.2.1. 使用 keyframes 动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%90%E4%BE%9B%E7%9A%84%E7%B1%BB"><span class="nav-text">9.2.2. 使用提供的类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gsap%E5%BA%93"><span class="nav-text">10. gsap库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript%E9%92%A9%E5%AD%90"><span class="nav-text">10.1. JavaScript钩子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsap%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">10.2. gsap库的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsap%E5%AE%9E%E7%8E%B0%E6%95%B0%E5%AD%97%E5%8F%98%E5%8C%96"><span class="nav-text">10.3. gsap实现数字变化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E7%9A%84%E8%BF%87%E6%B8%A1"><span class="nav-text">11. 列表的过渡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">11.1. 列表过渡的基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1%E7%9A%84%E7%A7%BB%E5%8A%A8%E5%8A%A8%E7%94%BB"><span class="nav-text">11.2. 列表过渡的移动动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E7%9A%84%E4%BA%A4%E9%94%99%E8%BF%87%E6%B8%A1%E6%A1%88%E4%BE%8B"><span class="nav-text">11.3. 列表的交错过渡案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mixin"><span class="nav-text">12. Mixin</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">12.1. 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sayHello-js"><span class="nav-text">12.1.1. sayHello.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Home-vue"><span class="nav-text">12.1.2. Home.vue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hello-vue"><span class="nav-text">12.1.3. Hello.vue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-vue"><span class="nav-text">12.1.4. App.vue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E8%A7%84%E5%88%99"><span class="nav-text">12.2. 合并规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%B7%B7%E5%85%A5Mixin"><span class="nav-text">12.3. 全局混入Mixin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#extends"><span class="nav-text">13. extends</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BasePage-vue"><span class="nav-text">13.1. BasePage.vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#About-vue"><span class="nav-text">13.2. About.vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Home-vue-1"><span class="nav-text">13.3. Home.vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-vue-1"><span class="nav-text">13.4. App.vue</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'bdf5fbad99a2cdafee14d95494fd35de',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

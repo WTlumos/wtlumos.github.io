@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="h函数，mount函数，patch函数，源码解码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记09-源码学习">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="h函数，mount函数，patch函数，源码解码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/realDom.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/vnode.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/three.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/three2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/createApp.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/mount.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/init.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/life.png">
+<meta property="article:published_time" content="2020-10-11T00:46:40.000Z">
+<meta property="article:modified_time" content="2023-04-15T08:16:49.021Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/realDom.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue学习笔记09-源码学习 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue学习笔记09-源码学习
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-11 08:46:40" itemprop="dateCreated datePublished" datetime="2020-10-11T08:46:40+08:00">2020-10-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-15 16:16:49" itemprop="dateModified" datetime="2023-04-15T16:16:49+08:00">2023-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">h函数，mount函数，patch函数，源码解码</blockquote>
+
+<span id="more"></span>
+
+<h1 id="DOM渲染">1. DOM渲染</h1><h2 id="真实的DOM渲染">1.1. 真实的DOM渲染</h2><p>传统的前端开发中，编写自己的HTML，最终被渲染到浏览器上的，那么它是什么样的过程呢?</p>
+<p>html代码 -&gt; DOM树 -&gt; 页面内容</p>
+<p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/realDom.png"></p>
+<h2 id="虚拟DOM的优势">1.2. 虚拟DOM的优势</h2><ul>
+<li><p>目前框架都会引入虚拟DOM来对真实的DOM进行抽象，这样做有很多的好处</p>
+</li>
+<li><p>首先是可以对真实的元素节点进行抽象，抽象成VNode(虚拟节点)，这样方便后续对其进行各种操作:</p>
+<ul>
+<li>因为对于直接操作DOM来说是有很多的限制的，比如diff、clone等等，但是使用JavaScript编程语言来操作这些，就变得非常的简单;</li>
+<li>可以使用JavaScript来<code>表达非常多的逻辑</code>，而对于DOM本身来说是非常不方便的;</li>
+</ul>
+</li>
+<li><p>其次是<code>方便实现跨平台</code>，包括可以将VNode节点渲染成任意想要的节点</p>
+<ul>
+<li>如渲染在canvas、WebGL、SSR、Native(iOS、Android)上;</li>
+<li>并且Vue允许开发属于自己的渲染器(renderer)，在其他的平台上渲染;</li>
+</ul>
+</li>
+</ul>
+<h2 id="虚拟DOM的渲染过程">1.3. 虚拟DOM的渲染过程</h2><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/vnode.png"></p>
+<h1 id="三大核心系统">2. 三大核心系统</h1><ul>
+<li>事实上Vue的源码包含三大核心:<ul>
+<li>Compiler Module：编译模板系统;</li>
+<li>Runtime Module：也可以称之为Renderer模块，真正渲染的模块; </li>
+<li>Reactivity Module：响应式系统;</li>
+</ul>
+</li>
+<li>Vue源码中的代码分类：</li>
+</ul>
+<p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/three.png"></p>
+<h1 id="三大系统协同工作">3. 三大系统协同工作</h1><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/three2.png"></p>
+<h1 id="实现Mini-Vue">4. 实现Mini-Vue</h1><ul>
+<li>实现一个简洁版的Mini-Vue框架，该Vue包括三个模块: <ul>
+<li>渲染系统模块;</li>
+<li>可响应式系统模块;</li>
+<li>应用程序入口模块;</li>
+</ul>
+</li>
+</ul>
+<h2 id="渲染系统实现">4.1. 渲染系统实现</h2><ul>
+<li>该模块主要包含三个功能:<ul>
+<li>功能一：h函数，用于返回一个VNode对象;</li>
+<li>功能二：mount函数，用于将VNode挂载到DOM上;</li>
+<li>功能三：patch函数，用于对两个VNode进行对比，决定如何处理新的VNode;</li>
+</ul>
+</li>
+<li>功能函数写于 <code>render.js</code>中</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./render.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 1.通过h函数来创建一个vnode</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> vnode = <span class="title function_">h</span>(<span class="string">&#x27;div&#x27;</span>,<span class="literal">null</span>,[</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">h</span>(<span class="string">&#x27;h2&#x27;</span>,<span class="literal">null</span>,<span class="string">&#x27;Hello World&#x27;</span>),</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">h</span>(<span class="string">&#x27;button&#x27;</span>,&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">onClick</span>: <span class="function">()=&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;clicked&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;,<span class="string">&#x27;Hello&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">        ]);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 2.通过mount函数，将vnode挂载到div#app上</span></span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">mount</span>(vnode,<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#app&quot;</span>));</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 3.创建新的vnode</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> vnode1 = <span class="title function_">h</span>(<span class="string">&#x27;div&#x27;</span>,&#123;<span class="attr">class</span>:<span class="string">&#x27;title&#x27;</span>&#125;,[</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">h</span>(<span class="string">&quot;h1&quot;</span>,<span class="literal">null</span>,<span class="string">&quot;hahaha&quot;</span>),</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">h</span>(<span class="string">&quot;button&quot;</span>,&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">onClick</span>: <span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;new vnode&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;,<span class="string">&quot;button&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        ]);</span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 对两个VNode进行对比，决定如何处理新的VNode</span></span></span><br><span class="line"><span class="language-javascript">        <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">patch</span>(vnode,vnode1);</span></span><br><span class="line"><span class="language-javascript">        &#125;,<span class="number">2000</span>);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="h函数-–-生成VNode">4.1.1. h函数 – 生成VNode</h3><p>直接返回一个VNode对象即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">h</span> = (<span class="params">tag,props,children</span>)=&gt;&#123;</span><br><span class="line">    <span class="comment">// vnode-&gt;javascript-&gt;&#123;&#125;</span></span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        tag,</span><br><span class="line">        props,</span><br><span class="line">        children</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Mount函数-–-挂载VNode">4.1.2. Mount函数 – 挂载VNode</h3><ol>
+<li>第一步：根据tag，创建HTML元素，并且存储 到vnode的el中;</li>
+<li>第二步：处理props属性<ul>
+<li>如果以on开头，那么监听事件; </li>
+<li>普通属性直接通过 setAttribute 添加即可;</li>
+</ul>
+</li>
+<li>第三步：处理子节点<ul>
+<li>如果是字符串节点，那么直接设置textContent;</li>
+<li>如果是数组节点，那么遍历调用 mount 函数;</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">mount</span> = (<span class="params">vnode,container</span>)=&gt;&#123;</span><br><span class="line">    <span class="comment">// vnode-&gt;element</span></span><br><span class="line">    <span class="comment">// 1.创建出真实的原生，并且在vnode上保留el</span></span><br><span class="line">    <span class="keyword">const</span> el = vnode.<span class="property">el</span> = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(vnode.<span class="property">tag</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.处理props</span></span><br><span class="line">    <span class="keyword">if</span>(vnode.<span class="property">props</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> vnode.<span class="property">props</span>)&#123;</span><br><span class="line">            <span class="keyword">const</span> value = vnode.<span class="property">props</span>[key];</span><br><span class="line">            <span class="keyword">if</span>(key.<span class="title function_">startsWith</span>(<span class="string">&quot;on&quot;</span>))&#123;</span><br><span class="line">                el.<span class="title function_">addEventListener</span>(key.<span class="title function_">slice</span>(<span class="number">2</span>).<span class="title function_">toLowerCase</span>(),value);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                el.<span class="title function_">setAttribute</span>(key,value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.处理children</span></span><br><span class="line">    <span class="keyword">if</span>(vnode.<span class="property">children</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> vnode.<span class="property">children</span>===<span class="string">&#x27;string&#x27;</span>)&#123;</span><br><span class="line">            el.<span class="property">textContent</span> = vnode.<span class="property">children</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            vnode.<span class="property">children</span>.<span class="title function_">forEach</span>(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="title function_">mount</span>(child,el);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 挂载到container</span></span><br><span class="line">    container.<span class="title function_">appendChild</span>(el);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Patch函数-–-对比两个VNode">4.1.3. Patch函数 – 对比两个VNode</h3><ul>
+<li><p>patch函数的实现，分为两种情况</p>
+</li>
+<li><p>n1和n2是不同类型的节点:</p>
+<ul>
+<li>找到n1的el父节点，删除原来的n1节点的el; </li>
+<li>挂载n2节点到n1的el父节点上;</li>
+</ul>
+</li>
+<li><p>n1和n2节点是相同的节点: </p>
+<ul>
+<li><p>处理props的情况</p>
+<ul>
+<li>先将新节点的props全部挂载到el上;</li>
+<li>判断旧节点的props是否不需要在新节点上，如果不需要，那么删除对应的属性;</li>
+</ul>
+</li>
+<li><p>处理children的情况</p>
+<ul>
+<li><p>如果新节点是一个字符串类型，那么直接调用 el.textContent &#x3D; newChildren; </p>
+</li>
+<li><p>如果新节点不同一个字符串类型:</p>
+<ul>
+<li><p>旧节点是一个字符串类型</p>
+<ul>
+<li><p>将el的textContent设置为空字符串;</p>
+</li>
+<li><p>就节点是一个字符串类型，那么直接遍历新节点，挂载到el上;</p>
+</li>
+</ul>
+</li>
+<li><p>旧节点也是一个数组类型</p>
+<ul>
+<li>取出数组的最小长度;</li>
+<li>遍历所有的节点，新节点和旧节点进行path操作;</li>
+<li>如果新节点的length更长，那么剩余的新节点进行挂载操作; </li>
+<li>如果旧节点的length更长，那么剩余的旧节点进行卸载操作;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">patch</span> = (<span class="params">n1,n2</span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">if</span>(n1.<span class="property">tag</span> == n2.<span class="property">tag</span>)&#123;</span><br><span class="line">        <span class="keyword">const</span> n1ELParent = n1.<span class="property">el</span>.<span class="property">parentElement</span>;</span><br><span class="line">        n1ELParent.<span class="title function_">removeChild</span>(n1.<span class="property">el</span>);</span><br><span class="line">        <span class="title function_">mount</span>(n2,n1ELParent);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">// 1.取出element对象，并且在n2中进行保存</span></span><br><span class="line">        <span class="keyword">const</span> el = n2.<span class="property">el</span> = n1.<span class="property">el</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.处理props</span></span><br><span class="line">        <span class="keyword">const</span> oldProps = n1.<span class="property">props</span> || &#123;&#125;;</span><br><span class="line">        <span class="keyword">const</span> newProps = n2.<span class="property">props</span> || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.1. 获取所有的newProps添加到el</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> newProps)&#123;</span><br><span class="line">            <span class="keyword">const</span> oldValue = oldProps[key];</span><br><span class="line">            <span class="keyword">const</span> newValue = newProps[key];</span><br><span class="line">            <span class="keyword">if</span>(key.<span class="title function_">startsWith</span>(<span class="string">&quot;on&quot;</span>))&#123;</span><br><span class="line">                el.<span class="title function_">addEventListener</span>(key.<span class="title function_">slice</span>(<span class="number">2</span>).<span class="title function_">toLowerCase</span>(),newValue);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                el.<span class="title function_">setAttribute</span>(key,newValue);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.2. 删除旧的props</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> oldProps)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!(key <span class="keyword">in</span> newProps))&#123;</span><br><span class="line">                <span class="keyword">if</span>(key.<span class="title function_">startsWith</span>(<span class="string">&quot;on&quot;</span>))&#123;</span><br><span class="line">                    <span class="keyword">const</span> value = oldProps[key];</span><br><span class="line">                    el.<span class="title function_">removeEventListener</span>(key.<span class="title function_">slice</span>(<span class="number">2</span>).<span class="title function_">toLowerCase</span>(),value);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    el.<span class="title function_">removeAttribute</span>(key);</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.处理children</span></span><br><span class="line">        <span class="keyword">const</span> oldChildren = n1.<span class="property">children</span>;</span><br><span class="line">        <span class="keyword">const</span> newChildren = n2.<span class="property">children</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> newChildren == <span class="string">&#x27;string&#x27;</span>)&#123;</span><br><span class="line">            el.<span class="property">textContent</span> = newChildren;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">typeof</span> oldChildren == <span class="string">&#x27;string&#x27;</span>)&#123;</span><br><span class="line">                <span class="comment">// 删除原有元素内容</span></span><br><span class="line">                el.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">                <span class="comment">// 挂载新内容</span></span><br><span class="line">                newChildren.<span class="title function_">forEach</span>(<span class="function"><span class="params">child</span>=&gt;</span>&#123;</span><br><span class="line">                    <span class="title function_">mount</span>(child,el);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">// oldChildren: [v1,v2,v3,v4,v5]</span></span><br><span class="line">                <span class="comment">// newChildren: [v1,v5,v6]</span></span><br><span class="line">                commonLength = <span class="title class_">Math</span>.<span class="title function_">min</span>(oldChildren.<span class="property">length</span>,newChildren.<span class="property">length</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt;commonLength;i++)&#123;</span><br><span class="line">                    <span class="comment">// 挨个合并</span></span><br><span class="line">                    <span class="title function_">patch</span>(oldChildren[i],newChildren[i]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(newChildren.<span class="property">length</span> &gt; oldChildren.<span class="property">length</span>)&#123;</span><br><span class="line">                    newChildren.<span class="title function_">slice</span>(oldChildren.<span class="property">length</span>).<span class="title function_">forEach</span>(<span class="function"><span class="params">child</span>=&gt;</span>&#123;</span><br><span class="line">                        <span class="title function_">mount</span>(child,el);</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(newChildren.<span class="property">length</span> &lt; oldChildren.<span class="property">length</span>)&#123;</span><br><span class="line">                    oldChildren.<span class="title function_">slice</span>(newChildren.<span class="property">length</span>).<span class="title function_">forEach</span>(<span class="function"><span class="params">child</span>=&gt;</span>&#123;</span><br><span class="line">                        el.<span class="title function_">removeChild</span>(child);</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="依赖收集系统">4.2. 依赖收集系统</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dep</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">subscribers</span> = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">depend</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(activeEffect)&#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">subscribers</span>.<span class="title function_">add</span>(activeEffect);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">notify</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">subscribers</span>.<span class="title function_">forEach</span>(<span class="function"><span class="params">effect</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="title function_">effect</span>();</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注入</span></span><br><span class="line"><span class="keyword">const</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>();</span><br><span class="line"><span class="keyword">let</span> activeEffect = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">watchEffect</span>(<span class="params">effect</span>)&#123;</span><br><span class="line">    activeEffect = effect;</span><br><span class="line">    dep.<span class="title function_">depend</span>();</span><br><span class="line">    <span class="title function_">effect</span>();</span><br><span class="line">    activeEffect = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">watchEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;依赖回调1&quot;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="title function_">watchEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;依赖回调2&quot;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">dep.<span class="title function_">notify</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="响应式系统">4.3. 响应式系统</h2><h3 id="Vue2实现">4.3.1. Vue2实现</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// weakmap 的key为对象</span></span><br><span class="line"><span class="keyword">const</span> targetMap = <span class="keyword">new</span> <span class="title class_">WeakMap</span>();</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getDep</span>(<span class="params">target,key</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> depsMap = targetMap.<span class="title function_">get</span>(target);</span><br><span class="line">    <span class="keyword">if</span>(!depsMap)&#123;</span><br><span class="line">        depsMap = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">        targetMap.<span class="title function_">set</span>(target,depsMap);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> dep = depsMap.<span class="title function_">get</span>(key);</span><br><span class="line">    <span class="keyword">if</span>(!dep)&#123;</span><br><span class="line">        dep = <span class="keyword">new</span> <span class="title class_">Dep</span>();</span><br><span class="line">        depsMap.<span class="title function_">set</span>(key,dep);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dep;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reactive</span>(<span class="params">raw</span>)&#123;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">keys</span>(raw).<span class="title function_">forEach</span>(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> dep = <span class="title function_">getDep</span>(raw,key);</span><br><span class="line">        <span class="keyword">let</span> value = raw[key];</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(raw,key,&#123;</span><br><span class="line">            <span class="title function_">get</span>(<span class="params"></span>)&#123;</span><br><span class="line">                dep.<span class="title function_">depend</span>();</span><br><span class="line">                <span class="keyword">return</span> value;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="title function_">set</span>(<span class="params">newValue</span>)&#123;</span><br><span class="line">                value = newValue;</span><br><span class="line">                dep.<span class="title function_">notify</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> raw;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Vue3实现">4.3.2. Vue3实现</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">reactive</span>(<span class="params">raw</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(raw,&#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params">target,key,receiver</span>)&#123;</span><br><span class="line">            <span class="keyword">const</span> dep = <span class="title function_">getDep</span>(target,key);</span><br><span class="line">            dep.<span class="title function_">depend</span>();</span><br><span class="line">            <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">get</span>(target,key,receiver);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="title function_">set</span>(<span class="params">target,key,value,receiver</span>)&#123;</span><br><span class="line">            <span class="keyword">const</span> dep = <span class="title function_">getDep</span>(target,key);</span><br><span class="line">            <span class="keyword">const</span> result = <span class="title class_">Reflect</span>.<span class="title function_">set</span>(target,key,value,receiver);</span><br><span class="line">            dep.<span class="title function_">notify</span>();</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="为什么Vue3选择Proxy呢">4.3.3. 为什么Vue3选择Proxy呢</h3><ul>
+<li><p>Object.definedProperty 是劫持对象的属性时，如果新增元素:</p>
+<ul>
+<li>那么Vue2需要再次 调用definedProperty，而 Proxy 劫持的是整个对象，不需要做特殊处理;</li>
+</ul>
+</li>
+<li><p>修改对象的不同:</p>
+<ul>
+<li>使用 defineProperty 时，修改原来的 obj 对象就可以触发拦截; </li>
+<li>而使用 proxy，就必须修改代理对象，即 Proxy 的实例才可以触发拦截;</li>
+</ul>
+</li>
+<li><p>Proxy 能观察的类型比 defineProperty 更丰富 </p>
+<ul>
+<li>has：in操作符的捕获器; </li>
+<li>deleteProperty：delete 操作符的捕捉器; </li>
+<li>等等其他操作;</li>
+</ul>
+</li>
+<li><p>Proxy 作为新标准将受到浏览器厂商重点持续的性能优化; </p>
+</li>
+<li><p>缺点：Proxy 不兼容IE，也没有 polyfill, defineProperty 能支持到IE9</p>
+</li>
+</ul>
+<h2 id="框架外层API设计">4.4. 框架外层API设计</h2><ul>
+<li>从框架的层面来说，需要有两部分内容<ul>
+<li>createApp用于创建一个app对象;</li>
+<li>该app对象有一个mount方法，可以将根组件挂载到某一个dom元素上;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">createApp</span> = (<span class="params">rootComponent</span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="title function_">mount</span>(<span class="params">selector</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> isMounted = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">let</span> preVNode = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">            <span class="title function_">watchEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(!isMounted)&#123;</span><br><span class="line">                    preVNode = rootComponent.<span class="title function_">render</span>();</span><br><span class="line">                    <span class="title function_">mount</span>(preVNode,<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(selector));</span><br><span class="line">                    isMounted = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">const</span> newVNode = rootComponent.<span class="title function_">render</span>();</span><br><span class="line">                    <span class="title function_">patch</span>(preVNode,newVNode);</span><br><span class="line">                    preVNode = newVNode;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="html调用整体设计">4.5. html调用整体设计</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./render.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./reactive-vue3.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> <span class="title class_">App</span> = &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">data</span>: <span class="title function_">reactive</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">counter</span>: <span class="number">0</span></span></span><br><span class="line"><span class="language-javascript">            &#125;),</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">render</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">return</span> <span class="title function_">h</span>(<span class="string">&#x27;button&#x27;</span>,&#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">onClick</span>: <span class="function">()=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">                        <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">counter</span>++;</span></span><br><span class="line"><span class="language-javascript">                    &#125;</span></span><br><span class="line"><span class="language-javascript">                &#125;,<span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">counter</span>+<span class="string">&quot;&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span></span><br><span class="line"><span class="language-javascript">        app.<span class="title function_">mount</span>(<span class="string">&quot;#app&quot;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="源码阅读">5. 源码阅读</h1><h2 id="createApp">5.1. createApp</h2><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/createApp.png"></p>
+<h2 id="挂载根组件">5.2. 挂载根组件</h2><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/mount.png"></p>
+<h2 id="instance">5.3. instance</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runtime-core/src/component.ts</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">instance</span>: <span class="title class_">ComponentInternalInstance</span> = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.处理props和attrs</span></span><br><span class="line">instance.<span class="property">props</span></span><br><span class="line">instance.<span class="property">attrs</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.处理slots</span></span><br><span class="line">instance.<span class="property">slots</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.执行setup</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="title function_">setup</span>()</span><br><span class="line">instance.<span class="property">setupState</span> = <span class="title function_">proxyRefs</span>(result); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 4.编译template -&gt; compile</span></span><br><span class="line">&lt;template&gt; -&gt; render函数</span><br><span class="line">instance.<span class="property">render</span> = <span class="title class_">Component</span>.<span class="property">render</span> = render函数</span><br><span class="line"></span><br><span class="line"><span class="comment">// 5.对vue2的options api进行知识</span></span><br><span class="line">data/methods/computed/生命周期</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="组件化的初始化">5.4. 组件化的初始化</h2><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/init.png"></p>
+<h2 id="Compile过程">5.5. Compile过程</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// compiler-core/src/compile.ts</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对template进行解析，生成ast</span></span><br><span class="line"><span class="keyword">const</span> ast = <span class="title function_">isString</span>(template) ? <span class="title function_">baseParse</span>(template, options) : template</span><br><span class="line"><span class="keyword">const</span> [nodeTransforms, directiveTransforms] = <span class="title function_">getBaseTransformPreset</span>(</span><br><span class="line">  prefixIdentifiers</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// AST转换</span></span><br><span class="line"><span class="title function_">transform</span>(</span><br><span class="line">  ast,</span><br><span class="line">  <span class="title function_">extend</span>(&#123;&#125;, options, &#123;</span><br><span class="line">    prefixIdentifiers,</span><br><span class="line">    <span class="attr">nodeTransforms</span>: [</span><br><span class="line">      ...nodeTransforms,</span><br><span class="line">      ...(options.<span class="property">nodeTransforms</span> || []) <span class="comment">// user transforms</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">directiveTransforms</span>: <span class="title function_">extend</span>(</span><br><span class="line">      &#123;&#125;,</span><br><span class="line">      directiveTransforms,</span><br><span class="line">      options.<span class="property">directiveTransforms</span> || &#123;&#125; <span class="comment">// user transforms</span></span><br><span class="line">    )</span><br><span class="line">  &#125;)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成代码</span></span><br><span class="line"><span class="keyword">return</span> <span class="title function_">generate</span>(</span><br><span class="line">  ast,</span><br><span class="line">  <span class="title function_">extend</span>(&#123;&#125;, options, &#123;</span><br><span class="line">    prefixIdentifiers</span><br><span class="line">  &#125;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="生命周期回调">5.6. 生命周期回调</h2><p><img src="/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/life.png"></p>
+<h2 id="template中数据的使用顺序">5.7. template中数据的使用顺序</h2><p>下列案列中最终使用的是setup中的counter值0</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">&quot;my-app&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">h2</span>&gt;</span>&#123;&#123;counter&#125;&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./vue.global.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> <span class="title class_">App</span> = &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">template</span>: <span class="string">&quot;#my-app&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">data</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">counter</span>: <span class="number">100</span></span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">setup</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">const</span> counter = <span class="title class_">Vue</span>.<span class="title function_">ref</span>(<span class="number">0</span>);</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="language-javascript">                    counter</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> app = <span class="title class_">Vue</span>.<span class="title function_">createApp</span>(<span class="title class_">App</span>);</span></span><br><span class="line"><span class="language-javascript">        app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>源码</p>
+<h3 id="render-ts">5.7.1. render.ts</h3><p><code>runtime-core/render.ts/baseCreateRenderer/setupRenderEffect</code> 中的 <code>renderComponentRoot</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">setupRenderEffect</span>: <span class="title class_">SetupRenderEffectFn</span> = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  instance,</span></span></span><br><span class="line"><span class="params"><span class="function">  initialVNode,</span></span></span><br><span class="line"><span class="params"><span class="function">  container,</span></span></span><br><span class="line"><span class="params"><span class="function">  anchor,</span></span></span><br><span class="line"><span class="params"><span class="function">  parentSuspense,</span></span></span><br><span class="line"><span class="params"><span class="function">  isSVG,</span></span></span><br><span class="line"><span class="params"><span class="function">  optimized</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">componentUpdateFn</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!instance.<span class="property">isMounted</span>) &#123;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (el &amp;&amp; hydrateNode) &#123;&#125; </span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//调用renderComponentRoo渲染组件，生成子树的vnode</span></span><br><span class="line">        <span class="comment">//因为template会被编译成render函数，所以renderComponentRoot就是去执行render函数获取对应的vnode</span></span><br><span class="line">        <span class="comment">//renderComponentRoot中海油收集dynamicBlock</span></span><br><span class="line">        <span class="keyword">const</span> subTree = (instance.<span class="property">subTree</span> = <span class="title function_">renderComponentRoot</span>(instance))    </span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="componentRenderUtil-ts">5.7.2. componentRenderUtil.ts</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">renderComponentRoot</span>(<span class="params"></span></span><br><span class="line"><span class="params">  instance: ComponentInternalInstance</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">VNode</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="title class_">Component</span>,</span><br><span class="line">    vnode,</span><br><span class="line">    proxy,</span><br><span class="line">    withProxy,</span><br><span class="line">    props,</span><br><span class="line">    <span class="attr">propsOptions</span>: [propsOptions],</span><br><span class="line">    slots,</span><br><span class="line">    attrs,</span><br><span class="line">    emit,</span><br><span class="line">    render,</span><br><span class="line">    renderCache,</span><br><span class="line">    data,</span><br><span class="line">    setupState,</span><br><span class="line">    ctx,</span><br><span class="line">    inheritAttrs</span><br><span class="line">  &#125; = instance</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> result</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (vnode.<span class="property">shapeFlag</span> &amp; <span class="title class_">ShapeFlags</span>.<span class="property">STATEFUL_COMPONENT</span>) &#123;</span><br><span class="line">      <span class="comment">// withProxy is a proxy with a different `has` trap only for</span></span><br><span class="line">      <span class="comment">// runtime-compiled render functions using `with` block.</span></span><br><span class="line">      <span class="keyword">const</span> proxyToUse = withProxy || proxy</span><br><span class="line">      result = <span class="title function_">normalizeVNode</span>(</span><br><span class="line">        render!.<span class="title function_">call</span>(</span><br><span class="line">          proxyToUse,</span><br><span class="line">          proxyToUse!,</span><br><span class="line">          renderCache,</span><br><span class="line">          props,</span><br><span class="line">          setupState,</span><br><span class="line">          data,</span><br><span class="line">          ctx</span><br><span class="line">        )</span><br><span class="line">      )</span><br><span class="line">    &#125; </span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">catch</span> (err) &#123; </span><br><span class="line">    result = <span class="title function_">createVNode</span>(<span class="title class_">Comment</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="componentPublicInstance-ts">5.7.3. componentPublicInstance.ts</h3><p>数据使用顺序决定先取setup中的数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">PublicInstanceProxyHandlers</span>: <span class="title class_">ProxyHandler</span>&lt;<span class="built_in">any</span>&gt; = &#123;</span><br><span class="line">  <span class="title function_">get</span>(<span class="params">&#123; _: instance &#125;: ComponentRenderContext, key: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; </span><br><span class="line">      <span class="comment">// 存储 computed/methods</span></span><br><span class="line">      ctx, </span><br><span class="line">      <span class="comment">// 存储 setup返回的结果</span></span><br><span class="line">      setupState, </span><br><span class="line">      <span class="comment">// 存储 data中的数据</span></span><br><span class="line">      data, </span><br><span class="line">      <span class="comment">// 存储 props</span></span><br><span class="line">      props, </span><br><span class="line">      accessCache, </span><br><span class="line">      <span class="keyword">type</span>, </span><br><span class="line">      appContext &#125; </span><br><span class="line">    = instance</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">if</span> (key[<span class="number">0</span>] !== <span class="string">&#x27;$&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">// 从缓存中取值</span></span><br><span class="line">        <span class="keyword">const</span> n = accessCache![key]</span><br><span class="line">        <span class="comment">// 第一次 n 为 undefined</span></span><br><span class="line">        <span class="keyword">if</span> (n !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">          <span class="keyword">switch</span> (n) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">AccessTypes</span>.<span class="property">SETUP</span>:</span><br><span class="line">              <span class="keyword">return</span> setupState[key]</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">AccessTypes</span>.<span class="property">DATA</span>:</span><br><span class="line">              <span class="keyword">return</span> data[key]</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">AccessTypes</span>.<span class="property">CONTEXT</span>:</span><br><span class="line">              <span class="keyword">return</span> ctx[key]</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">AccessTypes</span>.<span class="property">PROPS</span>:</span><br><span class="line">              <span class="keyword">return</span> props![key]</span><br><span class="line">            <span class="comment">// default: just fallthrough</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">// 先从setup中取值</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (setupState !== <span class="variable constant_">EMPTY_OBJ</span> &amp;&amp; <span class="title function_">hasOwn</span>(setupState, key)) &#123;</span><br><span class="line">          accessCache![key] = <span class="title class_">AccessTypes</span>.<span class="property">SETUP</span></span><br><span class="line">          <span class="keyword">return</span> setupState[key]</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">// 再从data中去取值</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (data !== <span class="variable constant_">EMPTY_OBJ</span> &amp;&amp; <span class="title function_">hasOwn</span>(data, key)) &#123;</span><br><span class="line">          accessCache![key] = <span class="title class_">AccessTypes</span>.<span class="property">DATA</span></span><br><span class="line">          <span class="keyword">return</span> data[key]</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">// props</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (</span><br><span class="line">          (normalizedProps = instance.<span class="property">propsOptions</span>[<span class="number">0</span>]) &amp;&amp;</span><br><span class="line">          <span class="title function_">hasOwn</span>(normalizedProps, key)</span><br><span class="line">        ) </span><br><span class="line">        &#123;</span><br><span class="line">          accessCache![key] = <span class="title class_">AccessTypes</span>.<span class="property">PROPS</span></span><br><span class="line">          <span class="keyword">return</span> props![key]</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ctx !== <span class="variable constant_">EMPTY_OBJ</span> &amp;&amp; <span class="title function_">hasOwn</span>(ctx, key)) &#123;</span><br><span class="line">          accessCache![key] = <span class="title class_">AccessTypes</span>.<span class="property">CONTEXT</span></span><br><span class="line">          <span class="keyword">return</span> ctx[key]</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!__FEATURE_OPTIONS_API__ || shouldCacheAccess) &#123;</span><br><span class="line">          accessCache![key] = <span class="title class_">AccessTypes</span>.<span class="property">OTHER</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">set</span>(</span><br><span class="line">    &#123; <span class="attr">_</span>: instance &#125;: <span class="title class_">ComponentRenderContext</span>,</span><br><span class="line">    <span class="attr">key</span>: <span class="built_in">string</span>,</span><br><span class="line">    <span class="attr">value</span>: <span class="built_in">any</span></span><br><span class="line">  ): <span class="built_in">boolean</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; </span><br><span class="line">      data, </span><br><span class="line">      setupState, </span><br><span class="line">      ctx </span><br><span class="line">    &#125; = instance</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">has</span>(<span class="params"></span></span><br><span class="line"><span class="params">    &#123;</span></span><br><span class="line"><span class="params">      _: &#123; </span></span><br><span class="line"><span class="params">        data, </span></span><br><span class="line"><span class="params">        setupState, </span></span><br><span class="line"><span class="params">        accessCache, </span></span><br><span class="line"><span class="params">        ctx, </span></span><br><span class="line"><span class="params">        appContext, </span></span><br><span class="line"><span class="params">        propsOptions </span></span><br><span class="line"><span class="params">      &#125;</span></span><br><span class="line"><span class="params">    &#125;: ComponentRenderContext,</span></span><br><span class="line"><span class="params">    key: <span class="built_in">string</span></span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">defineProperty</span>(<span class="params"></span></span><br><span class="line"><span class="params">    target: ComponentRenderContext,</span></span><br><span class="line"><span class="params">    key: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    descriptor: PropertyDescriptor</span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">defineProperty</span>(target, key, descriptor)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2020/10/11/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" title="Vue学习笔记09-源码学习">https://wtlumos.github.io/zh-CN/2020/10/11/Vue学习笔记09-源码学习/</a> -->
+    
+       <a href ="/zh-CN/2020/10/11/Vue学习笔记09-源码学习/" >/zh-CN/2020/10/11/Vue学习笔记09-源码学习/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2020-10-11 08:46
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-15 16:16
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+              <a href="/tags/Vue/" rel="tag"><i class="fa fa-tag"></i> Vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/10/13/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-VueRouter%E8%B7%AF%E7%94%B1/" rel="prev" title="Vue学习笔记10-VueRouter路由">
+      <i class="fa fa-chevron-left"></i> Vue学习笔记10-VueRouter路由
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/10/10/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-Composition-API/" rel="next" title="Vue学习笔记08-Composition_API">
+      Vue学习笔记08-Composition_API <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM%E6%B8%B2%E6%9F%93"><span class="nav-text">1. DOM渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84DOM%E6%B8%B2%E6%9F%93"><span class="nav-text">1.1. 真实的DOM渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9FDOM%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-text">1.2. 虚拟DOM的优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9FDOM%E7%9A%84%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B"><span class="nav-text">1.3. 虚拟DOM的渲染过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%B3%BB%E7%BB%9F"><span class="nav-text">2. 三大核心系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E7%B3%BB%E7%BB%9F%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C"><span class="nav-text">3. 三大系统协同工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Mini-Vue"><span class="nav-text">4. 实现Mini-Vue</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0"><span class="nav-text">4.1. 渲染系统实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#h%E5%87%BD%E6%95%B0-%E2%80%93-%E7%94%9F%E6%88%90VNode"><span class="nav-text">4.1.1. h函数 – 生成VNode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mount%E5%87%BD%E6%95%B0-%E2%80%93-%E6%8C%82%E8%BD%BDVNode"><span class="nav-text">4.1.2. Mount函数 – 挂载VNode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Patch%E5%87%BD%E6%95%B0-%E2%80%93-%E5%AF%B9%E6%AF%94%E4%B8%A4%E4%B8%AAVNode"><span class="nav-text">4.1.3. Patch函数 – 对比两个VNode</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86%E7%B3%BB%E7%BB%9F"><span class="nav-text">4.2. 依赖收集系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="nav-text">4.3. 响应式系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue2%E5%AE%9E%E7%8E%B0"><span class="nav-text">4.3.1. Vue2实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue3%E5%AE%9E%E7%8E%B0"><span class="nav-text">4.3.2. Vue3实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Vue3%E9%80%89%E6%8B%A9Proxy%E5%91%A2"><span class="nav-text">4.3.3. 为什么Vue3选择Proxy呢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E5%A4%96%E5%B1%82API%E8%AE%BE%E8%AE%A1"><span class="nav-text">4.4. 框架外层API设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#html%E8%B0%83%E7%94%A8%E6%95%B4%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="nav-text">4.5. html调用整体设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB"><span class="nav-text">5. 源码阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#createApp"><span class="nav-text">5.1. createApp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E6%A0%B9%E7%BB%84%E4%BB%B6"><span class="nav-text">5.2. 挂载根组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#instance"><span class="nav-text">5.3. instance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">5.4. 组件化的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compile%E8%BF%87%E7%A8%8B"><span class="nav-text">5.5. Compile过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%9E%E8%B0%83"><span class="nav-text">5.6. 生命周期回调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#template%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">5.7. template中数据的使用顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#render-ts"><span class="nav-text">5.7.1. render.ts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#componentRenderUtil-ts"><span class="nav-text">5.7.2. componentRenderUtil.ts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#componentPublicInstance-ts"><span class="nav-text">5.7.3. componentPublicInstance.ts</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'f252c6ced20106a207015d03dfd58f9c',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

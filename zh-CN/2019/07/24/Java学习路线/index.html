@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="java基础，核心，Spring框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习路线">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/07/24/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="java基础，核心，Spring框架">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-24T12:09:35.000Z">
+<meta property="article:modified_time" content="2023-04-15T08:14:24.193Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="路线">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/07/24/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java学习路线 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/07/24/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java学习路线
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-24 20:09:35" itemprop="dateCreated datePublished" datetime="2019-07-24T20:09:35+08:00">2019-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-15 16:14:24" itemprop="dateModified" datetime="2023-04-15T16:14:24+08:00">2023-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">java基础，核心，Spring框架</blockquote>
+
+<span id="more"></span>
+
+<h1 id="Java基本功">1. Java基本功</h1><h2 id="知识点笔记">1.1. 知识点笔记</h2><p><a href>java基本功-入门&amp;语法</a> 包括Java语言介绍，下载，安装，基本数据类型以及包装类，枚举类，控制流程(if&#x2F;else，while，for)</p>
+<p><a href>Java基本功-面向对象</a> 包括Java类定义，对象定义，构造器，重载与重写，继承，抽象类，接口，日志，异常，泛型</p>
+<p><a href>正则表达式</a></p>
+<h2 id="推荐视频">1.2. 推荐视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kb411W75N">尚硅谷30天搞定java核心技术</a> </p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1DJ411B7cG">浙大老师翁恺Java程序设计</a></p>
+<h1 id="Java核心">2. Java核心</h1><p><a href>反射</a> 可以在运行时动态改变类结构</p>
+<p><a href>集合</a> 包含Collection，List及其实现类，Set及其实现类，Map及其实现类，Collections工具类</p>
+<p><a href>线程</a> Thread，synchronized，并发包，同步器 </p>
+<p><a href>输入与输出</a> File操作文件，输入流，输出流，系列化</p>
+<p><a href>网络编程</a> TCP&#x2F;IP，ServerSocket，Socket</p>
+<p><a href>数据库编程</a> JDBC讲解</p>
+<h1 id="Java设计模式">3. Java设计模式</h1><h2 id="知识点笔记-1">3.1. 知识点笔记</h2><p><a href="/zh-CN/2020/02/07/java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">java设计模式</a></p>
+<h2 id="推荐视频-1">3.2. 推荐视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1G4411c7N4">尚硅谷Java设计模式（图解+框架源码剖析）</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mc411h719">【狂神说Java】通俗易懂的23种设计模式教学（停更）</a></p>
+<h1 id="Java网络-Servlet">4. Java网络-Servlet</h1><p><a href>Servlet与JSP</a></p>
+<h1 id="Java并发">5. Java并发</h1><h2 id="知识点笔记-2">5.1. 知识点笔记</h2><p>线程创建，线程池，锁的划分，锁的优化</p>
+<h2 id="推荐视频-2">5.2. 推荐视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16J411h7Rd">黑马程序员全面深入学习Java并发编程，JUC并发编程全套教程</a></p>
+<h1 id="JVM">6. JVM</h1><h2 id="知识点笔记-3">6.1. 知识点笔记</h2><p><a href>类加载机制与JVM结构</a></p>
+<h2 id="推荐视频-3">6.2. 推荐视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PJ411n7xZ">尚硅谷宋红康JVM全套教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iJ411d7jS">【狂神说Java】JVM快速入门篇</a></p>
+<h2 id="文章推荐">6.3. 文章推荐</h2><p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/10/22/java-jit-practice-in-meituan.html">美团技术 - 基本功 | Java即时编译器原理解析及实践</a></p>
+<h1 id="JavaWeb">7. JavaWeb</h1><h2 id="推荐视频-4">7.1. 推荐视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y7411K7zz">尚硅谷最新版JavaWeb全套教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV12J411M7Sj">狂神说Java-JavaWeb入门到实战</a></p>
+<h1 id="框架">8. 框架</h1><p>常用的SSM就是Spring+SpringMVC+MyBatis</p>
+<h2 id="Spring">8.1. Spring</h2><h3 id="知识点笔记-4">8.1.1. 知识点笔记</h3><p><a href="/zh-CN/2019/09/21/Spring%E5%AE%9E%E6%88%98-overview">Spring实战-overview</a></p>
+<p><a href="/zh-CN/2019/09/21/Spring%E5%AE%9E%E6%88%98-%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%9A%84Spring">Spring实战-面向切面的Spring</a></p>
+<p><a href="/zh-CN/2019/09/21/Spring%E5%AE%9E%E6%88%98-%E8%A3%85%E9%85%8DBean%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95">Spring实战-装配Bean三种方法</a></p>
+<p><a href="/zh-CN/2019/09/21/Spring%E5%AE%9E%E6%88%98-SpringWeb">Spring实战-SpringWeb</a></p>
+<h3 id="推荐视频-5">8.1.2. 推荐视频</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1WE411d7Dv">【狂神说Java】Spring5最新完整教程IDEA版通俗易懂</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vf4y127N5">尚硅谷Spring框架视频教程（spring5源码级讲解）</a></p>
+<h2 id="SpringMVC">8.2. SpringMVC</h2><h3 id="知识点笔记-5">8.2.1. 知识点笔记</h3><p><a href="/zh-CN/2019/09/22/Spring%E5%AE%9E%E6%88%98-SpringMVC">Spring实战-SpringMVC</a></p>
+<h3 id="推荐视频-6">8.2.2. 推荐视频</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1aE41167Tu">【狂神说Java】SpringMVC最新教程IDEA版通俗易懂</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1qp4y1n7D1">2021 最新版 SpringMVC 视频教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mW411M7YA">尚硅谷SpringMVC实战教程完整版(spring mvc框架源码</a></p>
+<h2 id="Mybatis">8.3. Mybatis</h2><h3 id="知识点笔记-6">8.3.1. 知识点笔记</h3><p><a href="/zh-CN/2019/09/05/MyBatis%E5%AD%A6%E4%B9%A0">MyBatis学习笔记</a></p>
+<p><a href="/zh-CN/2019/12/27/MyBatis-Plus">MyBatis-Plus学习笔记</a></p>
+<h3 id="推荐视频-7">8.3.2. 推荐视频</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mW411M737">尚硅谷MyBatis实战教程全套完整版(初学者零基础从入门）</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NE411Q7Nx">【狂神说Java】Mybatis最新完整教程IDEA版通俗易懂</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c54y1a7GE">2021 最新版 MyBatis 视频教程</a></p>
+<h2 id="SpringCloud">8.4. SpringCloud</h2><h3 id="推荐视频-8">8.4.1. 推荐视频</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jJ411S7xr">【狂神说Java】SpringCloud最新教程IDEA</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18E411x7eT">尚硅谷SpringCloud框架开发教程</a></p>
+<h2 id="SpringBoot">8.5. SpringBoot</h2><h3 id="知识点笔记-7">8.5.1. 知识点笔记</h3><p><a href="/zh-CN/2019/10/07/SpringBoot">SpringBoot</a></p>
+<p><a href="/zh-CN/2019/10/22/SpringBoot-%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5">SpringBoot-数据连接</a></p>
+<p><a href="/zh-CN/2019/10/24/SpringBoot-%E9%AB%98%E7%BA%A7">SpringBoot-高级</a></p>
+<p><a href="/zh-CN/2019/10/24/SpringBoot-%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90">SpringBoot-原理解析</a></p>
+<h3 id="推荐视频-9">8.5.2. 推荐视频</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PE411i7CV">【狂神说Java】SpringBoot最新教程IDEA版通俗易懂</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV19K4y1L7MT">尚硅谷雷神SpringBoot2零基础入门</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Et411Y7tQ">2021版最新SpringBoot2_权威教程</a></p>
+<h1 id="源码研究">9. 源码研究</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1V7411U78L">Java源码盘起来！演示搭建JDK源码阅读环境</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uE411C7CW">源码级别_spring、springmvc、mybatis</a></p>
+<h1 id="开发工具">10. 开发工具</h1><h2 id="Maven">10.1. Maven</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1TW411g7hP">Maven零基础入门教程（一套轻松搞定maven工具）</a></p>
+<h2 id="IDEA">10.2. IDEA</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PW411X75p">尚硅谷IDEA教程(idea经典之作，idea安装，idea使用)</a></p>
+<h1 id="知识库">11. 知识库</h1><p><a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide">JavaGuide</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/CyC2018/CS-Notes">CS-Notes</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ZhongFuCheng3y/athena">Java-3y</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chucheng92/EasyJob">EasyJob</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.r2coding.com/">Road2Coding</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/07/24/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="Java学习路线">https://wtlumos.github.io/zh-CN/2019/07/24/Java学习路线/</a> -->
+    
+       <a href ="/zh-CN/2019/07/24/Java学习路线/" >/zh-CN/2019/07/24/Java学习路线/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-07-24 20:09
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-15 16:14
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E8%B7%AF%E7%BA%BF/" rel="tag"><i class="fa fa-tag"></i> 路线</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/08/09/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E5%85%B1%E4%BA%AB%E5%8D%95%E8%BD%A6/" rel="prev" title="微信小程序-共享单车">
+      <i class="fa fa-chevron-left"></i> 微信小程序-共享单车
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/07/01/hexo%E7%BD%91%E7%AB%99%E8%87%AA%E5%AE%9A%E4%B9%89404%E9%A1%B5%E9%9D%A2/" rel="next" title="hexo网站自定义404页面">
+      hexo网站自定义404页面 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%9F%BA%E6%9C%AC%E5%8A%9F"><span class="nav-text">1. Java基本功</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0"><span class="nav-text">1.1. 知识点笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91"><span class="nav-text">1.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E6%A0%B8%E5%BF%83"><span class="nav-text">2. Java核心</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-text">3. Java设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-1"><span class="nav-text">3.1. 知识点笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-1"><span class="nav-text">3.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E7%BD%91%E7%BB%9C-Servlet"><span class="nav-text">4. Java网络-Servlet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%B9%B6%E5%8F%91"><span class="nav-text">5. Java并发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-2"><span class="nav-text">5.1. 知识点笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-2"><span class="nav-text">5.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM"><span class="nav-text">6. JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-3"><span class="nav-text">6.1. 知识点笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-3"><span class="nav-text">6.2. 推荐视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E6%8E%A8%E8%8D%90"><span class="nav-text">6.3. 文章推荐</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaWeb"><span class="nav-text">7. JavaWeb</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-4"><span class="nav-text">7.1. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6"><span class="nav-text">8. 框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring"><span class="nav-text">8.1. Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-4"><span class="nav-text">8.1.1. 知识点笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-5"><span class="nav-text">8.1.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC"><span class="nav-text">8.2. SpringMVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-5"><span class="nav-text">8.2.1. 知识点笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-6"><span class="nav-text">8.2.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis"><span class="nav-text">8.3. Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-6"><span class="nav-text">8.3.1. 知识点笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-7"><span class="nav-text">8.3.2. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringCloud"><span class="nav-text">8.4. SpringCloud</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-8"><span class="nav-text">8.4.1. 推荐视频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot"><span class="nav-text">8.5. SpringBoot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0-7"><span class="nav-text">8.5.1. 知识点笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-9"><span class="nav-text">8.5.2. 推荐视频</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6"><span class="nav-text">9. 源码研究</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-text">10. 开发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven"><span class="nav-text">10.1. Maven</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDEA"><span class="nav-text">10.2. IDEA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%BA%93"><span class="nav-text">11. 知识库</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '863a810684347117f9c1e24ce3d2861c',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

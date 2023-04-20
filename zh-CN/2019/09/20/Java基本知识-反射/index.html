@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java反射在java.lang.reflect包中，具有分析类的能力，可以检查类的结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基本知识-反射">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/09/20/Java%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86-%E5%8F%8D%E5%B0%84/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="Java反射在java.lang.reflect包中，具有分析类的能力，可以检查类的结构。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-09-19T22:08:04.000Z">
+<meta property="article:modified_time" content="2021-12-31T14:50:36.998Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/09/20/Java%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86-%E5%8F%8D%E5%B0%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java基本知识-反射 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/09/20/Java%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86-%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基本知识-反射
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-20 06:08:04" itemprop="dateCreated datePublished" datetime="2019-09-20T06:08:04+08:00">2019-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-31 22:50:36" itemprop="dateModified" datetime="2021-12-31T22:50:36+08:00">2021-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">Java反射在java.lang.reflect包中，具有分析类的能力，可以检查类的结构。</blockquote>
+
+<span id="more"></span>
+
+<h1 id="反射">1. 反射</h1><p>反射之所以被称为框架的灵魂，主要是因为它赋予了在运行时分析类以及执行类中方法的能力。</p>
+<p>通过反射可以获取任意一个类的所有属性和方法，你还可以调用这些方法和属性。</p>
+<h2 id="应用场景">1.1. 应用场景</h2><p>Spring，Spring Boot，MyBatis等框架中大量使用了反射机制</p>
+<p>而框架中大量使用的注解也用到了反射。</p>
+<p>为什么使用 Spring 的时候 ，一个<code>@Component</code>注解就声明了一个类为 Spring Bean 呢？为什么你通过一个 <code>@Value</code>注解就读取到配置文件中的值呢？究竟是怎么起作用的呢？</p>
+<p>这些都是因为基于反射分析类，然后获取到类&#x2F;属性&#x2F;方法&#x2F;方法的参数上的注解。</p>
+<h2 id="案例">1.2. 案例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;<span class="built_in">this</span>.name = name;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;<span class="keyword">return</span> name;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(String name)</span> &#123;<span class="built_in">this</span>.name = name;&#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;User&#123;&quot;</span>name=<span class="string">&#x27;&quot; + name + &#x27;</span>\<span class="string">&#x27;&#x27;</span> +, age=<span class="string">&quot; + age +&#x27;&#125;&#x27;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@Test</span></span><br><span class="line"><span class="string">void testSystem() throws Exception &#123;</span></span><br><span class="line"><span class="string">    //获取class对象</span></span><br><span class="line"><span class="string">    Class c = User.class;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    //获取构造器</span></span><br><span class="line"><span class="string">    Constructor con = c.getConstructor(String.class);</span></span><br><span class="line"><span class="string">    //实例化</span></span><br><span class="line"><span class="string">    Object user = (User)con.newInstance(&quot;</span>A<span class="string">&quot;);</span></span><br><span class="line"><span class="string">    //User&#123;name=&#x27;A&#x27;, age=0&#125;</span></span><br><span class="line"><span class="string">    System.out.println(user);</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">    //获取对象中的属性元素</span></span><br><span class="line"><span class="string">    Field na = c.getDeclaredField(&quot;</span>name<span class="string">&quot;);</span></span><br><span class="line"><span class="string">    //屏蔽访问检查</span></span><br><span class="line"><span class="string">    na.setAccessible(true);</span></span><br><span class="line"><span class="string">    na.set(user,&quot;</span>B<span class="string">&quot;);</span></span><br><span class="line"><span class="string">    //B</span></span><br><span class="line"><span class="string">    System.out.println(na.get(user));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Field age = c.getField(&quot;</span>age<span class="string">&quot;);</span></span><br><span class="line"><span class="string">    age.set(user,18);</span></span><br><span class="line"><span class="string">    //User&#123;name=&#x27;A&#x27;, age=18&#125;</span></span><br><span class="line"><span class="string">    System.out.println(user);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    //获取指定方法-getName()</span></span><br><span class="line"><span class="string">    Method getName = c.getMethod(&quot;</span>getName<span class="string">&quot;);</span></span><br><span class="line"><span class="string">    //调用方法</span></span><br><span class="line"><span class="string">    String name = (String)getName.invoke(user);</span></span><br><span class="line"><span class="string">    //A</span></span><br><span class="line"><span class="string">    System.out.println(name);</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="获取class实例">2. 获取class实例</h1><p>java.lang.class</p>
+<p>允许程序在运行时进行自我检查，同时也允许对其内部的成员进行操作。得到一个对象所属的类，获取一个类的所有成员变量和方法，在运行时创建对象，调用对象的方法。</p>
+<p>获取class类(专门的java类访问运行时类型信息)：</p>
+<ol>
+<li><p>class.forName(“包名.类名”)；</p>
+</li>
+<li><p>类名.class；</p>
+</li>
+<li><p>实例.getClass()</p>
+</li>
+<li><p>ClassLoader.loadClass(“包名.类名”)</p>
+<p>通过类加载器获取 Class 对象不会进行初始化，意味着不进行包括初始化等一些列步骤，静态块和静态对象不会得到执行</p>
+</li>
+</ol>
+<p>实例化：必须有public的无参构造器,<code>class.newInstance()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用运行时类的属性</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">c1</span> <span class="operator">=</span> User.class;</span><br><span class="line"><span class="comment">//通过运行时类的对象</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">c2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>().getClass();</span><br><span class="line"><span class="comment">//调用class的静态方法</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">c3</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;com.runaccepted.online.admin.User&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//true</span></span><br><span class="line">System.out.println(c1==c2);</span><br><span class="line"><span class="comment">//true</span></span><br><span class="line">System.out.println(c2==c3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用类的加载器</span></span><br><span class="line"><span class="type">ClassLoader</span> <span class="variable">classLoader</span> <span class="operator">=</span> SimpleTests.class.getClassLoader();</span><br><span class="line">Class&lt;?&gt; c4 = classLoader.loadClass(<span class="string">&quot;com.runaccepted.online.admin.User&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//true</span></span><br><span class="line">System.out.println(c3==c4);</span><br></pre></td></tr></table></figure>
+
+<h1 id="哪些类型可以有class对象">3. 哪些类型可以有class对象</h1><ol>
+<li><p>class：外部类，成员内部类，静态内部类，局部内部类，匿名内部类</p>
+</li>
+<li><p>interface：接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Comparable.class;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[]：数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">10</span>];</span><br><span class="line">Class&lt;? <span class="keyword">extends</span> <span class="title class_">int</span>[]&gt; arrClass = arr.getClass();</span><br><span class="line"></span><br><span class="line"><span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> String[].class;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enum：枚举</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Enum&gt; e = Enum.class;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>annotation：注解@interface</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">user</span> <span class="operator">=</span> Override.class;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>primitive type：基本数据类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Integer&gt; i = Integer.class;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>void</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Void&gt; v = Void.class;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="分析类">4. 分析类</h1><p>java.lang.reflect</p>
+<p><code>setAccessible(true)</code> 所有域设置为可访问，屏蔽访问检查</p>
+<h2 id="Field域">4.1. Field域</h2><p>获取Field对象方式：</p>
+<ul>
+<li>getFields() 当前运行时类及其父类中声明为public访问权限的属性</li>
+<li>getDeclaredFields() 运行时类的所有属性，不包含父类，包含private</li>
+<li>getField(String name) 返回指定名称的属性</li>
+</ul>
+<p>Field可用操作：</p>
+<ul>
+<li><p>get(Object) 返回对象中属性的值</p>
+</li>
+<li><p>getType() 属性的类型</p>
+</li>
+<li><p>getModifiers() 属性权限修饰符 <code>public class Modifier </code></p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>0</td>
+</tr>
+<tr>
+<td>public</td>
+<td>1</td>
+</tr>
+<tr>
+<td>private</td>
+<td>2</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>4</td>
+</tr>
+<tr>
+<td>static</td>
+<td>8</td>
+</tr>
+<tr>
+<td>final</td>
+<td>10</td>
+</tr>
+<tr>
+<td>synchronized</td>
+<td>20</td>
+</tr>
+<tr>
+<td>volatile</td>
+<td>40</td>
+</tr>
+<tr>
+<td>transient</td>
+<td>80</td>
+</tr>
+<tr>
+<td>native</td>
+<td>100</td>
+</tr>
+<tr>
+<td>interface</td>
+<td>200</td>
+</tr>
+<tr>
+<td>abstract</td>
+<td>400</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>4000</td>
+</tr>
+<tr>
+<td>synthetic</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>mandated</td>
+<td>8000</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">//4</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="comment">//25</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String name=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="comment">//2</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="comment">//0</span></span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testSystem</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> User.class;</span><br><span class="line">  </span><br><span class="line">    Field[] fields = c.getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field f:fields) &#123;</span><br><span class="line">        System.out.println(f.getName()+<span class="string">&quot; &quot;</span>+f.getModifiers());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Method方法">4.2. Method方法</h2><ul>
+<li><p>Method[] getMethods() 当前运行时类及其父类中声明为public访问权限的方法</p>
+</li>
+<li><p>Method[]  getDeclaredMethods()  当前运行时类的所有属性，不包含父类，包含private</p>
+</li>
+<li><p>Method  getDeclaredMethod(方法名,参数类型)  所有定义的方法</p>
+</li>
+<li><p>Class[] getReturnType() 返回值类型</p>
+</li>
+<li><p>Annotation[] getDeclaredAnnotations() 方法上的所有注解</p>
+</li>
+<li><p>Class[] getParameterTypes() 方法行参列表</p>
+</li>
+<li><p>Class[] getExceptionTypes 方法异常列表</p>
+</li>
+<li><p>Method getMethod(函数名，参数)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.class.getMethod(<span class="string">&quot;sqrt&quot;</span>,<span class="type">double</span>.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>invoke(Object obj, Object… args) 调用当前对象中的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Employee</span> <span class="variable">c</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Employee</span>(<span class="string">&quot;A&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">m</span> <span class="operator">=</span> Employee.class.getMethod(<span class="string">&quot;getName&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> (String)m.invoke(c);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Constructor构造器">4.3. Constructor构造器</h2><ul>
+<li>getConstructors() 当前运行时类中声明为public的构造器</li>
+<li>getConstructor(Class&lt;?&gt;… parameterTypes) 带参数的构造器</li>
+<li>getDeclaredContructors() 所有构造器</li>
+<li>getParameterTypes() 参数类型 Class[]</li>
+<li>Type getGenericSuperclass() 泛型父类</li>
+<li>Type getSuperclass() 父类</li>
+</ul>
+<h3 id="得到父类的泛型">4.3.1. 得到父类的泛型</h3><p><code>getGenericSuperclass()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Father</span>&lt;T&gt;&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span> <span class="keyword">extends</span> <span class="title class_">Father</span>&lt;String&gt;&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testSystem</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> User.class;</span><br><span class="line">    <span class="type">Type</span> <span class="variable">superclass</span> <span class="operator">=</span> c.getGenericSuperclass();</span><br><span class="line">    <span class="comment">//com.runaccepted.online.admin.Father&lt;java.lang.String&gt;</span></span><br><span class="line">    System.out.println(superclass);</span><br><span class="line">    <span class="type">ParameterizedType</span> <span class="variable">type</span> <span class="operator">=</span> (ParameterizedType) superclass;</span><br><span class="line">    Type[] types = type.getActualTypeArguments();</span><br><span class="line">    <span class="keyword">for</span> (Type t:types) &#123;</span><br><span class="line">        <span class="comment">//class java.lang.String</span></span><br><span class="line">        System.out.println(t);</span><br><span class="line">        <span class="comment">//java.lang.String</span></span><br><span class="line">        System.out.println(t.getTypeName());</span><br><span class="line"></span><br><span class="line">        <span class="type">Class</span> <span class="variable">ct</span> <span class="operator">=</span> (Class)t;</span><br><span class="line"></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">con</span> <span class="operator">=</span> ct.getDeclaredConstructor(String.class);</span><br><span class="line">        <span class="type">String</span> <span class="variable">aaa</span> <span class="operator">=</span> (String)con.newInstance(<span class="string">&quot;ABC&quot;</span>);</span><br><span class="line">        <span class="comment">//C</span></span><br><span class="line">        System.out.println(aaa.substring(<span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/09/20/Java%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86-%E5%8F%8D%E5%B0%84/" title="Java基本知识-反射">https://wtlumos.github.io/zh-CN/2019/09/20/Java基本知识-反射/</a> -->
+    
+       <a href ="/zh-CN/2019/09/20/Java基本知识-反射/" >/zh-CN/2019/09/20/Java基本知识-反射/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-09-20 06:08
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2021-12-31 22:50
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/20/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-Java8%E6%96%B0%E7%89%B9%E6%80%A7/" rel="prev" title="Java基础知识-Java8新特性">
+      <i class="fa fa-chevron-left"></i> Java基础知识-Java8新特性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/19/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%8F%8D%E5%B0%84/" rel="next" title="Java基本功-类加载机制与内存分析">
+      Java基本功-类加载机制与内存分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-text">1. 反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">1.1. 应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-text">1.2. 案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96class%E5%AE%9E%E4%BE%8B"><span class="nav-text">2. 获取class实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E5%8F%AF%E4%BB%A5%E6%9C%89class%E5%AF%B9%E8%B1%A1"><span class="nav-text">3. 哪些类型可以有class对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E7%B1%BB"><span class="nav-text">4. 分析类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Field%E5%9F%9F"><span class="nav-text">4.1. Field域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method%E6%96%B9%E6%B3%95"><span class="nav-text">4.2. Method方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constructor%E6%9E%84%E9%80%A0%E5%99%A8"><span class="nav-text">4.3. Constructor构造器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E7%88%B6%E7%B1%BB%E7%9A%84%E6%B3%9B%E5%9E%8B"><span class="nav-text">4.3.1. 得到父类的泛型</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'a0637621a9e4058a8801f0a70f7bc218',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

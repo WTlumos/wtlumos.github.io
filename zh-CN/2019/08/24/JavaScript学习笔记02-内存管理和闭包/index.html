@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="理解js的内存管理及垃圾回收，了解常见的GC算法，闭包的定义，访问过程，执行过程，内存泄漏问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript学习笔记02-内存管理和闭包">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="理解js的内存管理及垃圾回收，了解常见的GC算法，闭包的定义，访问过程，执行过程，内存泄漏问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/yinyong.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/root.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/bibao.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/heap.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/null.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/50percent.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/name.png">
+<meta property="article:published_time" content="2019-08-24T13:39:08.000Z">
+<meta property="article:modified_time" content="2023-04-19T12:12:51.098Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/yinyong.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JavaScript学习笔记02-内存管理和闭包 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript学习笔记02-内存管理和闭包
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-24 21:39:08" itemprop="dateCreated datePublished" datetime="2019-08-24T21:39:08+08:00">2019-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-19 20:12:51" itemprop="dateModified" datetime="2023-04-19T20:12:51+08:00">2023-04-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">理解js的内存管理及垃圾回收，了解常见的GC算法，闭包的定义，访问过程，执行过程，内存泄漏问题</blockquote>
+
+<span id="more"></span>
+
+<h1 id="认识内存管理">1. 认识内存管理</h1><ul>
+<li><p>不管什么样的编程语言，在代码的执行过程中都是需要给它分配内存的，不同的是某些编程语言需要手动的管理内存<strong>，</strong>某些编程语言可以自动管理内存</p>
+</li>
+<li><p>不管以什么样的方式来管理内存，内存的管理都会有如下的生命周期</p>
+<ol>
+<li>第一步：分配申请需要的内存(申请)</li>
+<li>第二步：使用分配的内存(存放一些东西，比如对象等)</li>
+<li>第三步：不需要使用时，对其进行释放</li>
+</ol>
+</li>
+<li><p>不同的编程语言对于第一步和第三步会有不同的实现</p>
+<ul>
+<li><code>手动管理内存</code>：比如C、C++，包括早期的OC，都是需要手动来管理内存的申请和释放的(malloc和free函数)</li>
+<li><code>自动管理内存</code>：比如Java、JavaScript、Python、Swift、Dart等，会自动管理内存</li>
+</ul>
+</li>
+<li><p>JavaScript通常情况下是不需要手动来管理的</p>
+</li>
+</ul>
+<h1 id="JS的内存管理">2. JS的内存管理</h1><ul>
+<li>JavaScript会在定义变量时分配内存</li>
+<li>但是内存分配方式是一样的吗?<ul>
+<li>JS对于<code>基本数据类型</code>内存的分配会在执行时，直接在<code>栈空间</code>进行分配</li>
+<li>JS对于<code>复杂数据类型</code>内存的分配会在<code>堆内存</code>中<code>开辟一块空间</code>，并且将这块空间的<code>指针返回值变量引用</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="JS的垃圾回收">3. JS的垃圾回收</h1><ul>
+<li><p>因为内存的大小是有限的，所以当内存不再需要的时候，需要对其进行释放，以便腾出更多的内存空间</p>
+</li>
+<li><p>在手动管理内存的语言中，需要通过一些方式自己来释放不再需要的内存，比如free函数</p>
+<ul>
+<li>但是这种管理的方式其实非常的低效，影响编写逻辑代码的效率</li>
+<li>并且这种方式对开发者的要求也很高，并且一不小心就会产生内存泄露</li>
+</ul>
+</li>
+<li><p>所以大部分现代的编程语言都是有自己的垃圾回收机制</p>
+<ul>
+<li>垃圾回收的英文是Garbage Collection，简称GC</li>
+<li>对于那些不再使用的对象，都称之为是垃圾，它需要被回收，以释放更多的内存空间</li>
+<li>而比如Java的运行环境JVM，JavaScript的运行环境js引擎都会内存垃圾回收器</li>
+<li><code>垃圾回收器也会简称为GC</code>，所以在很多地方可以看到GC其实指的是垃圾回收器</li>
+</ul>
+</li>
+<li><p>但是这里又出现了另外一个很关键的问题：GC怎么知道哪些对象是不再使用的呢?</p>
+<ul>
+<li>这里就要用到<code>GC的算法</code>了</li>
+</ul>
+</li>
+</ul>
+<h1 id="常见的GC算法">4. 常见的GC算法</h1><h2 id="引用计数">4.1. 引用计数</h2><ul>
+<li>当一个对象有一个引用指向它时，那么这个对象的引用就+1，当一个对象的引用为0时，这个对象就可以被销毁掉</li>
+<li>这个算法有一个很大的弊端就是会产生循环引用</li>
+</ul>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/yinyong.png"></p>
+<h2 id="标记清除">4.2. 标记清除</h2><ul>
+<li>这个算法是设置一个根对象(root object)，垃圾回收器会定期从这个根开始，找所有从根开始有引用到的对象，对于哪些没有引用到的对象，就认为是不可用的对象</li>
+<li>这个算法可以很好的解决循环引用的问题</li>
+<li><code>JS引擎</code>比较广泛的采用的就是<code>标记清除算法</code>，当然类似于V8引擎为了进行更好的优化，它在算法的实现细节上也会结合一些其他的算法</li>
+</ul>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/root.png"></p>
+<h1 id="闭包">5. 闭包</h1><h2 id="JS中函数是一等公民">5.1. JS中函数是一等公民</h2><ul>
+<li><p>在JavaScript中，函数是非常重要的，并且是一等公民</p>
+<ul>
+<li>那么就意味着函数的使用是非常灵活的</li>
+<li>函数可以作为另外一个函数的参数，也可以作为另外一个函数的返回值来使用</li>
+</ul>
+</li>
+<li><p>高阶函数</p>
+<ul>
+<li>把一个函数如果接受另一个函数作为参数，或者该函数会返回另外一个函数作为返回值的函数称为高阶函数</li>
+</ul>
+</li>
+<li><p>函数</p>
+<ul>
+<li><p>独立的function称为一个函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>方法</p>
+<ul>
+<li><p>当一个函数属于某一个对象是，称这个函数为这个对象的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">foo</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.<span class="title function_">foo</span>()</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="JS中闭包的定义">5.2. JS中闭包的定义</h2><ul>
+<li><p>这里先来看一下闭包的定义，分成两个</p>
+<ul>
+<li>在计算机科学中</li>
+<li>在JavaScript中</li>
+</ul>
+</li>
+<li><p><code>在计算机科学</code>中对闭包的定义(维基百科)</p>
+<ul>
+<li>闭包(Closure)，又称词法闭包(Lexical Closure)或函数闭包(function closures)</li>
+<li>是在支持<code>头等函数</code>的编程语言中，实现词法绑定的一种技术</li>
+<li>闭包在实现上是一个结构体，它存储了<code>一个函数和一个关联的环境</code>(相当于一个符号查找表)</li>
+<li>闭包跟函数最大的区别在于，当捕捉闭包的时候，它的<code>自由变量</code>会在补充时被确定，这样即使脱离了捕捉时的上下文，它也能照常运行</li>
+</ul>
+</li>
+<li><p>闭包的概念出现于60年代，最早实现闭包的程序是 Scheme，那么就可以理解为什么JavaScript中有闭包</p>
+<ul>
+<li>因为JavaScript中有大量的设计是来源于Scheme的</li>
+</ul>
+</li>
+<li><p>再来看一下MDN对JavaScript闭包的解释</p>
+<ul>
+<li>一个函数和对其周围状态(lexical environment，词法环境)的引用捆绑在一起(或者说函数被引用包围)，这样的组合就是闭包(closure)</li>
+<li>也就是说，闭包让你可以在一个内层函数中访问到其外层函数的作用域</li>
+<li>在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来;</li>
+</ul>
+</li>
+<li><p>理解和总结</p>
+<ul>
+<li><p>一个普通的函数function，如果<code>可以访问</code>外层作用于的自由变量，那么这个函数就是一个闭包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从广义的角度来说，JavaScript中的函数都是闭包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&quot;test&quot;</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从狭义的角度来说，JavaScript中一个函数，如果<code>访问了</code>外层作用于的变量，那么它是一个闭包</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="闭包的执行过程">5.3. 闭包的执行过程</h2><ul>
+<li><p>如果编写了如下的代码，它一定是形成了闭包的</p>
+<p>匿名函数需要使用父级作用域中的count变量</p>
+</li>
+<li><p>那么函数继续执行呢</p>
+<ul>
+<li>makeAdder函数执行完毕，正常情况下AO对象会被释放;</li>
+<li>但是因为在0xb00的函数中有作用域引用指向了这个AO对象，所以它不会被释放掉;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">makeAdder</span>(<span class="params">count</span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">num</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> count+num</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add10 = <span class="title function_">makeAdder</span>(<span class="number">10</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add10</span>(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/bibao.png"></p>
+<h2 id="闭包的内存泄露">5.4. 闭包的内存泄露</h2><ul>
+<li><p>那么为什么经常会说闭包是有内存泄露的呢</p>
+<ul>
+<li>在上面的案例中，如果后续不再使用add10函数了，那么该函数对象应该要被销毁掉，并且其引用着的父作用域AO也应该被销毁掉</li>
+<li>但是目前因为在全局作用域下add10变量对0xb00的函数对象有引用，而0xb00的作用域中AO(0x200)有引用，所以最终会造成这些内存都是无法被释放的</li>
+<li>所以经常说的闭包会造成内存泄露，其实就是刚才的引用链中的所有对象都是无法释放的;</li>
+</ul>
+</li>
+<li><p>那么，怎么解决这个问题呢</p>
+<ul>
+<li>因为当将add10设置为null时，就不再对函数对象0xb00有引用，那么对应的AO对象0x200也就不可达了</li>
+<li>在GC的下一次检测中，它们就会被销毁掉</li>
+</ul>
+</li>
+</ul>
+<h2 id="闭包的内存泄漏测试">5.5. 闭包的内存泄漏测试</h2><h3 id="数组对象">5.5.1. 数组对象</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">testArray</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// int - 4字节</span></span><br><span class="line">    <span class="comment">// 4B*1024*1024 = 4MB</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1024</span>*<span class="number">1024</span>).<span class="title function_">fill</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="property">length</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arrFns = []</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    arrFns.<span class="title function_">push</span>(<span class="title function_">testArray</span>())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>arrFns数组中的每一个元素指向着每一个testArray函数中匿名函数对象，而每一个匿名函数中的父级作用域指向每一个testArray函数的AO对象中的arr数组，都不会被释放</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/heap.png"></p>
+<h3 id="释放数组对象">5.5.2. 释放数组对象</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">testArray</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// int - 4字节</span></span><br><span class="line">    <span class="comment">// 4B*1024*1024 = 4MB</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1024</span>*<span class="number">1024</span>).<span class="title function_">fill</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="property">length</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arrFns = []</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    arrFns.<span class="title function_">push</span>(<span class="title function_">testArray</span>())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    arrFns = <span class="literal">null</span></span><br><span class="line">&#125;,<span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对象的释放并不是马上执行的，要等到GC进行扫描时才会执行</p>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/null.png"></p>
+<h3 id="释放50-数组指向">5.5.3. 释放50%数组指向</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">testArray</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// int - 4字节</span></span><br><span class="line">    <span class="comment">// 4B*1024*1024 = 4MB</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1024</span>*<span class="number">1024</span>).<span class="title function_">fill</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="property">length</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arrFns = []</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    <span class="comment">// 让对象逐0.1s递增</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        arrFns.<span class="title function_">push</span>(<span class="title function_">testArray</span>())</span><br><span class="line">    &#125;,<span class="number">100</span>*i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// arrFns = null</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">50</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">            arrFns.<span class="title function_">pop</span>()</span><br><span class="line">        &#125;,<span class="number">100</span>*i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/50percent.png"></p>
+<h2 id="AO不使用的属性">5.6. AO不使用的属性</h2><ul>
+<li><p>来研究一个问题：AO对象不会被销毁时，是否里面的所有属性都不会被释放? </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">makeAdder</span>(<span class="params">count</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">&quot;test&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">num</span>)&#123;</span><br><span class="line">        <span class="keyword">debugger</span></span><br><span class="line">        <span class="keyword">return</span> count+num</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> add10 = <span class="title function_">makeAdder</span>(<span class="number">10</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add10</span>(<span class="number">5</span>))</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add10</span>(<span class="number">8</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这段代码中name属于闭包的父作用域里面的变量</li>
+<li>形成闭包之后count一定不会被销毁掉，那么name是否会被销毁掉呢? </li>
+<li>打上断点，在浏览器上看看结果;</li>
+</ul>
+</li>
+</ul>
+<p><img src="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/name.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E9%97%AD%E5%8C%85/" title="JavaScript学习笔记02-内存管理和闭包">https://wtlumos.github.io/zh-CN/2019/08/24/JavaScript学习笔记02-内存管理和闭包/</a> -->
+    
+       <a href ="/zh-CN/2019/08/24/JavaScript学习笔记02-内存管理和闭包/" >/zh-CN/2019/08/24/JavaScript学习笔记02-内存管理和闭包/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-08-24 21:39
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-04-19 20:12
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/08/25/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-JS%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91/" rel="prev" title="JavaScript学习笔记03-JS函数的this指向">
+      <i class="fa fa-chevron-left"></i> JavaScript学习笔记03-JS函数的this指向
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/08/24/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/" rel="next" title="JavaScript学习笔记01-理解运行原理">
+      JavaScript学习笔记01-理解运行原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">1. 认识内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JS%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">2. JS的内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JS%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-text">3. JS的垃圾回收</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84GC%E7%AE%97%E6%B3%95"><span class="nav-text">4. 常见的GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-text">4.1. 引用计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="nav-text">4.2. 标记清除</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AD%E5%8C%85"><span class="nav-text">5. 闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS%E4%B8%AD%E5%87%BD%E6%95%B0%E6%98%AF%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91"><span class="nav-text">5.1. JS中函数是一等公民</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS%E4%B8%AD%E9%97%AD%E5%8C%85%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">5.2. JS中闭包的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="nav-text">5.3. 闭包的执行过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2"><span class="nav-text">5.4. 闭包的内存泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%B5%8B%E8%AF%95"><span class="nav-text">5.5. 闭包的内存泄漏测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><span class="nav-text">5.5.1. 数组对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8A%E6%94%BE%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><span class="nav-text">5.5.2. 释放数组对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8A%E6%94%BE50-%E6%95%B0%E7%BB%84%E6%8C%87%E5%90%91"><span class="nav-text">5.5.3. 释放50%数组指向</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AO%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-text">5.6. AO不使用的属性</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '9a81d1550f58beccb4d08e808f74bfea',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Parallels安装 CentOS7安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parallels Desktop 15 For Mac 破解版">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="Parallels安装 CentOS7安装">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/setup.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/active.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/nocheck.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/tools.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/tooldis.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/kelong.png">
+<meta property="article:published_time" content="2020-03-30T14:36:10.000Z">
+<meta property="article:modified_time" content="2021-10-29T06:22:37.351Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/setup.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Parallels Desktop 15 For Mac 破解版 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Parallels Desktop 15 For Mac 破解版
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-30 22:36:10" itemprop="dateCreated datePublished" datetime="2020-03-30T22:36:10+08:00">2020-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-29 14:22:37" itemprop="dateModified" datetime="2021-10-29T14:22:37+08:00">2021-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">Parallels安装 CentOS7安装</blockquote>
+
+<span id="more"></span>
+
+<h1 id="Parallels-Desktop-15-安装">1. Parallels Desktop 15 安装</h1><p>官网 <a target="_blank" rel="noopener" href="https://www.parallels.cn/products/desktop/buy/">https://www.parallels.cn/products/desktop/buy/</a></p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1A4F2RhT4bT-SLK70jLXAoQ">https://pan.baidu.com/s/1A4F2RhT4bT-SLK70jLXAoQ</a>  密码: 08f0</p>
+<p>安装不要联网！不要联网！</p>
+<p>双击安装</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/setup.png"></p>
+<p>出现 <font color="#f00">无法打开“Parallels Desktop.app”,因为Apple无法检查其是否包含恶意软件</font></p>
+<p>终端输入 <code>sudo spctl --master-disable</code>  允许任何来源的安装</p>
+<p>而后不检查更新，这就是不联网的原因，安装当前版</p>
+<p>最终</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/active.png"></p>
+<p>关闭检查</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/nocheck.png"></p>
+<p>同样不联网，安装Parallels Tools</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/tools.png"></p>
+<p>禁用</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/tooldis.png"></p>
+<h1 id="安装win10">2. 安装win10</h1><p>ed2k:&#x2F;&#x2F;|file|cn_windows_10_multi-edition_vl_version_1709_updated_sept_2017_x64_dvd_100090774.iso|4630972416|8867C5E54405FF9452225B66EFEE690A|&#x2F;</p>
+<h1 id="CentOS-7下载及配置">3. CentOS 7下载及配置</h1><p><a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/centos/7.7.1908/isos/x86_64/">http://mirrors.aliyun.com/centos/7.7.1908/isos/x86_64/</a></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">CentOS-7-x86_64-DVD-1908.iso</span>                       <span class="string">没有桌面(选择☑️)</span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-DVD-1908.torrent</span>                   <span class="string"></span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-Everything-1908.iso</span>                <span class="string">完整版，集成所有软件</span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-Everything-1908.torrent</span>            <span class="string"></span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-LiveGNOME-1908.iso</span>                 <span class="string">有桌面版         </span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-LiveGNOME-1908.torrent</span>             <span class="string"></span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-LiveKDE-1908.iso</span>                   <span class="string">有桌面版</span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-LiveKDE-1908.torrent</span>               <span class="string"></span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-Minimal-1908.iso</span>                   <span class="string">精简版，自带的软件最少</span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-Minimal-1908.torrent</span>               <span class="string"></span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-NetInstall-1908.iso</span>                <span class="string">网络安装版</span></span><br><span class="line"><span class="attr">CentOS-7-x86_64-NetInstall-1908.torrent</span>  <span class="string"></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看ip-固定ip">3.1. 查看ip-固定ip</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ip address</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ip相关配置文件">3.2. ip相关配置文件</h2><p>&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth0</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost network-scripts]$ cd /etc/sysconfig/network-scripts</span><br><span class="line">[linux@localhost network-scripts]$ ls</span><br><span class="line">ifcfg-eth0  ifdown-bnep  ifdown-ipv6  ifdown-ppp     ifdown-Team      ifup          ifup-eth   ifup-isdn   ifup-post    ifup-sit       ifup-tunnel       network-functions</span><br><span class="line">ifcfg-lo    ifdown-eth   ifdown-isdn  ifdown-routes  ifdown-TeamPort  ifup-aliases  ifup-ippp  ifup-plip   ifup-ppp     ifup-Team      ifup-wireless     network-functions-ipv6</span><br><span class="line">ifdown      ifdown-ippp  ifdown-post  ifdown-sit     ifdown-tunnel    ifup-bnep     ifup-ipv6  ifup-plusb  ifup-routes  ifup-TeamPort  init.ipv6-global</span><br><span class="line">[linux@192 network-scripts]$ vi ifcfg-eth0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">默认配置</span></span><br><span class="line">TYPE=&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD=&quot;none&quot;</span><br><span class="line">BROWSER_ONLY=&quot;no&quot;</span><br><span class="line">BOOTPROTO=&quot;static&quot;</span><br><span class="line">DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6INIT=&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF=&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;</span><br><span class="line">NAME=&quot;eth0&quot;</span><br><span class="line">UUID=&quot;0ae56f0b-16f1-42cd-adc0-b3bc4daa57c2&quot;</span><br><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改配置</span></span><br><span class="line">TYPE=&quot;Ethernet&quot; #网关类型：以太网</span><br><span class="line">BOOTPROTO=&quot;static&quot; #ip设置：静态ip</span><br><span class="line">DEVICE=&quot;eth0&quot; #网卡名</span><br><span class="line">ONBOOT=&quot;yes&quot; #随系统启动</span><br><span class="line">IPADDR=&quot;192.168.0.101&quot; #ip地址</span><br><span class="line">GATEWAY=&quot;192.168.0.1&quot; #网关</span><br><span class="line">NETMASK=&quot;255.255.255.0&quot; #子网掩码</span><br><span class="line">DNS1=&quot;8.8.8.8&quot; #谷歌免费dns</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br><span class="line">[linux@localhost network-scripts]$ reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mac-连接linux">3.3. Mac 连接linux</h2><p><code>ssh 用户名@ip</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LearningtekiMacBook-Air:myblog Learning$ ssh linux@192.168.0.101</span><br><span class="line">[linux@192 ~]$ </span><br><span class="line">[linux@192 ~]$ ip addr</span><br><span class="line">2: eth0: inet 192.168.0.101/24 </span><br><span class="line">[linux@192 ~]$ </span><br><span class="line">[linux@192 ~]$ </span><br></pre></td></tr></table></figure>
+
+<h2 id="防火墙">3.4. 防火墙</h2><p>查看防火墙状态： service firewalld status</p>
+<p>启动防火墙：  systemctl start firewalld</p>
+<p>停止防火墙：  systemctl stop firewalld </p>
+<p>禁用防火墙：  systemctl disable firewalld</p>
+<hr>
+
+<p>查看版本： firewall-cmd –version</p>
+<p>查看帮助： firewall-cmd –help </p>
+<p>显示状态： firewall-cmd –state</p>
+<p>开启端口：firewall-cmd –zone&#x3D;public(作用域) –add-port&#x3D;80&#x2F;tcp(端口和访问类型) –permanent(永久生效)</p>
+<p>更新防火墙：firewall-cmd –reload</p>
+<p>查看该端口是否开启：firewall-cmd –zone&#x3D; public –query-port&#x3D;80&#x2F;tcp </p>
+<p>关闭端口：firewall-cmd –zone&#x3D; public –remove-port&#x3D;80&#x2F;tcp –permanent </p>
+<h2 id="yum源中加入阿里云源">3.5. yum源中加入阿里云源</h2><ol>
+<li><p>打开centos的yum文件夹 </p>
+<p>cd  &#x2F;etc&#x2F;yum.repos.d&#x2F;</p>
+</li>
+<li><p>用wget下载repo文件 </p>
+<p>wget  <a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/repo/Centos-7.repo">http://mirrors.aliyun.com/repo/Centos-7.repo</a></p>
+<p>如果wget命令不生效</p>
+<p>yum -y install wget</p>
+</li>
+<li><p>备份系统原来的repo文件 </p>
+<p>mv  CentOS-Base.repo CentOs-Base.repo.bak</p>
+</li>
+<li><p>替换系统原理的repo文件</p>
+<p>mv Centos-7.repo CentOS-Base.repo</p>
+</li>
+<li><p>执行yum源更新命令</p>
+<p>yum clean all</p>
+<p>yum makecache</p>
+<p>yum update</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ su</span><br><span class="line">Password:</span><br><span class="line">[root@localhost linux]# cd /etc/yum.repos.d/</span><br><span class="line">[root@localhost yum.repos.d]# ls</span><br><span class="line">CentOS-Base.repo      CentOS-CR.repo         CentOS-fasttrack.repo  CentOS-Sources.repo</span><br><span class="line">CentOS-Debuginfo.repo  CentOS-Media.repo      CentOS-Vault.repo</span><br><span class="line">[root@localhost yum.repos.d]# yum -y install wget</span><br><span class="line">[root@localhost yum.repos.d]# wget  http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">[root@localhost yum.repos.d]# mv CentOS-Base.repo CentOs-Base.repo.bak</span><br><span class="line">[root@localhost yum.repos.d]# mv Centos-7.repo CentOs-Base.repo</span><br><span class="line">[root@localhost yum.repos.d]# yum clean all</span><br><span class="line">[root@localhost yum.repos.d]# yum makecache</span><br><span class="line">[root@localhost yum.repos.d]# yum update</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装docker">4. 安装docker</h1><p><a target="_blank" rel="noopener" href="https://www.runaccepted.com/2019/10/21/Docker/">https://www.runaccepted.com/2019/10/21/Docker/</a></p>
+<h1 id="重启后docker无法启动">5. 重启后docker无法启动</h1><p><code>Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</code></p>
+<p>解决：</p>
+<p><code>systemctl daemon-reload</code></p>
+<p><code>service docker restart</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ docker ps</span><br><span class="line">Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$</span><br><span class="line">[linux@localhost ~]$ systemctl daemon-reload</span><br><span class="line">==== AUTHENTICATING FOR org.freedesktop.systemd1.reload-daemon ===</span><br><span class="line">Authentication is required to reload the systemd state.</span><br><span class="line">Authenticating as: root</span><br><span class="line">Password: </span><br><span class="line">==== AUTHENTICATION COMPLETE ===</span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ service docker restart</span><br><span class="line">Redirecting to /bin/systemctl restart docker.service</span><br><span class="line">==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===</span><br><span class="line">Authentication is required to manage system services or units.</span><br><span class="line">Authenticating as: root</span><br><span class="line">Password: </span><br><span class="line">==== AUTHENTICATION COMPLETE ===</span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ docker ps</span><br><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/json: dial unix /var/run/docker.sock: connect: permission denied</span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ su</span><br><span class="line">密码：</span><br><span class="line">[root@localhost linux]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">[root@localhost linux]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS                       PORTS               NAMES</span><br><span class="line">19d9ac40ba76        elasticsearch:5.6.11   &quot;/docker-entrypoint.…&quot;   8 hours ago         Exited (143) 6 minutes ago                       elasticsearch</span><br><span class="line">c7473e2145bc        logstash:5.6.11        &quot;/docker-entrypoint.…&quot;   9 hours ago         Exited (137) 8 hours ago                         logstash</span><br><span class="line">7122d84209e4        kibana:5.6.11          &quot;/docker-entrypoint.…&quot;   10 hours ago        Exited (143) 8 hours ago                         kibana</span><br><span class="line">[root@localhost linux]#</span><br></pre></td></tr></table></figure>
+
+<h1 id="克隆linux">6. 克隆linux</h1><p>在关机情况下操作</p>
+<p><img src="/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/kelong.png"></p>
+<p>修改IP地址 为192.168.0.102</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ cd /etc/sysconfig/network-scripts</span><br><span class="line">[linux@localhost network-scripts]$ nano ifcfg-eth0</span><br><span class="line"></span><br><span class="line">TYPE=&quot;Ethernet&quot;</span><br><span class="line">BOOTPROTO=&quot;static&quot;</span><br><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">IPADDR=&quot;192.168.0.102&quot;</span><br><span class="line">GATEWAY=&quot;192.168.0.1&quot;</span><br><span class="line">NETMASK=&quot;255.255.255.0&quot;</span><br><span class="line">DNS1=&quot;8.8.8.8&quot;</span><br><span class="line"></span><br><span class="line">[linux@localhost network-scripts]$ </span><br></pre></td></tr></table></figure>
+
+<p>删除Linux物理地址绑定的文件（该文件会在操作系统重启并生成物理地址以后将物理地址绑定到IP上</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost network-scripts]$ rm -rf /etc/udev/rules.d/70-persistent-net.rules</span><br><span class="line">[linux@localhost network-scripts]$ reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mac-连接linux2">6.1. Mac 连接linux2</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LearningtekiMacBook-Air:myblog Learning$ ssh linux@192.168.0.102</span><br><span class="line">[linux@localhost ~]$ </span><br><span class="line">[linux@localhost ~]$ ip addr</span><br><span class="line">2: eth0: inet 192.168.0.102/24 </span><br><span class="line">[linux@localhost ~]$ </span><br></pre></td></tr></table></figure>
+
+<p>启动elasticsearch</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS                        PORTS               NAMES</span><br><span class="line">19d9ac40ba76        elasticsearch:5.6.11   &quot;/docker-entrypoint.…&quot;   9 hours ago         Exited (143) 40 minutes ago                       elasticsearch</span><br><span class="line">[root@localhost network-scripts]# docker start 19d9ac40ba76</span><br><span class="line">19d9ac40ba76</span><br><span class="line">[root@localhost network-scripts]# </span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://192.168.0.102:9200/">http://192.168.0.102:9200/</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// http://192.168.0.102:9200/</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;efBli3S&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;elasticsearch&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_uuid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;RmnRPDI-T4G8hOH92bX5wQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;number&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.6.11&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_hash&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bc3eef4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2018-08-16T15:25:17.293Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_snapshot&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lucene_version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;6.6.1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tagline&quot;</span><span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="再重启ssh拒绝-Connection-refused">6.2. 再重启ssh拒绝 Connection refused</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LearningtekiMacBook-Air:~ Learning$ ssh linux@192.168.0.102</span><br><span class="line">ssh: connect to host 192.168.0.102 port 22: Connection refused</span><br><span class="line">LearningtekiMacBook-Air:~ Learning$ </span><br></pre></td></tr></table></figure>
+
+<p>查看ssh是否启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ ps -e | grep ssh</span><br><span class="line">  981 ?        00:00:00 sshd</span><br><span class="line">[linux@localhost ~]$</span><br></pre></td></tr></table></figure>
+
+<p>查看22端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ ss -lnt</span><br><span class="line">State      Recv-Q Send-Q                          Local Address:Port                                         Peer Address:Port              </span><br><span class="line">LISTEN     0      128                                         *:22                                                      *:*                  </span><br><span class="line">LISTEN     0      100                                 127.0.0.1:25                                                      *:*                  </span><br><span class="line">LISTEN     0      128                                      [::]:22                                                   [::]:*                  </span><br><span class="line">LISTEN     0      100                                     [::1]:25                                                   [::]:*                  </span><br><span class="line">[linux@localhost ~]$ </span><br></pre></td></tr></table></figure>
+
+<p>查看hosts名单</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br></pre></td></tr></table></figure>
+
+<p>添加本地ip和hostname</p>
+<p>– 本机hostname是？ ping 192.168.0.100</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ ping 192.168.0.100</span><br><span class="line">PING 192.168.0.100 (192.168.0.100) 56(84) bytes of data.</span><br><span class="line">64 bytes from 192.168.0.100: icmp_seq=1 ttl=64 time=0.165 ms</span><br><span class="line">64 bytes from 192.168.0.100: icmp_seq=2 ttl=64 time=0.274 ms</span><br><span class="line">64 bytes from 192.168.0.100: icmp_seq=3 ttl=64 time=0.374 ms</span><br><span class="line">^C</span><br><span class="line">--- 192.168.0.100 ping statistics ---</span><br><span class="line">3 packets transmitted, 3 received, 0% packet loss, time 2002ms</span><br><span class="line">rtt min/avg/max/mdev = 0.165/0.271/0.374/0.085 ms</span><br><span class="line">[linux@localhost ~]$ </span><br></pre></td></tr></table></figure>
+
+<p>hostname就是ip吧，添加</p>
+<p><code>192.168.0.100 192.168.0.100</code></p>
+<p><strong>ssh hostname</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[linux@localhost ~]$ ssh 192.168.0.100</span><br><span class="line">Warning: Permanently added &#x27;192.168.0.100&#x27; (ECDSA) to the list of known hosts.</span><br></pre></td></tr></table></figure>
+
+<p>再次ssh linux2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LearningtekiMacBook-Air:~ Learning$ ssh linux@192.168.0.102</span><br><span class="line">linux@192.168.0.102&#x27;s password: </span><br><span class="line">[linux@localhost ~]$</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2020/03/30/Parallels%E5%AE%89%E8%A3%85/" title="Parallels Desktop 15 For Mac 破解版">https://wtlumos.github.io/zh-CN/2020/03/30/Parallels安装/</a> -->
+    
+       <a href ="/zh-CN/2020/03/30/Parallels安装/" >/zh-CN/2020/03/30/Parallels安装/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2020-03-30 22:36
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2021-10-29 14:22
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/04/19/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-ApacheAB/" rel="prev" title="压力测试工具-ApacheAB">
+      <i class="fa fa-chevron-left"></i> 压力测试工具-ApacheAB
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/03/29/ElasticSearch%E5%AE%89%E8%A3%85%E5%8F%8A%E5%AE%9E%E8%B7%B5/" rel="next" title="ElasticSearch安装及实践">
+      ElasticSearch安装及实践 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Parallels-Desktop-15-%E5%AE%89%E8%A3%85"><span class="nav-text">1. Parallels Desktop 15 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85win10"><span class="nav-text">2. 安装win10</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS-7%E4%B8%8B%E8%BD%BD%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="nav-text">3. CentOS 7下载及配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bip-%E5%9B%BA%E5%AE%9Aip"><span class="nav-text">3.1. 查看ip-固定ip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">3.2. ip相关配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mac-%E8%BF%9E%E6%8E%A5linux"><span class="nav-text">3.3. Mac 连接linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-text">3.4. 防火墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yum%E6%BA%90%E4%B8%AD%E5%8A%A0%E5%85%A5%E9%98%BF%E9%87%8C%E4%BA%91%E6%BA%90"><span class="nav-text">3.5. yum源中加入阿里云源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker"><span class="nav-text">4. 安装docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%90%8Edocker%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8"><span class="nav-text">5. 重启后docker无法启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8B%E9%9A%86linux"><span class="nav-text">6. 克隆linux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mac-%E8%BF%9E%E6%8E%A5linux2"><span class="nav-text">6.1. Mac 连接linux2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E9%87%8D%E5%90%AFssh%E6%8B%92%E7%BB%9D-Connection-refused"><span class="nav-text">6.2. 再重启ssh拒绝 Connection refused</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">2.9m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">44:22</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '2199b36dfc5ff6e196b23f3f21c25061',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>
