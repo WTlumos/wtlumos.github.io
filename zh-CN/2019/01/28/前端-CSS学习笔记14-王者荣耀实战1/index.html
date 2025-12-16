@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="实现王者荣耀首页 https:&#x2F;&#x2F;pvp.qq.com&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-CSS学习笔记14-王者荣耀实战">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="实现王者荣耀首页 https:&#x2F;&#x2F;pvp.qq.com&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.top.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/top.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/a.logo.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/img.ost-ads.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/a.ost-big.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.platform.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend-box.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend-box.title.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.rank.hot.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.rank.new.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.header.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.header_wrapper.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/h1.logo.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/ul.list.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.login.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.sub-nav.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.wrapper.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.bg-container.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.main-top.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.main-top.left.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.right.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.center.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.nav.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.news.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.quick-entrance.png">
+<meta property="article:published_time" content="2019-01-28T13:23:23.000Z">
+<meta property="article:modified_time" content="2023-08-10T12:52:03.674Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.top.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-CSS学习笔记14-王者荣耀实战 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-CSS学习笔记14-王者荣耀实战
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-28 21:23:23" itemprop="dateCreated datePublished" datetime="2019-01-28T21:23:23+08:00">2019-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-10 20:52:03" itemprop="dateModified" datetime="2023-08-10T20:52:03+08:00">2023-08-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>26k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>23 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">实现王者荣耀首页 <a target="_blank" rel="noopener" href="https://pvp.qq.com/">https://pvp.qq.com/</a></blockquote>
+
+<span id="more"></span>
+
+<h1 id="整体代码">1. 整体代码</h1><p><a href="/pvp.zip">pvp.zip</a></p>
+<h1 id="重置样式">2. 重置样式</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>,<span class="selector-tag">div</span>,<span class="selector-tag">ul</span>,<span class="selector-tag">li</span>,<span class="selector-tag">p</span>,<span class="selector-tag">span</span>,<span class="selector-tag">a</span>,<span class="selector-tag">h1</span>,<span class="selector-tag">dl</span>,<span class="selector-tag">dt</span>,<span class="selector-tag">dd</span>,<span class="selector-tag">em</span>,<span class="selector-tag">i</span>,<span class="selector-tag">table</span>,<span class="selector-tag">thead</span>,<span class="selector-tag">tbody</span>,<span class="selector-tag">tr</span>,<span class="selector-tag">td</span>&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">font</span>: <span class="number">14px</span>/<span class="number">1.5</span> <span class="string">&quot;Microsoft YaHei&quot;</span>,Tahoma,<span class="string">&quot;simsun&quot;</span>,sans-serif;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span>,<span class="selector-tag">li</span> &#123;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">  <span class="attribute">outline</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">img</span> &#123;</span><br><span class="line">  <span class="attribute">vertical-align</span>: top;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">i</span>,<span class="selector-tag">em</span> &#123;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">table</span> &#123;</span><br><span class="line">  <span class="comment">/* 合并单元格边框 */</span></span><br><span class="line">  <span class="attribute">border-collapse</span>: collapse;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span>,<span class="selector-tag">th</span>,<span class="selector-tag">tr</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: none; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="共同样式">3. 共同样式</h1><h2 id="尺寸">3.1. 尺寸</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper_01</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">980px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.wrapper_02</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">1300px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.wrapper_03</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">890px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.wrapper_04</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">1200px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="图标">3.2. 图标</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.title_icon_01</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/title_sprite.png</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.title_icon_02</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/title_sprite.png</span>) no-repeat -<span class="number">30px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.content_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">22px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">23px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">1px</span> -<span class="number">107px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.game_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">24px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">29px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">2px</span> -<span class="number">183px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.add_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">14px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">252px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.hero_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">18px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">1px</span> -<span class="number">144px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.calendar_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">23px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">23px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">157px</span> -<span class="number">107px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.select_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">11px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">6px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">256px</span> -<span class="number">28px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.money_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">18px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">252px</span> -<span class="number">88px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mask_icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">40px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">40px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat -<span class="number">192px</span> -<span class="number">64px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tencent_logo</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">285px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">64px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">&#x27;../img/sprite/foot-sprite.png&#x27;</span>) no-repeat;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.beauty_logo</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">70px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">64px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">&#x27;../img/sprite/foot-sprite.png&#x27;</span>) no-repeat -<span class="number">285px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="清浮动">3.3. 清浮动</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 清浮动 */</span></span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">visibility</span>: hidden;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="top">4. top</h1><h2 id="思路">4.1. 思路</h2><p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.top.png"></p>
+<ul>
+<li>div.top 中包含一个水平居中的div.wrapper_01</li>
+<li>div.wrapper_01包含div.left，div.right元素，两者贴边</li>
+<li>div.left元素中有a.logo，img.ost-ads，a.ost-big元素<ul>
+<li>a.logo元素是块级元素，显示的是背景图片</li>
+<li>a.logo元素拥有文字是为了搜索引擎的检索，进一步为了文字不显示需要向前缩进超大值</li>
+<li>a.ost-big元素默认相对于div.left元素绝对定位，默认元素隐藏。只有鼠标在img.ost-ads元素上悬停时a.ost-big元素才会显示</li>
+<li>鼠标离开img.ost-ads元素时，a.ost-big元素为了能够显示，还需要设置鼠标悬停在a.ost-big元素上时，元素显示</li>
+</ul>
+</li>
+<li>div.right元素中有div.platform，div.recommend，div.recommend-box元素<ul>
+<li>div.platform，div.recommend元素都有i元素作为图标</li>
+<li>div.platform，div.recommend元素内部都是flex布局，侧轴居中，元素垂直居中</li>
+<li>div.recommend-box元素相对于div.right元素绝对定位，默认元素隐藏。只有鼠标在div.recommend元素上悬停时div.recommend-box元素才有高度<ul>
+<li>div.recommend-box元素内部 div.pc，div.mobile元素</li>
+<li>div.pc，div.mobile元素内部都有div.title，div.list元素</li>
+<li>div.list元素中有多个dl-dt-dd列表</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="div-top">4.2. div.top</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;top&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;wrapper_01&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;logo&quot;</span>&gt;</span>腾讯游戏logo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/top/ost.jpeg&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ost-ads&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ost-big&quot;</span>&gt;</span>... <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;platform&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;recommend&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;recommend-box&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pc&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mobile&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/top.png"></p>
+<ul>
+<li>整个div.top的高度由子元素div.wrapper_01撑起来，div.wrapper_01元素宽高为980x41</li>
+<li>div.wrapper_01元素为了内部元素垂直居中，设置行高&#x3D;盒高</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> &#123;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#f5f5f5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.wrapper_01</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">41px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">5px</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">41px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-left-x2F-div-right">4.3. div.left&#x2F;div.right</h2><ul>
+<li>div.left元素中有a.logo，img.ost-ads，a.ost-big元素</li>
+<li>div.right元素中有div.platform，div.recommend，div.recommend-box元素</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.left</span>,</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="a-logo">4.4. a.logo</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;logo&quot;</span>&gt;</span>腾讯游戏logo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/a.logo.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 腾讯游戏logo */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.logo</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/top/logo.png</span>) no-repeat top center/<span class="number">112px</span> auto;</span><br><span class="line">  <span class="attribute">text-indent</span>: -<span class="number">9999px</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">11</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="img-ost-ads">4.5. img.ost-ads</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/top/ost.jpeg&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ost-ads&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/img.ost-ads.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 广告位 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.ost-ads</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">230px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="a-ost-big">4.6. a.ost-big</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ost-big&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/top/ost_big.jpeg&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/a.ost-big.png"></p>
+<ul>
+<li>默认该元素不显示(display:none)，只有鼠标悬停在 img.ost-ads上时才显示</li>
+<li>在显示 a.ost-big 元素时，还能显示 a.logo元素<ul>
+<li>所以a.logo的层级高于a.ost-big，但a.ost-big层级不能低于img.ost-ads</li>
+<li>所以设置a.ost-big的z-index为10，a.logo的z-index为11。要保证两者都是定位元素z-index才有效</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.ost-ads</span><span class="selector-pseudo">:hover</span> + <span class="selector-class">.ost-big</span>,</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.ost-big</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.ost-big</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">970px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">185px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">3px</span> <span class="number">3px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.ost-big</span> <span class="selector-tag">img</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-platform">4.7. div.platform</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;platform&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;title_icon_02&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>成长守护平台<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.platform.png"></p>
+<ul>
+<li>绿色圆图标是来自于一张精灵图</li>
+<li>为了内部两者垂直居中，需要设置侧轴居中 align-items: center</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 成长守护平台 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.platform</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.platform</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#464646</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.platform</span> <span class="selector-class">.title</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f00</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-recommend">4.8. div.recommend</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;recommend&quot;</span>&gt;</span></span><br><span class="line">  腾讯游戏热门推荐</span><br><span class="line">  <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;title_icon_01&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend.png"></p>
+<ul>
+<li>箭头图标和div.platform中的图标来自于同一张精灵图，图中箭头方向向右，为了让其向下，用到rotate形变</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 腾讯游戏热门推荐 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend</span> <span class="selector-class">.title_icon_01</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">left</span>: -<span class="number">3px</span>;</span><br><span class="line">  <span class="attribute">top</span>: -<span class="number">3px</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">90deg</span>);</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0.1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-recommend-box">4.9. div.recommend-box</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;recommend-box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pc&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mobile&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend-box.png"></p>
+<ul>
+<li>div.recommend-box高度为0，默认不可见，鼠标悬停在div.recommmend元素上时，div.recommend-box才拥有高度<ul>
+<li>为了高度从0-658px有缓慢增加效果，添加tansition属性</li>
+</ul>
+</li>
+<li>div.pc + div.mobile，div.pc元素宽度确定，div.mobile元素宽度扩充至占满剩余空间</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend</span><span class="selector-pseudo">:hover</span> + <span class="selector-class">.recommend-box</span>,</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span><span class="selector-pseudo">:hover</span>&#123; </span><br><span class="line">  <span class="attribute">height</span>: <span class="number">658px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 下拉框 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">41px</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">15px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">1020px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">9999</span>;</span><br><span class="line">  <span class="attribute">transition</span>: all .<span class="number">5s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.pc</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">373px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.mobile</span> &#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-title">4.9.1. div.title</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pc&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;icon&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>客户端游戏<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span>	</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mobile&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;icon&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>手机端游戏<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.recommend-box.title.png"></p>
+<ul>
+<li>div.title元素中有 i.icon，span元素，两者要垂直居中 align-items: center;<ul>
+<li>i.icon为行内块级元素，宽高为4x16</li>
+<li>span为行内非替换元素，只能设置字号18px</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 下拉框标题 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">54px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f5f5f5</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#AFB7BF</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.pc</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">73px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.mobile</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">48px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.icon</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">4px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#AFB7BF</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.title</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-list">4.9.2. div.list</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank hot&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank new&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分为 热门推荐 和 新品推荐 两个模块，两者水平排布</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 下拉框列表 */</span></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.list</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-rank-hot">4.9.3. div.rank.hot</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- pc --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank hot&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dt</span> <span class="attr">class</span>=<span class="string">&quot;rank-title&quot;</span>&gt;</span>热门推荐<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;rank-list&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>英雄联盟<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- mobile --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank hot&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dt</span> <span class="attr">class</span>=<span class="string">&quot;rank-title&quot;</span>&gt;</span>热门推荐<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dd</span> <span class="attr">class</span>=<span class="string">&quot;more&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;rank-list&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>王者荣耀<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.rank.hot.png"></p>
+<ul>
+<li><p>客户端的热门推荐模块右边有1px的边框，手机端的左边有1px的边框</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.pc</span> <span class="selector-class">.rank</span><span class="selector-class">.hot</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">68px</span>;</span><br><span class="line">  <span class="attribute">border-right</span>: <span class="number">1px</span> solid <span class="number">#EDF1F5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.mobile</span> <span class="selector-class">.rank</span><span class="selector-class">.hot</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">47px</span>;</span><br><span class="line">  <span class="attribute">border-left</span>: <span class="number">1px</span> solid <span class="number">#EDF1F5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>热门推荐模块的标题都是红色大字</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.rank-title</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">600</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">22px</span>;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">28px</span>;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.hot</span> <span class="selector-class">.rank-title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FF3C6A</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>手机端的热门推荐是有两个列表，使其水平排布</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.list</span> <span class="selector-class">.more</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列表中的每一个a元素，必须显示在一行中，多余用…表示</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">116px</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">28px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">22px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#868B90</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="div-rank-new">4.9.4. div.rank.new</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- pc --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank new&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dt</span> <span class="attr">class</span>=<span class="string">&quot;rank-title&quot;</span>&gt;</span>新品推荐<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;rank-list&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>无谓契约<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- mobile --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dl</span> <span class="attr">class</span>=<span class="string">&quot;rank new&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dt</span> <span class="attr">class</span>=<span class="string">&quot;rank-title&quot;</span>&gt;</span>新品推荐<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;rank-list&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>合金弹头：觉醒<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.rank.new.png"></p>
+<ul>
+<li>手机端新品推荐的左边有1px的边框</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.pc</span> <span class="selector-class">.rank</span><span class="selector-class">.new</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">27px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.mobile</span> <span class="selector-class">.rank</span><span class="selector-class">.new</span> <span class="selector-class">.rank-list</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">32px</span>;</span><br><span class="line">  <span class="attribute">border-left</span>: <span class="number">1px</span> solid <span class="number">#EDF1F5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.recommend-box</span> <span class="selector-class">.new</span>  <span class="selector-class">.rank-title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#13CAC5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.top</span> <span class="selector-class">.mobile</span> <span class="selector-class">.rank</span><span class="selector-class">.new</span> <span class="selector-class">.rank-title</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">62px</span>;</span><br><span class="line">  <span class="attribute">border-left</span>: <span class="number">1px</span> solid <span class="number">#EDF1F5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="header">5. header</h1><h2 id="思路-1">5.1. 思路</h2><p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.header.png"></p>
+<ul>
+<li><p>div.header 元素高度为84px</p>
+<ul>
+<li><p>div.header元素中有 div.wrapper_02，div.sub-nav元素</p>
+</li>
+<li><p>div.wrapper_02元素高度等于84px，内部放横栏，有h1，ul.list，div.login三个元素，三者水平贴边</p>
+</li>
+<li><p>div.sub-nav元素中放下拉导航栏，默认不可见</p>
+</li>
+<li><p>鼠标悬停在div.header元素上时，div.sub-nav元素高度才展示</p>
+</li>
+</ul>
+</li>
+<li><p>div.sub-nav元素中a元素文字前的图标通过伪元素::before实现</p>
+</li>
+</ul>
+<h2 id="div-header">5.2. div.header</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;wrapper_02&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;logo&quot;</span>&gt;</span>王者荣耀<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;login&quot;</span>&gt;</span>... <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;sub-nav&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.header_wrapper.png"></p>
+<ul>
+<li><p>div.header元素设置透明背景，高度由子元素div.wrapper_02元素撑起来，div.sub-nav元素已脱标</p>
+</li>
+<li><p>div.wrapper_02元素宽高为1300x84</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.wrapper_02</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">84px</span>;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="h1-logo">5.3. h1.logo</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;logo&quot;</span>&gt;</span>王者荣耀<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/h1.logo.png"></p>
+<ul>
+<li>一般就是用 h1元素，也是在网页中唯一使用h1元素的地方</li>
+<li>a元素中的文字是为了给浏览器检索，在网页中不应该显示，向前缩进至无法显示，但存在 text-indent: -9999px;</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.logo</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">54px</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/header/logo.png</span>);</span><br><span class="line">  <span class="attribute">text-indent</span>: -<span class="number">9999px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ul-list">5.4. ul.list</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>游戏资料<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">em</span> <span class="attr">class</span>=<span class="string">&quot;info&quot;</span>&gt;</span>DATA<span class="tag">&lt;/<span class="name">em</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/ul.list.png"></p>
+<ul>
+<li>整个div.wrapper_02元素的宽度是固定的1200px，h1.logo元素宽度也固定200px，div.login元素宽度固定为182px，所以 ul.list设置 flex:1; 即flex-grow:1; 将占据父元素所有剩余空间</li>
+<li>鼠标悬停在每个li元素上时，鼠标是会变为小手的，说明a元素占据整个li元素，所以将a元素变为快元素，设置宽高&#x3D;li元素</li>
+<li>a元素内部是垂直布局的，所以将span和em元素都改为块级元素</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.list</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.list</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">115px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.info</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#e4b653</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.list</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.list</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#c9c9dd</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.list</span> <span class="selector-class">.info</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#858792</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-login">5.5. div.login</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;login&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;avatar&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/header/avatar.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;info&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>欢迎登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>登录后查看游戏战绩<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.login.png"></p>
+<ul>
+<li>头像和文字是水平布局，文字垂直布局</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.login</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">182px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.login</span> <span class="selector-class">.avatar</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">42px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">42px</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">7px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#d9ad50</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">42px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.login</span> <span class="selector-class">.info</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#ffffff</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.login</span> <span class="selector-class">.info</span> <span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#858792</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-sub-nav">5.6. div.sub-nav</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;sub-nav&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot; wrapper_03&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>版本介绍<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>游戏介绍<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>英雄资料<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;hot&quot;</span>&gt;</span>爆料站<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;fans&quot;</span>&gt;</span>世界观体验站<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>游戏壁纸<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.sub-nav.png"></p>
+<ul>
+<li><p>div.sub-nav元素已脱标，为绝对定位</p>
+</li>
+<li><p>div.sub-nav元素内部有div.wrapper_03元素，该元素宽度为890px，水平居中</p>
+</li>
+<li><p>div.wrapper_03元素是由多个ul&gt;li&gt;a元素组成的，水平居中</p>
+<ul>
+<li><p>设置每个li元素宽度为115px &#x3D; 上面ul.list中li元素的宽度</p>
+</li>
+<li><p>设置li元素内容显示在一行，不能换行white-space: nowrap;</p>
+</li>
+</ul>
+</li>
+<li><p>有些文字前有红色图标，用伪元素::before，分为.hot，.fans，.guard不同显示内容</p>
+<ul>
+<li>为了图标和文字垂直居中，设置父元素a为flex布局</li>
+</ul>
+</li>
+<li><p>有些a元素加了图标，内容宽度&gt;115px，需要设置整体内容后移margin-left: 5px;</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.sub-nav</span>&#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">315px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">84px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.7</span>);</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">transition</span>: all <span class="number">0.5s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.wrapper_03</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">15px</span> <span class="number">0</span> <span class="number">30px</span> <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">115px</span>;</span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#c9c9dd</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">  <span class="attribute">text-decoration</span>: underline;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 内容超过宽度 */</span></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-class">.exceed</span> &#123;</span><br><span class="line">  <span class="attribute">justify-content</span>: flex-start;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.hot</span><span class="selector-pseudo">::before</span>,</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.fans</span><span class="selector-pseudo">::before</span>,</span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.guard</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">flex-shrink</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">24px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">24px</span>;</span><br><span class="line">  <span class="attribute">padding-right</span>: <span class="number">2px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* icon_hot */</span></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.hot</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">background-position</span>: -<span class="number">163px</span> -<span class="number">68px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* icon_fans */</span></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.fans</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">background-position</span>: -<span class="number">137px</span> -<span class="number">68px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* icon_guard */</span></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.sub-nav</span> <span class="selector-tag">a</span><span class="selector-class">.guard</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">background-position</span>: -<span class="number">136px</span> -<span class="number">5px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="wrapper">6. wrapper</h1><h2 id="思路-2">6.1. 思路</h2><p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.wrapper.png"></p>
+<ul>
+<li>div.wrapper元素由 div.bg-container，div.man元素组成<ul>
+<li>div.bg-container元素脱标，充当div.wrapper元素部分的背景</li>
+<li>div.wrapper元素的高度由div.main元素撑起来</li>
+<li>div.main元素设置较大的上外边距，使得div.bg-container元素的图片头部可以显示</li>
+</ul>
+</li>
+</ul>
+<h2 id="div-wrapper">6.2. div.wrapper</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;bg-container&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main wrapper_04&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>css</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-bg-container">6.3. div.bg-container</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;bg-container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;bg&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;wrapper_04&quot;</span>&gt;</span>查看详情<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.bg-container.png"></p>
+<ul>
+<li>div.bg-container元素向上偏移84px，而84px就是div.header元素的高度。这么做是为了实现叠放在div.header元素下方效果</li>
+<li>div.bg-container元素高度由div.bg元素撑起来，因为a元素为了迎合图片中的按钮位置已脱标</li>
+<li>a元素宽高为1200x440，水平居中</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> <span class="selector-class">.bg-container</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: -<span class="number">84px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bg-container</span> <span class="selector-class">.bg</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">1300px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/wrapper/bg.jpg</span>) no-repeat center top;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bg-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">84px</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">440px</span>;</span><br><span class="line">  <span class="attribute">text-indent</span>: -<span class="number">9999px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-main">6.4. div.main</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main wrapper_04&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main-top&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;quick-entrance&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main-item&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main-item&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>div.main元素自身宽度为1200px，水平居中，设置比div.bg-container中a元素高度更大的上偏移值才能避免误触</li>
+<li>div.main元素中有div.main-top，div.quick-entrance，两个div.main-item元素，都是垂直布局</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> <span class="selector-class">.main</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">540px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-main-top">6.5. div.main-top</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main-top&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;center&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.main-top.png"></p>
+<ul>
+<li>div.main-top元素由背景图将区域分为div.left，div.center，div.right三个元素，三者水平居中<ul>
+<li>div.left元素中图片是自动+手动轮播</li>
+<li>div.center元素中根据标题实现新闻内容的切换</li>
+<li>div.right元素就是三张背景图的堆积</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> <span class="selector-class">.main-top</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">342px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/wrapper/main-top/main_bg.png</span>) no-repeat;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-left">6.6. div.left</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;photos&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/main-top/01.jpeg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/main-top/02.jpeg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/main-top/03.jpeg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/main-top/04.jpeg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/main-top/05.jpeg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;btns&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;active&quot;</span>&gt;</span>亚连英雄档案<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>新赛季必备知识<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>亚连英雄故事<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>K甲大侦探<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>K甲第三周回顾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.main-top.left.png"></p>
+<ul>
+<li>div.left元素有明确的宽度604px，也就规定了内部图片宽度为604px</li>
+<li>div.left元素中有ul.photos，div.btns两个元素，垂直布局</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">604px</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ul-photos">6.6.1. ul.photos</h3><ul>
+<li>ul.photos元素中每个li元素的宽度为100%，5个li元素水平排列</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.photos</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">298px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.photos</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">animation-play-state</span>: paused;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.photos</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="comment">/* 禁止缩放 */</span></span><br><span class="line">  <span class="attribute">flex-shrink</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.photos</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="图片轮播">6.6.2. 图片轮播</h3><p><a href="/zh-CN/2019/02/10/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%98js%E8%A1%A5%E5%85%85#%E5%9B%BE%E7%89%87%E8%BD%AE%E6%92%AD">图片轮播js实现</a></p>
+<h3 id="div-btns">6.6.3. div.btns</h3><ul>
+<li>div.btns元素中5个a元素，平分div.btns元素宽度</li>
+<li>active类是为了js控制按钮切换时，选中按钮的需要</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.btns</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-around;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">44px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">44px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.btns</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#b1b2be</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.btns</span> <span class="selector-tag">a</span><span class="selector-class">.active</span>,</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.btns</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0.15</span>);</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="按钮点播">6.6.4. 按钮点播</h3><p><a href="/zh-CN/2019/02/10/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%98js%E8%A1%A5%E5%85%85#%E5%9B%BE%E7%89%87%E8%BD%AE%E6%92%AD%E4%B8%8B%E7%9A%84%E6%8C%89%E9%92%AE%E7%82%B9%E6%92%AD">图片轮播下的按钮点播js实现</a></p>
+<h2 id="div-right">6.7. div.right</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;download&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;battle&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;try&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.right.png"></p>
+<ul>
+<li>div.right元素宽度占满div.main-top元素的剩余空间</li>
+<li>div.right元素高度是三个a元素垂直布局堆积的高度</li>
+<li>a元素都是块级元素，内容来自于同一张精灵图不同位置</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* right */</span></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.right</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">../img/sprite/index_sprite.png</span>) no-repeat;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.right</span> <span class="selector-class">.download</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">128px</span>;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">0</span> -<span class="number">219px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.right</span> <span class="selector-class">.battle</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">106px</span>;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">0</span> -<span class="number">350px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.right</span> <span class="selector-class">.try</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">108px</span>;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">0</span> -<span class="number">461px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="div-center">6.8. div.center</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;center&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;news&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 热门 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.center.png"></p>
+<ul>
+<li>div.center元素由div.nav，div.news元素组成，垂直布局</li>
+<li>div.center元素宽度占满div.main-top的剩余空间</li>
+<li>div.center元素设置溢出隐藏，是为了内部新闻列表移动时，其他新闻项不可见</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* center */</span></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.center</span> &#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-nav">6.8.1. div.nav</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item active&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>热门<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>新闻<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>公告<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>活动<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>赛事<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;more&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.nav.png"></p>
+<ul>
+<li>为了让ul.list，a.more元素水平排布，设置div.nav是flex布局，其实div.nav元素中ul.list每个li.item元素样式其实和a.more样式都一样，除了:hover时的样式</li>
+<li>每个li.item元素<ul>
+<li>为了看起来文字和下划线有一定间距，设置line-height很大，但不能超过整个元素的高度</li>
+<li>为了鼠标悬停和未悬停状态的li元素下边框不影响整体高度，设置下边框颜色透明</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">17px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#000</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.list</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.more</span>,</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">52px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">48px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">3px</span> solid transparent;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">45px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.more</span>,</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#b8b9c5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span><span class="selector-class">.active</span>,</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span><span class="selector-class">.active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.nav</span> <span class="selector-class">.item</span><span class="selector-pseudo">:hover</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-news">6.8.2. div.news</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;news&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 热门 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>星梦星元皮肤名称票选结果公布<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;hot&quot;</span>&gt;</span>热门<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>蒙犽源·梦皮肤海报票选结果公布<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">em</span> <span class="attr">class</span>=<span class="string">&quot;date&quot;</span>&gt;</span>06/25<span class="tag">&lt;/<span class="name">em</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 新闻 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 公告 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 活动 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 赛事 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;news_list&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="news-list类样式">6.8.3. .news_list类样式</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* main-top和match-center的新闻列表样式相同 */</span></span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.date</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.hot</span>,</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.activity</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ff3636</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#ff3636</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.new</span>,</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.game</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#1e96ab</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#1e96ab</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-class">.notice</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#f4be19</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f4be19</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div-news-list">6.8.4. div.news_list</h3><p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.news.png"></p>
+<ul>
+<li>div.news 由多个ul.new_list组成，每个ul.new_list元素宽度为100%，水平排布。此时就需要在div.news的父元素中设置溢出隐藏-div.center</li>
+<li>ul.new_list中的布局和div.main-item中div.match-center中的新闻布局一样，所以抽取成 new_list类<ul>
+<li>第一个li元素是不同的，只有a元素</li>
+<li>其余li元素有div.left，em.date元素，div.left中有span和a元素，三者垂直居中<ul>
+<li>span和a外套一个div.left是为了让span元素贴li元素左边，a元素贴span元素，而em贴li元素右边，单就flex布局无法实现</li>
+<li>span元素是块级元素，有宽高32x16</li>
+<li>a元素是块级元素，限制宽为230px，超过部分文字以…显示</li>
+<li>em元素字体小于span和a元素</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* news */</span></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news</span> <span class="selector-class">.news_list</span>&#123;</span><br><span class="line">  <span class="attribute">flex-shrink</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">17px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">36px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">15px</span>;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">18px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">11px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#414046</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">36px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-class">.title</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">230px</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f3c258</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">11px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-class">.item</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">230px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#b8b9c5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">32px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">2px</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.main-top</span> <span class="selector-class">.news_list</span> <span class="selector-class">.date</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#999</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="导航转换新闻列表">6.8.5. 导航转换新闻列表</h3><p><a href="/zh-CN/2019/02/10/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%98js%E8%A1%A5%E5%85%85#%E5%AF%BC%E8%88%AA%E7%82%B9%E6%92%AD%E5%88%97%E8%A1%A8-%E5%B7%A6%E7%A7%BB">导航点播列表js实现</a></p>
+<h2 id="div-quick-entarnce">6.9. div.quick-entarnce</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;quick-entrance&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/quick-entrance/01.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/quick-entrance/02.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/quick-entrance/03.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./img/wrapper/quick-entrance/04.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/div.quick-entrance.png"></p>
+<ul>
+<li>4个a元素水平排布，a元素需要设置溢出隐藏，因为在鼠标悬停时img元素被放大一点</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* quick-entrance */</span></span><br><span class="line"><span class="selector-class">.main</span> <span class="selector-class">.quick-entrance</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">134px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">28px</span> <span class="number">0</span> <span class="number">34px</span>;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.main</span> <span class="selector-class">.quick-entrance</span> <span class="selector-tag">a</span>&#123;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span> <span class="selector-class">.quick-entrance</span> <span class="selector-tag">img</span>&#123;</span><br><span class="line">  <span class="attribute">transition</span>: all <span class="number">0.2s</span> linear;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span> <span class="selector-class">.quick-entrance</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> <span class="selector-tag">img</span>&#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">1.1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/01/28/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%981/" title="前端-CSS学习笔记14-王者荣耀实战">https://wtlumos.github.io/zh-CN/2019/01/28/前端-CSS学习笔记14-王者荣耀实战1/</a> -->
+    
+       <a href ="/zh-CN/2019/01/28/前端-CSS学习笔记14-王者荣耀实战1/" >/zh-CN/2019/01/28/前端-CSS学习笔记14-王者荣耀实战1/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-01-28 21:23
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-08-10 20:52
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CSS/" rel="tag"><i class="fa fa-tag"></i> CSS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/29/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%982/" rel="prev" title="前端-CSS学习笔记15-王者荣耀实战2">
+      <i class="fa fa-chevron-left"></i> 前端-CSS学习笔记15-王者荣耀实战2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/27/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" rel="next" title="前端-CSS学习笔记12-代码规范">
+      前端-CSS学习笔记12-代码规范 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81"><span class="nav-text">1. 整体代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E7%BD%AE%E6%A0%B7%E5%BC%8F"><span class="nav-text">2. 重置样式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E5%90%8C%E6%A0%B7%E5%BC%8F"><span class="nav-text">3. 共同样式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BA%E5%AF%B8"><span class="nav-text">3.1. 尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E6%A0%87"><span class="nav-text">3.2. 图标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E6%B5%AE%E5%8A%A8"><span class="nav-text">3.3. 清浮动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#top"><span class="nav-text">4. top</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-text">4.1. 思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-top"><span class="nav-text">4.2. div.top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-left-x2F-div-right"><span class="nav-text">4.3. div.left&#x2F;div.right</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-logo"><span class="nav-text">4.4. a.logo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img-ost-ads"><span class="nav-text">4.5. img.ost-ads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-ost-big"><span class="nav-text">4.6. a.ost-big</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-platform"><span class="nav-text">4.7. div.platform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-recommend"><span class="nav-text">4.8. div.recommend</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-recommend-box"><span class="nav-text">4.9. div.recommend-box</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#div-title"><span class="nav-text">4.9.1. div.title</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-list"><span class="nav-text">4.9.2. div.list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-rank-hot"><span class="nav-text">4.9.3. div.rank.hot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-rank-new"><span class="nav-text">4.9.4. div.rank.new</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#header"><span class="nav-text">5. header</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-text">5.1. 思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-header"><span class="nav-text">5.2. div.header</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#h1-logo"><span class="nav-text">5.3. h1.logo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ul-list"><span class="nav-text">5.4. ul.list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-login"><span class="nav-text">5.5. div.login</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-sub-nav"><span class="nav-text">5.6. div.sub-nav</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wrapper"><span class="nav-text">6. wrapper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-text">6.1. 思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-wrapper"><span class="nav-text">6.2. div.wrapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-bg-container"><span class="nav-text">6.3. div.bg-container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-main"><span class="nav-text">6.4. div.main</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-main-top"><span class="nav-text">6.5. div.main-top</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-left"><span class="nav-text">6.6. div.left</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ul-photos"><span class="nav-text">6.6.1. ul.photos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%BD%AE%E6%92%AD"><span class="nav-text">6.6.2. 图片轮播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-btns"><span class="nav-text">6.6.3. div.btns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E9%92%AE%E7%82%B9%E6%92%AD"><span class="nav-text">6.6.4. 按钮点播</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-right"><span class="nav-text">6.7. div.right</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-center"><span class="nav-text">6.8. div.center</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#div-nav"><span class="nav-text">6.8.1. div.nav</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-news"><span class="nav-text">6.8.2. div.news</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#news-list%E7%B1%BB%E6%A0%B7%E5%BC%8F"><span class="nav-text">6.8.3. .news_list类样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div-news-list"><span class="nav-text">6.8.4. div.news_list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E8%BD%AC%E6%8D%A2%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8"><span class="nav-text">6.8.5. 导航转换新闻列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div-quick-entarnce"><span class="nav-text">6.9. div.quick-entarnce</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '3e0f117a451eb73ffabd485d682ae9d1',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/02/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%BB%AA%E8%AE%BA/gui.png">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/02/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%BB%AA%E8%AE%BA/kongj.png">
 <meta property="article:published_time" content="2020-02-07T06:56:46.000Z">
-<meta property="article:modified_time" content="2023-03-10T14:13:08.302Z">
+<meta property="article:modified_time" content="2025-09-04T07:44:46.740Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -284,7 +284,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-10 22:13:08" itemprop="dateModified" datetime="2023-03-10T22:13:08+08:00">2023-03-10</time>
+                <time title="修改时间：2025-09-04 15:44:46" itemprop="dateModified" datetime="2025-09-04T15:44:46+08:00">2025-09-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,14 +302,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.2k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -325,12 +325,6 @@
 
 <span id="more"></span>
 
-<p>视频讲解，习题讲解，思维导图，PPT资源</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1r433M85ik60HgvLXXAgUxg">https://pan.baidu.com/s/1r433M85ik60HgvLXXAgUxg</a> 提取码: 8qvw </p>
-<p>王道数据结构电子版</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1aYrBXwgGJG2kQDxvq8f4Eg">https://pan.baidu.com/s/1aYrBXwgGJG2kQDxvq8f4Eg</a>  密码: p8e0</p>
-<p>iThoughtsX 软件：有pc版和ios版</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1NRIuVcHo6dpkniVwGP0-jw">https://pan.baidu.com/s/1NRIuVcHo6dpkniVwGP0-jw</a> 提取码: 17yq </p>
 <h1 id="数据结构在学什么">1. 数据结构在学什么?</h1><ul>
 <li><p>如何用程序代码把现实世界的问题信息化</p>
 <blockquote class="blockquote-center">人类社会的发展,迄今经历了和经历着三个浪潮：第一次浪潮为农业阶段,从约1万年前开始；第二次浪潮为工业阶段,从17世纪末开始；第三次浪潮为正在到来的<font color="#f00">信息化</font>阶段。—《第三次浪潮(1980版)》,阿尔文·托夫勒</blockquote>
@@ -488,7 +482,384 @@
 <p>算法中所有语句之和记为T(n)，称为算法问题规模n的函数。</p>
 <p>时间复杂度主要分析T(n)的数量级。</p>
 <p>算法中基本运算的频度(最深层循环内的语句)与T(n)同数量级，通常采用算法中基本运算的频度f(n)来分析算法的时间复杂度。<code>T(n)=O(f(n))</code></p>
-<h3 id="算法1-逐步递增">4.2.1. 算法1-逐步递增</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//逐步递增型爱你</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;<span class="comment">//语句频度-1</span></span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123; <span class="comment">//语句频度-3001</span></span><br><span class="line">    i++;<span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);<span class="comment">//语句频度-3000</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);<span class="comment">//语句频度-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//T(3000) = 1 + 3001 + 2*3000 + 1</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="built_in">loveYou</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一重循环">4.2.1. 一重循环</h3><h4 id="方法一：模拟求解">4.2.1.1. 方法一：模拟求解</h4><ul>
+<li>模拟循环的流程，观察趟数和循环终止变量的关系</li>
+<li>确定循环停止的条件并求解</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=n*n;</span><br><span class="line"><span class="keyword">while</span>(i!=<span class="number">1</span>)&#123;</span><br><span class="line">  i=i/<span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>t&#x3D;0</th>
+<th>t&#x3D;1</th>
+<th>t&#x3D;2</th>
+<th>t&#x3D;3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;$n^2$</td>
+<td>i&#x3D;$\frac{n^2}{2}$</td>
+<td>i&#x3D;$\frac{n^2}{2^2}$</td>
+<td>i&#x3D;$\frac{n^2}{2^3}$</td>
+</tr>
+</tbody></table>
+<p>i&#x3D;$\frac{n^2}{2^t}$&#x3D;1时停止循环</p>
+<p>$2^t$&#x3D;$n^2$，两边取对数，t&#x3D;2log<sub>2</sub>n，T(n)&#x3D;O(log<sub>2</sub>n)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(n&gt;(x+<span class="number">1</span>)*(x+<span class="number">1</span>))&#123;</span><br><span class="line">  x=x+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>t&#x3D;0</th>
+<th>t&#x3D;1</th>
+<th>t&#x3D;2</th>
+<th>t&#x3D;3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x&#x3D;0</td>
+<td>x&#x3D;1</td>
+<td>x&#x3D;2</td>
+<td>x&#x3D;3</td>
+</tr>
+</tbody></table>
+<p>x&#x3D;t</p>
+<p>终止循环n&#x3D;(x+1)*(x+1)&#x3D;$x^2$+2x+1，抓大头$x^2$</p>
+<p>n&#x3D;$t^2$，t&#x3D;$\sqrt{n}$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">sum</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> sum=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span>(sum&lt;n)&#123;</span><br><span class="line">    sum+=++i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>t&#x3D;0</th>
+<th>t&#x3D;1</th>
+<th>t&#x3D;2</th>
+<th>t&#x3D;3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;0</td>
+<td>i&#x3D;1</td>
+<td>i&#x3D;2</td>
+<td>i&#x3D;3</td>
+</tr>
+<tr>
+<td>sum&#x3D;0</td>
+<td>sum&#x3D;0+1</td>
+<td>sum&#x3D;0+1+2</td>
+<td>sum&#x3D;0+1+2+3</td>
+</tr>
+</tbody></table>
+<p>sum&#x3D;0+1+2+…+t&#x3D;$\frac{t(t+1)}{2}$，抓大头$t^2$</p>
+<p>终止循环sum&#x3D;n&#x3D;$t^2$，t&#x3D;$\sqrt{n}$</p>
+<h4 id="方法二：执行次数相加">4.2.1.2. 方法二：执行次数相加</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=n*n;</span><br><span class="line"><span class="keyword">while</span>(i!=<span class="number">1</span>)&#123;</span><br><span class="line">  i=i/<span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>执行次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$n^2$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>$\frac{n^2}{2}$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>$\frac{n^2}{2^t}$</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>执行次数相加&#x3D;t+1</p>
+<p>循环终止条件 $\frac{n^2}{2^t}$&#x3D;1，t&#x3D;2log<sub>2</sub>n</p>
+<p>执行次数&#x3D;t+1&#x3D;2log<sub>2</sub>n+1</p>
+<p>T(n)&#x3D;O(log<sub>2</sub>n)</p>
+<h3 id="二重循环">4.2.2. 二重循环</h3><h4 id="方法一：数组求和法">4.2.2.1. 方法一：数组求和法</h4><ul>
+<li>模拟循环的流程，列出外层的值变化</li>
+<li>列出内循环的执行次数</li>
+<li>计算执行次数和</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> m=<span class="number">0</span>,i,j;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=<span class="number">2</span>*i;j++)&#123;</span><br><span class="line">    m++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>外层值变化</th>
+<th>i&#x3D;1</th>
+<th>i&#x3D;2</th>
+<th>i&#x3D;3</th>
+<th>i&#x3D;4</th>
+<th>…</th>
+<th>i&#x3D;n-1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内循环执行次数2i</td>
+<td>2*1</td>
+<td>2*2</td>
+<td>2*3</td>
+<td>2*4</td>
+<td>…</td>
+<td>2*(n-1)</td>
+</tr>
+</tbody></table>
+<p>执行次数和 &#x3D; 2*(1+2+3+…n-1)&#x3D;n(n-1)</p>
+<p>T(n)&#x3D;O($n^2$)</p>
+<h4 id="方法二">4.2.2.2. 方法二</h4><ul>
+<li>模拟循环的流程，列出外层的值变化</li>
+<li>列出内层的值的变化</li>
+<li>计算执行次数和</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,j;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">    a[i][j]=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>i&#x3D;0</th>
+<th>i&#x3D;1</th>
+<th>…</th>
+<th>i&#x3D;n-1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>j&#x3D;0</td>
+<td>j&#x3D;0</td>
+<td>j&#x3D;0</td>
+<td>j&#x3D;0</td>
+</tr>
+<tr>
+<td>j&#x3D;1</td>
+<td>j&#x3D;1</td>
+<td>j&#x3D;1</td>
+<td>j&#x3D;1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>j&#x3D;m-1</td>
+<td>j&#x3D;m-1</td>
+<td>j&#x3D;m-1</td>
+<td>j&#x3D;m-1</td>
+</tr>
+<tr>
+<td>执行m次</td>
+<td>执行m次</td>
+<td>执行m次</td>
+<td>执行m次</td>
+</tr>
+</tbody></table>
+<p>执行次数和&#x3D;(n-1)m</p>
+<p>T(n)&#x3D;O(mn)</p>
+<h3 id="多重循环">4.2.3. 多重循环</h3><p>矩阵求和法</p>
+<ul>
+<li>模拟循环的流程，列出外层的变化</li>
+<li>列出内循环的执行次数</li>
+<li>计算执行次数和</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,j,k;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;j;k++)&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最内层循环次数</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>j&#x3D;0</th>
+<th>j&#x3D;1</th>
+<th>j&#x3D;2</th>
+<th>j&#x3D;3</th>
+<th>…</th>
+<th>j&#x3D;n-1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;0</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>i&#x3D;1</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>i&#x3D;2</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>i&#x3D;3</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td></td>
+</tr>
+<tr>
+<td>i&#x3D;n-1</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>…</td>
+<td>n-1</td>
+</tr>
+</tbody></table>
+<p>每行求和 1+2+3+…+i&#x3D;$\frac{i(i+1)}{2}$，抓大头$\frac{i^2}{2}$</p>
+<p>所有行相加 $\frac{1^2}{2}+\frac{2^2}{2}+\frac{3^2}{2}+…+\frac{(n-1)^2}{2}$  &#x3D; O($n^3$)</p>
+<p>平方和公式 $\frac{1^2}{2}+\frac{2^2}{2}+\frac{3^2}{2}+…+\frac{n^2}{2}$ &#x3D;$\frac{n(n+1)(2n+1))}{6}$</p>
+<h3 id="递归函数">4.2.4. 递归函数</h3><ul>
+<li>模拟递归的流程，列出参数的变化</li>
+<li>找到边界停止的条件，求出递归深度</li>
+<li>公式递推</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">fact</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n&lt;=<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> n*<span class="built_in">fact</span>(n<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>递归参数</th>
+<th>调用递归函数次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;n</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n-1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n-2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n-3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>i&#x3D;n-t&#x3D;1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>调用递归函数次数之和&#x3D;t+1&#x3D;n+1</p>
+<p>T(n)&#x3D;O(n)</p>
+<hr>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n==<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>*<span class="built_in">func</span>(n/<span class="number">2</span>)+n;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>递归参数</th>
+<th>调用递归函数次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;n</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^2$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^3$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^t$&#x3D;1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>调用递归函数次数之和&#x3D;t+1&#x3D;log<sub>2</sub>n+1</p>
+<p>T(n)&#x3D;O(log<sub>2</sub>n)</p>
+<hr>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n==<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">func</span>(n/<span class="number">2</span>)*<span class="built_in">func</span>(n/<span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>递归参数</th>
+<th>调用递归函数次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i&#x3D;n</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^2$</td>
+<td>$2^2$</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^3$</td>
+<td>$2^3$</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>i&#x3D;n&#x2F;$2^t$&#x3D;1</td>
+<td>$2^t$</td>
+</tr>
+</tbody></table>
+<p>调用递归函数次数之和&#x3D;$\frac{1-2^{t+1}}{1-2}&#x3D;2^{t+1}-1$&#x3D;2n-1</p>
+<p>T(n) &#x3D; O(n)</p>
+<h3 id>4.2.5. </h3><h3 id="案列">4.2.6. 案列</h3><h4 id="算法1-逐步递增">4.2.6.1. 算法1-逐步递增</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//逐步递增型爱你</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;<span class="comment">//语句频度-1</span></span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123; <span class="comment">//语句频度-3001</span></span><br><span class="line">    i++;<span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);<span class="comment">//语句频度-3000</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);<span class="comment">//语句频度-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//T(3000) = 1 + 3001 + 2*3000 + 1</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="built_in">loveYou</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>时间开销与问题规模 n 的关系：T(n)&#x3D;3n+3</p>
 <p><strong>Q1：是否可以忽略表达式某些部分?</strong></p>
@@ -526,14 +897,14 @@
 
 <p>T(3000) &#x3D; 1000 + 1 + 3001 + 2*3000 + 1 </p>
 <p>时间开销与问题规模 n 的关系：T(n) &#x3D; 3n+1003 &#x3D; O(n)</p>
-<h3 id="算法2-嵌套循环">4.2.2. 算法2-嵌套循环</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;<span class="comment">//语句频度-1</span></span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123; <span class="comment">//语句频度-3001</span></span><br><span class="line">    i++;<span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);</span><br><span class="line">    <span class="comment">//内层循环共执行3000*3000次</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;I am Iron Man\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);<span class="comment">//语句频度-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="built_in">loveYou</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="算法2-嵌套循环">4.2.6.2. 算法2-嵌套循环</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;<span class="comment">//语句频度-1</span></span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123; <span class="comment">//语句频度-3001</span></span><br><span class="line">    i++;<span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="comment">//语句频度-3000</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);</span><br><span class="line">    <span class="comment">//内层循环共执行3000*3000次</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;I am Iron Man\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);<span class="comment">//语句频度-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="built_in">loveYou</span>(<span class="number">3000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>时间开销与问题规模 n 的关系: T(n) &#x3D; O(n) + O(n<sup>2</sup>) &#x3D; O(n<sup>2</sup>)</p>
 <p>结论3：如果有多层嵌套循环， 只需关注最深层循环循环了几次</p>
-<h3 id="算法3-指数递增">4.2.3. 算法3-指数递增</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123;</span><br><span class="line">    i=i*<span class="number">2</span>;<span class="comment">//每次翻倍</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="算法3-指数递增">4.2.6.3. 算法3-指数递增</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;<span class="comment">//n为问题规模</span></span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=n)&#123;</span><br><span class="line">    i=i*<span class="number">2</span>;<span class="comment">//每次翻倍</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,i);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I Love You More Than %d\n&quot;</span>,n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>计算上述算法的时间复杂度 T(n): 设最深层循环的语句频度(总共循环的次数)为 x，则由循环条件可知，循环结束时刚好满足 2<sup>x</sup> &gt; n，x &#x3D; log<sub>2</sub>n + 1，T(n) &#x3D; O(x) &#x3D; O(log<sub>2</sub>n)</p>
-<h3 id="算法4-搜索数字">4.2.4. 算法4-搜索数字</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> flag[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I am Iron man\n&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(flag[i]==n)&#123;<span class="comment">//找到元素n</span></span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;I Love You %d\n&quot;</span>,n);</span><br><span class="line">      <span class="keyword">break</span>;<span class="comment">//立即跳出循环</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="算法4-搜索数字">4.2.6.4. 算法4-搜索数字</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loveYou</span><span class="params">(<span class="type">int</span> flag[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;I am Iron man\n&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(flag[i]==n)&#123;<span class="comment">//找到元素n</span></span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;I Love You %d\n&quot;</span>,n);</span><br><span class="line">      <span class="keyword">break</span>;<span class="comment">//立即跳出循环</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>计算上述算法的时间复杂度 T(n)</p>
 <p><strong>很多算法执行时间与输入的数据有关</strong></p>
@@ -541,10 +912,10 @@
 <p>最坏情况：元素n在最后一个位置 —- 最坏时间复杂度 T(n)&#x3D;O(n)</p>
 <p>平均情况：假设元素n在任意一个位置的概率相同为1&#x2F;n —- 平均时间复杂度 T(n)&#x3D;O(n) </p>
 <p>循环次数 x &#x3D; $\frac{(1+2+3+…+n)}{n}$&#x3D; $\frac{n(n+1)}{2}$ ，$\frac{n(n+1)}{2}$$\frac{1}{n}$&#x3D;$\frac{(n+1)}{2}$，T(n)&#x3D;O(x)&#x3D;O(n)</p>
-<h3 id="三种复杂度">4.2.5. 三种复杂度</h3><p>最坏时间复杂度：最坏情况下算法的时间复杂度</p>
+<h3 id="三种复杂度">4.2.7. 三种复杂度</h3><p>最坏时间复杂度：最坏情况下算法的时间复杂度</p>
 <p><font color="#f00">平均时间复杂度：</font>所有输入示例等概率出现的情况下，算法的期望运行时间</p>
 <p>最好时间复杂度：最好情况下算法的时间复杂度</p>
-<h3 id="总结-2">4.2.6. 总结</h3><p>时间复杂度依赖于问题规模n，也取决于待输入数据性质</p>
+<h3 id="总结-2">4.2.8. 总结</h3><p>时间复杂度依赖于问题规模n，也取决于待输入数据性质</p>
 <p>同一个算法，实现语言的级别越高，执行效率越低</p>
 <p><img src="/zh-CN/2020/02/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%BB%AA%E8%AE%BA/suanfa.png"></p>
 <h2 id="程序运行时的内存需求">4.3. 程序运行时的内存需求</h2><p>算法的空间复杂度S(n)定义为该算法所耗费的存储空间，它是问题规模n的函数。S(n)&#x3D;O(g(n))</p>
@@ -612,7 +983,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2023-03-10 22:13
+          2025-09-04 15:44
 
       </li>
   
@@ -700,7 +1071,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E5%AD%A6%E4%BB%80%E4%B9%88"><span class="nav-text">1. 数据结构在学什么?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2. 数据结构基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E6%80%BB%E8%A7%88"><span class="nav-text">2.1. 知识总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE"><span class="nav-text">2.2. 什么是数据?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%85%83%E7%B4%A0-%E4%B8%AA%E4%BD%93-%E3%80%81%E6%95%B0%E6%8D%AE%E9%A1%B9-%E4%B8%AA%E4%BD%93%E7%89%B9%E5%BE%81"><span class="nav-text">2.3. 数据元素(个体)、数据项(个体特征)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1"><span class="nav-text">2.4. 数据结构、数据对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="nav-text">2.5. 数据结构的三要素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84-%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1. 逻辑结构-定义数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-text">2.5.1.1. 集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.2. 线性结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.3. 树形结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%8A%B6%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.4. 图状结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2. 存储结构-实现数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.1. 顺序结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.2. 链式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.3. 索引结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%A3%E5%88%97%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.4. 散列结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BF%90%E7%AE%97"><span class="nav-text">2.5.3. 数据的运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E6%8A%BD%E8%B1%A1%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">2.6. 数据类型、抽象数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">2.7. 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3. 算法基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-text">3.1. 总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AE%97%E6%B3%95"><span class="nav-text">3.2. 什么是算法?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-text">3.3. 算法的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E7%A9%B7%E6%80%A7"><span class="nav-text">3.3.1. 有穷性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E6%80%A7"><span class="nav-text">3.3.2. 确定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%A1%8C%E6%80%A7"><span class="nav-text">3.3.3. 可行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-text">3.3.4. 输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA"><span class="nav-text">3.3.5. 输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E5%A5%BD%E2%80%9D%E7%AE%97%E6%B3%95%E7%9A%84%E7%89%B9%E8%B4%A8"><span class="nav-text">3.4. “好”算法的特质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E6%80%A7"><span class="nav-text">3.4.1. 正确性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%AF%BB%E6%80%A7"><span class="nav-text">3.4.2. 可读性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%A5%E5%A3%AE%E6%80%A7"><span class="nav-text">3.4.3. 健壮性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E6%95%88%E7%8E%87%E4%B8%8E%E4%BD%8E%E5%AD%98%E5%82%A8%E9%87%8F%E9%9C%80%E6%B1%82"><span class="nav-text">3.4.4. 高效率与低存储量需求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">3.5. 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%95%88%E7%8E%87%E7%9A%84%E5%BA%A6%E9%87%8F"><span class="nav-text">4. 算法效率的度量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AF%84%E4%BC%B0%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%BC%80%E9%94%80"><span class="nav-text">4.1. 如何评估算法时间开销?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">4.2. 算法的时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%951-%E9%80%90%E6%AD%A5%E9%80%92%E5%A2%9E"><span class="nav-text">4.2.1. 算法1-逐步递增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%952-%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF"><span class="nav-text">4.2.2. 算法2-嵌套循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%953-%E6%8C%87%E6%95%B0%E9%80%92%E5%A2%9E"><span class="nav-text">4.2.3. 算法3-指数递增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%954-%E6%90%9C%E7%B4%A2%E6%95%B0%E5%AD%97"><span class="nav-text">4.2.4. 算法4-搜索数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">4.2.5. 三种复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-text">4.2.6. 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%86%85%E5%AD%98%E9%9C%80%E6%B1%82"><span class="nav-text">4.3. 程序运行时的内存需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#O-1"><span class="nav-text">4.3.1. O(1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n"><span class="nav-text">4.3.2. O(n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n-n"><span class="nav-text">4.3.3. O(n*n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8"><span class="nav-text">4.3.4. 递归调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="nav-text">4.3.5. 总结</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E5%AD%A6%E4%BB%80%E4%B9%88"><span class="nav-text">1. 数据结构在学什么?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2. 数据结构基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E6%80%BB%E8%A7%88"><span class="nav-text">2.1. 知识总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE"><span class="nav-text">2.2. 什么是数据?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%85%83%E7%B4%A0-%E4%B8%AA%E4%BD%93-%E3%80%81%E6%95%B0%E6%8D%AE%E9%A1%B9-%E4%B8%AA%E4%BD%93%E7%89%B9%E5%BE%81"><span class="nav-text">2.3. 数据元素(个体)、数据项(个体特征)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1"><span class="nav-text">2.4. 数据结构、数据对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="nav-text">2.5. 数据结构的三要素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84-%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1. 逻辑结构-定义数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-text">2.5.1.1. 集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.2. 线性结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.3. 树形结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%8A%B6%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.1.4. 图状结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2. 存储结构-实现数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.1. 顺序结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.2. 链式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.3. 索引结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%A3%E5%88%97%E7%BB%93%E6%9E%84"><span class="nav-text">2.5.2.4. 散列结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BF%90%E7%AE%97"><span class="nav-text">2.5.3. 数据的运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E6%8A%BD%E8%B1%A1%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">2.6. 数据类型、抽象数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">2.7. 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3. 算法基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-text">3.1. 总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AE%97%E6%B3%95"><span class="nav-text">3.2. 什么是算法?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-text">3.3. 算法的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E7%A9%B7%E6%80%A7"><span class="nav-text">3.3.1. 有穷性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E6%80%A7"><span class="nav-text">3.3.2. 确定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%A1%8C%E6%80%A7"><span class="nav-text">3.3.3. 可行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-text">3.3.4. 输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA"><span class="nav-text">3.3.5. 输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E5%A5%BD%E2%80%9D%E7%AE%97%E6%B3%95%E7%9A%84%E7%89%B9%E8%B4%A8"><span class="nav-text">3.4. “好”算法的特质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E6%80%A7"><span class="nav-text">3.4.1. 正确性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%AF%BB%E6%80%A7"><span class="nav-text">3.4.2. 可读性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%A5%E5%A3%AE%E6%80%A7"><span class="nav-text">3.4.3. 健壮性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E6%95%88%E7%8E%87%E4%B8%8E%E4%BD%8E%E5%AD%98%E5%82%A8%E9%87%8F%E9%9C%80%E6%B1%82"><span class="nav-text">3.4.4. 高效率与低存储量需求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">3.5. 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%95%88%E7%8E%87%E7%9A%84%E5%BA%A6%E9%87%8F"><span class="nav-text">4. 算法效率的度量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AF%84%E4%BC%B0%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%BC%80%E9%94%80"><span class="nav-text">4.1. 如何评估算法时间开销?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">4.2. 算法的时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E9%87%8D%E5%BE%AA%E7%8E%AF"><span class="nav-text">4.2.1. 一重循环</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%A8%A1%E6%8B%9F%E6%B1%82%E8%A7%A3"><span class="nav-text">4.2.1.1. 方法一：模拟求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%89%A7%E8%A1%8C%E6%AC%A1%E6%95%B0%E7%9B%B8%E5%8A%A0"><span class="nav-text">4.2.1.2. 方法二：执行次数相加</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E9%87%8D%E5%BE%AA%E7%8E%AF"><span class="nav-text">4.2.2. 二重循环</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%95%B0%E7%BB%84%E6%B1%82%E5%92%8C%E6%B3%95"><span class="nav-text">4.2.2.1. 方法一：数组求和法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-text">4.2.2.2. 方法二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E5%BE%AA%E7%8E%AF"><span class="nav-text">4.2.3. 多重循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0"><span class="nav-text">4.2.4. 递归函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">4.2.5. </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E5%88%97"><span class="nav-text">4.2.6. 案列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%951-%E9%80%90%E6%AD%A5%E9%80%92%E5%A2%9E"><span class="nav-text">4.2.6.1. 算法1-逐步递增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%952-%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF"><span class="nav-text">4.2.6.2. 算法2-嵌套循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%953-%E6%8C%87%E6%95%B0%E9%80%92%E5%A2%9E"><span class="nav-text">4.2.6.3. 算法3-指数递增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%954-%E6%90%9C%E7%B4%A2%E6%95%B0%E5%AD%97"><span class="nav-text">4.2.6.4. 算法4-搜索数字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">4.2.7. 三种复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-text">4.2.8. 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%86%85%E5%AD%98%E9%9C%80%E6%B1%82"><span class="nav-text">4.3. 程序运行时的内存需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#O-1"><span class="nav-text">4.3.1. O(1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n"><span class="nav-text">4.3.2. O(n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n-n"><span class="nav-text">4.3.3. O(n*n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8"><span class="nav-text">4.3.4. 递归调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="nav-text">4.3.5. 总结</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -716,7 +1087,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -729,7 +1100,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -778,7 +1149,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -788,13 +1159,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span>网站总字数: </span>
-    <span title="站点总字数">2.9m</span>
+    <span title="站点总字数">3.4m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">44:22</span>
+    <span title="站点阅读时长">51:11</span>
 </div>
 
 <span id="sitetime"></span>

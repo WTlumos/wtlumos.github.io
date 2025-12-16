@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/09/Git/clone.png">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/10/09/Git/token.png">
 <meta property="article:published_time" content="2019-10-08T17:48:21.000Z">
-<meta property="article:modified_time" content="2023-04-15T08:19:54.507Z">
+<meta property="article:modified_time" content="2023-05-05T12:20:28.131Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -265,7 +265,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-15 16:19:54" itemprop="dateModified" datetime="2023-04-15T16:19:54+08:00">2023-04-15</time>
+                <time title="修改时间：2023-05-05 20:20:28" itemprop="dateModified" datetime="2023-05-05T20:20:28+08:00">2023-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -320,19 +320,19 @@
 <p>复制项目地址</p>
 <p>选取存储本地文件的文件夹github</p>
 <p>输入git clone url</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> github</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://github.com/helloworld1006/PAT.git</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd github</span><br><span class="line">git clone https://github.com/helloworld1006/PAT.git</span><br></pre></td></tr></table></figure>
 
 <p>这样github文件夹下就会自动新建一个PAT文件夹</p>
-<h1 id="提交">5. 提交</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> PAT</span></span><br></pre></td></tr></table></figure>
+<h1 id="提交">5. 提交</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd PAT</span><br></pre></td></tr></table></figure>
 
 <p>把需上传的资料复制到文件夹下</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add .</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
 
 <p>提交文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m <span class="string">&quot;提交信息&quot;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;提交信息&quot;</span><br></pre></td></tr></table></figure>
 
 <p>输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push -u origin master</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
 
 <p>然后进入里的github页面，刷新下页面就会显示你的项目</p>
 <h1 id="使用token">6. 使用token</h1><p>2021年8月13日，git不再支持密码方式验证，而是建议使用token</p>
@@ -344,49 +344,53 @@
 <p>记得保存好token！！！</p>
 <h2 id="克隆下来的项目修改config">6.2. 克隆下来的项目修改config</h2><p>打开文件夹中的.git&#x2F;config 文件，修改【remote “origin”】中的url为<code>https://【token】@github.com/【username】/【repository】.git</code></p>
 <p><img src="/zh-CN/2019/10/09/Git/token.png"></p>
-<h2 id="新建文件夹上传到GitHub">6.3. 新建文件夹上传到GitHub</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> project</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> project</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">echo</span> <span class="string">&quot;# project&quot;</span> &gt;&gt; README.md</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add README.md</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m <span class="string">&quot;first commit&quot;</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git branch -M main</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git remote add origin https://【token】@github.com/【username】/project.git</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push -u origin main</span> </span><br></pre></td></tr></table></figure>
+<h2 id="新建文件夹上传到GitHub">6.3. 新建文件夹上传到GitHub</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir project</span><br><span class="line">cd project</span><br><span class="line">echo &quot;# project&quot; &gt;&gt; README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M main</span><br><span class="line">git remote add origin https://【token】@github.com/【username】/project.git</span><br><span class="line">git push -u origin main </span><br></pre></td></tr></table></figure>
 
 
 
-<h1 id="取消暂存文件">7. 取消暂存文件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git reset HEAD 文件名</span></span><br></pre></td></tr></table></figure>
+<h1 id="取消暂存文件">7. 取消暂存文件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD 文件名</span><br></pre></td></tr></table></figure>
 
 
 
-<h1 id="历史记录">8. 历史记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> -2</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> -2 --pretty=format:<span class="string">&quot;%h | %an | %ar | %s&quot;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一行上展示所有提交历史</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --pretty=oneline</span></span><br></pre></td></tr></table></figure>
+<h1 id="历史记录">8. 历史记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br><span class="line">git log -2</span><br><span class="line">git log -2 --pretty=format:&quot;%h | %an | %ar | %s&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一行上展示所有提交历史</span></span><br><span class="line">git log --pretty=oneline</span><br></pre></td></tr></table></figure>
 
 <p>%h 提交的简写哈希值</p>
 <p>%an 作者名字</p>
 <p>%ar 作者修订日期</p>
 <p>%s 提交说明</p>
-<h2 id="回退到指定版本">8.1. 回退到指定版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git reset --hard &lt;CommitID&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="回退到指定版本">8.1. 回退到指定版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard &lt;CommitID&gt;</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="切换到最新版本">8.2. 切换到最新版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">旧版本中查看命令操作的历史</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git reflog --pretty=oneline</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">再次根据最新提交的ID跳转到最新版本</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git reset --hard &lt;CommitID&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="切换到最新版本">8.2. 切换到最新版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">旧版本中查看命令操作的历史</span></span><br><span class="line">git reflog --pretty=oneline</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">再次根据最新提交的ID跳转到最新版本</span></span><br><span class="line">git reset --hard &lt;CommitID&gt;</span><br></pre></td></tr></table></figure>
 
 
 
-<h1 id="分支">9. 分支</h1><h2 id="创建分支">9.1. 创建分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git checkout -b 分支名</span></span><br></pre></td></tr></table></figure>
+<h1 id="分支">9. 分支</h1><h2 id="创建分支">9.1. 创建分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b 分支名</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="选定当前分支">9.2. 选定当前分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git checkout 分支名</span></span><br></pre></td></tr></table></figure>
+<h2 id="选定当前分支">9.2. 选定当前分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 分支名</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="删除分支">9.3. 删除分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git branch -d 分支名</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除分支">9.3. 删除分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d 分支名</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="查看分支">9.4. 查看分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git branch</span></span><br></pre></td></tr></table></figure>
+<h2 id="重命名分支">9.4. 重命名分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m master main</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="查看远程分支">9.5. 查看远程分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git remote show origin</span></span><br></pre></td></tr></table></figure>
+<h2 id="查看分支">9.5. 查看分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="拉取远程分支代码">9.6. 拉取远程分支代码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git pull</span></span><br></pre></td></tr></table></figure>
+<h2 id="查看远程分支">9.6. 查看远程分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show origin</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="拉取远程分支代码">9.7. 拉取远程分支代码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
 
 
 
@@ -424,7 +428,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2023-04-15 16:19
+          2023-05-05 20:20
 
       </li>
   
@@ -512,7 +516,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91"><span class="nav-text">1. 推荐视频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">2. 版本控制系统的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.1. 本地版本控制系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E4%B8%AD%E5%8C%96%E7%9A%84%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.2. 集中化的版本控制系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.3. 分布式版本控制系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-text">3. 创建项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE"><span class="nav-text">4. 克隆项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4"><span class="nav-text">5. 提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8token"><span class="nav-text">6. 使用token</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAtoken"><span class="nav-text">6.1. 创建token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E4%B8%8B%E6%9D%A5%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BF%AE%E6%94%B9config"><span class="nav-text">6.2. 克隆下来的项目修改config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8A%E4%BC%A0%E5%88%B0GitHub"><span class="nav-text">6.3. 新建文件夹上传到GitHub</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E6%9A%82%E5%AD%98%E6%96%87%E4%BB%B6"><span class="nav-text">7. 取消暂存文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-text">8. 历史记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E9%80%80%E5%88%B0%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC"><span class="nav-text">8.1. 回退到指定版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E5%88%B0%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC"><span class="nav-text">8.2. 切换到最新版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%94%AF"><span class="nav-text">9. 分支</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF"><span class="nav-text">9.1. 创建分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E5%AE%9A%E5%BD%93%E5%89%8D%E5%88%86%E6%94%AF"><span class="nav-text">9.2. 选定当前分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF"><span class="nav-text">9.3. 删除分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%86%E6%94%AF"><span class="nav-text">9.4. 查看分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="nav-text">9.5. 查看远程分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81"><span class="nav-text">9.6. 拉取远程分支代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%E6%9B%B4%E6%96%B0"><span class="nav-text">10. 拒绝更新</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91"><span class="nav-text">1. 推荐视频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">2. 版本控制系统的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.1. 本地版本控制系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E4%B8%AD%E5%8C%96%E7%9A%84%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.2. 集中化的版本控制系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.3. 分布式版本控制系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-text">3. 创建项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE"><span class="nav-text">4. 克隆项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4"><span class="nav-text">5. 提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8token"><span class="nav-text">6. 使用token</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAtoken"><span class="nav-text">6.1. 创建token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E4%B8%8B%E6%9D%A5%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BF%AE%E6%94%B9config"><span class="nav-text">6.2. 克隆下来的项目修改config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8A%E4%BC%A0%E5%88%B0GitHub"><span class="nav-text">6.3. 新建文件夹上传到GitHub</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E6%9A%82%E5%AD%98%E6%96%87%E4%BB%B6"><span class="nav-text">7. 取消暂存文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-text">8. 历史记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E9%80%80%E5%88%B0%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC"><span class="nav-text">8.1. 回退到指定版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E5%88%B0%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC"><span class="nav-text">8.2. 切换到最新版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%94%AF"><span class="nav-text">9. 分支</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF"><span class="nav-text">9.1. 创建分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E5%AE%9A%E5%BD%93%E5%89%8D%E5%88%86%E6%94%AF"><span class="nav-text">9.2. 选定当前分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF"><span class="nav-text">9.3. 删除分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E5%88%86%E6%94%AF"><span class="nav-text">9.4. 重命名分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%86%E6%94%AF"><span class="nav-text">9.5. 查看分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="nav-text">9.6. 查看远程分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81"><span class="nav-text">9.7. 拉取远程分支代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%E6%9B%B4%E6%96%B0"><span class="nav-text">10. 拒绝更新</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -528,7 +532,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -541,7 +545,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -590,7 +594,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -600,13 +604,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span>网站总字数: </span>
-    <span title="站点总字数">2.9m</span>
+    <span title="站点总字数">3.4m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">44:22</span>
+    <span title="站点阅读时长">51:11</span>
 </div>
 
 <span id="sitetime"></span>

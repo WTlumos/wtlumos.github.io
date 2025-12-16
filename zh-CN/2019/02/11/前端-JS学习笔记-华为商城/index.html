@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;www.vmall.com&#x2F;index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-JS学习笔记-华为商城">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.vmall.com&#x2F;index.html">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/wrapper.png">
+<meta property="article:published_time" content="2019-02-10T23:22:21.000Z">
+<meta property="article:modified_time" content="2024-04-16T06:37:29.814Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="IT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/wrapper.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-JS学习笔记-华为商城 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-JS学习笔记-华为商城
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-11 07:22:21" itemprop="dateCreated datePublished" datetime="2019-02-11T07:22:21+08:00">2019-02-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-16 14:37:29" itemprop="dateModified" datetime="2024-04-16T14:37:29+08:00">2024-04-16</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center"><a target="_blank" rel="noopener" href="https://www.vmall.com/index.html">https://www.vmall.com/index.html</a></blockquote>
+
+<span id="more"></span>
+
+<h1 id="代码">1. 代码</h1><p><a href="/vmall.zip">vmall.zip</a></p>
+<p><img src="/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/wrapper.png"></p>
+<h1 id="创建元素方法">2. 创建元素方法</h1><h2 id="通过createElement">2.1. 通过createElement()</h2><ul>
+<li>需要搭配append()方法</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 产品展示元素</span></span><br><span class="line"><span class="keyword">var</span> productEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.product&quot;</span>);</span><br><span class="line"><span class="comment">// 产品展示数据来源</span></span><br><span class="line"><span class="keyword">var</span> showList = [].<span class="title function_">concat</span>(resultList);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createEle1</span>(<span class="params"></span>) &#123;</span><br><span class="line">  productEl.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; showList.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = showList[i];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建元素</span></span><br><span class="line">    <span class="keyword">var</span> item = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">    item.<span class="property">className</span> = <span class="string">&quot;item&quot;</span>;</span><br><span class="line">    productEl.<span class="title function_">append</span>(item);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a链接</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">    a.<span class="property">href</span> = <span class="string">&quot;#&quot;</span>;</span><br><span class="line">    item.<span class="title function_">append</span>(a);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 元素中的图片</span></span><br><span class="line">    <span class="keyword">var</span> img = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;img&quot;</span>);</span><br><span class="line">    img.<span class="property">className</span> = <span class="string">&quot;album&quot;</span>;</span><br><span class="line">    img.<span class="property">src</span> = baseUrl + result.<span class="property">photoPath</span> +<span class="string">&quot;800_800_&quot;</span>+ result.<span class="property">photoName</span>;</span><br><span class="line">    a.<span class="title function_">append</span>(img);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 标题</span></span><br><span class="line">    <span class="keyword">var</span> title = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">    title.<span class="property">className</span> = <span class="string">&quot;title oneline&quot;</span>;</span><br><span class="line">    title.<span class="property">innerText</span> = result.<span class="property">name</span>;</span><br><span class="line">    a.<span class="title function_">append</span>(title);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 折扣</span></span><br><span class="line">    <span class="keyword">var</span> discount = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">    discount.<span class="property">className</span> = <span class="string">&quot;discount online&quot;</span>;</span><br><span class="line">    discount.<span class="property">innerText</span> = result.<span class="property">promotionInfo</span>;</span><br><span class="line">    a.<span class="title function_">append</span>(discount);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 价格</span></span><br><span class="line">    <span class="keyword">var</span> price = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">    price.<span class="property">className</span> = <span class="string">&quot;price&quot;</span>;</span><br><span class="line">    price.<span class="property">innerHTML</span> = <span class="string">&quot;&amp;yen;&quot;</span>+result.<span class="property">price</span>;</span><br><span class="line">    a.<span class="title function_">append</span>(price);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 福利</span></span><br><span class="line">    <span class="keyword">var</span> welfare = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">    welfare.<span class="property">className</span> = <span class="string">&quot;welfare&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> services = result.<span class="property">promoLabels</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> service <span class="keyword">of</span> services) &#123;</span><br><span class="line">      <span class="keyword">var</span> span = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;span&quot;</span>);</span><br><span class="line">      span.<span class="property">innerText</span> = service;</span><br><span class="line">      welfare.<span class="title function_">append</span>(span);</span><br><span class="line">    &#125;</span><br><span class="line">    a.<span class="title function_">append</span>(welfare);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 评论</span></span><br><span class="line">    <span class="keyword">var</span> comment = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">    comment.<span class="property">className</span> = <span class="string">&quot;comment&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> span = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;span&quot;</span>);</span><br><span class="line">    span.<span class="property">innerText</span> = result.<span class="property">rateCount</span> + <span class="string">&quot;人评论&quot;</span>;</span><br><span class="line">    comment.<span class="title function_">append</span>(span);</span><br><span class="line">    span = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;span&quot;</span>);</span><br><span class="line">    span.<span class="property">innerText</span> = result.<span class="property">goodRate</span> + <span class="string">&quot;%好评&quot;</span>;</span><br><span class="line">    comment.<span class="title function_">append</span>(span);</span><br><span class="line">    a.<span class="title function_">append</span>(comment);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">addEmptySpace</span>(<span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用innerHTML">2.2. 使用innerHTML</h2><ul>
+<li>将所有子元素内容拼接好后通过innerHTML渲染到网页</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createEle2</span>(<span class="params"></span>) &#123;</span><br><span class="line">  productEl.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="keyword">var</span> str = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; showList.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = showList[i];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 图片地址</span></span><br><span class="line">    imgSrc =  baseUrl + result.<span class="property">photoPath</span> +<span class="string">&quot;800_800_&quot;</span>+ result.<span class="property">photoName</span>;</span><br><span class="line">    <span class="comment">// 福利</span></span><br><span class="line">    <span class="keyword">var</span> services = result.<span class="property">promoLabels</span>;</span><br><span class="line">    <span class="keyword">var</span> welfare = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> service <span class="keyword">of</span> services) &#123;</span><br><span class="line">      welfare += <span class="string">`&lt;span&gt;<span class="subst">$&#123;service&#125;</span>&lt;/span&gt;`</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拼接元素</span></span><br><span class="line">    str += <span class="string">` </span></span><br><span class="line"><span class="string">      &lt;div class=&quot;item&quot;&gt;</span></span><br><span class="line"><span class="string">        &lt;a href=&quot;#&quot;&gt;</span></span><br><span class="line"><span class="string">          &lt;img src=&quot;<span class="subst">$&#123;imgSrc&#125;</span>&quot; class=&quot;album&quot;&gt;</span></span><br><span class="line"><span class="string">          &lt;p class=&quot;title oneline&quot;&gt;<span class="subst">$&#123;result.name&#125;</span>&lt;/p&gt;</span></span><br><span class="line"><span class="string">          &lt;p class=&quot;discount&quot;&gt;<span class="subst">$&#123;result.promotionInfo&#125;</span>&lt;/p&gt;</span></span><br><span class="line"><span class="string">          &lt;p class=&quot;price&quot;&gt;&amp;yen;<span class="subst">$&#123;result.price&#125;</span>&lt;/p&gt;</span></span><br><span class="line"><span class="string">          &lt;div class=&quot;welfare&quot;&gt;<span class="subst">$&#123;welfare&#125;</span>&lt;/div&gt;</span></span><br><span class="line"><span class="string">          &lt;div class=&quot;comment&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;span&gt;<span class="subst">$&#123;result.rateCount&#125;</span>人评论&lt;/span&gt;</span></span><br><span class="line"><span class="string">            &lt;span&gt;<span class="subst">$&#123;result.goodRate&#125;</span>%好评&lt;/span&gt;</span></span><br><span class="line"><span class="string">          &lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;/a&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;`</span>;   </span><br><span class="line">  &#125;</span><br><span class="line">  productEl.<span class="property">innerHTML</span> = str;</span><br><span class="line">  <span class="title function_">addEmptySpace</span>(<span class="number">4</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="过滤实现">3. 过滤实现</h1><ul>
+<li><p>resultList数组中存放的一直是原始数据</p>
+</li>
+<li><p>通过数组的filter方法筛选数据</p>
+<ul>
+<li>匿名函数返回true时，数据会被保留</li>
+<li>typeFlag - 分类栏的数据保留标志，serviceFlag - 服务优惠栏的数据保留标志，只有当两者都为true时，才能确保数据是符合过滤标准的</li>
+</ul>
+</li>
+<li><p>分类栏的过滤</p>
+<ul>
+<li>当 typeFilters数组为空时，for循环不会执行，所有原始数据通过筛选</li>
+<li>当 typeFilters数组存入数据，如 [“笔记本”]时，判断resultList数据每一项的skuName中是否包含”笔记本”字符串。若没有，则typeFlag为false，立即退出循环，也可以退出这次筛选，因为typeFlag已经为false，return的一定是false</li>
+</ul>
+</li>
+<li><p>服务优惠栏的过滤</p>
+<ul>
+<li>当 serviceFilters数组为空时，for循环也不会执行，所有原始数据通过筛选</li>
+<li>当 serviceFilters数组存入数据，如 [“仅看有货”]时，判断resultList数据每一项的services数组中是否包含”仅看有货”元素。若没有，则serviceFlag为false，立即退出循环</li>
+</ul>
+</li>
+<li><p>最终需要重新根据showList生成内容</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分类栏的过滤</span></span><br><span class="line"><span class="keyword">var</span> typeFilters = [];</span><br><span class="line"><span class="comment">// 服务优惠栏的过滤</span></span><br><span class="line"><span class="keyword">var</span> serviceFilters = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">filterArr</span>(<span class="params"></span>) &#123;</span><br><span class="line">  showList = resultList.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> typeFlag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">var</span> serviceFlag = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">// 分类栏筛选</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> arr <span class="keyword">of</span> typeFilters) &#123;</span><br><span class="line">      <span class="keyword">if</span> (item.<span class="property">skuName</span>.<span class="title function_">indexOf</span>(arr) === -<span class="number">1</span>) &#123;</span><br><span class="line">        typeFlag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(typeFlag) &#123;</span><br><span class="line">      <span class="comment">// 服务优惠栏筛选</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> arr <span class="keyword">of</span> serviceFilters) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!item.<span class="property">services</span>.<span class="title function_">includes</span>(arr)) &#123;</span><br><span class="line">          serviceFlag = <span class="literal">false</span>;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> typeFlag&amp;&amp;serviceFlag;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 重新生成内容</span></span><br><span class="line">  <span class="title function_">createEle2</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="过滤的选择">4. 过滤的选择</h1><ul>
+<li>用于typeFilters，serviceFilters数组的生成</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">clickChoose</span>(<span class="params">event,filters</span>) &#123;</span><br><span class="line">  <span class="comment">// 点击项</span></span><br><span class="line">  <span class="keyword">var</span> item = event.<span class="property">target</span>;</span><br><span class="line">  <span class="comment">// 点击项内容</span></span><br><span class="line">  <span class="keyword">var</span> value = item.<span class="property">innerHTML</span>;</span><br><span class="line">  <span class="comment">// 排除栏目标题</span></span><br><span class="line">  <span class="keyword">if</span>(item === <span class="variable language_">this</span>.<span class="property">children</span>[<span class="number">0</span>]) <span class="keyword">return</span>;</span><br><span class="line">  <span class="comment">// 判断是否处于激活状态</span></span><br><span class="line">  <span class="keyword">if</span>(item.<span class="property">classList</span>.<span class="title function_">contains</span>(<span class="string">&quot;active&quot;</span>)) &#123;</span><br><span class="line">    <span class="comment">// 找到内容在过滤数组中的索引值</span></span><br><span class="line">    <span class="keyword">var</span> idx = filters.<span class="title function_">indexOf</span>(value);</span><br><span class="line">    <span class="comment">// 删除该元素</span></span><br><span class="line">    filters.<span class="title function_">splice</span>(idx,<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 点击项变回未激活状态</span></span><br><span class="line">    item.<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 过滤数组中添加内容</span></span><br><span class="line">    filters.<span class="title function_">push</span>(value);</span><br><span class="line">    <span class="comment">// 点击项处于激活状态</span></span><br><span class="line">    item.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 根据现在的过滤数组内容，重新生成showList数组</span></span><br><span class="line">  <span class="title function_">filterArr</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分类栏点击</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> typeEl = operationEl.<span class="title function_">querySelector</span>(<span class="string">&quot;.type&quot;</span>);</span><br><span class="line"></span><br><span class="line">typeEl.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  clickChoose.<span class="title function_">apply</span>(<span class="variable language_">this</span>,[event,typeFilters]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>服务优惠栏点击</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> services = operationEl.<span class="title function_">querySelector</span>(<span class="string">&quot;.services&quot;</span>);</span><br><span class="line"></span><br><span class="line">services.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  clickChoose.<span class="title function_">apply</span>(<span class="variable language_">this</span>,[event,serviceFilters]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="排序实现">5. 排序实现</h1><h2 id="排序栏的数据准备">5.1. 排序栏的数据准备</h2><ul>
+<li>data-key属性对应原始数据中的key值</li>
+<li>JavaScript中通过 element.dataset.key可以拿到</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;order&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>排序:<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">data-key</span>=<span class="string">&quot;default&quot;</span> <span class="attr">class</span>=<span class="string">&quot;active&quot;</span>&gt;</span>综合<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">data-key</span>=<span class="string">&quot;goodRate&quot;</span>&gt;</span>好评率<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">data-key</span>=<span class="string">&quot;rateCount&quot;</span>&gt;</span>评论数<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">data-key</span>=<span class="string">&quot;price&quot;</span>&gt;</span>价格<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="排序栏的点击事件">5.2. 排序栏的点击事件</h2><ul>
+<li>综合对应default，它并不用排序，只是对当前两个过滤数组进行再一次的过滤</li>
+<li>其他的通过数组的sort函数进行排序</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 排序栏</span></span><br><span class="line"><span class="keyword">var</span> orderEl = operationEl.<span class="title function_">querySelector</span>(<span class="string">&quot;.order&quot;</span>);</span><br><span class="line"><span class="comment">// 记录当前激活的项</span></span><br><span class="line"><span class="keyword">var</span> orderActiveEl  = orderEl.<span class="property">children</span>[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">orderEl.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="comment">// 点击项</span></span><br><span class="line">  <span class="keyword">var</span> item = event.<span class="property">target</span>;</span><br><span class="line">  <span class="comment">// 排除栏目标题</span></span><br><span class="line">  <span class="keyword">if</span>(item === <span class="variable language_">this</span>.<span class="property">children</span>[<span class="number">0</span>]) <span class="keyword">return</span>;</span><br><span class="line">  <span class="comment">// 删除原有激活项的样式</span></span><br><span class="line">  orderActiveEl.<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  <span class="comment">// 点击项激活样式</span></span><br><span class="line">  item.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  <span class="comment">// 记录点击项为当前激活项</span></span><br><span class="line">  orderActiveEl = item;</span><br><span class="line">  <span class="comment">// 拿到点击项的data-key值</span></span><br><span class="line">  <span class="keyword">var</span> key = item.<span class="property">dataset</span>.<span class="property">key</span>;</span><br><span class="line">  <span class="comment">// 如果是综合项，用原始数据过滤</span></span><br><span class="line">  <span class="keyword">if</span>(key === <span class="string">&quot;default&quot;</span>) &#123;</span><br><span class="line">    <span class="title function_">filterArr</span>();</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 用数组sort函数进行排序</span></span><br><span class="line">    showList = showList.<span class="title function_">sort</span>(<span class="keyword">function</span>(<span class="params">item1,item2</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> item2[key] - item1[key];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 重新生成product中的展示内容</span></span><br><span class="line">    <span class="title function_">createEle2</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="图片轮播-透明度变化">6. 图片轮播-透明度变化</h1><h2 id="绝对定位">6.1. 绝对定位</h2><ul>
+<li>所有图都绝对定位叠放在同一个位置，只有第一张图透明度为1</li>
+<li>设置的transition动画可使每个图片展示有透明度变化效果</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.banner-opacity</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">transition</span>: opacity <span class="number">500ms</span> linear;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.banner-opacity</span> <span class="selector-class">.item</span><span class="selector-pseudo">:first</span>-child &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="移动实现">6.2. 移动实现</h2><ul>
+<li>prevoiusIndex 记录当前所在位置</li>
+<li>currentIndex 记录将要移动到的位置</li>
+<li>len 记录原始数据的数组长度</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> prevoiusIndex = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> currentIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> len = banners.<span class="property">length</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>判断边界<ul>
+<li>当前是最后一张图(prevoiusIndex&#x3D;len-1)时，后移下一张图应该是第一张(currentIndex&#x3D;0)</li>
+<li>当前是第一张图(prevoiusIndex&#x3D;0)时，前移下一张图应该是最后一张(currentIndex&#x3D;len-1)</li>
+</ul>
+</li>
+<li>改变索引组的激活项<ul>
+<li>当前项取消激活</li>
+<li>目标项激活</li>
+</ul>
+</li>
+<li>改变图片透明度<ul>
+<li>当前图透明度改为0</li>
+<li>目标项透明度改为1</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bannerOpacity = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.banner-opacity&quot;</span>);</span><br><span class="line"><span class="comment">// 底部索引</span></span><br><span class="line"><span class="keyword">var</span> indicatorList = bannerOpacity.<span class="title function_">querySelector</span>(<span class="string">&quot;.indicator&quot;</span>);</span><br><span class="line"><span class="comment">// 图片组</span></span><br><span class="line"><span class="keyword">var</span> bannerList = bannerOpacity.<span class="title function_">querySelector</span>(<span class="string">&quot;.list&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">move</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 边界判断</span></span><br><span class="line">  <span class="keyword">if</span> (currentIndex === len) &#123;</span><br><span class="line">    currentIndex = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(currentIndex === -<span class="number">1</span> ) &#123;</span><br><span class="line">    currentIndex = len - <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 索引</span></span><br><span class="line">  indicatorList.<span class="property">children</span>[prevoiusIndex].<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  indicatorList.<span class="property">children</span>[currentIndex].<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 图片</span></span><br><span class="line">  bannerList.<span class="property">children</span>[prevoiusIndex].<span class="property">style</span>.<span class="property">opacity</span> = <span class="number">0</span>;</span><br><span class="line">  bannerList.<span class="property">children</span>[currentIndex].<span class="property">style</span>.<span class="property">opacity</span> = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="移动变化">6.3. 移动变化</h2><h3 id="左右按钮的点击">6.3.1. 左右按钮的点击</h3><ul>
+<li>按钮改变的就是 prevoiusIndex 和 currentIndex值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> leftBtn = bannerOpacity.<span class="title function_">querySelector</span>(<span class="string">&quot;.left&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> rightBtn = bannerOpacity.<span class="title function_">querySelector</span>(<span class="string">&quot;.right&quot;</span>);</span><br><span class="line"></span><br><span class="line">leftBtn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  prevoiusIndex = currentIndex;</span><br><span class="line">  currentIndex--;</span><br><span class="line">  <span class="title function_">move</span>();</span><br><span class="line">&#125;</span><br><span class="line">rightBtn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  prevoiusIndex = currentIndex;</span><br><span class="line">  currentIndex++;</span><br><span class="line">  <span class="title function_">move</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="索引组的点击">6.3.2. 索引组的点击</h3><ul>
+<li>索引组的点击函数放在了元素创建中，是为了放到每个项的对应索引值 <code>li.index = i</code></li>
+<li>每个项点击改变的也是 prevoiusIndex 和 currentIndex值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 索引</span></span><br><span class="line"><span class="keyword">var</span> li = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;li&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(i===<span class="number">0</span>) &#123;</span><br><span class="line">  li.<span class="property">className</span> = <span class="string">&quot;active&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line">li.<span class="property">index</span> = i;</span><br><span class="line">indicatorList.<span class="title function_">append</span>(li);</span><br><span class="line"><span class="comment">// 索引按钮</span></span><br><span class="line">li.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  prevoiusIndex = currentIndex;</span><br><span class="line">  currentIndex = <span class="variable language_">this</span>.<span class="property">index</span>;</span><br><span class="line">  <span class="title function_">move</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="自动轮播">6.4. 自动轮播</h2><ul>
+<li>设置一个定时器，每3s运行一次</li>
+<li>定时器内部跟右按钮的点击一样</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">startTime</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (timer) <span class="keyword">return</span>;</span><br><span class="line">  timer = <span class="built_in">setInterval</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    prevoiusIndex = currentIndex;</span><br><span class="line">    currentIndex++;</span><br><span class="line">    <span class="title function_">move</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">endTime</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!timer) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">clearInterval</span>(timer);</span><br><span class="line">  timer = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="鼠标与定时器">6.5. 鼠标与定时器</h2><ul>
+<li>鼠标在整个 div.banner元素中时，定时器关闭</li>
+<li>鼠标离开时，定时器重启</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bannerOpacity.<span class="property">onmouseenter</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// console.log(&quot;enter&quot;);</span></span><br><span class="line">  <span class="title function_">endTime</span>();</span><br><span class="line">&#125;</span><br><span class="line">bannerOpacity.<span class="property">onmouseleave</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// console.log(&quot;leave&quot;);</span></span><br><span class="line">  <span class="title function_">startTime</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="页面可见与定时器">6.6. 页面可见与定时器</h2><ul>
+<li>当页面不可见时，定时器关闭</li>
+<li>页面可见时，定时器重启</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="property">onvisibilitychange</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="property">visibilityState</span> === <span class="string">&quot;visible&quot;</span>) &#123;</span><br><span class="line">    <span class="title function_">startTime</span>();</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="property">visibilityState</span> === <span class="string">&quot;hidden&quot;</span>) &#123;</span><br><span class="line">    <span class="title function_">endTime</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="图片轮播-整个ul移动">7. 图片轮播-整个ul移动</h1><h2 id="flex布局">7.1. flex布局</h2><ul>
+<li>所有图片水平排布，通过 整个ul.list的 translateX 的改变来达到移动效果</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.banner-translatex</span> <span class="selector-class">.list</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="comment">/* transform: translateX(-100%); */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.banner-translatex</span> <span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="图片克隆">7.2. 图片克隆</h2><ul>
+<li>第一张图片左移时，为了实现移动的效果，复制最后一张图片放在其左边</li>
+<li>最后一张图片右移时，为了实现移动的效果，复制第一张图片放在其右边</li>
+<li>这样导致视口中实现的是最后一张图片，所以需要将 ul.list 向左移动 -100%，显示第一张图</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bannerTranslateX = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.banner-translatex&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">cloneImg</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> first = bannerListTranslateX.<span class="property">children</span>[<span class="number">0</span>].<span class="title function_">cloneNode</span>(<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">var</span> last = bannerListTranslateX.<span class="property">children</span>[length-<span class="number">1</span>].<span class="title function_">cloneNode</span>(<span class="literal">true</span>);</span><br><span class="line">  <span class="comment">// 后插</span></span><br><span class="line">  bannerListTranslateX.<span class="title function_">append</span>(first);</span><br><span class="line">  <span class="comment">// 前插</span></span><br><span class="line">  bannerListTranslateX.<span class="title function_">prepend</span>(last);</span><br><span class="line">  bannerListTranslateX.<span class="property">style</span>.<span class="property">transform</span> = <span class="string">&quot;translateX(-100%)&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="移动实现-1">7.3. 移动实现</h2><ul>
+<li>length - 记录原始数据的数组长度</li>
+<li>preIndex 记录当前所在位置，理想中没有克隆的第一张，最后一张的位置</li>
+<li>curIndex 记录将要移动到的位置，同样是理想中的位置</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = banners.<span class="property">length</span>;</span><br><span class="line"><span class="keyword">var</span> preIndex = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> curIndex = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当达到理想中的最后一张时，因为其后面还有第一张图片副本，所以先进行动画左移，再进行边界判断，无动画的移动至第一张图片位置</li>
+<li>当达到理想中的第一张时，因为其前面还有最后一张图片副本，所以先进行动画左移，再进行边界判断，无动画的移动至最一张图片位置</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveTranslateX</span>(<span class="params"></span>) &#123;</span><br><span class="line">  bannerListTranslateX.<span class="property">style</span>.<span class="property">transform</span> = <span class="string">`translateX(-<span class="subst">$&#123;(curIndex+<span class="number">1</span>)*<span class="number">100</span>&#125;</span>%)`</span>;</span><br><span class="line">  bannerListTranslateX.<span class="property">style</span>.<span class="property">transition</span> = <span class="string">`transform <span class="subst">$&#123;transformTime&#125;</span>ms linear`</span>;</span><br><span class="line">  <span class="comment">// 边界判断的</span></span><br><span class="line">  <span class="keyword">if</span> (curIndex === length) &#123;</span><br><span class="line">    <span class="title function_">moveTranslateXTimer</span>(<span class="number">1</span>);</span><br><span class="line">    curIndex = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(curIndex === -<span class="number">1</span> ) &#123;</span><br><span class="line">    <span class="title function_">moveTranslateXTimer</span>(len);</span><br><span class="line">    curIndex = length - <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 索引</span></span><br><span class="line">  indicatorListTranslateX.<span class="property">children</span>[preIndex].<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">  indicatorListTranslateX.<span class="property">children</span>[curIndex].<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;active&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transformTime = <span class="number">500</span>;</span><br><span class="line"><span class="comment">// 动画结束后，无动画的移动至指定位置</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveTranslateXTimer</span>(<span class="params">num</span>) &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    bannerListTranslateX.<span class="property">style</span>.<span class="property">transform</span> = <span class="string">`translateX(-<span class="subst">$&#123;num*<span class="number">100</span>&#125;</span>%)`</span>;</span><br><span class="line">    bannerListTranslateX.<span class="property">style</span>.<span class="property">transition</span> = <span class="string">&quot;none&quot;</span>;</span><br><span class="line">  &#125;,transformTime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="移动变化-1">7.4. 移动变化</h2><h3 id="左右按钮的点击-1">7.4.1. 左右按钮的点击</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> leftTranslatexBtn = bannerTranslateX.<span class="title function_">querySelector</span>(<span class="string">&quot;.left&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> rightTranslatexBtn = bannerTranslateX.<span class="title function_">querySelector</span>(<span class="string">&quot;.right&quot;</span>);</span><br><span class="line"></span><br><span class="line">leftTranslatexBtn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  preIndex = curIndex;</span><br><span class="line">  curIndex--;</span><br><span class="line">  <span class="title function_">moveTranslateX</span>();</span><br><span class="line">&#125;</span><br><span class="line">rightTranslatexBtn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  preIndex = curIndex;</span><br><span class="line">  curIndex++;</span><br><span class="line">  <span class="title function_">moveTranslateX</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="索引组的点击-1">7.4.2. 索引组的点击</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 索引</span></span><br><span class="line"><span class="keyword">var</span> li = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;li&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(i===<span class="number">0</span>) &#123;</span><br><span class="line">  li.<span class="property">className</span> = <span class="string">&quot;active&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line">li.<span class="property">index</span> = i;</span><br><span class="line">indicatorListTranslateX.<span class="title function_">append</span>(li);</span><br><span class="line"><span class="comment">// 索引按钮</span></span><br><span class="line">li.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  preIndex = curIndex;</span><br><span class="line">  curIndex = <span class="variable language_">this</span>.<span class="property">index</span>;</span><br><span class="line">  <span class="title function_">moveTranslateX</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="自动轮播-1">7.5. 自动轮播</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timertranslatex = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">startTimeTranslateX</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (timertranslatex) <span class="keyword">return</span>;</span><br><span class="line">  timertranslatex = <span class="built_in">setInterval</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    preIndex = curIndex;</span><br><span class="line">    curIndex++;</span><br><span class="line">    <span class="title function_">moveTranslateX</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">endTimeTranslateX</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!timertranslatex) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">clearInterval</span>(timertranslatex);</span><br><span class="line">  timertranslatex = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="鼠标与定时器-1">7.6. 鼠标与定时器</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">startTimeTranslateX</span>();</span><br><span class="line"><span class="comment">// 移入</span></span><br><span class="line">bannerTranslateX.<span class="property">onmouseenter</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">endTimeTranslateX</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 移出</span></span><br><span class="line">bannerTranslateX.<span class="property">onmouseleave</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">startTimeTranslateX</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/02/11/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%8E%E4%B8%BA%E5%95%86%E5%9F%8E/" title="前端-JS学习笔记-华为商城">https://wtlumos.github.io/zh-CN/2019/02/11/前端-JS学习笔记-华为商城/</a> -->
+    
+       <a href ="/zh-CN/2019/02/11/前端-JS学习笔记-华为商城/" >/zh-CN/2019/02/11/前端-JS学习笔记-华为商城/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-02-11 07:22
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2024-04-16 14:37
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/12/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91/" rel="prev" title="前端-JS学习笔记-函数的this指向">
+      <i class="fa fa-chevron-left"></i> 前端-JS学习笔记-函数的this指向
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/10/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E5%AE%9E%E6%88%98js%E8%A1%A5%E5%85%85/" rel="next" title="前端-JS学习笔记-王者荣耀实战js补充">
+      前端-JS学习笔记-王者荣耀实战js补充 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">1. 代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%85%83%E7%B4%A0%E6%96%B9%E6%B3%95"><span class="nav-text">2. 创建元素方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87createElement"><span class="nav-text">2.1. 通过createElement()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8innerHTML"><span class="nav-text">2.2. 使用innerHTML</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%AE%9E%E7%8E%B0"><span class="nav-text">3. 过滤实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">4. 过滤的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%AE%9E%E7%8E%B0"><span class="nav-text">5. 排序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E6%A0%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-text">5.1. 排序栏的数据准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E6%A0%8F%E7%9A%84%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="nav-text">5.2. 排序栏的点击事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%BD%AE%E6%92%AD-%E9%80%8F%E6%98%8E%E5%BA%A6%E5%8F%98%E5%8C%96"><span class="nav-text">6. 图片轮播-透明度变化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D"><span class="nav-text">6.1. 绝对定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%AE%9E%E7%8E%B0"><span class="nav-text">6.2. 移动实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%8F%98%E5%8C%96"><span class="nav-text">6.3. 移动变化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E5%8F%B3%E6%8C%89%E9%92%AE%E7%9A%84%E7%82%B9%E5%87%BB"><span class="nav-text">6.3.1. 左右按钮的点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%84%E7%9A%84%E7%82%B9%E5%87%BB"><span class="nav-text">6.3.2. 索引组的点击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AE%E6%92%AD"><span class="nav-text">6.4. 自动轮播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E4%B8%8E%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-text">6.5. 鼠标与定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%8F%AF%E8%A7%81%E4%B8%8E%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-text">6.6. 页面可见与定时器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%BD%AE%E6%92%AD-%E6%95%B4%E4%B8%AAul%E7%A7%BB%E5%8A%A8"><span class="nav-text">7. 图片轮播-整个ul移动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#flex%E5%B8%83%E5%B1%80"><span class="nav-text">7.1. flex布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%85%8B%E9%9A%86"><span class="nav-text">7.2. 图片克隆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%AE%9E%E7%8E%B0-1"><span class="nav-text">7.3. 移动实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%8F%98%E5%8C%96-1"><span class="nav-text">7.4. 移动变化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E5%8F%B3%E6%8C%89%E9%92%AE%E7%9A%84%E7%82%B9%E5%87%BB-1"><span class="nav-text">7.4.1. 左右按钮的点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%84%E7%9A%84%E7%82%B9%E5%87%BB-1"><span class="nav-text">7.4.2. 索引组的点击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AE%E6%92%AD-1"><span class="nav-text">7.5. 自动轮播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E4%B8%8E%E5%AE%9A%E6%97%B6%E5%99%A8-1"><span class="nav-text">7.6. 鼠标与定时器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'd1bfe443f45044fc0d5ff97bf0aab6c7',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/A1053/212.png">
 <meta property="article:published_time" content="2019-09-03T04:33:46.000Z">
-<meta property="article:modified_time" content="2021-10-29T06:02:38.555Z">
+<meta property="article:modified_time" content="2025-02-23T15:59:05.591Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="PAT">
 <meta name="twitter:card" content="summary">
@@ -263,7 +263,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-29 14:02:38" itemprop="dateModified" datetime="2021-10-29T14:02:38+08:00">2021-10-29</time>
+                <time title="修改时间：2025-02-23 23:59:05" itemprop="dateModified" datetime="2025-02-23T23:59:05+08:00">2025-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,7 +281,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -325,7 +325,24 @@
 <p>和为s if (sum&#x3D;&#x3D;s)</p>
 <p>记录路径 path[cnt]&#x3D;idx;</p>
 <p>dfs(temp, sum+v[temp].weight,index+1);</p>
-<h1 id="AC代码">3. AC代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> weight;</span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; children;</span><br><span class="line">&#125;v[<span class="number">110</span>];</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> v[a].weight&gt;v[b].weight;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> s;</span><br><span class="line"><span class="type">int</span> path[<span class="number">110</span>]=&#123;&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> root,<span class="type">int</span> sum,<span class="type">int</span> cnt)</span></span>&#123;</span><br><span class="line">	<span class="comment">//printf(&quot;%d %d\n&quot;,root,sum);</span></span><br><span class="line">	<span class="keyword">if</span> (sum&gt;s)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (sum==s)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (v[root].children.<span class="built_in">size</span>()!=<span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; cnt; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (i!=<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,v[path[i]].weight);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; v[root].children.<span class="built_in">size</span>(); ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> idx=v[root].children[i];</span><br><span class="line">    path[cnt]=idx;</span><br><span class="line">		<span class="built_in">dfs</span>(idx,sum+v[idx].weight,cnt+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> n,m;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;m,&amp;s);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;v[i].weight);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> id,k,a;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;id,&amp;k);</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; k; ++j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a);</span><br><span class="line">			v[id].children.<span class="built_in">push_back</span>(a);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">sort</span>(v[id].children.<span class="built_in">begin</span>(),v[id].children.<span class="built_in">end</span>(),cmp);</span><br><span class="line">	&#125;</span><br><span class="line">	path[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">dfs</span>(<span class="number">0</span>,v[<span class="number">0</span>].weight,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>最后一个测试点错误❌：</p>
+<blockquote>
+<p>7 5 8<br>1 2 2 2 3 3 2<br>00 2 01 02<br>01 1 03<br>02 1 04<br>03 1 05<br>04 1 06</p>
+<p>期待的结果是</p>
+<p>1 2 3 2</p>
+<p>1 2 2 3</p>
+<p>实际的结果是</p>
+<p>1 2 2 3</p>
+<p>1 2 3 2</p>
+</blockquote>
+</li>
+<li><p>因为这种判断逻辑保证的是在同一层结点权值不同时，选择权值最大的结点。但是同一层有权值相同的结点时，选择的结点下一层孩子结点权值可能不是该同层最大的</p>
+</li>
+<li><p>需要对结果也进行排序，<code>greater&lt;T&gt;</code>在排序中是将数组元素从大到小排序</p>
+</li>
+</ul>
+<h1 id="AC代码">3. AC代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">    <span class="type">int</span> weight;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; child;</span><br><span class="line">&#125;;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">vector&lt;node&gt; Nodes;</span><br><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line"><span class="type">int</span> n,m,s;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Nodes[a].weight&gt;Nodes[b].weight;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> index,<span class="type">int</span> sum)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(sum&gt;s)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(sum==s)&#123;</span><br><span class="line">        <span class="keyword">if</span>(Nodes[index].child.<span class="built_in">size</span>()!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ans.<span class="built_in">push_back</span>(path);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;Nodes[index].child.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="type">int</span> idx = Nodes[index].child[i];</span><br><span class="line">        path.<span class="built_in">push_back</span>(Nodes[idx].weight);</span><br><span class="line">        <span class="built_in">dfs</span>(idx,sum+Nodes[idx].weight);</span><br><span class="line">        path.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;m,&amp;s);</span><br><span class="line">    Nodes.<span class="built_in">resize</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;Nodes[i].weight);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> a,k,b;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;a,&amp;k);</span><br><span class="line">        Nodes[a].child.<span class="built_in">resize</span>(k);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;k;j++)&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;Nodes[a].child[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(Nodes[a].child.<span class="built_in">begin</span>(),Nodes[a].child.<span class="built_in">end</span>(),cmp);</span><br><span class="line">    &#125;</span><br><span class="line">    path.<span class="built_in">push_back</span>(Nodes[<span class="number">0</span>].weight);</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>,Nodes[<span class="number">0</span>].weight);</span><br><span class="line">    <span class="built_in">sort</span>(ans.<span class="built_in">begin</span>(),ans.<span class="built_in">end</span>(),greater&lt;vector&lt;<span class="type">int</span>&gt;&gt;());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;ans.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;ans[i].<span class="built_in">size</span>();j++)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,ans[i][j]);</span><br><span class="line">            <span class="keyword">if</span>(j!=ans[i].<span class="built_in">size</span>()<span class="number">-1</span>)&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -357,7 +374,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2021-10-29 14:02
+          2025-02-23 23:59
 
       </li>
   
@@ -461,7 +478,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -474,7 +491,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -523,7 +540,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -533,13 +550,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span>网站总字数: </span>
-    <span title="站点总字数">2.9m</span>
+    <span title="站点总字数">3.4m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">44:22</span>
+    <span title="站点阅读时长">51:11</span>
 </div>
 
 <span id="sitetime"></span>

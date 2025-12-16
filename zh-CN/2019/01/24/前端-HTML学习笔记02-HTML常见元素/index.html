@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="html文档结构：html元素，head元素，body元素html常见元素：h，p，img，a，iframe，div，span块级元素，行内级元素字体实体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-HTML学习笔记02-HTML常见元素">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="html文档结构：html元素，head元素，body元素html常见元素：h，p，img，a，iframe，div，span块级元素，行内级元素字体实体">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/index.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/parent.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/top.png">
+<meta property="article:published_time" content="2019-01-23T16:46:11.000Z">
+<meta property="article:modified_time" content="2025-05-13T07:51:23.876Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/index.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-HTML学习笔记02-HTML常见元素 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-HTML学习笔记02-HTML常见元素
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-24 00:46:11" itemprop="dateCreated datePublished" datetime="2019-01-24T00:46:11+08:00">2019-01-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-13 15:51:23" itemprop="dateModified" datetime="2025-05-13T15:51:23+08:00">2025-05-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">html文档结构：html元素，head元素，body元素<br>html常见元素：h，p，img，a，iframe，div，span<br>块级元素，行内级元素<br>字体实体</blockquote>
+
+<span id="more"></span>
+
+<h1 id="完整的HTML结构">1. 完整的HTML结构</h1><ul>
+<li>一个完整的HTML结构包括哪几部分<ul>
+<li>文档声明</li>
+<li>html元素<ul>
+<li>head元素</li>
+<li>body元素</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="文档声明">2. 文档声明</h1><ul>
+<li><p>HTML最上方的一段文本称之为文档类型声明，用于声明文档类型</p>
+</li>
+<li><p><code>&lt;!DOCTYPE html&gt;</code></p>
+<ul>
+<li>HTML文档声明，告诉浏览器当前页面是HTML5页面</li>
+<li>让浏览器用HTML5的标准去解析识别内容</li>
+<li>必须<code>放在HTML文档的最前面，不能省略</code>，省略了会出现兼容性问题</li>
+</ul>
+</li>
+<li><p>HTML5的文档声明比HTML 4.01、XHTML 1.0简洁非常多</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">HTML</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html14/loose.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">HTML</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="html元素">3. html元素</h1><ul>
+<li><p><code>&lt;html&gt;</code> 元素表示一个 HTML文档的根(顶级元素)，所以它也被称为根元素</p>
+<ul>
+<li><p>所有其他元素必须是此元素的后代</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>W3C标准建议为html元素增加一个lang属性，作用是</p>
+<ul>
+<li><p>帮助语音合成工具确定要使用的发音</p>
+</li>
+<li><p>帮助翻译工具确定要使用的翻译规则</p>
+</li>
+</ul>
+</li>
+<li><p>比如常用的规则</p>
+<ul>
+<li><code>lang=&quot;en&quot;</code>表示这个HTML文档的语言是英文</li>
+<li><code>lang=&quot;zh-CN&quot;</code>表示这个HTML文档的语言是中文</li>
+</ul>
+</li>
+</ul>
+<h1 id="head元素">4. head元素</h1><ul>
+<li>HTML head 元素规定文档相关的配置信息(也称之为元数据)，包括文档的标题，引用的文档样式和脚本等，代码不会作为页面内容呈现给浏览器<ul>
+<li>什么是元数据(meta data)，是描述数据的数据</li>
+<li>可以理解成<code>对整个页面的配置</code></li>
+</ul>
+</li>
+<li>常见的设置有哪些<ul>
+<li>网页的标题：title元素</li>
+<li>网页的编码：meta元素</li>
+</ul>
+</li>
+</ul>
+<h2 id="title元素">4.1. title元素</h2><ul>
+<li>网页的标题，显示在浏览器标题栏或是收藏夹，历史浏览记录等位置</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>网页的标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="meta元素">4.2. meta元素</h2><ul>
+<li><p>meta元素用于定义元数据</p>
+<ul>
+<li>比如标题title、样式style、link外部资源等</li>
+<li>meta用于定义那些不能使用其他定元相关(meta-related)元素定义的任何元数据信息</li>
+</ul>
+</li>
+<li><p>meta元素定义的元数据类型包括以下几种</p>
+<ul>
+<li>如果设置了 charset 属性，meta 元素是一个字符集声明，告诉文档使用哪种字符编码</li>
+<li>如果设置了 http-equiv 属性，meta 元素则是编译指令</li>
+<li>如果设置了 name 属性，meta 元素提供的是文档级别(document-level)的元数据，应用于整个页面</li>
+</ul>
+</li>
+</ul>
+<h3 id="charset字符编码">4.2.1. charset字符编码</h3><ul>
+<li><p>标识网页的字符编码</p>
+</li>
+<li><p>作用：保存和打开的字符编码需要统一设置，否则可能会出现乱码</p>
+</li>
+<li><p>常见字符编码</p>
+<ul>
+<li>UTF-8：万国码，国际化的字符编码，收录了全球语言的文字</li>
+<li>GB2312：6000+汉字</li>
+<li>GBK：20000+汉字</li>
+</ul>
+</li>
+<li><p>注意点：开发中统一使用UTF-8</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charest</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="name元数据名称">4.2.2. name元数据名称</h3><ul>
+<li><p>name属性的值非常多，具体的内容可以查看文档</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta/name">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta/name</a></li>
+</ul>
+</li>
+<li><p>robots：爬虫、协作搜寻器，或者 “机器人”，对此页面的处理行为，或者说，应当遵守的规则</p>
+</li>
+<li><p>author：文档作者的名字</p>
+</li>
+<li><p>copyright：版权声明</p>
+</li>
+<li><p>description：一段简短而精确的、对页面内容的描述</p>
+<ul>
+<li>一些浏览器，比如 Firefox 和 Opera，将其用作书签的默认描述</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;description&quot;</span> <span class="attr">content</span>=<span class="string">&quot;这是一张HTML5前端页面&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>keywords：与页面内容相关的关键词，使用逗号分隔。某些搜索引擎会进行收录</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;keywords&quot;</span> <span class="attr">content</span>=<span class="string">&quot;HTML5 前端&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>viewport：视口。网页不允许缩放，应对手机端双指放大操作</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    width=device-width 显示窗口宽度等于设备宽度</span></span><br><span class="line"><span class="comment">    initial-scale=1.0 窗口默认不缩放</span></span><br><span class="line"><span class="comment">    user-scalable=no 用户不可缩放</span></span><br><span class="line"><span class="comment">    maximum-scale=1.0 最大缩放值</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width,initial-scale=1.0,</span></span></span><br><span class="line"><span class="string"><span class="tag">        user-scalable=no,maximum-scale=1.0&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="http-equiv编译指令">4.2.3. http-equiv编译指令</h3><ul>
+<li><p>X-UA-Compatible，官方文档的解释</p>
+<ul>
+<li>告知IE浏览器去模仿哪一个浏览器的行为</li>
+<li>IE&#x3D;edge，告知IE8使用最高有效模式来模仿</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每过一段时间刷新</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;refresh&quot;</span> <span class="attr">content</span>=<span class="string">&quot;300&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>页面在规定时间以后，页面加载的同时立刻跳转到其他主页</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;refresh&quot;</span> <span class="attr">content</span>=<span class="string">&quot;30;URL=http://www.baidu.com&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="link元素">4.3. link元素</h2><ul>
+<li><p>link元素是<code>外部资源链接</code>元素，规范了文档与外部资源的关系</p>
+<ul>
+<li>link元素通常是在head元素中</li>
+</ul>
+</li>
+<li><p>最常用的链接是样式表(CSS)</p>
+<ul>
+<li>此外也可以被用来创建站点图标(比如 “favicon” 图标)</li>
+</ul>
+</li>
+</ul>
+<h3 id="link元素常见的属性">4.3.1. link元素常见的属性</h3><ul>
+<li>href：此属性指定被链接资源的URL。 URL 可以是绝对的，也可以是相对的</li>
+<li>rel：指定链接类型</li>
+<li>常见的链接类型：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Link_types">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Link_types</a><ul>
+<li>icon：站点图标</li>
+<li>stylesheet：CSS样式</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;./favico.ico&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;./style.css&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="link图标">4.3.2. link图标</h3><ul>
+<li><p>Favicon是favorites icon的缩写，亦被称为website icon(站点图标)、page icon(页面图标)</p>
+</li>
+<li><p>用法</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;./favico.ico&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事实上它还有很多兼容性的写法</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Edge</th>
+<th>Firefox</th>
+<th>Google Chrome</th>
+<th>Internet Explorer</th>
+<th>Opera</th>
+<th>Safari</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;link rel=&quot;shortcut icon&quot; href=&quot;https://example.com/myicon.ico&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;icon&quot; type=&quot;image/vnd.microsoft.icon&quot; href=&quot;https://example.com/image.ico&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√(from IE9)</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://example.com/image.ico&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√(from IE9)</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;icon&quot; href=&quot;https://example.com/image.ico&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√(from IE11)</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;icon&quot; type=&quot;image/gif&quot;  href=&quot;https://example.com/image.gif&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√(from IE11)</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot;  href=&quot;https://example.com/image.png&quot;&gt;</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√(from IE11)</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>为什么有些网站没有link元素也可以正常显示图标呢?</p>
+<p><code>&lt;link rel=&quot;alternate&quot; href=&quot;https://pvp.qq.com/m/&quot;&gt;</code></p>
+<ul>
+<li>link使用方法表示有另一个可替换的网站供选择</li>
+<li>代码局限就是把favicon关联到了某个特定的HTML或XHTML文档上</li>
+<li>为避免这一点，favicon.ico 文件应置于根目录下。多数浏览器将自动检测并使用它</li>
+</ul>
+</li>
+</ul>
+<h3 id="dns-prefetch">4.3.3. dns-prefetch</h3><ul>
+<li><p>告知浏览器为目标资源的来源预先执行 DNS 解析</p>
+</li>
+<li><p>如在京东商城中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;dns-prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;//static.360buyimg.com&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="body元素">5. body元素</h1><ul>
+<li>body元素里面的内容将是在浏览器窗口中看到的东西，也就是网页的具体内容和结构</li>
+</ul>
+<h1 id="HTML元素">6. HTML元素</h1><ul>
+<li>HTML元素本身很多，但是常用的元素就是那么几个<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element</a></li>
+<li>需要记住常用的，不常用的学会查看文档</li>
+</ul>
+</li>
+</ul>
+<h1 id="h元素">7. h元素</h1><ul>
+<li><p>在一个页面中通常会有一些比较重要的文字作为<code>标题</code>，这个时候可以使用h元素</p>
+</li>
+<li><p><code>&lt;h1&gt;–&lt;h6&gt;</code> 标题 (Heading) 元素呈现了六个不同的级别的标题</p>
+<ul>
+<li><p>Heading是头部的意思，通常会用来做标题</p>
+</li>
+<li><p><code>&lt;h1&gt;</code> 级别最高，而 <code>&lt;h6&gt;</code> 级别最低</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1标题<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是h2标题<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>我是h3标题<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span>&gt;</span>我是h4标题<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h5</span>&gt;</span>我是h5标题<span class="tag">&lt;/<span class="name">h5</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h6</span>&gt;</span>我是h6标题<span class="tag">&lt;/<span class="name">h6</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特点</p>
+<ul>
+<li>文字都有加粗</li>
+<li>文字都有变大，但按层次 <code>&lt;h1&gt;&lt;h6&gt;</code> ，字号逐层递减</li>
+<li>元素都是独占一行的</li>
+</ul>
+</li>
+<li><p>注意：h元素通常和SEO优化有关系</p>
+</li>
+<li><p><code>&lt;h1&gt;-&lt;h6&gt;</code>元素的本质不同是css样式中设置的字体大小不同</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="comment">/* 独占一行 */</span></span><br><span class="line">  	<span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2em</span>;</span><br><span class="line">  	<span class="comment">/* 字体加粗 */</span></span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h2</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">1.5em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h3</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">1.17em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h4</span>&#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">1em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h5</span>&#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">0.83em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h6</span>&#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">0.67em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="p元素">8. p元素</h1><ul>
+<li><p>如果想表示一个段落，可以使用p元素</p>
+</li>
+<li><p>p元素(或者说 HTML 段落元素)表示文本的一个段落</p>
+<ul>
+<li>p元素是paragraph单词的缩写，是段落、分段的意思</li>
+<li>p元素多个段落之间会有一定的间距</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> HTML5 <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> paragraph <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特点</p>
+<ul>
+<li>段落之间存在间隙</li>
+<li>独占一行</li>
+</ul>
+</li>
+</ul>
+<h1 id="img元素">9. img元素</h1><ul>
+<li><p>使用img元素：告诉浏览器来显示一张图片</p>
+</li>
+<li><p>img元素将一份图像嵌入文档</p>
+<ul>
+<li>img是image单词的缩写，是图像的意思</li>
+<li>事实上img是一个<code>可替换元素</code>( replaced element )</li>
+</ul>
+</li>
+</ul>
+<h2 id="img元素属性">9.1. img元素属性</h2><ul>
+<li><p><code>src</code>属性：source单词的缩写，表示源。是必须的，它包含了图片的文件路径</p>
+</li>
+<li><p><code>alt</code>属性：不是强制性的，有两个作用</p>
+<ul>
+<li>作用一：当图片加载不成功(错误的地址或者图片资源不存在)，那么会显示这段文本</li>
+<li>作用二：屏幕阅读器会将这些描述读给需要使用阅读器的使用者听，知道图像的含义</li>
+</ul>
+</li>
+<li><p>某些其他属性目前已经不再使用</p>
+<ul>
+<li>比如width、height、border</li>
+</ul>
+</li>
+</ul>
+<h2 id="img元素图片路径">9.2. img元素图片路径</h2><ul>
+<li><p>设置img的src时，需要给图片设置路径</p>
+<ul>
+<li>网络图片：一个URL地址<ul>
+<li>网络图片的设置非常简单，给一个地址即可</li>
+</ul>
+</li>
+<li>本地图片：本地电脑上的图片，后续会和html一起部署到服务</li>
+</ul>
+</li>
+<li><p>本地图片的路径有两种方式</p>
+<ul>
+<li>方式一：绝对路径(几乎不用)<ul>
+<li>从电脑的根目录开始一直找到资源的路径</li>
+</ul>
+</li>
+<li>方式二：相对路径(常用)<ul>
+<li>相当于当前文件的一个路径</li>
+<li>. 代表当前文件夹，可以省略</li>
+<li>.. 代表上级文件夹</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对于网页来说，不管什么操作系统(Windows、Mac、Linux)，路径分隔符都是 &#x2F;，而不是 \</p>
+</li>
+</ul>
+<h2 id="img元素图片格式">9.3. img元素图片格式</h2><ul>
+<li>img元素支持的图片格式非常多</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>缩写</th>
+<th>文件格式</th>
+<th>MIME类型</th>
+<th>文件拓展名</th>
+<th>浏览器兼容性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>APNG</td>
+<td>Animated Portable Network Graphics<br>动态便捷式网络图像</td>
+<td>image&#x2F;apng</td>
+<td>.apng</td>
+<td>Chrome，Edge，Firefox，Opera，Safari</td>
+</tr>
+<tr>
+<td>AVIF</td>
+<td>AV1 Image File Format<br>AV1 图像文件格式</td>
+<td>image&#x2F;avif</td>
+<td>.avif</td>
+<td>Chrome，Opera，Firefox(feature flag)</td>
+</tr>
+<tr>
+<td>BMP</td>
+<td>Bitmap file<br>位图文件</td>
+<td>Image&#x2F;bmp</td>
+<td>.bmp</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+<tr>
+<td>GIF</td>
+<td>Graphics Interchange<br>图像互换格式</td>
+<td>image&#x2F;gif</td>
+<td>.gif</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+<tr>
+<td>ICO</td>
+<td>Microsoft Icon<br>微软图像</td>
+<td>image&#x2F;x-icon</td>
+<td>.ico,.cur</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+<tr>
+<td>JPEG</td>
+<td>Joint Photographic Expert Group Image<br>联合影像专家小组图像</td>
+<td>image&#x2F;jpeg</td>
+<td>.jpg.jpeg,.jfif,.pjpeg,.pjp</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+<tr>
+<td>PNG</td>
+<td>Portable Network Graphics<br>便捷式网络图像</td>
+<td>image&#x2F;png</td>
+<td>.png</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>Scalable Vector Graphics<br>可播放矢量图形</td>
+<td>image&#x2F;svg+xml</td>
+<td>.svg</td>
+<td>Chrome，Edge，Firefox，Internet Explorer，Opera，Safari</td>
+</tr>
+</tbody></table>
+<h1 id="a元素">10. a元素</h1><ul>
+<li>在网页中需要跳转到另外一个链接，这个时候使用a元素</li>
+<li>a元素(或称锚(anchor)元素)<ul>
+<li>定义超链接，用于打开新的URL</li>
+</ul>
+</li>
+</ul>
+<h2 id="a元素属性">10.1. a元素属性</h2><ul>
+<li><code>href</code>：指定要打开的URL地址</li>
+<li><code>target</code>：该属性指定在何处显示链接的资源<ul>
+<li>_self：默认值，在当前窗口打开URL</li>
+<li>_blank：在一个新的窗口中打开URL</li>
+<li>以下两个应用结合iframe元素使用</li>
+<li>_parent：在父窗口中打开URL</li>
+<li>_top：在顶层窗口中打开URL</li>
+</ul>
+</li>
+</ul>
+<h2 id="锚点链接">10.2. 锚点链接</h2><ul>
+<li>锚点链接可以实现跳转到网页中的具体位置</li>
+<li>锚点链接有两个重要步骤<ul>
+<li>在要跳到的元素上定义一个id属性</li>
+<li>定义a元素，并且a元素的href指向对应的id</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;top&quot;</span>&gt;</span>top<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;center&quot;</span>&gt;</span>center<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;bottom&quot;</span>&gt;</span>bottom<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#top&quot;</span>&gt;</span>top<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#center&quot;</span>&gt;</span>center<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#bottom&quot;</span>&gt;</span>bottom<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="图片链接">10.3. 图片链接</h2><ul>
+<li>在很多网站会发现图片也是可以点击进行跳转的</li>
+<li>img元素跟a元素一起使用，可以实现图片链接</li>
+<li>实现思路<ul>
+<li>a元素中不存放文字，而是存放一个img元素</li>
+<li>也就是img元素是a元素的内容</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/01&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./images/01.jpg&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="其他URL地址">10.4. 其他URL地址</h2><ul>
+<li><p>a元素一定是用来跳转到新网页的？</p>
+</li>
+<li><p>文件下载</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://github.com/coderwhy/HYMiniMall/archive/master.zip&quot;</span>&gt;</span>zip<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接邮件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;mailto:12345@qq.com&quot;</span>&gt;</span>邮件<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="iframe元素">11. iframe元素</h1><ul>
+<li>利用iframe元素可以实现<ul>
+<li><p>在一个HTML文档中嵌入其他HTML文档</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;https://www.taobao.com&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;https://www.baidu.com&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>百度网页不允许被嵌入</p>
+<p>在百度的响应头中定义<code>X-Frame-Options:sameorigin</code>，要求同源域名请求</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="frameborder属性">11.1. frameborder属性</h2><ul>
+<li>用于规定是否显示边框<ul>
+<li>1：显示</li>
+<li>0：不显示</li>
+</ul>
+</li>
+</ul>
+<h2 id="结合a的target属性">11.2. 结合a的target属性</h2><p><img src="/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/index.png"></p>
+<ul>
+<li><p>html&#x2F;index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>iframe1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;./iframe/index.html&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>html&#x2F;iframe&#x2F;index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>iframe2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;./other/index.html&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>html&#x2F;iframe&#x2F;other&#x2F;index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.taobao.com&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_parent&quot;</span>&gt;</span>打开链接<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.taobao.com&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_top&quot;</span>&gt;</span>打开链接<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>_parent：在父窗口中打开URL</p>
+<ul>
+<li>当点击第一个打开链接时，不会重新创建浏览器窗口，也不会修改网页网址，会将iframe2所在网页覆盖为 <a target="_blank" rel="noopener" href="https://www.taobao.com网页,即它的父窗口/">https://www.taobao.com网页，即它的父窗口</a></li>
+</ul>
+<p><img src="/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/parent.png"></p>
+</li>
+<li><p>_top：在顶层窗口中打开URL</p>
+<ul>
+<li>当点击第二个打开链接时，不会重新创建浏览器窗口，会修改网页网址，会将iframe1所在网页覆盖为 <a target="_blank" rel="noopener" href="https://www.taobao.com网页,即顶层窗口/">https://www.taobao.com网页，即顶层窗口</a></li>
+</ul>
+<p><img src="/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/top.png"></p>
+</li>
+</ul>
+<h1 id="div、span元素">12. div、span元素</h1><h2 id="div、span元素的历史">12.1. div、span元素的历史</h2><ul>
+<li><p>在HTML中有两个特殊的元素div元素、span元素</p>
+<ul>
+<li>div元素：division，分开、分配的意思</li>
+<li>span元素：跨域、涵盖的意思</li>
+</ul>
+</li>
+<li><p>这两个元素有什么作用呢?</p>
+<ul>
+<li>无所用、无所不用</li>
+</ul>
+</li>
+<li><p>产生的历史</p>
+<ul>
+<li>网页的发展早期是没有css，必须通过语义化元素来告知浏览器一段文字如何显示</li>
+<li>后来出现了css，结构和样式需要分离，这个时候html只需要负责结构即可</li>
+<li>比如h1元素可以是一段普通的文本+CSS修饰样式</li>
+<li>这个时候就出现了div、span来编写HTML结构所有的结构，样式都交给css来处理</li>
+</ul>
+</li>
+<li><p>所以，理论上来说</p>
+<ul>
+<li>页面可以没有div、span</li>
+<li>也可以全部都是div、span</li>
+</ul>
+</li>
+</ul>
+<h2 id="div、span元素的区别">12.2. div、span元素的区别</h2><ul>
+<li>div元素和span元素都是“纯粹的” 容器，也可以理解成“盒子”，它们都是用来包裹内容的<ul>
+<li><p>div元素</p>
+<ul>
+<li><p>多个div元素包裹的内容会在<code>不同的行</code>显示</p>
+</li>
+<li><p>一般作为其他元素的父容器，把其他元素包住，代表一个整体</p>
+</li>
+<li><p>用于把网页分割为多个独立的部分</p>
+</li>
+</ul>
+</li>
+<li><p>span元素</p>
+<ul>
+<li>多个span元素包裹的内容会在<code>同一行</code>显示</li>
+<li>默认情况下，跟普通文本几乎没差别</li>
+<li>用于区分特殊文本和普通文本，比如用来显示一些关键字</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="i元素">13. i元素</h1><ul>
+<li>内容倾斜</li>
+<li>通常斜体会使用css样式来完成</li>
+<li>开发中偶尔会用它来做字体图标(因为看起来像是icon的缩写)</li>
+</ul>
+<h2 id="认识字体图标">13.1. 认识字体图标</h2><ul>
+<li><p>把字体直接设计成图标的样子 - 字体图标</p>
+</li>
+<li><p>字体图标的好处</p>
+<ul>
+<li>放大不会失真</li>
+<li>可以任意切换颜色</li>
+<li>用到很多个图标时，文件相对图片较小</li>
+</ul>
+</li>
+<li><p>字体图标的使用</p>
+<ul>
+<li>登录阿里icons(<a target="_blank" rel="noopener" href="https://www.iconfont.cn/">https://www.iconfont.cn/</a>)</li>
+<li>下载代码，并且拷贝到项目中</li>
+</ul>
+</li>
+<li><p>将字体文件和默认的css文件导入到项目中</p>
+</li>
+</ul>
+<h2 id="字体图标的使用">13.2. 字体图标的使用</h2><ul>
+<li><p>字体图标的使用步骤</p>
+<ol>
+<li>通过link引入iconfont.css文件</li>
+<li>使用字体图标</li>
+</ol>
+</li>
+<li><p>使用字体图标常见的有两种方式</p>
+<ul>
+<li>通过对应字体图标的Unicode来显示代码</li>
+<li>利用已经编写好的class, 直接使用即可</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;iconfont&quot;</span>&gt;</span><span class="symbol">&amp;#xe6f6;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;iconfont icon-music&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="不常用元素">14. 不常用元素</h1><h2 id="strong元素">14.1. strong元素</h2><ul>
+<li>内容加粗、强调</li>
+<li>通常加粗会使用css样式来完成</li>
+<li>开发中很偶尔会使用一下</li>
+</ul>
+<h2 id="code元素">14.2. code元素</h2><ul>
+<li>用于显示代码</li>
+<li>偶尔会使用，用来显示等宽字体</li>
+</ul>
+<h2 id="br元素">14.3. br元素</h2><ul>
+<li>换行元素<ul>
+<li>开发中已经不使用</li>
+</ul>
+</li>
+</ul>
+<h1 id="HTML元素的类型">15. HTML元素的类型</h1><ul>
+<li><p>经常提到div是<code>块级元素</code>会独占一行，span是<code>行内级元素</code>会在同一行显示</p>
+</li>
+<li><p>什么是块级元素, 什么是行内级元素呢?</p>
+<ul>
+<li>块级元素(block-level elements)：独占父元素的一行</li>
+<li>行内级元素(inline-level elements)：多个行内级元素可以在父元素的同一行中显示</li>
+</ul>
+</li>
+<li><p>事实上元素没有本质的区别</p>
+<ul>
+<li><p>div之所以是块级元素仅仅是因为浏览器默认设置了display属性而已</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>可以通过CSS中的 <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7%E5%80%BC#display">display</a> 属性来改变元素的特性</p>
+</li>
+</ul>
+<h1 id="标准流">16. 标准流</h1><p>标准流又称文档流，是浏览器在渲染显示网页内容时默认采用的一套排版规则，规定了应该以何种方式排列元素</p>
+<ul>
+<li>块级元素：从上往下，垂直布局，独占一行</li>
+<li>行内元素&#x2F;行内块元素：从左往右，水平布局，空间不够自动拆行</li>
+</ul>
+<h1 id="HTML嵌套规范">17. HTML嵌套规范</h1><ul>
+<li><p>块级元素</p>
+<ul>
+<li>一般情况下，可以包含其他任何元素，块级元素，行内元素，行内块元素等</li>
+<li>特殊情况，<code>p元素中不要嵌套div，p，h系列等块级元素</code></li>
+</ul>
+</li>
+<li><p>行内块元素（a，span，strong等）</p>
+<ul>
+<li>一般情况下，只能包含行内级元素</li>
+</ul>
+</li>
+</ul>
+<h1 id="HTML全局属性">18. HTML全局属性</h1><ul>
+<li><p>某些属性只能设置在特定的元素中</p>
+<ul>
+<li>比如img元素的src、a元素的href</li>
+</ul>
+</li>
+<li><p>也有一些属性是所有HTML都可以设置和拥有的，这样的属性称之为 <code>全局属性(Global Attributes)</code></p>
+</li>
+<li><p>全局属性有很多：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes</a></p>
+</li>
+</ul>
+<h2 id="id">18.1. id</h2><ul>
+<li><p>定义<code>唯一标识符</code>(ID)，该标识符在整个文档中必须是唯一的</p>
+</li>
+<li><p>其目的是在链接(使用片段标识符)，脚本或样 式(使用 CSS)时标识元素</p>
+</li>
+</ul>
+<h2 id="class">18.2. class</h2><ul>
+<li><p>一个以空格分隔的元素的类名(classes )列表</p>
+</li>
+<li><p>允许 CSS 和 Javascript 通过类选择器或者DOM方法来选择和访问特定的元素</p>
+</li>
+</ul>
+<h2 id="style">18.3. style</h2><ul>
+<li>给元素添加内联样式</li>
+</ul>
+<h2 id="title">18.4. title</h2><ul>
+<li>包含表示与其所属元素相关信息的文本</li>
+<li>这些信息通常可以作为提示呈现给用户，但不是必须的</li>
+</ul>
+<h1 id="字符实体">19. 字符实体</h1><ul>
+<li><p>编写的HTML代码会被浏览器解析</p>
+</li>
+<li><p>如下代码是如何被解析的呢?</p>
+<ul>
+<li>使用小于号(&lt;)，浏览器会将其后的文本解析为一个tag</li>
+<li>但是某些情况下，确实需要编写一个小于号(&lt;)</li>
+<li>这个时候可以使用字符实体</li>
+</ul>
+</li>
+<li><p>HTML 实体是一段以连字号(&amp;)开头、以分号(;)结尾的文本(字符串)</p>
+<ul>
+<li>实体常常用于显示保留字符（这些字符会被解析为 HTML 代码）和不可见的字符（如“不换行空格”）</li>
+<li>也可以用实体来代替其他难以用标准键盘键入的字符</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="symbol">&amp;lt;</span>Hello<span class="symbol">&amp;gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>显示为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Hello</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常见的字符实体</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>显示样式</th>
+<th>描述</th>
+<th>实体名称</th>
+<th>实体编号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&amp;nbsp;</td>
+<td>空格</td>
+<td><code>&amp;nbsp;</code></td>
+<td><code>&amp;#160;</code></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于号</td>
+<td><code>&amp;lt;</code></td>
+<td><code>&amp;#60;</code></td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于号</td>
+<td><code>&amp;gt;</code></td>
+<td><code>&amp;#62;</code></td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>和号</td>
+<td><code>&amp;amp;</code></td>
+<td><code>&amp;#38;</code></td>
+</tr>
+<tr>
+<td>&quot;</td>
+<td>双引号</td>
+<td><code>&amp;quot;</code></td>
+<td><code>&amp;#34;</code></td>
+</tr>
+<tr>
+<td>&amp;apos;</td>
+<td>单引号</td>
+<td><code>&amp;apos;</code></td>
+<td><code>&amp;#39;</code></td>
+</tr>
+<tr>
+<td>&amp;cent;</td>
+<td>分</td>
+<td><code>&amp;cent;</code></td>
+<td><code>&amp;#162;</code></td>
+</tr>
+<tr>
+<td>&amp;pound;</td>
+<td>镑</td>
+<td><code>&amp;pound;</code></td>
+<td><code>&amp;#163;</code></td>
+</tr>
+<tr>
+<td>&amp;yen;</td>
+<td>元</td>
+<td><code>&amp;yen;</code></td>
+<td><code>&amp;#165;</code></td>
+</tr>
+<tr>
+<td>&amp;euro;</td>
+<td>欧元</td>
+<td><code>&amp;euro;</code></td>
+<td><code>&amp;#8364;</code></td>
+</tr>
+<tr>
+<td>&amp;sect;</td>
+<td>小节</td>
+<td><code>&amp;sect;</code></td>
+<td><code>&amp;#167;</code></td>
+</tr>
+<tr>
+<td>&amp;copy;</td>
+<td>版权</td>
+<td><code>&amp;copy;</code></td>
+<td><code>&amp;#169;</code></td>
+</tr>
+<tr>
+<td>&amp;reg;</td>
+<td>注册商标</td>
+<td><code>&amp;reg;</code></td>
+<td><code>&amp;#174;</code></td>
+</tr>
+<tr>
+<td>&amp;trade;</td>
+<td>商标</td>
+<td><code>&amp;trade;</code></td>
+<td><code>&amp;#8482;</code></td>
+</tr>
+<tr>
+<td>&amp;times;</td>
+<td>乘号</td>
+<td><code>&amp;times;</code></td>
+<td><code>&amp;#215;</code></td>
+</tr>
+<tr>
+<td>&amp;divide;</td>
+<td>除号</td>
+<td><code>&amp;divide;</code></td>
+<td><code>&amp;#247;</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/01/24/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-HTML%E5%B8%B8%E8%A7%81%E5%85%83%E7%B4%A0/" title="前端-HTML学习笔记02-HTML常见元素">https://wtlumos.github.io/zh-CN/2019/01/24/前端-HTML学习笔记02-HTML常见元素/</a> -->
+    
+       <a href ="/zh-CN/2019/01/24/前端-HTML学习笔记02-HTML常见元素/" >/zh-CN/2019/01/24/前端-HTML学习笔记02-HTML常见元素/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-01-24 00:46
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2025-05-13 15:51
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"><i class="fa fa-tag"></i> HTML</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="计算机基础知识">
+      <i class="fa fa-chevron-left"></i> 计算机基础知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/23/%E5%89%8D%E7%AB%AF%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" rel="next" title="前端职业规划">
+      前端职业规划 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84HTML%E7%BB%93%E6%9E%84"><span class="nav-text">1. 完整的HTML结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%A3%B0%E6%98%8E"><span class="nav-text">2. 文档声明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#html%E5%85%83%E7%B4%A0"><span class="nav-text">3. html元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#head%E5%85%83%E7%B4%A0"><span class="nav-text">4. head元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#title%E5%85%83%E7%B4%A0"><span class="nav-text">4.1. title元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#meta%E5%85%83%E7%B4%A0"><span class="nav-text">4.2. meta元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#charset%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81"><span class="nav-text">4.2.1. charset字符编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#name%E5%85%83%E6%95%B0%E6%8D%AE%E5%90%8D%E7%A7%B0"><span class="nav-text">4.2.2. name元数据名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http-equiv%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4"><span class="nav-text">4.2.3. http-equiv编译指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#link%E5%85%83%E7%B4%A0"><span class="nav-text">4.3. link元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#link%E5%85%83%E7%B4%A0%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-text">4.3.1. link元素常见的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#link%E5%9B%BE%E6%A0%87"><span class="nav-text">4.3.2. link图标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dns-prefetch"><span class="nav-text">4.3.3. dns-prefetch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#body%E5%85%83%E7%B4%A0"><span class="nav-text">5. body元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML%E5%85%83%E7%B4%A0"><span class="nav-text">6. HTML元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#h%E5%85%83%E7%B4%A0"><span class="nav-text">7. h元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p%E5%85%83%E7%B4%A0"><span class="nav-text">8. p元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#img%E5%85%83%E7%B4%A0"><span class="nav-text">9. img元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7"><span class="nav-text">9.1. img元素属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E5%85%83%E7%B4%A0%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84"><span class="nav-text">9.2. img元素图片路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E5%85%83%E7%B4%A0%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">9.3. img元素图片格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#a%E5%85%83%E7%B4%A0"><span class="nav-text">10. a元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7"><span class="nav-text">10.1. a元素属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%9A%E7%82%B9%E9%93%BE%E6%8E%A5"><span class="nav-text">10.2. 锚点链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E9%93%BE%E6%8E%A5"><span class="nav-text">10.3. 图片链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96URL%E5%9C%B0%E5%9D%80"><span class="nav-text">10.4. 其他URL地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iframe%E5%85%83%E7%B4%A0"><span class="nav-text">11. iframe元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#frameborder%E5%B1%9E%E6%80%A7"><span class="nav-text">11.1. frameborder属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%90%88a%E7%9A%84target%E5%B1%9E%E6%80%A7"><span class="nav-text">11.2. 结合a的target属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#div%E3%80%81span%E5%85%83%E7%B4%A0"><span class="nav-text">12. div、span元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#div%E3%80%81span%E5%85%83%E7%B4%A0%E7%9A%84%E5%8E%86%E5%8F%B2"><span class="nav-text">12.1. div、span元素的历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#div%E3%80%81span%E5%85%83%E7%B4%A0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">12.2. div、span元素的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#i%E5%85%83%E7%B4%A0"><span class="nav-text">13. i元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87"><span class="nav-text">13.1. 认识字体图标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">13.2. 字体图标的使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E5%B8%B8%E7%94%A8%E5%85%83%E7%B4%A0"><span class="nav-text">14. 不常用元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strong%E5%85%83%E7%B4%A0"><span class="nav-text">14.1. strong元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#code%E5%85%83%E7%B4%A0"><span class="nav-text">14.2. code元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#br%E5%85%83%E7%B4%A0"><span class="nav-text">14.3. br元素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML%E5%85%83%E7%B4%A0%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-text">15. HTML元素的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%B5%81"><span class="nav-text">16. 标准流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML%E5%B5%8C%E5%A5%97%E8%A7%84%E8%8C%83"><span class="nav-text">17. HTML嵌套规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML%E5%85%A8%E5%B1%80%E5%B1%9E%E6%80%A7"><span class="nav-text">18. HTML全局属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#id"><span class="nav-text">18.1. id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-text">18.2. class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#style"><span class="nav-text">18.3. style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#title"><span class="nav-text">18.4. title</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%AE%9E%E4%BD%93"><span class="nav-text">19. 字符实体</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '6956e7e158fac3efc8145a403daacd8d',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="width&#x2F;height，padding，border，margin，outline，box-shadow，box-sizing，盒子之间的合并和塌陷问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-CSS学习笔记06-CSS盒子模型">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="width&#x2F;height，padding，border，margin，outline，box-shadow，box-sizing，盒子之间的合并和塌陷问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/box.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/radius.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border3.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border4.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/w3c.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/ie.png">
+<meta property="article:published_time" content="2019-01-25T11:58:03.000Z">
+<meta property="article:modified_time" content="2025-05-30T14:50:43.964Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/box.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-CSS学习笔记06-CSS盒子模型 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-CSS学习笔记06-CSS盒子模型
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-25 19:58:03" itemprop="dateCreated datePublished" datetime="2019-01-25T19:58:03+08:00">2019-01-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-30 22:50:43" itemprop="dateModified" datetime="2025-05-30T22:50:43+08:00">2025-05-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">width/height，padding，border，margin，outline，box-shadow，box-sizing，盒子之间的合并和塌陷问题</blockquote>
+
+<span id="more"></span>
+
+<h1 id="盒子模型介绍">1. 盒子模型介绍</h1><ul>
+<li><p>生活中, 经常会看到各种各样的盒子：礼物盒，手机盒等</p>
+</li>
+<li><p>页面中的每一个标签，都可以看做是一个盒子，通过盒子的视角更方便的进行布局</p>
+</li>
+<li><p>浏览器在渲染网页时，会将网页中的元素看做是一个个的矩形区域，形象的称之为盒子</p>
+</li>
+<li><p>CSS中规定每个盒子分别由4个区域构成</p>
+<ul>
+<li><code>内容(content)</code><ul>
+<li>元素的内容width&#x2F;height</li>
+</ul>
+</li>
+<li><code>内边距(padding)</code><ul>
+<li>元素和内容之间的间距</li>
+</ul>
+</li>
+<li><code>边框(border)</code><ul>
+<li>元素自己的边框</li>
+</ul>
+</li>
+<li><code>外边距(margin)</code><ul>
+<li>元素和其他元素之间的间距</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>因为盒子有四边, 所以margin&#x2F;padding&#x2F;border都包括top&#x2F;right&#x2F;bottom&#x2F;left四个边</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/box.png"></p>
+<h1 id="内容-–-width和height">2. 内容 – width和height</h1><ul>
+<li><p>设置内容是通过宽度和高度设置的</p>
+<ul>
+<li>宽度设置：width</li>
+<li>高度设置：height</li>
+</ul>
+</li>
+<li><p>注意：<code>对于行内级非替换元素来说, 设置宽高是无效的!</code></p>
+</li>
+<li><p>还可以设置如下属性</p>
+<ul>
+<li>min-width：最小宽度，无论内容多少，宽度都大于或等于min-width</li>
+<li>max-width：最大宽度，无论内容多少，宽度都小于或等于max-width</li>
+<li>移动端适配时, 可以设置最大宽度和最小宽度</li>
+</ul>
+</li>
+<li><p>下面两个属性不常用</p>
+<ul>
+<li>min-height：最小高度，无论内容多少，高度都大于或等于min-height</li>
+<li>max-height：最大高度，无论内容多少，高度都小于或等于max-height</li>
+</ul>
+</li>
+</ul>
+<h1 id="内边距-padding">3. 内边距 - padding</h1><ul>
+<li><p>padding属性用于设置盒子的内边距, 通常用于设置边框和内容之间的间距</p>
+</li>
+<li><p>padding包括四个方向, 所以有如下的取值</p>
+<ul>
+<li>padding-top：上内边距</li>
+<li>padding-right：右内边距</li>
+<li>padding-bottom：下内边距</li>
+<li>padding-left：左内边距</li>
+</ul>
+</li>
+<li><p>padding单独编写是一个缩写属性</p>
+<ul>
+<li>padding-top、padding-right、padding-bottom、padding-left的简写属性</li>
+<li>padding缩写属性是从零点钟方向开始, 沿着顺时针转动的, 也就是<code>上右下左</code></li>
+</ul>
+</li>
+<li><p>padding并非必须是四个值, 也可以有其他值</p>
+<table>
+<thead>
+<tr>
+<th>padding值个数</th>
+<th>padding例子</th>
+<th>代表的含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4</td>
+<td><code>padding: 10px 20px 30px 40px; </code></td>
+<td><code>top: 10px, right: 20px, bottom: 30px, left: 40px; </code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>padding: 10px 20px 30px; </code></td>
+<td>缺少left, left使用right的值</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>padding: 10px 20px; </code></td>
+<td>缺少left, 使用right的值; 缺少bottom, 使用top的值</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>padding: 10px; </code></td>
+<td>top&#x2F;right&#x2F;bottom&#x2F;left都使用10px</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h1 id="边框-border">4. 边框 - border</h1><ul>
+<li>border用于设置盒子的边框</li>
+<li>边框相对于content&#x2F;padding&#x2F;margin来说特殊一些<ul>
+<li>边框具备宽度width</li>
+<li>边框具备样式style</li>
+<li>边框具备颜色color</li>
+</ul>
+</li>
+</ul>
+<h2 id="边框宽度">4.1. 边框宽度</h2><ul>
+<li>border-top-width、border-right-width、border-bottom-width、border-left-width</li>
+<li>border-width是上面4个属性的简写属性</li>
+</ul>
+<h2 id="边框颜色">4.2. 边框颜色</h2><ul>
+<li>border-top-color、border-right-color、border-bottom-color、border-left-color</li>
+<li>border-color是上面4个属性的简写属性</li>
+</ul>
+<h2 id="边框样式">4.3. 边框样式</h2><ul>
+<li><p>border-top-style、border-right-style、border-bottom-style、border-left-style</p>
+</li>
+<li><p>border-style是上面4个属性的简写属性</p>
+</li>
+<li><p>边框的样式设置值</p>
+<ul>
+<li>solid：实线</li>
+<li>dash：虚线</li>
+<li>dotted：点线</li>
+<li>double：双实线</li>
+<li>inset：凹陷</li>
+<li>outset：突出</li>
+<li>groove：凹槽, 沟槽, 边框看上去好象是雕刻在画布之内</li>
+<li>ridge：山脊，和grove相反，边框看上去好象是从画布中凸出来</li>
+</ul>
+</li>
+</ul>
+<h2 id="同时设置的方式">4.4. 同时设置的方式</h2><ul>
+<li><p>相对某一边同时设置 宽度 样式 颜色, 可以进行如下设置</p>
+<ul>
+<li>border-top</li>
+<li>border-right</li>
+<li>border-bottom</li>
+<li>border-left</li>
+<li>border：统一设置4个方向的边框</li>
+</ul>
+</li>
+<li><p>边框颜色、宽度、样式的编写顺序任意</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border</span>: <span class="number">1px</span> solid red;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="圆角-–-border-radius">4.5. 圆角 – border-radius</h2><ul>
+<li><p>border-radius用于设置盒子的圆角</p>
+</li>
+<li><p>border-radius常见的值</p>
+<ul>
+<li><p>数值：通常用来设置小的圆角, 比如6px</p>
+</li>
+<li><p>百分比</p>
+<ul>
+<li><p>通常用来设置一定的弧度或者圆形</p>
+</li>
+<li><p>会因为盒子宽高值不同而圆角不圆润</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: blue;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">10px</span> solid red;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/radius.png"></p>
+</li>
+</ul>
+</li>
+<li><p>border-radius事实上是一个缩写属性</p>
+<ul>
+<li>将这四个属性 border-top-left-radius、border-top-right-radius、border-bottom-right-radius，和 border-bottom- left-radius 简写为一个属性</li>
+</ul>
+</li>
+<li><p>如果一个元素是正方形, 设置border-radius大于或等于50%时，就会变成一个圆</p>
+</li>
+</ul>
+<h2 id="边框的形状">4.6. 边框的形状</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>border主要是用来给盒子增加边框的, 但是在开发中也可以利用边框的特性来实现一些形状</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border1.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f00</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">border</span>: <span class="number">30px</span> solid orange;</span><br><span class="line">  <span class="attribute">border-top-color</span>: blue;</span><br><span class="line">  <span class="attribute">border-right-color</span>: green;</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: purple;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>将border宽度设置成50会是什么效果？</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border2.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f00</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">border</span>: <span class="number">50px</span> solid orange;</span><br><span class="line">  <span class="attribute">border-top-color</span>: blue;</span><br><span class="line">  <span class="attribute">border-right-color</span>: green;</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: purple;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>将border另外三边的颜色去除会是什么效果? </p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border3.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="comment">/* background-color: #f00; */</span></span><br><span class="line"></span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">border</span>: <span class="number">50px</span> solid orange;</span><br><span class="line">  <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">  <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>如果将这个盒子旋转呢?</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/border4.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="comment">/* background-color: #f00; */</span></span><br><span class="line"></span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">border</span>: <span class="number">50px</span> solid orange;</span><br><span class="line">  <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">  <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: transparent;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">90deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>所以利用border或者CSS的特性可以做出很多图形</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://css-tricks.com/the-shapes-of-css/#top-of-site">https://css-tricks.com/the-shapes-of-css/#top-of-site</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="外边距-margin">5. 外边距 - margin</h1><ul>
+<li><p>margin属性用于设置盒子的外边距, 通常用于元素和元素之间的间距</p>
+</li>
+<li><p>margin包括四个方向, 所以有如下的取值</p>
+<ul>
+<li>margin-top：上内边距</li>
+<li>margin-right：右内边距</li>
+<li>margin-bottom：下内边距</li>
+<li>margin-left：左内边距</li>
+</ul>
+</li>
+<li><p>margin单独编写是一个缩写属性</p>
+<ul>
+<li>margin-top、margin-right、margin-bottom、margin-left的简写属性</li>
+<li>margin缩写属性是从零点钟方向开始, 沿着顺时针转动的, 也就是<code>上右下左</code></li>
+</ul>
+</li>
+<li><p>margin也并非必须是四个值, 也可以有其他值</p>
+<table>
+<thead>
+<tr>
+<th>margin值的个数</th>
+<th>margin例子</th>
+<th>代表的含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4</td>
+<td><code>margin: 10px 20px 30px 40px; </code></td>
+<td><code>top: 10px, right: 20px, bottom: 30px, left: 40px; </code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>margin: 10px 20px 30px; </code></td>
+<td>缺少left, left使用right的值</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>margin: 10px 20px; </code></td>
+<td>缺少left, 使用right的值; 缺少bottom, 使用top的值</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>margin: 10px; </code></td>
+<td>top&#x2F;right&#x2F;bottom&#x2F;left都使用10</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="上下margin的传递">5.1. 上下margin的传递</h2><ul>
+<li><p>margin-top传递</p>
+<ul>
+<li>如果块级元素的顶部线和父元素的顶部线重叠，那么这个块级元素的margin-top值会传递给父元素</li>
+</ul>
+</li>
+<li><p>margin-bottom传递</p>
+<ul>
+<li>如果块级元素的底部线和父元素的底部线重写，并且父元素的高度是auto，那么这个块级元素的margin-bottom值会传递给父元素</li>
+</ul>
+</li>
+<li><p>如何防止出现传递问题?</p>
+<ul>
+<li>给父元素设置padding-top&#x2F;padding-bottom</li>
+<li>给父元素设置border</li>
+<li>触发BFC：父元素设置overflow为auto</li>
+<li>转换成行内块元素</li>
+<li>设置浮动</li>
+<li>使用双伪元素清除浮动</li>
+</ul>
+</li>
+<li><p>建议</p>
+<ul>
+<li>margin一般是用来设置兄弟元素之间的间距</li>
+<li>padding一般是用来设置父子元素之间的间距</li>
+</ul>
+</li>
+</ul>
+<h2 id="上下margin的折叠">5.2. 上下margin的折叠</h2><ul>
+<li><p>垂直方向上相邻的2个margin(margin-top、margin-bottom)有可能会合并为1个margin，这种现象叫做collapse(折叠)</p>
+</li>
+<li><p>水平方向上的margin(margin-left、margin-right)永远不会collapse</p>
+</li>
+<li><p>折叠后最终值的计算规则</p>
+<ul>
+<li>两个值进行比较，取较大的值</li>
+</ul>
+</li>
+<li><p>如何防止margin collapse?</p>
+<ul>
+<li>只设置其中一个元素的margin</li>
+</ul>
+</li>
+<li><p>上下margin折叠的情况</p>
+<ul>
+<li>两个兄弟块级元素之间上下margin的折叠</li>
+<li>父子块级元素之间margin的折叠</li>
+</ul>
+</li>
+</ul>
+<h1 id="元素默认内外边距">6. 元素默认内外边距</h1><ul>
+<li>浏览器会默认给部分标签设置默认的margin和padding，但一般在项目开始前需要先清除这些标签默认的margin和padding，后续自己设置<ul>
+<li>body标签默认有margin</li>
+<li>p标签默认有上下的margin</li>
+<li>ul标签默认有上下的margin和padding-left</li>
+</ul>
+</li>
+</ul>
+<p><code>解决方法</code></p>
+<ol>
+<li><p>淘宝网代码</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">blockquote</span>,<span class="selector-tag">body</span>,<span class="selector-tag">button</span>,<span class="selector-tag">dd</span>,<span class="selector-tag">dl</span>,<span class="selector-tag">dt</span>,filedset,<span class="selector-tag">form</span>,<span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>,<span class="selector-tag">h4</span>,<span class="selector-tag">h5</span>,<span class="selector-tag">h6</span>,hr,<span class="selector-tag">input</span>,<span class="selector-tag">legend</span>,<span class="selector-tag">li</span>,<span class="selector-tag">ol</span>,<span class="selector-tag">p</span>,pre,<span class="selector-tag">td</span>,<span class="selector-tag">textarea</span>,<span class="selector-tag">ul</span>&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>京东代码</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="行内非替换元素注意事项">7. 行内非替换元素注意事项</h1><h2 id="width-x2F-height">7.1. width&#x2F;height</h2><ul>
+<li>不生效</li>
+</ul>
+<h2 id="padding">7.2. padding</h2><ul>
+<li>水平方向的padding布局有效，占据空间</li>
+<li>垂直方向的padding布局有效，但是不占据空间</li>
+</ul>
+<h2 id="border">7.3. border</h2><ul>
+<li>水平方向的border布局有效，占据空间</li>
+<li>垂直方向的border布局有效，但是不占据空间</li>
+</ul>
+<h2 id="margin">7.4. margin</h2><ul>
+<li>水平方向的margin布局有效</li>
+<li>垂直方向的margin布局无效</li>
+</ul>
+<h1 id="外轮廓-outline">8. 外轮廓 - outline</h1><ul>
+<li><p>outline表示元素的外轮廓</p>
+<ul>
+<li>不占用空间</li>
+<li>默认显示在border的外面</li>
+</ul>
+</li>
+<li><p>outline相关属性有</p>
+<ul>
+<li>outline-width：外轮廓的宽度</li>
+<li>outline-style：取值跟border的样式一样，比如solid、dotted等</li>
+<li>outline-color：外轮廓的颜色</li>
+<li>outline:outline-width、outline-style、outline-color的简写属性，跟border用法类似</li>
+</ul>
+</li>
+<li><p>应用实例</p>
+<ul>
+<li><p>去除a元素、input元素的focus轮廓效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>等价于设置了 a:link，a:visited，a:focus，a:hover，a:active的outline</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="盒子阴影-–-box-shadow">9. 盒子阴影 – box-shadow</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow">box-shadow</a> 属性可以设置一个或者多个阴影</p>
+<ul>
+<li>每个阴影用<code>&lt;shadow&gt;</code>表示</li>
+<li>多个阴影之间用逗号,隔开，从前到后叠加</li>
+</ul>
+</li>
+<li><p>shadow的常见格式如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;shadow&gt; = &lt;<span class="attribute">color</span>&gt;? &amp;&amp;<span class="selector-attr">[ &lt;length&gt;&#123;2&#125; &lt;length [0,∞]</span>&gt;?&lt;length&gt;?]&amp;&amp;inset? </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当给出两个、三个或四个<code>&lt;length&gt;</code>值时<ul>
+<li>如果只给出两个值，那么这两个值将会被当作 <code>&lt;offset-x&gt; &lt;offset-y&gt;</code> </li>
+<li>如果给出了第三个值，那么第三个值将会被当作<code>&lt;blur-radius&gt;</code></li>
+<li>如果给出了第四个值，那么第四个值将会被当作<code>&lt;spread-radius&gt;</code></li>
+</ul>
+</li>
+<li>可选，<code>inset</code>关键字</li>
+<li>可选，<code>&lt;color&gt;</code>值</li>
+</ul>
+</li>
+<li><p>offset-x</p>
+<ul>
+<li>设置水平偏移量，正值阴影则位于元素右边，负值阴影则位于元素左边</li>
+</ul>
+</li>
+<li><p>offset-y</p>
+<ul>
+<li>设置垂直偏移量，正值阴影则位于元素下方，负值阴影则位于元素上方</li>
+</ul>
+</li>
+<li><p>blur-radius</p>
+<ul>
+<li>模糊半径。值越大，模糊面积越大，阴影就越大越淡。不能为负值。默认为 0，此时阴影边缘锐利</li>
+</ul>
+</li>
+<li><p>spread-radius</p>
+<ul>
+<li>延伸半径。取正值时，阴影扩大；取负值时，阴影收缩。默认为 0，此时阴影与元素同样大</li>
+</ul>
+</li>
+<li><p>color</p>
+<ul>
+<li>阴影的颜色，如果没有设置，就跟随color属性的颜色</li>
+</ul>
+</li>
+<li><p>inset</p>
+<ul>
+<li>外框阴影变成内框阴影，默认阴影在边框外</li>
+</ul>
+</li>
+<li><p>案例</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* x 偏移量 | y 偏移量 | 阴影颜色 */</span></span><br><span class="line"><span class="attribute">box-shadow</span>: <span class="number">60px</span> -<span class="number">16px</span> teal;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影颜色 */</span></span><br><span class="line"><span class="attribute">box-shadow</span>: <span class="number">10px</span> <span class="number">5px</span> <span class="number">5px</span> black;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */</span></span><br><span class="line"><span class="attribute">box-shadow</span>: <span class="number">2px</span> <span class="number">2px</span> <span class="number">2px</span> <span class="number">1px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 插页 (阴影向内) | x 偏移量 | y 偏移量 | 阴影颜色 */</span></span><br><span class="line"><span class="attribute">box-shadow</span>: inset <span class="number">5em</span> <span class="number">1em</span> gold;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 任意数量的阴影，以逗号分隔 */</span></span><br><span class="line"><span class="attribute">box-shadow</span>: <span class="number">3px</span> <span class="number">3px</span> red, -<span class="number">1em</span> <span class="number">0</span> <span class="number">0.4em</span> olive;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拓展</p>
+<ul>
+<li>当 <code>offset-x</code>、<code>offset-y</code> 和 <code>blur-radius</code> 都是 0，盒阴影将是一个四边都是一样长度的带有颜色的<code>outline</code></li>
+<li>当设置了多个阴影时，阴影绘制由最后一个开始，故第一个设置的阴影将覆盖在后设置的阴影之上</li>
+</ul>
+</li>
+<li><p>测试盒子的阴影</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://html-css-js.com/css/generator/box-shadow/">https://html-css-js.com/css/generator/box-shadow/</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="盒子大小问题">10. 盒子大小问题</h1><h2 id="盒子实际大小计算公式">10.1. 盒子实际大小计算公式</h2><p>盒子尺寸400*400，背景绿色，边框10px 实线 黑色</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 这是错误的，这样设置的div的尺寸为460*460 */</span></span><br><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">10px</span> solid <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置width和height是内容的宽高！</p>
+<p>设置border，padding会撑大盒子！</p>
+<p><code>盒子实际大小计算公式</code></p>
+<ul>
+<li>盒子宽度 &#x3D; 左边框+左内边距+内容宽度+右内边距+右边框</li>
+<li>盒子高度 &#x3D; 上边框+上内边距+内容高度+下内边距+下边框</li>
+</ul>
+<h2 id="不会撑大盒子的特殊情况">10.2. 不会撑大盒子的特殊情况</h2><ol>
+<li>如果子盒子没有设置宽度，此时宽度默认是父盒子的宽度</li>
+<li>此时子盒子设置左右的padding或者左右的border，此时不会撑大盒子</li>
+</ol>
+<h2 id="CSS属性-box-sizing">10.3. CSS属性 - box-sizing</h2><ul>
+<li>box-sizing用来设置盒子模型中宽高的行为</li>
+<li>content-box<ul>
+<li>padding、border都布置在width、height外边</li>
+<li>元素的实际占用宽度 &#x3D; border + padding + width</li>
+<li>元素的实际占用高度 &#x3D; border + padding + height</li>
+</ul>
+</li>
+<li>border-box<ul>
+<li>padding、border都布置在width、height里边</li>
+<li>元素的实际占用宽度 &#x3D; width</li>
+<li>元素的实际占用高度 &#x3D; height</li>
+</ul>
+</li>
+</ul>
+<h1 id="IE盒子模型">11. IE盒子模型</h1><ul>
+<li><p>W3C标准盒子模型 </p>
+<p>box-sizing: content-box;</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/w3c.png"></p>
+</li>
+<li><p>IE盒子模型(IE8以下浏览器)</p>
+<p>box-sizing: border-box;</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/ie.png"></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" title="前端-CSS学习笔记06-CSS盒子模型">https://wtlumos.github.io/zh-CN/2019/01/25/前端-CSS学习笔记06-CSS盒子模型/</a> -->
+    
+       <a href ="/zh-CN/2019/01/25/前端-CSS学习笔记06-CSS盒子模型/" >/zh-CN/2019/01/25/前端-CSS学习笔记06-CSS盒子模型/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-01-25 19:58
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2025-05-30 22:50
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CSS/" rel="tag"><i class="fa fa-tag"></i> CSS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/" rel="prev" title="前端-CSS学习笔记02-CSS属性">
+      <i class="fa fa-chevron-left"></i> 前端-CSS学习笔记02-CSS属性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E5%85%83%E7%B4%A0%E8%AE%BE%E7%BD%AE%E6%8A%80%E5%B7%A7/" rel="next" title="前端-CSS学习笔记05-元素设置技巧">
+      前端-CSS学习笔记05-元素设置技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D"><span class="nav-text">1. 盒子模型介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AE%B9-%E2%80%93-width%E5%92%8Cheight"><span class="nav-text">2. 内容 – width和height</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E8%BE%B9%E8%B7%9D-padding"><span class="nav-text">3. 内边距 - padding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86-border"><span class="nav-text">4. 边框 - border</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E5%AE%BD%E5%BA%A6"><span class="nav-text">4.1. 边框宽度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E9%A2%9C%E8%89%B2"><span class="nav-text">4.2. 边框颜色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E6%A0%B7%E5%BC%8F"><span class="nav-text">4.3. 边框样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E8%AE%BE%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">4.4. 同时设置的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%86%E8%A7%92-%E2%80%93-border-radius"><span class="nav-text">4.5. 圆角 – border-radius</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E7%9A%84%E5%BD%A2%E7%8A%B6"><span class="nav-text">4.6. 边框的形状</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E8%BE%B9%E8%B7%9D-margin"><span class="nav-text">5. 外边距 - margin</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8Bmargin%E7%9A%84%E4%BC%A0%E9%80%92"><span class="nav-text">5.1. 上下margin的传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8Bmargin%E7%9A%84%E6%8A%98%E5%8F%A0"><span class="nav-text">5.2. 上下margin的折叠</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E9%BB%98%E8%AE%A4%E5%86%85%E5%A4%96%E8%BE%B9%E8%B7%9D"><span class="nav-text">6. 元素默认内外边距</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">7. 行内非替换元素注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#width-x2F-height"><span class="nav-text">7.1. width&#x2F;height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#padding"><span class="nav-text">7.2. padding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#border"><span class="nav-text">7.3. border</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#margin"><span class="nav-text">7.4. margin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E8%BD%AE%E5%BB%93-outline"><span class="nav-text">8. 外轮廓 - outline</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E9%98%B4%E5%BD%B1-%E2%80%93-box-shadow"><span class="nav-text">9. 盒子阴影 – box-shadow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E5%A4%A7%E5%B0%8F%E9%97%AE%E9%A2%98"><span class="nav-text">10. 盒子大小问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E5%AE%9E%E9%99%85%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="nav-text">10.1. 盒子实际大小计算公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E4%BC%9A%E6%92%91%E5%A4%A7%E7%9B%92%E5%AD%90%E7%9A%84%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5"><span class="nav-text">10.2. 不会撑大盒子的特殊情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS%E5%B1%9E%E6%80%A7-box-sizing"><span class="nav-text">10.3. CSS属性 - box-sizing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IE%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="nav-text">11. IE盒子模型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '41e12f15fcaffca84b0ba6ad04fbfcd0',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

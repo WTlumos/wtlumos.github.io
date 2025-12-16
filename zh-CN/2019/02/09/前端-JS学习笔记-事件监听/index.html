@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="三种事件监听方式，事件流，事件对象，EventTarget类，事件委托，鼠标事件，键盘事件，表单元素事件，Document事件，CSS事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-JS学习笔记-事件监听">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="三种事件监听方式，事件流，事件对象，EventTarget类，事件委托，鼠标事件，键盘事件，表单元素事件，Document事件，CSS事件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/bubble.png">
+<meta property="article:published_time" content="2019-02-09T15:53:53.000Z">
+<meta property="article:modified_time" content="2024-06-12T14:57:44.976Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/bubble.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-JS学习笔记-事件监听 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-JS学习笔记-事件监听
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-09 23:53:53" itemprop="dateCreated datePublished" datetime="2019-02-09T23:53:53+08:00">2019-02-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-12 22:57:44" itemprop="dateModified" datetime="2024-06-12T22:57:44+08:00">2024-06-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">三种事件监听方式，事件流，事件对象，EventTarget类，事件委托，鼠标事件，键盘事件，表单元素事件，Document事件，CSS事件</blockquote>
+
+<span id="more"></span>
+
+<h1 id="认识事件-Event">1. 认识事件(Event)</h1><ul>
+<li><p>Web页面需要经常和用户进行交互，而交互的过程中可能想要捕捉这个交互的过程</p>
+<ul>
+<li>比如用户点击了某个按钮、用户在输入框里面输入了某个文本、用户鼠标经过了某个位置</li>
+<li>浏览器需要搭建一条JavaScript代码和事件之间的桥梁</li>
+<li>当某个事件发生时，让JavaScript可以相应(执行某个函数)，所以需要针对事件编写处理程序(handler)</li>
+</ul>
+</li>
+<li><p>如何进行事件监听呢?</p>
+<ul>
+<li>事件监听方式一：在script中直接监听</li>
+<li>事件监听方式二：通过元素的on来监听事件</li>
+<li>事件监听方式三：通过EventTarget中的addEventListener来监听</li>
+</ul>
+</li>
+</ul>
+<h1 id="事件监听">2. 事件监听</h1><h2 id="在script中直接监听">2.1. 在script中直接监听</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;被点击&#x27;)&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">&quot;divClick()&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">divClick</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;被点击&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="通过元素的on来监听事件">2.2. 通过元素的on来监听事件</h2><ul>
+<li>事件 <code>唯一</code>：同一个元素同一个事件只能设置一个处理函数，最后注册的处理函数将会覆盖前面注册的处理函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="通过addEventListener来监听">2.3. 通过addEventListener来监听</h2><ul>
+<li>事件 <code>不唯一</code>：同一个元素同一个事件可以设置多个处理函数</li>
+<li>调用格式<code>eventTarget.addEventListener(type,Listener,useCapture)</code><ul>
+<li>type：事件类型字符串，比如：click，mouseover</li>
+<li>listener：事件处理函数，事件发生时，会调用该监听函数</li>
+<li>useCapture：可选参数，是一个布尔值，默认是false</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="解绑事件">3. 解绑事件</h1><ul>
+<li>可以采用两种方法<ul>
+<li>btn.onclick&#x3D;null</li>
+<li>btn.removeEventListener(type,Listener,useCapture)<ul>
+<li>这里的事件处理函数不能使用匿名函数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="认识事件流">4. 认识事件流</h1><h2 id="认识事件流的由来">4.1. 认识事件流的由来</h2><ul>
+<li>事实上对于事件有一个概念叫做事件流，为什么会产生事件流呢?<ul>
+<li>在浏览器上对着一个元素点击时，点击的不仅仅是这个元素本身</li>
+<li>这是因为HTML元素是存在父子元素叠加层级的</li>
+<li>比如一个span元素是放在div元素上的，div元素是放在body元素上的，body元素是放在html元素上的</li>
+<li>所以，事件流就是页面中接收事件的顺序</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;word&quot;</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.box&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> span = box.<span class="title function_">querySelector</span>(<span class="string">&quot;.word&quot;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    span.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;span被点击&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">    box.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;div被点击&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;body被点击&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="事件冒泡和事件捕获">4.2. 事件冒泡和事件捕获</h2><ul>
+<li>默认情况下事件是从最内层的span向外依次传递的顺序，这个顺序称之为<code>事件冒泡</code>(Event Bubble)</li>
+<li>事实上，还有另外一种监听事件流的方式就是从外层到内层(body -&gt; span)，这种称之为<code>事件捕获</code>(Event Capture)<ul>
+<li>捕获：document -&gt; html -&gt; body -&gt; span</li>
+<li>冒泡：span -&gt; body-&gt; html -&gt; document</li>
+</ul>
+</li>
+<li>为什么会产生两种不同的处理流呢？<ul>
+<li>这是因为早期浏览器开发时，不管是IE还是Netscape公司都发现了这个问题，但是他们采用了完全相反的事件流来对事件进行了传递</li>
+<li>IE采用了事件冒泡的方式，Netscape采用了事件捕获的方式</li>
+</ul>
+</li>
+<li>addEventListener(type,Listener,<code>useCapture</code>)<ul>
+<li>第三个参数如果是true，表示在捕获阶段调用事件处理程序</li>
+<li>如果是false，或者不填，表示在冒泡阶段调用事件处理程序</li>
+</ul>
+</li>
+<li>⚠️注意<ol>
+<li>js代码只能执行捕获或冒泡其中的一个阶段<ul>
+<li>如果同时有事件冒泡和时间捕获的监听，那么会优先监听到事件捕获</li>
+</ul>
+</li>
+<li>实际开发中少用事件捕获，更关注事件冒泡</li>
+<li><font color="#f00">有些事件没有冒泡，onblur，onmouseenter，onmouseleave</font></li>
+</ol>
+</li>
+</ul>
+<h2 id="事件捕获和冒泡的过程">4.3. 事件捕获和冒泡的过程</h2><p><img src="/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/bubble.png"></p>
+<ul>
+<li><p>捕获阶段(Capturing phase)</p>
+<ul>
+<li>事件(从 Window)向下走近元素</li>
+</ul>
+</li>
+<li><p>目标阶段(Target phase)</p>
+<ul>
+<li>事件到达目标元素</li>
+</ul>
+</li>
+<li><p>冒泡阶段(Bubbling phase)</p>
+<ul>
+<li>事件从元素上开始冒泡</li>
+</ul>
+</li>
+<li><p>事实上，可以通过event对象来获取当前的阶段</p>
+<ul>
+<li>eventPhase</li>
+</ul>
+</li>
+</ul>
+<h1 id="事件对象event">5. 事件对象event</h1><ul>
+<li><p>当一个事件发生时，就会有和这个事件相关的很多信息</p>
+<ul>
+<li>比如事件的类型是什么，点击的是哪一个元素，点击的位置是哪里等等相关的信息</li>
+<li>这些信息会被封装到一个Event对象中，这个对象由浏览器创建，称之为event对象</li>
+<li>该对象提供了想要的一些属性，以及可以通过该对象进行某些操作</li>
+</ul>
+</li>
+<li><p>如何获取这个event对象呢?</p>
+<ul>
+<li>event对象会在传入的事件处理(event handler)函数回调时，被系统传入</li>
+<li>可以在回调函数中拿到这个event对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">span.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span><br><span class="line">  <span class="comment">// PointerEvent &#123;isTrusted: true, pointerId: 1, width: 1, height: 1, pressure: 0, …&#125;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;span被点击&quot;</span>,event);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="常见的属性">5.1. 常见的属性</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="property">onclick</span>=<span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">  e = e || <span class="variable language_">window</span>.<span class="property">event</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>window.event</code> ie678使用</li>
+<li>e对象代表事件的状态，比如键盘按键的状态，鼠标的位置，鼠标按钮的状态</li>
+<li>e变量中存放了跟事件相关的一系列信息数据的集合</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>事件对象属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>this</td>
+<td>绑定事件的对象</td>
+</tr>
+<tr>
+<td>srcElement</td>
+<td>触发事件的对象，ie678，非标准</td>
+</tr>
+<tr>
+<td>type</td>
+<td>对象的类型，click，mouseover,…，不带on</td>
+</tr>
+<tr>
+<td>target</td>
+<td>触发事件的对象，标准</td>
+</tr>
+<tr>
+<td>currentTarget</td>
+<td>当前处理事件的元素</td>
+</tr>
+<tr>
+<td>eventPhase</td>
+<td>事件所处的阶段：捕获1，冒泡3，目标2</td>
+</tr>
+<tr>
+<td>offsetX、offsetY</td>
+<td>事件发生在元素内的位置</td>
+</tr>
+<tr>
+<td>clientX、clientY</td>
+<td>事件发生在客户端内的位置</td>
+</tr>
+<tr>
+<td>pageX、pageY</td>
+<td>事件发生在客户端相对于document的位置，滚动情况下和client值不同</td>
+</tr>
+<tr>
+<td>screenX、screenY</td>
+<td>事件发生相对于屏幕的位置</td>
+</tr>
+</tbody></table>
+<h2 id="常见的方法">5.2. 常见的方法</h2><table>
+<thead>
+<tr>
+<th>事件对象方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>preventDefault()</td>
+<td>阻止默认事件，标准</td>
+</tr>
+<tr>
+<td>stopPropagation()</td>
+<td>阻止冒泡，标准</td>
+</tr>
+<tr>
+<td>cancelBubble</td>
+<td>阻止冒泡，ie678</td>
+</tr>
+<tr>
+<td>returnValue</td>
+<td>阻止默认事件，ie678，非标准</td>
+</tr>
+</tbody></table>
+<p>兼容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;button&quot;</span>);</span><br><span class="line"><span class="comment">//传统注册方式</span></span><br><span class="line">btn.<span class="property">onclick</span>=<span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">  <span class="comment">//普通浏览器</span></span><br><span class="line">  e.<span class="title function_">preventDefault</span>();</span><br><span class="line">  <span class="comment">//ie678</span></span><br><span class="line">  e.<span class="property">returnValue</span>;</span><br><span class="line">  <span class="comment">//没有兼容性问题，但会阻止其下代码的执行</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="comment">//在return false情况下不会执行</span></span><br><span class="line">  <span class="title function_">alert</span>(<span class="number">123</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="事件处理中的this">5.3. 事件处理中的this</h2><ul>
+<li><p>在函数中，可以通过this来获取当前的发生元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">span.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span> === event.<span class="property">currentTarget</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这是因为在浏览器内部，调用event handler是绑定到当前的target上的</p>
+</li>
+</ul>
+<h1 id="EventTarget类">6. EventTarget类</h1><ul>
+<li><p>所有的节点、元素都继承自EventTarget</p>
+<ul>
+<li>事实上Window也继承自EventTarget</li>
+</ul>
+</li>
+<li><p>那么这个EventTarget是什么呢?</p>
+<ul>
+<li>EventTarget是一个DOM接口，主要用于添加、删除、派发Event事件</li>
+</ul>
+</li>
+<li><p>Window继承自EventTarget，所以会继承其中的属性和方法</p>
+<ul>
+<li>addEventListener：注册某个事件类型以及事件处理函数</li>
+<li>removeEventListener：移除某个事件类型以及事件处理函数</li>
+<li>dispatchEvent：派发某个事件类型到EventTarget上</li>
+</ul>
+</li>
+<li><p>默认事件监听：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Events">https://developer.mozilla.org/zh-CN/docs/Web/Events</a></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clickHandler = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;window发生了点击&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, clickHandler);</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&quot;click&quot;</span>, clickHandler);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> btn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;button&quot;</span>);</span><br><span class="line">btn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 派发某个事件类型到EventTarget上</span></span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&quot;why&quot;</span>));</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;why&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;监听到why事件&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="事件委托">7. 事件委托</h1><ul>
+<li><p>事件冒泡在某种情况下可以实现强大的事件处理模式 – 事件委托模式(event delegation)</p>
+</li>
+<li><p>那么这个模式是怎么样的呢?</p>
+<ul>
+<li>因为当子元素被点击时，父元素可以通过冒泡可以监听到子元素的点击</li>
+<li>并且可以通过event.target获取到当前监听的元素</li>
+</ul>
+</li>
+<li><p>案例：一个ul中存放多个li，点击某一个li会变成红色</p>
+<ul>
+<li><p>方案一：监听每一个li的点击，并且做出相应</p>
+</li>
+<li><p>方案二：在ul中监听点击，并且通过event.target拿到对应的li进行处理</p>
+<ul>
+<li>因为这种方案并不需要遍历后给每一个li上添加事件监听，所以它更加高效</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.active</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  li*6&#123;$&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">var</span> ul = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.list&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> currentActive = <span class="literal">null</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  ul.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span> (currentActive &amp;&amp; event.<span class="property">target</span> !== <span class="variable language_">this</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        currentActive.<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&quot;active&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span> (event.<span class="property">target</span> !== <span class="variable language_">this</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    	event.<span class="property">target</span>.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;active&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">      currentActive = event.<span class="property">target</span>;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>事件委托的标记</p>
+<ul>
+<li>某些事件委托可能需要对具体的子组件进行区分，这个时候可以使用data-*对其进行标记</li>
+<li>比如多个按钮的点击，区分点击了哪一个按钮</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-action</span> = <span class="string">&quot;new&quot;</span>&gt;</span>新建<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-action</span> = <span class="string">&quot;search&quot;</span>&gt;</span>搜索<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-action</span> = <span class="string">&quot;delete&quot;</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>其他<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> list = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.list&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">  list.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> action = event.<span class="property">target</span>.<span class="property">dataset</span>.<span class="property">action</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">switch</span>(action) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">case</span> <span class="string">&quot;new&quot;</span>:</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;新建&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">case</span> <span class="string">&quot;search&quot;</span>:</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;搜索&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">case</span> <span class="string">&quot;delete&quot;</span>:</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;删除&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">default</span>: </span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="常见的事件类型">8. 常见的事件类型</h1><ul>
+<li>事件类型：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Events">https://developer.mozilla.org/zh-CN/docs/Web/Events</a></li>
+</ul>
+<h2 id="鼠标事件-MouseEvent">8.1. 鼠标事件 MouseEvent</h2><ul>
+<li>常见的鼠标事件(不仅仅是鼠标设备，也包括模拟鼠标的设备，比如手机、平板电脑)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>click</td>
+<td>当用户点击某个对象时调用的事件句柄</td>
+</tr>
+<tr>
+<td>contextmenu</td>
+<td>在用户点击鼠标右键打开上下文菜单时触发</td>
+</tr>
+<tr>
+<td>dbclick</td>
+<td>当用户双击某个对象时调用的事件句柄</td>
+</tr>
+<tr>
+<td>mousedown</td>
+<td>鼠标按下触发</td>
+</tr>
+<tr>
+<td>mouseup</td>
+<td>鼠标按键被松开触发</td>
+</tr>
+<tr>
+<td>mouseover</td>
+<td>鼠标移到某元素之上触发，会冒泡，影响父盒子</td>
+</tr>
+<tr>
+<td>mouseout</td>
+<td>鼠标从某元素移开触发，会冒泡，影响父盒子</td>
+</tr>
+<tr>
+<td>mouserenter</td>
+<td>鼠标移到某元素之上触发，不会冒泡，不影响父盒子</td>
+</tr>
+<tr>
+<td>mouserleave</td>
+<td>鼠标从某元素移开触发，不会冒泡，不影响父盒子</td>
+</tr>
+<tr>
+<td>mousemove</td>
+<td>鼠标移动触发</td>
+</tr>
+</tbody></table>
+<ul>
+<li>mouseenter和mouseleave<ul>
+<li>不支持冒泡</li>
+<li>进入子元素依然属于在该元素内，没有任何反应</li>
+</ul>
+</li>
+<li>mouseover和mouseout<ul>
+<li>支持冒泡</li>
+<li>进入元素的子元素时<ul>
+<li>先调用父元素的mouseout</li>
+<li>再调用子元素的mouseover</li>
+<li>因为支持冒泡，所以会将mouseover传递到父元素中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="键盘事件-keyEvent">8.2. 键盘事件 keyEvent</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyup</td>
+<td>某个键盘按键被松开时触发</td>
+</tr>
+<tr>
+<td>keydown</td>
+<td>某个键盘按键被按下时触发</td>
+</tr>
+<tr>
+<td>keypress</td>
+<td>某个键盘按键被按下时触发，不识别功能键，ctrl，shift，箭头等</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>执行顺序：keydown，keypress，keyup</p>
+<ul>
+<li>down事件先发生</li>
+<li>press发生在文本被输入</li>
+<li>up发生在文本输入完成</li>
+</ul>
+</li>
+<li><p>可以通过key和code来区分按下的键</p>
+<ul>
+<li>code：“按键代码”(“KeyA”，”ArrowLeft” 等)，特定于键盘上按键的物理位置</li>
+<li>key：字符(“A”，”a” 等)，对于非字符(non-character)的按键，通常具有与 code 相同的值)</li>
+</ul>
+</li>
+<li><p>案例：搜索</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> inputEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;input&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 搜索</span></span><br><span class="line">inputEl.<span class="property">onkeyup</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(event.<span class="property">code</span> === <span class="string">&#x27;Enter&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;进行搜索功能&quot;</span>, inputEl.<span class="property">value</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按键s - 搜索框进行自动聚焦</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">onkeyup</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(event.<span class="property">code</span> === <span class="string">&#x27;KeyS&#x27;</span>) &#123;</span><br><span class="line">    inputEl.<span class="title function_">focus</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="表单元素事件">8.3. 表单元素事件</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>change</td>
+<td>该事件在表单元素的内容改变时触发( input，keygen，select，textarea)</td>
+</tr>
+<tr>
+<td>input</td>
+<td>元素获取用户输入时触发</td>
+</tr>
+<tr>
+<td>focus</td>
+<td>元素获取焦点时触发</td>
+</tr>
+<tr>
+<td>blur</td>
+<td>元素失去焦点时触发</td>
+</tr>
+<tr>
+<td>reset</td>
+<td>表单重置时触发</td>
+</tr>
+<tr>
+<td>submit</td>
+<td>表单提交时触发</td>
+</tr>
+</tbody></table>
+<h2 id="window事件">8.4. window事件</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DOMContentLoaded</td>
+<td>浏览器已完全加载 HTML，并构建了 DOM 树，但像 img元素和样式表之类的外部资源可能尚未加载完成。ie9+支持</td>
+</tr>
+<tr>
+<td>load</td>
+<td>浏览器不仅加载完成了 HTML，还加载完成了所有外部资源：图片，样式等</td>
+</tr>
+<tr>
+<td>pageshow</td>
+<td>页面显示时触发，无论页面是否来自缓存</td>
+</tr>
+<tr>
+<td>resize</td>
+<td>调整窗口大小</td>
+</tr>
+<tr>
+<td>hashchange</td>
+<td>地址栏hash值改变</td>
+</tr>
+</tbody></table>
+<p>  案例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./cover.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;DOMContentLoaded&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> img = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;img&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;页面内容加载完毕&quot;</span>, img.<span class="property">offsetWidth</span>, img.<span class="property">offsetHeight</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;load&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> img = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;img&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;页面所有内容加载完毕&quot;</span>, img.<span class="property">offsetWidth</span>, img.<span class="property">offsetHeight</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CSS事件">8.5. CSS事件</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transitionend</td>
+<td>当一个 CSS 动画完成时</td>
+</tr>
+<tr>
+<td>transitionstart</td>
+<td>当一个 CSS 动画开始时</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/" title="前端-JS学习笔记-事件监听">https://wtlumos.github.io/zh-CN/2019/02/09/前端-JS学习笔记-事件监听/</a> -->
+    
+       <a href ="/zh-CN/2019/02/09/前端-JS学习笔记-事件监听/" >/zh-CN/2019/02/09/前端-JS学习笔记-事件监听/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-02-09 23:53
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2024-06-12 22:57
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/JS/" rel="tag"><i class="fa fa-tag"></i> JS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/10/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-DOM%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" rel="prev" title="前端-JS学习笔记-DOM实战案例">
+      <i class="fa fa-chevron-left"></i> 前端-JS学习笔记-DOM实战案例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-DOM/" rel="next" title="前端-JS学习笔记-DOM">
+      前端-JS学习笔记-DOM <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E4%BA%8B%E4%BB%B6-Event"><span class="nav-text">1. 认识事件(Event)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="nav-text">2. 事件监听</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8script%E4%B8%AD%E7%9B%B4%E6%8E%A5%E7%9B%91%E5%90%AC"><span class="nav-text">2.1. 在script中直接监听</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%85%83%E7%B4%A0%E7%9A%84on%E6%9D%A5%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6"><span class="nav-text">2.2. 通过元素的on来监听事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87addEventListener%E6%9D%A5%E7%9B%91%E5%90%AC"><span class="nav-text">2.3. 通过addEventListener来监听</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E7%BB%91%E4%BA%8B%E4%BB%B6"><span class="nav-text">3. 解绑事件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E4%BA%8B%E4%BB%B6%E6%B5%81"><span class="nav-text">4. 认识事件流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%9A%84%E7%94%B1%E6%9D%A5"><span class="nav-text">4.1. 认识事件流的由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7"><span class="nav-text">4.2. 事件冒泡和事件捕获</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E5%86%92%E6%B3%A1%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">4.3. 事件捕获和冒泡的过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1event"><span class="nav-text">5. 事件对象event</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-text">5.1. 常见的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">5.2. 常见的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84this"><span class="nav-text">5.3. 事件处理中的this</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EventTarget%E7%B1%BB"><span class="nav-text">6. EventTarget类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98"><span class="nav-text">7. 事件委托</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BA%8B%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="nav-text">8. 常见的事件类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6-MouseEvent"><span class="nav-text">8.1. 鼠标事件 MouseEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6-keyEvent"><span class="nav-text">8.2. 键盘事件 keyEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E4%BA%8B%E4%BB%B6"><span class="nav-text">8.3. 表单元素事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#window%E4%BA%8B%E4%BB%B6"><span class="nav-text">8.4. window事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS%E4%BA%8B%E4%BB%B6"><span class="nav-text">8.5. CSS事件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '4810bf19220f9d96ac78e4c97472dd8e',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

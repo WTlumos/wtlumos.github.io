@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="通用选择器，类选择器，id选择器，属性选择器，后代选择器，子代选择器，交集，并集选择器，伪类，伪元素">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-CSS学习笔记03-CSS选择器">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="通用选择器，类选择器，id选择器，属性选择器，后代选择器，子代选择器，交集，并集选择器，伪类，伪元素">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p_.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p%3E.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/div+.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/div~.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p-class.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/not.png">
+<meta property="article:published_time" content="2019-01-24T23:54:58.000Z">
+<meta property="article:modified_time" content="2025-05-19T07:17:15.732Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p_.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-CSS学习笔记03-CSS选择器 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-CSS学习笔记03-CSS选择器
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-25 07:54:58" itemprop="dateCreated datePublished" datetime="2019-01-25T07:54:58+08:00">2019-01-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-19 15:17:15" itemprop="dateModified" datetime="2025-05-19T15:17:15+08:00">2025-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">通用选择器，类选择器，id选择器，属性选择器，后代选择器，子代选择器，交集，并集选择器，伪类，伪元素</blockquote>
+
+<span id="more"></span>
+
+<h1 id="CSS选择器-selector">1. CSS选择器(selector)</h1><ul>
+<li>通过CSS选择器找到特定的网页元素进行设置样式<ul>
+<li>按照一定的规则选出符合条件的元素，为之添加CSS样式</li>
+</ul>
+</li>
+<li>选择器的种类繁多，大概可以这么归类<ul>
+<li>通用选择器(universal selector)</li>
+<li>标签选择器(type selectors)</li>
+<li>类选择器(class selectors)</li>
+<li>id选择器(id selectors) </li>
+<li>属性选择器(attribute selectors)</li>
+<li>组合(combinators)</li>
+<li>伪类(pseudo-classes)</li>
+<li>伪元素(pseudo-elements)</li>
+</ul>
+</li>
+</ul>
+<h1 id="通用选择器">2. 通用选择器</h1><ul>
+<li>结构：<code>*&#123;css属性名:属性值;&#125;</code></li>
+<li>作用：找到页面中所有的标签，设置样式</li>
+<li>注意点：<ul>
+<li>一般用于统一设置内外边距为0</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="标签选择器">3. 标签选择器</h1><ul>
+<li>结构：<code>标签名&#123;css属性名:属性值;&#125;</code></li>
+<li>作用：通过标签名，找到页面中所有这类标签，设置样式</li>
+<li>注意点：<ul>
+<li>标签选择器选择的是一类标签，而不是单独某一个</li>
+<li>标签选择器无论嵌套关系有多深，都能找到对应的标签</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="类选择器">4. 类选择器</h1><ul>
+<li><p>结构：<code>.类名&#123;css属性名:属性值;&#125;</code></p>
+</li>
+<li><p>作用：通过类名，找到页面中所有带有这个类名的标签，设置样式</p>
+</li>
+<li><p>注意点：</p>
+<ol>
+<li>所有标签上都有class属性，class属性的属性值称为类名</li>
+<li>类名可以由<code>数字，字母，下划线，中划线</code>组成，但不能以数字或中划线开头</li>
+<li>一个标签可以同时有多个类名，类名之间可以空格隔开</li>
+<li>类名可以重复，一个类选择器可以同时选中多个标签</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.red</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: <span class="number">#f00</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="comment">/* 精确到div元素下类black */</span></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">div</span> <span class="selector-class">.black</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>:<span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;red&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;black&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="id选择器">5. id选择器</h1><ul>
+<li>结构：<code>#id属性值&#123;css属性名:属性值;&#125;</code></li>
+<li>作用：通过id属性值，找到页面中所有带有这个id属性值的标签，设置样式</li>
+<li>注意点：<ol>
+<li>id值如果由多个单词组成，单词之间可以用中划线-、下划线_连接，也可以使用驼峰标识</li>
+<li>最好不要用标签名作为id值</li>
+<li>id属性值类似于身份证号码，在一个页面中是<code>唯一</code>的，不可重复</li>
+<li>一个标签只能有一个id属性值</li>
+<li>一个id选择器只能选中一个标签</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="selector-id">#red</span>&#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">color</span>: <span class="number">#f00</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">&quot;red&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="class选择器-vs-id选择器">6. class选择器 vs id选择器</h1><ul>
+<li><p>class类名与id属性值区别</p>
+<ul>
+<li><p>class类名相当于姓名，可以重复，一个标签可以同时有多个class类名</p>
+</li>
+<li><p>id属性值相当于身份证号码，不可重复，一个标签只能有一个id属性值</p>
+</li>
+</ul>
+</li>
+<li><p>class选择器与id选择器的区别</p>
+<ul>
+<li>类选择器以 . 开头</li>
+<li>id选择器以 #开头</li>
+</ul>
+</li>
+<li><p>实际开发</p>
+<ul>
+<li>类选择器用的最多</li>
+<li>id一般配合js使用，除非特殊情况，否则不要使用id设置样式</li>
+<li>实际开发中会遇到冗余代码的抽取，可以将一些公共的代码抽取到一个公共的类中</li>
+</ul>
+</li>
+</ul>
+<h1 id="属性选择器">7. 属性选择器</h1><p>通过元素上的HTML属性来选择元素</p>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[attr]</td>
+<td>匹配具有attr属性的元素</td>
+</tr>
+<tr>
+<td>[attr&#x3D;”val”]</td>
+<td>匹配具有attr属性，且属性值等于val的元素</td>
+</tr>
+<tr>
+<td>[attr^&#x3D;”val”]</td>
+<td>匹配具有attr属性，且值以val开头的元素</td>
+</tr>
+<tr>
+<td>[attr$&#x3D;”val”]</td>
+<td>匹配具有attr属性，且值以val结尾的元素</td>
+</tr>
+<tr>
+<td>[attr*&#x3D;”val”]</td>
+<td>匹配具有attr属性，且值中含有val的元素</td>
+</tr>
+<tr>
+<td>[attr|&#x3D;”val”]</td>
+<td>匹配具有attr属性，且值等于val或者以val开头后面紧跟连接符-</td>
+</tr>
+<tr>
+<td>[attr~&#x3D;val]</td>
+<td>匹配具有attr属性，且值包含val, 如果有其他值必须以空格和val分割</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>拥有某一个属性 [att]</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-attr">[title]</span>&#123;</span></span><br><span class="line"><span class="language-css">  <span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="language-css">&#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">title</span>=<span class="string">&quot;box&quot;</span>&gt;</span>title<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>属性等于某个值 [att&#x3D;val]</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[title=box]</span>&#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>input</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=<span class="string">&quot;text&quot;</span>]</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>:pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type]</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>:pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>button</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">button</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">cursor</span>: pointer;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">button</span><span class="selector-attr">[disabled]</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">cursor</span>: default;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>按钮1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">disabled</span>&gt;</span>按钮2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="后代选择器">8. 后代选择器</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>1234<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">p</span>&gt;</span>123<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>12<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="所有的后代-直接-x2F-间接的后代">8.1. 所有的后代(直接&#x2F;间接的后代)</h2><ul>
+<li><p>作用</p>
+<ul>
+<li>根据html标签的嵌套关系，选择父元素<code>后代中</code>满足条件的元素</li>
+</ul>
+</li>
+<li><p>选择器语法</p>
+<p><code>选择器1 选择器2&#123;属性名:属性值;&#125;</code></p>
+</li>
+<li><p>结果</p>
+<ul>
+<li>在选择器1中所找到的后代(儿子，孙子，重孙子，…)中，找到满足选择器2 的标签，设置样式</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li><code>后代包括儿子，孙子，重孙子，...</code></li>
+<li>后代选择器中，选择器与选择器之间通过<code>空格</code>隔开</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> <span class="selector-tag">p</span>&#123;</span><br><span class="line">   <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p_.png"></p>
+<h2 id="直接子代选择器-必须是直接自带">8.2. 直接子代选择器(必须是直接自带)</h2><ul>
+<li><p>作用</p>
+<ul>
+<li>根据html标签的嵌套关系，选择父元素<code>子代中</code>满足条件的元素</li>
+</ul>
+</li>
+<li><p>选择器语法</p>
+<ul>
+<li><code>选择器1 &gt; 选择器2&#123;属性名:属性值;&#125;</code></li>
+</ul>
+</li>
+<li><p>结果</p>
+<ul>
+<li>在选择器1中所找到的子代(儿子)中，找到满足选择器2 的标签，设置样式</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li><code>子代只包括儿子</code></li>
+<li>子代选择器中，选择器与选择器之间通过<code>&gt;</code>隔开</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.box &gt; p&#123;</span><br><span class="line">   color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p%3E.png"></p>
+<h1 id="兄弟选择器">9. 兄弟选择器</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;one&quot;</span>&gt;</span>hahaha<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>heihei<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>xixi<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>hehe<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="相邻兄弟选择器">9.1. 相邻兄弟选择器 +</h2><ul>
+<li>使用符号 + 连接</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.one</span> + <span class="selector-tag">div</span> &#123;</span><br><span class="line">	<span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/div+.png"></p>
+<h2 id="普遍兄弟选择器">9.2. 普遍兄弟选择器 ~</h2><ul>
+<li>使用符号 ~ 连接</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.one</span> ~ <span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/div~.png"></p>
+<h1 id="交集选择器">10. 交集选择器</h1><ul>
+<li><p>作用</p>
+<ul>
+<li>选中页面中<code>同时满足</code>多个选择器的标签</li>
+<li>在开发中通常为了精准的选择某一个元素</li>
+</ul>
+</li>
+<li><p>选择器语法</p>
+<ul>
+<li><code>选择器1选择器2&#123;属性名:属性值;&#125;</code></li>
+</ul>
+</li>
+<li><p>结果</p>
+<ul>
+<li>（既又原则）找到页面中既能被选择器1选中，又能被选择器2选中的标签，设置样式</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>交集选择器中的选择器之间是紧挨着的，没有东西分隔</li>
+<li>交集选择器中如果有标签，<code>标签选择器必须写在最前面</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">p</span><span class="selector-class">.red</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>:red;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  </span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;red&quot;</span>&gt;</span>test-div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;red&quot;</span>&gt;</span>test-p-class<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>test-p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/p-class.png"></p>
+<h1 id="并集选择器">11. 并集选择器</h1><ul>
+<li><p>作用</p>
+<ul>
+<li>同时选择多组标签，设置相同的样式</li>
+</ul>
+</li>
+<li><p>选择器语法</p>
+<ul>
+<li><code>选择器1, 选择器2&#123;属性名:属性值;&#125;</code></li>
+</ul>
+</li>
+<li><p>结果</p>
+<ul>
+<li>在选择器1和选择器2选中的标签，设置样式</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>并集选择器中的每组选择器之间通过<code>,</code>隔开</li>
+<li>并集选择器中的每组选择器可以是基础选择器或者复合选择器</li>
+<li>并集选择器中的每组选择器通常一行写一个，提高代码可读性</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">div</span>,</span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">p</span>,</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.red</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>:red;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  </span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>test<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;red&quot;</span>&gt;</span>h1-test<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="伪类-pseudo-classes">12. 伪类(pseudo-classes)</h1><ul>
+<li><p>什么是伪类</p>
+<ul>
+<li>Pseudo-classes：翻译过来是伪类</li>
+<li>伪类是选择器的一种，它用于选择处于特定状态的元素</li>
+</ul>
+</li>
+<li><p>比如，实现当手指放在一个元素上时, 显示另外一个颜色</p>
+</li>
+<li><p>常见的伪类有</p>
+<ol>
+<li>动态伪类(dynamic pseudo-classes) <ul>
+<li>:link、:visited、:hover、:active、:focus</li>
+</ul>
+</li>
+<li>目标伪类(target pseudo-classes)<ul>
+<li>:target</li>
+</ul>
+</li>
+<li>语言伪类(language pseudo-classes)<ul>
+<li>:lang( )</li>
+</ul>
+</li>
+<li>元素状态伪类(UI element states pseudo-classes) <ul>
+<li>:enabled、:disabled、:checked</li>
+</ul>
+</li>
+<li>结构伪类(structural pseudo-classes)<ul>
+<li>:nth-child( )、:nth-last-child( )、:nth-of-type( )、:nth-last-of-type( )</li>
+<li>:first-child、:last-child、:first-of-type、:last-of-type</li>
+<li>:root、:only-child、:only-of-type、:empty</li>
+</ul>
+</li>
+<li>否定伪类(negation pseudo-classes)<ul>
+<li>:not()</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>所有的伪类: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes">https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes</a></p>
+</li>
+</ul>
+<h2 id="动态伪类-链接">12.1. 动态伪类-链接</h2><ul>
+<li><p>使用举例：</p>
+<ul>
+<li>a:link 未访问的链接</li>
+<li>a:visited 已访问的链接</li>
+<li>a:hover 鼠标挪动到链接上</li>
+<li>a:active 激活的链接(鼠标在链接上长按住未松开)</li>
+</ul>
+</li>
+<li><p>使用注意</p>
+<ul>
+<li>:hover必须放在:link和:visited后面才能完全生效</li>
+<li>:active必须放在:hover后面才能完全生效</li>
+<li>所以建议的编写顺序是 :link、:visited、:hover、:active</li>
+</ul>
+</li>
+<li><p>除了a元素，:hover、:active也能用在其他元素上</p>
+</li>
+</ul>
+<h2 id="动态伪类-焦点-LVFHA">12.2. 动态伪类-焦点 LVFHA</h2><ul>
+<li><p>:focus指当前拥有输入焦点的元素(能接收键盘输入)，常用语表单控件</p>
+<ul>
+<li><code>input:focus&#123; color: red; &#125;</code></li>
+<li>效果：表单控件获取焦点时默认会显示外部轮廓线</li>
+</ul>
+</li>
+<li><p>因为链接a元素可以被键盘的Tab键选中聚焦，所以:focus也适用于a元素</p>
+</li>
+<li><p>动态伪类编写顺序建议为</p>
+<ul>
+<li>:link、:visited、:focus、:hover、:active</li>
+</ul>
+</li>
+<li><p>直接给a元素设置样式，相当于给a元素的所有动态伪类都设置了</p>
+<ul>
+<li>相当于a:link、a:visited、a:hover、a:active、a:focus的color都是red</li>
+</ul>
+</li>
+</ul>
+<h2 id="结构伪类">12.3. 结构伪类</h2><ul>
+<li><p>目标：能够使用结构伪类选择器在HTML中定位元素</p>
+</li>
+<li><p>作用：根据元素在HTML中的结构关系查找元素</p>
+</li>
+<li><p>优势：减少对HTML中类的依赖，有利于保持代码整洁</p>
+</li>
+<li><p>场景：常用于查找某父级选择器中的子元素</p>
+</li>
+<li><p>取值</p>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E:nth-child(n)</td>
+<td>匹配父元素中第n个子元素，并且是E元素</td>
+</tr>
+<tr>
+<td>E:nth-last-child(n)</td>
+<td>匹配父元素中倒数第n个子元素，并且是E元素</td>
+</tr>
+<tr>
+<td>E:first-child</td>
+<td>匹配父元素中第一个子元素，并且是E元素，等同于 :nth-child(1)</td>
+</tr>
+<tr>
+<td>E:last-child</td>
+<td>匹配父元素中最后一个子元素，并且是E元素，等同于 :nth-last-child(1)</td>
+</tr>
+<tr>
+<td>E:first-of-type</td>
+<td>匹配父元素的第一个同类型子元素，并且是E元素，等同于:nth-of-type(1)</td>
+</tr>
+<tr>
+<td>E:last-of-type</td>
+<td>匹配父元素的最后一个同类型子元素，并且是E元素，等同于:nth-last-of-type(1)</td>
+</tr>
+<tr>
+<td>E:only-child</td>
+<td>匹配父元素唯一的子元素，并且是E元素</td>
+</tr>
+<tr>
+<td>E:only-of-type</td>
+<td>匹配父元素中唯一的该类型子元素，并且是E元素</td>
+</tr>
+<tr>
+<td>:root</td>
+<td>根元素，就是HTML元素</td>
+</tr>
+<tr>
+<td>:empty</td>
+<td>内容完全空白的元素</td>
+</tr>
+<tr>
+<td>:not(x)</td>
+<td>x是选择器，表示为除x以外的元素</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="nth-child-n">12.3.1. nth-child(n)</h3><ul>
+<li>n为0,1,2,3,4,5，…</li>
+<li>n可以组成常见公式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>偶数</td>
+<td>2n，even</td>
+</tr>
+<tr>
+<td>奇数</td>
+<td>2n+1，2n-1，odd</td>
+</tr>
+<tr>
+<td>找到前5个</td>
+<td>-n+5</td>
+</tr>
+<tr>
+<td>找到从第5个往后</td>
+<td>n+5</td>
+</tr>
+</tbody></table>
+<h3 id="nth-of-type">12.3.2. nth-of-type</h3><p>选择器</p>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E:nth-of-type</td>
+<td>只在父元素的同类型E子元素范围中，匹配第n个</td>
+</tr>
+</tbody></table>
+<p>区别</p>
+<ul>
+<li>nth-child 直接在所有子元素中数个数</li>
+<li>nth-of-type 先通过该类型找到符合的一堆子元素，然后在这一堆子元素中数个数</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">   <span class="comment">/* 第3个子元素为div不满足条件 */</span></span></span><br><span class="line"><span class="language-css">   <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child</span>(<span class="number">3</span>)&#123;</span></span><br><span class="line"><span class="language-css">       <span class="attribute">color</span>: blue;</span></span><br><span class="line"><span class="language-css">   &#125;</span></span><br><span class="line"><span class="language-css">   <span class="comment">/* 选择的是同为li标签的第3个 */</span></span></span><br><span class="line"><span class="language-css">   <span class="selector-tag">li</span><span class="selector-pseudo">:nth-of-type</span>(<span class="number">3</span>)&#123;</span></span><br><span class="line"><span class="language-css">       <span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="language-css">   &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span>&gt;</span>3<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">li</span>&gt;</span>4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">li</span>&gt;</span>5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="not-x">12.3.3. :not(x)</h3><ul>
+<li><p>:not()的格式是:not(x)</p>
+<ul>
+<li>x是一个简单选择器</li>
+<li>元素选择器、通用选择器、属性选择器、类选择器、id选择器、伪类(除否定伪类)</li>
+</ul>
+</li>
+<li><p>:not(x)表示除x以外的元素</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.box</span> <span class="selector-pseudo">:not</span>(<span class="selector-class">.why</span>)&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: blue;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>item1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;why&quot;</span>&gt;</span>item2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>item3<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span>item4<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/not.png"></p>
+<h2 id="input-placeholder-shown">12.4. input:placeholder-shown</h2><ul>
+<li>表示当前显示占位符文本的input 或 textarea 元素</li>
+</ul>
+<h1 id="伪元素-pseudo-elements">13. 伪元素(pseudo-elements)</h1><ul>
+<li><p>常用的伪元素有</p>
+<ul>
+<li>:first-line、::first-line</li>
+<li>:first-letter、::first-letter</li>
+<li>:before、::before</li>
+<li>:after、::after</li>
+</ul>
+</li>
+<li><p>为了区分伪元素和伪类，建议伪元素使用2个冒号，比如::first-line</p>
+</li>
+</ul>
+<h2 id="first-line和-first-letter">13.1. ::first-line和::first-letter</h2><ul>
+<li>::first-line可以针对首行文本设置属性</li>
+<li>::first-letter可以针对首字母设置属性</li>
+</ul>
+<h2 id="before和-after">13.2. ::before和::after</h2><ul>
+<li><p>::before和::after用来在一个元素的内容之前或之后插入其他内容(可以是<code>文字、图片</code>)</p>
+</li>
+<li><p>目标：能够使用伪元素在网页中创建内容</p>
+</li>
+<li><p>区别</p>
+<ul>
+<li>元素：HTML设置的标签</li>
+<li>伪元素：由CSS模拟出的标签效果</li>
+</ul>
+</li>
+<li><p>种类</p>
+<table>
+<thead>
+<tr>
+<th>伪元素</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>::before</td>
+<td>添加一个伪元素，其将成为匹配选中的元素的第一个子元素</td>
+</tr>
+<tr>
+<td>::after</td>
+<td>在父元素内容的最后添加一个伪元素</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>必须设置content属性才能生效</li>
+<li>伪元素默认是行内元素</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 在段落之前插入content属性中的文字内容</span></span></span><br><span class="line"><span class="comment"><span class="language-css">       显示为 He said hello</span></span></span><br><span class="line"><span class="comment"><span class="language-css">    */</span></span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">p</span><span class="selector-pseudo">::before</span>&#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">content</span>: <span class="string">&quot;He said&quot;</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 在段落之后插入content属性中的文字内容</span></span></span><br><span class="line"><span class="comment"><span class="language-css">       显示为 hello John</span></span></span><br><span class="line"><span class="comment"><span class="language-css">    */</span></span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">p</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">content</span>: <span class="string">&quot;John&quot;</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span> hello <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-CSS%E9%80%89%E6%8B%A9%E5%99%A8/" title="前端-CSS学习笔记03-CSS选择器">https://wtlumos.github.io/zh-CN/2019/01/25/前端-CSS学习笔记03-CSS选择器/</a> -->
+    
+       <a href ="/zh-CN/2019/01/25/前端-CSS学习笔记03-CSS选择器/" >/zh-CN/2019/01/25/前端-CSS学习笔记03-CSS选择器/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-01-25 07:54
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2025-05-19 15:17
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CSS/" rel="tag"><i class="fa fa-tag"></i> CSS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-CSS%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" rel="prev" title="前端-CSS学习笔记04-CSS三大特性">
+      <i class="fa fa-chevron-left"></i> 前端-CSS学习笔记04-CSS三大特性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-emmet%E8%AF%AD%E6%B3%95/" rel="next" title="前端-CSS学习笔记07-emmet语法">
+      前端-CSS学习笔记07-emmet语法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8-selector"><span class="nav-text">1. CSS选择器(selector)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">2. 通用选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">3. 标签选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">4. 类选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#id%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">5. id选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#class%E9%80%89%E6%8B%A9%E5%99%A8-vs-id%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">6. class选择器 vs id选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">7. 属性选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E4%BB%A3%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">8. 后代选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%80%E6%9C%89%E7%9A%84%E5%90%8E%E4%BB%A3-%E7%9B%B4%E6%8E%A5-x2F-%E9%97%B4%E6%8E%A5%E7%9A%84%E5%90%8E%E4%BB%A3"><span class="nav-text">8.1. 所有的后代(直接&#x2F;间接的后代)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AD%90%E4%BB%A3%E9%80%89%E6%8B%A9%E5%99%A8-%E5%BF%85%E9%A1%BB%E6%98%AF%E7%9B%B4%E6%8E%A5%E8%87%AA%E5%B8%A6"><span class="nav-text">8.2. 直接子代选择器(必须是直接自带)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%84%E5%BC%9F%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">9. 兄弟选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%82%BB%E5%85%84%E5%BC%9F%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">9.1. 相邻兄弟选择器 +</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%AE%E9%81%8D%E5%85%84%E5%BC%9F%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">9.2. 普遍兄弟选择器 ~</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%A4%E9%9B%86%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">10. 交集选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E9%9B%86%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">11. 并集选择器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%AA%E7%B1%BB-pseudo-classes"><span class="nav-text">12. 伪类(pseudo-classes)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BB-%E9%93%BE%E6%8E%A5"><span class="nav-text">12.1. 动态伪类-链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BB-%E7%84%A6%E7%82%B9-LVFHA"><span class="nav-text">12.2. 动态伪类-焦点 LVFHA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB"><span class="nav-text">12.3. 结构伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nth-child-n"><span class="nav-text">12.3.1. nth-child(n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nth-of-type"><span class="nav-text">12.3.2. nth-of-type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#not-x"><span class="nav-text">12.3.3. :not(x)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#input-placeholder-shown"><span class="nav-text">12.4. input:placeholder-shown</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%AA%E5%85%83%E7%B4%A0-pseudo-elements"><span class="nav-text">13. 伪元素(pseudo-elements)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#first-line%E5%92%8C-first-letter"><span class="nav-text">13.1. ::first-line和::first-letter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#before%E5%92%8C-after"><span class="nav-text">13.2. ::before和::after</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '30245321318176d13f983f89031f31ef',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

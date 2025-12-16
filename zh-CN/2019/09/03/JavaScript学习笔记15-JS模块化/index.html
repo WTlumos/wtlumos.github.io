@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="模块化介绍；CommonJs，AMD，CMD规范；ES Module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript学习笔记15-JS模块化">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="模块化介绍；CommonJs，AMD，CMD规范；ES Module">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/mian.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/circle.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/07_3_phases.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/10_construction.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/25_module_map.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/30_live_bindings_04.png">
+<meta property="article:published_time" content="2019-09-02T16:36:17.000Z">
+<meta property="article:modified_time" content="2023-06-01T17:37:38.886Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/mian.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JavaScript学习笔记15-JS模块化 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript学习笔记15-JS模块化
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-03 00:36:17" itemprop="dateCreated datePublished" datetime="2019-09-03T00:36:17+08:00">2019-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-02 01:37:38" itemprop="dateModified" datetime="2023-06-02T01:37:38+08:00">2023-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>20k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">模块化介绍；CommonJs，AMD，CMD规范；ES Module</blockquote>
+
+<span id="more"></span>
+
+<h1 id="模块化">1. 模块化</h1><h2 id="基础知识">1.1. 基础知识</h2><ul>
+<li><p>模块化开发最终的目的是将程序划分成一个个小的结构</p>
+<ul>
+<li>这个结构中编写属于自己的逻辑代码，有自己的作用域，不会影响到其他的结构</li>
+<li>这个结构可以将希望暴露的变量、函数、对象等导出给其结构使用</li>
+<li>也可以通过某种方式，导入另外结构中的变量、函数、对象等</li>
+</ul>
+</li>
+<li><p>结构就是模块，按照这种结构划分开发程序的过程，就是模块化开发的过程</p>
+</li>
+<li><p>JavaScript存在很多的缺陷</p>
+<ul>
+<li>比如var定义的变量作用域问题</li>
+<li>比如JavaScript的面向对象并不能像常规面向对象语言一样使用class</li>
+<li>比如JavaScript没有模块化的问题</li>
+</ul>
+</li>
+<li><p>Brendan Eich本人也多次承认过JavaScript设计之初的缺陷，但是随着JavaScript的发展以及标准化，存在的缺陷问题基本都得到了完善</p>
+</li>
+<li><p>无论是web、移动端、小程序端、服务器端、桌面应用都被广泛的使用</p>
+</li>
+</ul>
+<h2 id="模块化的历史">1.2. 模块化的历史</h2><ul>
+<li><p>在网页开发的早期，Brendan Eich开发JavaScript仅仅作为一种脚本语言，做一些简单的表单验证或动画实现等，那个时候代码还是很少的</p>
+<ul>
+<li>只需要讲JavaScript代码写到<code>&lt;script&gt;</code>标签中即可</li>
+<li>并没有必要放到多个文件中来编写</li>
+<li>甚至流行说 JavaScript 程序的长度只有一行</li>
+</ul>
+</li>
+<li><p>但是随着前端和JavaScript的快速发展，JavaScript代码变得越来越复杂了</p>
+<ul>
+<li>ajax的出现，前后端开发分离，意味着后端返回数据后，需要通过JavaScript进行前端页面的渲染</li>
+<li>SPA的出现，前端页面变得更加复杂，包括前端路由、状态管理等等一系列复杂的需求需要通过JavaScript来实现</li>
+<li>包括Node的实现，JavaScript编写复杂的后端程序，没有模块化是致命的硬伤</li>
+</ul>
+</li>
+<li><p>所以，模块化已经是JavaScript一个非常迫切的需求</p>
+<ul>
+<li>但是JavaScript本身，直到ES6(2015)才推出了自己的模块化方案</li>
+<li>在此之前，为了让JavaScript支持模块化，涌现出了很多不同的模块化规范：AMD、CMD、CommonJS等</li>
+</ul>
+</li>
+<li><p>常用的JavaScript模块化是CommonJS和ES6的模块化</p>
+</li>
+</ul>
+<h2 id="没有模块化带来的问题">1.3. 没有模块化带来的问题</h2><ul>
+<li><p>早期没有模块化带来了很多的问题</p>
+<ul>
+<li>命名冲突的问题</li>
+<li>当然，可以通过立即函数调用表达式(IIFE)来解决</li>
+</ul>
+</li>
+<li><p>IIFE (Immediately Invoked Function Expression)</p>
+<ul>
+<li>立即函数返回一个对象moduleA，使全局可以调用</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> &lt;script src=&quot;./fun1.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment"> &lt;script src=&quot;./fun2.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// fun1.js</span></span><br><span class="line"><span class="keyword">var</span> moduleA = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line">  <span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line">  <span class="keyword">var</span> flag = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name,</span><br><span class="line">    age,</span><br><span class="line">    flag</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// fun2.js</span></span><br><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (moduleA.<span class="property">flag</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;my age is &quot;</span> + moduleA.<span class="property">name</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是，带来了新的问题</p>
+<ol>
+<li>必须记得每一个模块中返回对象的命名，才能在其他模块使用过程中正确的使用</li>
+<li>代码写起来混乱不堪，每个文件中的代码都需要包裹在一个匿名函数中来编写</li>
+<li>在没有合适的规范情况下，每个人、每个公司都可能会任意命名、甚至出现模块名称相同的情况</li>
+</ol>
+</li>
+<li><p>虽然实现了模块化，但是实现得过于简单，并且是没有规范的</p>
+<ul>
+<li>需要制定一定的规范来约束每个人都按照这个规范去编写模块化的代码</li>
+<li>这个规范中应该包括核心功能：模块本身可以导出暴露的属性，模块又可以导入自己需要的属性</li>
+<li>JavaScript社区为了解决上面的问题，涌现出一系列好用的规范</li>
+</ul>
+</li>
+</ul>
+<h1 id="CommonJS规范">2. CommonJS规范</h1><h2 id="CommonJS规范和Node关系">2.1. CommonJS规范和Node关系</h2><ul>
+<li><p><code>CommonJS是一个规范</code>，最初提出来是在浏览器以外的地方使用，并且当时被命名为ServerJS，后来为了体现它的广泛性，修改为CommonJS，也可以简称为CJS</p>
+<ul>
+<li>Node是CommonJS在服务器端一个具有代表性的实现</li>
+<li>Browserify是CommonJS在浏览器中的一种实现</li>
+<li>webpack打包工具具备对CommonJS的支持和转换</li>
+</ul>
+</li>
+<li><p>所以，Node中对CommonJS进行了支持和实现，在开发node的过程中可以方便的进行模块化开发</p>
+<ul>
+<li>在Node中每一个js文件都是一个单独的模块</li>
+<li>这个模块中包括CommonJS规范的核心变量：<code>exports、module.exports、require</code></li>
+<li>可以使用这些变量来方便的进行模块化开发</li>
+</ul>
+</li>
+<li><p>模块化的核心是导出和导入，Node中对其进行了实现</p>
+<ul>
+<li>exports和module.exports可以负责对模块中的内容进行导出</li>
+<li>require函数可以帮助导入其他模块(自定义模块、系统模块、第三方库模块)中的内容</li>
+</ul>
+</li>
+</ul>
+<h2 id="exports对象">2.2. exports对象</h2><ul>
+<li><p>注意：exports是一个对象，可以在这个对象中添加很多个属性，添加的属性会导出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bar.js</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.<span class="property">name</span> = name;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">age</span> = age;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>另外一个文件中可以导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123; name: &#x27;why&#x27;, age: 18 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上面完成了什么操作呢？</p>
+<ul>
+<li>意味着main中的bar变量等于exports对象</li>
+<li>也就是require通过各种查找方式，最终找到了exports这个对象</li>
+<li>并且将这个exports对象赋值给了bar变量</li>
+<li>bar变量就是exports对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="module-exports对象">2.3. module.exports对象</h2><ul>
+<li><p>但是Node中经常通过module.exports导出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bar.js</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  name,</span><br><span class="line">  age</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>module.exports和exports有什么关系或者区别呢?</p>
+</li>
+<li><p>追根溯源，通过维基百科中对CommonJS规范的解析</p>
+<ul>
+<li>CommonJS中是没有module.exports的概念</li>
+<li>但是为了实现模块的导出，Node中使用的是Module的类，每一个模块都是Module的一个实例，也就是module</li>
+<li>所以在Node中真正用于导出的其实根本不是exports，而是module.exports，因为module才是导出的真正实现者</li>
+</ul>
+</li>
+<li><p>但是，为什么exports也可以导出呢? </p>
+<ul>
+<li><p>这是因为module对象的exports属性是exports对象的一个引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;&#125;</span><br><span class="line"><span class="built_in">exports</span> = <span class="variable language_">module</span>.<span class="property">exports</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>也就是说 module.exports &#x3D; exports &#x3D; main中的bar</p>
+</li>
+</ul>
+</li>
+<li><p>为什么不能用 <code>exports=&#123;name, age&#125;</code></p>
+<ul>
+<li>exports只是module.exports的引用，<code>exports = module.exports</code></li>
+<li>此时两者都指向同一个对象，可以通过 <code>exports.name=&quot;why&quot;</code>来给对象添加属性， 但最终导出的执行者还是module</li>
+<li>当exports指向另一个对象时，它就失去了作用，最终module.exports依然指向一个{}空对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="证明是同一个对象">2.4. 证明是同一个对象</h2><ul>
+<li><p>证明以下代码中 module.exports，info，bar指向的是同一个对象</p>
+<ul>
+<li><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = info;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="内存图">2.4.1. 内存图</h3><p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/mian.png"></p>
+<h3 id="修改info的name属性">2.4.2. 修改info的name属性</h3><p><code>bar.name值发生了改变</code></p>
+<ul>
+<li><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    info.<span class="property">name</span>=<span class="string">&quot;test&quot;</span>;</span><br><span class="line">&#125;,<span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = info;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123; name: &#x27;why&#x27;, age: 18, foo: [Function: foo] &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(bar.<span class="property">name</span>);</span><br><span class="line">&#125;,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="修改bar的name属性">2.4.3. 修改bar的name属性</h3><p><code>info.name值发生了改变</code></p>
+<ul>
+<li><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> info = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(info.<span class="property">name</span>);</span><br><span class="line">&#125;,<span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = info;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123; name: &#x27;why&#x27;, age: 18, foo: [Function: foo] &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    bar.<span class="property">name</span>=<span class="string">&quot;test&quot;</span>;</span><br><span class="line">&#125;,<span class="number">1000</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="三者引用属性值改变">2.5. 三者引用属性值改变</h2><ul>
+<li><p>module.exports，exports，require()三者项目引用的情况下，某个属性值改变会发生什么</p>
+</li>
+<li><p>从几个方面来研究会发生什么? </p>
+<ol>
+<li><p>在三者项目引用的情况下，修改exports中name属性到底发生了什么?</p>
+<p><code>三者中的name属性值都会改变</code></p>
+</li>
+<li><p>在三者引用的情况下，修改了main中bar的name属性，在bar模块中会发生什么? </p>
+<p><code>三者中的name属性值都会改变</code></p>
+</li>
+<li><p>如果module.exports不再引用exports对象了，那么修改export还有意义吗?</p>
+<p><code>没有意义，module.exports和require()已经指向新对象</code></p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="require函数">2.6. require函数</h2><ul>
+<li><p>require是一个函数，可以帮助引入一个文件(模块)中导出的对象</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v16.x/docs/api/modules.html#all-together">require的查找规则</a></p>
+</li>
+<li><p>常见的查找规则：导入格式为 require(X)</p>
+</li>
+</ul>
+<h3 id="Node核心模块">2.6.1. Node核心模块</h3><ul>
+<li>X是一个Node核心模块，比如path、http <ul>
+<li>直接返回核心模块，并且停止查找</li>
+</ul>
+</li>
+</ul>
+<h3 id="文件路径">2.6.2. 文件路径</h3><ul>
+<li><p>X是以 .&#x2F; 或 ..&#x2F; 或 &#x2F;(根目录)开头</p>
+</li>
+<li><p>第一步：将X当做一个文件在对应的目录下查找</p>
+<ol>
+<li>如果有后缀名，按照后缀名的格式查找对应的文件</li>
+<li>如果没有后缀名，会按照如下顺序<ul>
+<li>1&gt; 直接查找文件X</li>
+<li>2&gt; 查找X.js文件</li>
+<li>3&gt; 查找X.json文件</li>
+<li>4&gt; 查找X.node文件</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>第二步：没有找到对应的文件，将X作为一个目录</p>
+<ul>
+<li>查找目录下面的index文件<ul>
+<li>1&gt; 查找X&#x2F;index.js文件</li>
+<li>2&gt; 查找X&#x2F;index.json文件</li>
+<li>3&gt; 查找X&#x2F;index.node文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>如果没有找到，那么报错：not found</p>
+</li>
+</ul>
+<h3 id="node-modules">2.6.3. node_modules</h3><ul>
+<li><p>直接是一个X(没有路径)，并且X不是一个核心模块</p>
+</li>
+<li><p>查找node_modules文件夹中的是否存在该项目</p>
+<p><code>console.log(module.paths);</code></p>
+<p>打印查找顺序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/HTML/js/模块化/CommonJS/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/HTML/js/模块化/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/HTML/js/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/HTML/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/HTML/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/VSCode/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/Workspace/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/Documents/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/xxx/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/Users/node_modules&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;/node_modules&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果上面的路径中都没有找到，那么报错：not found</p>
+</li>
+</ul>
+<h2 id="模块的加载过程">2.7. 模块的加载过程</h2><ul>
+<li><p>结论一：模块在被第一次引入时，模块中的js代码会被运行一次</p>
+</li>
+<li><p>结论二：模块被多次引入时，会缓存，<code>最终只加载(运行)一次</code></p>
+<ul>
+<li>为什么只会加载运行一次呢?</li>
+<li>这是因为每个模块对象module都有一个属性：loaded</li>
+<li>为false表示还没有加载，为true表示已经加载</li>
+</ul>
+</li>
+<li><p>结论三：如果有循环引入，那么加载顺序是什么?</p>
+<ul>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;main&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./aaa&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./bbb&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>aaa.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./ccc&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bbb.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bbb&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./ccc&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./eee&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ccc.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;ccc&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./ddd&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ddd.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;ddd&quot;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./eee&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>eee.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;eee&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>依赖图</p>
+<p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/circle.png"></p>
+</li>
+</ul>
+</li>
+<li><p>它们的加载顺序是什么呢?</p>
+<ul>
+<li>这个其实是一种数据结构：图结构</li>
+<li>图结构在遍历的过程中，有深度优先搜索(<code>DFS</code>, depth first search)和广度优先搜索(BFS, breadth first search)</li>
+<li>Node采用的是深度优先算法：main -&gt; aaa -&gt; ccc -&gt; ddd -&gt; eee -&gt; bbb</li>
+</ul>
+</li>
+</ul>
+<h2 id="CommonJS规范缺点">2.8. CommonJS规范缺点</h2><ul>
+<li><p>CommonJS加载模块是同步的</p>
+<ul>
+<li>同步的意味着只有等到对应的模块加载完毕，当前模块中的内容才能被运行</li>
+<li>这个在服务器不会有什么问题，因为服务器加载的js文件都是本地文件，加载速度非常快</li>
+</ul>
+</li>
+<li><p>如果将它应用于浏览器呢?</p>
+<ul>
+<li>浏览器加载js文件需要先从服务器将文件下载下来，之后再加载运行</li>
+<li>那么采用同步的就意味着后续的js代码都无法正常运行，即使是一些简单的DOM操作</li>
+</ul>
+</li>
+<li><p>所以在浏览器中，通常不使用CommonJS规范</p>
+<ul>
+<li>当然在webpack中使用CommonJS是另外一回事</li>
+<li>因为它会将我们的代码转成浏览器可以直接执行的代码</li>
+</ul>
+</li>
+<li><p>在早期为了可以在浏览器中使用模块化，通常会采用AMD或CMD</p>
+<ul>
+<li>但是目前一方面现代的浏览器已经支持ES Modules，另一方面借助于webpack等工具可以实现对CommonJS或者ES Module代码的转换</li>
+<li>AMD和CMD已经使用非常少了，所以这里我们进行简单的演练</li>
+</ul>
+</li>
+</ul>
+<h1 id="AMD规范">3. AMD规范</h1><ul>
+<li><p>AMD主要是应用于浏览器的一种模块化规范</p>
+<ul>
+<li>AMD是Asynchronous Module Definition(异步模块定义)的缩写</li>
+<li>它采用的是异步加载模块</li>
+<li>事实上AMD的规范还要早于CommonJS，但是CommonJS目前依然在被使用，而AMD使用的较少了</li>
+</ul>
+</li>
+<li><p>规范只是定义代码的应该如何去编写，只有有了具体的实现才能被应用</p>
+<ul>
+<li>AMD实现的比较常用的库是require.js和curl.js</li>
+</ul>
+</li>
+</ul>
+<h2 id="require-js的使用">3.1. require.js的使用</h2><ul>
+<li><p>第一步：下载require.js</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/requirejs/requirejs">https://github.com/requirejs/requirejs</a></li>
+<li>找到其中的require.js文件</li>
+</ul>
+</li>
+<li><p>第二步：定义HTML的script标签引入require.js和定义入口文件</p>
+<ul>
+<li><p>data-main属性的作用是在加载完src的文件后会加载执行该文件</p>
+<p><code>&lt;script src=&quot;./lib/require.js&quot; data-main=&quot;./src/main.js&quot;&gt;&lt;/script&gt;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例">3.2. 案例</h2><p>main.js 引用 bar.js，bar.js引用foo.js</p>
+<p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123; foo &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> info = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="built_in">require</span>([<span class="string">&quot;foo&quot;</span>], <span class="keyword">function</span> (<span class="params">foo</span>) &#123;</span><br><span class="line">      foo.<span class="title function_">foo</span>();</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> info;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>.<span class="title function_">config</span>(&#123;</span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="string">&quot;./foo&quot;</span>,</span><br><span class="line">    <span class="attr">bar</span>: <span class="string">&quot;./bar&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123;name: &#x27;why&#x27;, age: 18, foo: ƒ&#125;</span></span><br><span class="line"><span class="comment">// foo function</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">&quot;bar&quot;</span>], <span class="keyword">function</span> (<span class="params">bar</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="CMD规范">4. CMD规范</h1><ul>
+<li>CMD规范也是应用于浏览器的一种模块化规范<ul>
+<li>CMD 是Common Module Definition(通用模块定义)的缩写</li>
+<li>采用了异步加载模块，但是它将CommonJS的优点吸收了过来</li>
+<li>但是目前CMD使用也非常少了</li>
+</ul>
+</li>
+<li>CMD也有自己比较优秀的实现方案：SeaJS</li>
+</ul>
+<h2 id="SeaJS的使用">4.1. SeaJS的使用</h2><ul>
+<li>第一步：下载SeaJS<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/seajs/seajs">https://github.com/seajs/seajs</a></li>
+<li>找到dist文件夹下的sea.js</li>
+</ul>
+</li>
+<li>第二步：引入sea.js和使用主入口文件<ul>
+<li>seajs是指定主入口文件的</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例-1">4.2. 案例</h2><p>main.js 引用 bar.js，bar.js引用foo.js</p>
+<p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./lib/sea.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    seajs.<span class="title function_">use</span>(<span class="string">&quot;./src/main.js&quot;</span>)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line">  <span class="comment">// &#123;name: &#x27;why&#x27;, age: 18, foo: ƒ&#125;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(bar);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> foo = <span class="built_in">require</span>(<span class="string">&quot;./foo&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> info = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">    <span class="attr">fun</span>: foo.<span class="property">fn</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="variable language_">module</span>.<span class="property">exports</span> = info;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    fn</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="ES-Module">5. ES Module</h1><h2 id="认识-ES-Module">5.1. 认识 ES Module</h2><ul>
+<li><p>JavaScript没有模块化一直是它的痛点，所以才会产生社区规范：CommonJS、AMD、CMD等， 而后ES推出自己的模块化系统</p>
+</li>
+<li><p>ES Module和CommonJS的模块化有一些不同之处</p>
+<ul>
+<li>一方面它使用了import和export关键字</li>
+<li>另一方面它采用编译期的静态分析，并且也加入了动态引用的方式</li>
+</ul>
+</li>
+<li><p>ES Module模块采用export和import关键字来实现模块化</p>
+<ul>
+<li><code>export</code>负责将模块内的内容导出</li>
+<li><code>import</code>负责从其他模块导入内容</li>
+</ul>
+</li>
+<li><p>了解：采用ES Module将自动采用严格模式：use strict</p>
+</li>
+</ul>
+<h2 id="案例代码">5.2. 案例代码</h2><p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; name, age &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name, age);</span><br></pre></td></tr></table></figure>
+
+<p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> age = <span class="number">18</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>在浏览器中运行出现错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1:1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不进行声明，main.js被当作普通javascript文件进行解析，需要声明为模块</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./main.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在浏览器中运行，还是报错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access to script at &#x27;file:///Users/xxx/Documents/Workspace/VSCode/HTML/js/ES_Module/main.js&#x27; from origin &#x27;null&#x27; has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, isolated-app, chrome-extension, chrome, https, chrome-untrusted.</span><br><span class="line">GET file:///Users/xxx/Documents/Workspace/VSCode/HTML/js/ES_Module/main.js net::ERR_FAILED</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个在MDN上面给出解释：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules</a></p>
+<ul>
+<li>需要注意本地测试，如果通过本地加载html 文件 (比如一个 file:&#x2F;&#x2F; 路径的文件), 将会遇到 CORS 错误，因为 Javascript 模块安全性需要</li>
+<li>需要通过一个服务器来测试</li>
+</ul>
+</li>
+<li><p>在VSCode中有一个插件：Live Server</p>
+</li>
+</ul>
+<h2 id="export关键字">5.3. export关键字</h2><ul>
+<li><p>export关键字将一个模块中的变量、函数、类等导出</p>
+</li>
+<li><p>希望将其他中内容全部导出，它可以有如下的方式</p>
+<ul>
+<li><p>方式一：在语句声明的前面直接加上export关键字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式二：将所有需要导出的标识符，放到export后面的 {}中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; name, age, foo &#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意：这里的 {}里面不是ES6的对象字面量的增强写法，{}也不是表示一个对象的</li>
+<li>所以：export {name: name}，是错误的写法</li>
+</ul>
+</li>
+<li><p>方式三：导出时给标识符起一个别名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; name <span class="keyword">as</span> uname, age <span class="keyword">as</span> uage, foo <span class="keyword">as</span> ufoo &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="import关键字">5.4. import关键字</h2><ul>
+<li><p>import关键字负责从另外一个模块中导入内容</p>
+</li>
+<li><p>导入内容的方式也有多种</p>
+<ul>
+<li><p>方式一：import {标识符列表} from ‘模块’</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; name, age, foo &#125; <span class="keyword">from</span> <span class="string">&#x27;./bar.js&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意：这里的{}也不是一个对象，里面只是存放导入的标识符列表内容</li>
+</ul>
+</li>
+<li><p>方式二：导入时给标识符起别名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; name <span class="keyword">as</span> uname, age <span class="keyword">as</span> uage, foo <span class="keyword">as</span> ufoo &#125; <span class="keyword">from</span> <span class="string">&#x27;./bar.js&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式三：通过 * 将模块功能放到一个模块功能对象(a module object)上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> bar <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="export和import结合使用">5.5. export和import结合使用</h2><ul>
+<li><p>为什么要export和import结合使用呢?</p>
+<ul>
+<li>在开发和封装一个功能库时，通常希望将暴露的所有接口放到一个文件中</li>
+<li>这样方便指定统一的接口规范，也方便阅读</li>
+<li>这个时候，就可以使用export和import结合使用</li>
+</ul>
+</li>
+<li><p>以下项目中，将math.js和format.js的函数合并到index.js中，main.js集合调用，在index.js中级可以用到export和import的结合</p>
+</li>
+</ul>
+<h3 id="util-x2F-math-js">5.5.1. util&#x2F;math.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sub</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; sum, sub &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="util-x2F-format-js">5.5.2. util&#x2F;format.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">timeFormat</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;yyyy-MM-dd&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    timeFormat</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="util-x2F-index-js">5.5.3. util&#x2F;index.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; sum, sub &#125; <span class="keyword">from</span> <span class="string">&quot;./math.js&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; timeFormat &#125; <span class="keyword">from</span> <span class="string">&quot;./format.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; sum, sub, timeFormat &#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码可以简化为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> &#123; timeFormat &#125; <span class="keyword">from</span> <span class="string">&quot;./format.js&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; sum, sub &#125; <span class="keyword">from</span> <span class="string">&quot;./math.js&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>还可以简化为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&quot;./format.js&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&quot;./math.js&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="main-js">5.5.4. main.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; sum, sub, timeFormat &#125; <span class="keyword">from</span> <span class="string">&quot;./util/index.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">sum</span>(<span class="number">10</span>,<span class="number">20</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">sub</span>(<span class="number">10</span>,<span class="number">20</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">timeFormat</span>());</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="index-html">5.5.5. index.html</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./main.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="default用法">5.6. default用法</h2><ul>
+<li><p>前面的导出功能都是有名字的导出(named exports)</p>
+<ul>
+<li>在导出export时指定了名字</li>
+<li>在导入import时需要知道具体的名字</li>
+</ul>
+</li>
+<li><p>还有一种导出叫做默认导出(default export)</p>
+<ul>
+<li>默认导出export时可以不需要指定名字</li>
+<li>在导入时不需要使用 {}，并且可以指定名字</li>
+<li>它也方便和现有的CommonJS等规范相互操作</li>
+</ul>
+</li>
+<li><p>注意：在一个模块中，只能有一个默认导出(default export)</p>
+</li>
+</ul>
+<h3 id="属性作为默认导出">5.6.1. 属性作为默认导出</h3><ul>
+<li>方式一：<code>export &#123; 变量名 as default &#125;</code></li>
+<li>方式二：<code>export default 变量名</code></li>
+</ul>
+<p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="comment">// 方式一</span></span><br><span class="line"><span class="keyword">export</span> &#123; name, age <span class="keyword">as</span> <span class="keyword">default</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> bar, &#123; name &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 18 why</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(bar, name);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="函数作为默认导出">5.6.2. 函数作为默认导出</h3><p>bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(name,age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> bar <span class="keyword">from</span> <span class="string">&quot;./bar.js&quot;</span>;</span><br><span class="line">/ why <span class="number">18</span></span><br><span class="line"><span class="title function_">bar</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="import函数">5.7. import函数</h2><ul>
+<li><p>通过import加载一个模块，后续代码是阻塞的，必须等到运行完模块中代码，返回数据，才能继续执行后续代码</p>
+</li>
+<li><p>并且import是不可以放到逻辑代码中的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="comment">// 导入声明只能在模块的顶层使用</span></span><br><span class="line">  <span class="comment">// import &#123; name, age &#125; from &quot;./bar.js&quot;;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为什么import不能放到逻辑代码中呢?</p>
+<ul>
+<li>这是因为ES Module在被JS引擎解析时，就必须知道它的依赖关系</li>
+<li>由于这个时候js代码没有任何的运行，所以无法在进行类似于if判断中根据代码的执行情况</li>
+<li>必须到运行时能确定path的值</li>
+</ul>
+</li>
+<li><p>希望动态加载某一个模块，需要使用 import() 函数来动态加载，此时import的then代码是异步执行的</p>
+</li>
+</ul>
+<p>aaa.js</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&quot;aaa&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>bbb.js</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&quot;bbb&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>main.js</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> flag = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span> (flag) &#123;</span><br><span class="line">  <span class="keyword">import</span>(<span class="string">&quot;./aaa.js&quot;</span>).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    Module&#123;</span></span><br><span class="line"><span class="comment">        name: &quot;aaa&quot;</span></span><br><span class="line"><span class="comment">        Symbol(Symbol.toStringTag): &quot;Module&quot;</span></span><br><span class="line"><span class="comment">        get name: ƒ ()</span></span><br><span class="line"><span class="comment">        set name: ƒ ()</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">name</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">import</span>(<span class="string">&quot;./bbb.js&quot;</span>).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="import-meta">5.8. import meta</h2><ul>
+<li>import.meta是一个给JavaScript模块暴露特定上下文的元数据属性的对象<ul>
+<li>它包含了这个模块的信息，比如说这个模块的URL，即当前模块所在的路径</li>
+<li>在ES11(ES2020)中新增的特性</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    &quot;url&quot;: &quot;http://127.0.0.1:5500/js/ES_Module/main.js&quot;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ES-Module的解析流程">5.9. ES Module的解析流程</h2><ul>
+<li>ES Module是如何被浏览器解析并且让模块之间可以相互引用的呢?<ul>
+<li><a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/">https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/</a></li>
+</ul>
+</li>
+<li>ES Module的解析过程可以划分为三个阶段<ul>
+<li>阶段一：构建(Construction)，<code>根据地址查找js文件</code>，并且下载，将其解析成模块记录(<code>Module Record</code>)</li>
+<li>阶段二：实例化(Instantiation)，对模块记录进行实例化，并且分配内存空间，解析模块的导入和导出语句，把模块指向对应的内存地址。此时模块中的变量值为undefined，函数也没有执行</li>
+<li>阶段三：运行(Evaluation)，运行代码，计算值，并且将值填充到内存地址中</li>
+</ul>
+</li>
+</ul>
+<p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/07_3_phases.png"></p>
+<h3 id="构建阶段">5.9.1. 构建阶段</h3><p>静态分析文件依赖，查找js文件，解析成Module Record</p>
+<p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/10_construction.png"></p>
+<p>内部维护一个map记录，避免一个文件被多个文件依赖而再次被记录</p>
+<p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/25_module_map.png"></p>
+<h3 id="实例化阶段-–-求值阶段">5.9.2. 实例化阶段 – 求值阶段</h3><p><img src="/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/30_live_bindings_04.png"></p>
+<p>导入的模块中count值不能发生改变，报错<code>Uncaught TypeError: Assignment to constant variable.</code></p>
+<ul>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; count &#125; <span class="keyword">from</span> <span class="string">&quot;./foo.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Uncaught TypeError: Assignment to constant variable.</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  count = <span class="number">10</span>;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> count = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; count &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>导出的模块中count值可以发生改变，随之影响导入的模块</p>
+<ul>
+<li><p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; count &#125; <span class="keyword">from</span> <span class="string">&quot;./foo.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 5</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>foo.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> count = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  count = <span class="number">10</span>;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; count &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="CommonJs和ES-Module混用">6. CommonJs和ES Module混用</h1><h2 id="浏览器中不能实现">6.1. 浏览器中不能实现</h2><ul>
+<li><p>ES Module在浏览器中可以使用</p>
+</li>
+<li><p>CommonJS在浏览器中使用会报错 <code>Uncaught ReferenceError: require is not defined</code></p>
+</li>
+</ul>
+<h2 id="node中需要命名为x-mjs">6.2. node中需要命名为x.mjs</h2><ul>
+<li><p>CommonJS 在node环境中可以使用</p>
+</li>
+<li><p>ES Module 在node环境中使用会报错 <code>SyntaxError: Cannot use import statement outside a module</code>，需要将文件命名为 <code>xxx.mjs</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bar.mjs</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> info = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main.mjs</span></span><br><span class="line"><span class="keyword">import</span> &#123; info &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.mjs&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> &#123; name, age &#125; = info;</span><br><span class="line"><span class="comment">// why 18</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name, age);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并且 .js文件 和 .mjs 文件不能混用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foo.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo function&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main.mjs</span></span><br><span class="line"><span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">&quot;./foo.js&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> info = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  <span class="attr">foo</span>: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main.mjs</span></span><br><span class="line"><span class="keyword">import</span> &#123; info &#125; <span class="keyword">from</span> <span class="string">&quot;./bar.mjs&quot;</span>;</span><br><span class="line">info.<span class="title function_">foo</span>();</span><br></pre></td></tr></table></figure>
+
+<p><code>SyntaxError: Named export &#39;foo&#39; not found. The requested module &#39;./foo.js&#39; is a CommonJS module, which may not support all module.exports as named exports.</code></p>
+</li>
+</ul>
+<h2 id="webpack环境中可以混用">6.3. webpack环境中可以混用</h2><ul>
+<li><p>生成package.json</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装webpack</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack webpack-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bar.js 中使用 export 导出，main.js 中使用require()导入</p>
+<ul>
+<li><p>src&#x2F;bar.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    name,</span><br><span class="line">    age</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>src&#x2F;index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; name,age &#125; = <span class="built_in">require</span>(<span class="string">&quot;./bar&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name,age);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>webpack打包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack --mode=development</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在node环境中运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node dist/main.js</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在浏览器中运行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./dist/main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>都可以得到结果</p>
+</li>
+</ul>
+</li>
+<li><p>生成的dist&#x2F;main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// webpackBootstrap</span></span><br><span class="line">  <span class="keyword">var</span> __webpack_modules__ = &#123;</span><br><span class="line">     <span class="string">&quot;./src/bar.js&quot;</span>:</span><br><span class="line">     <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">        __unused_webpack_module,</span></span></span><br><span class="line"><span class="params"><span class="function">        __webpack_exports__,</span></span></span><br><span class="line"><span class="params"><span class="function">        __webpack_require__</span></span></span><br><span class="line"><span class="params"><span class="function">      </span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="string">&quot;use strict&quot;</span>;</span><br><span class="line">        <span class="built_in">eval</span>(</span><br><span class="line">          <span class="string">&#x27;__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, &#123;\n/* harmony export */   age: () =&gt; (/* binding */ age),\n/* harmony export */   name: () =&gt; (/* binding */ name)\n/* harmony export */ &#125;);\nconst name = &quot;why&quot;;\nconst age = 18;\n\n\n\n//# sourceURL=webpack://commonjs_esmodule/./src/bar.js?&#x27;</span></span><br><span class="line">        );</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">     <span class="string">&quot;./src/foo.js&quot;</span>:</span><br><span class="line">     <span class="function">(<span class="params"><span class="variable language_">module</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">eval</span>(</span><br><span class="line">          <span class="string">&#x27;function foo()&#123;\n    console.log(&quot;foo function&quot;);\n&#125;\n\nmodule.exports = &#123;\n    foo\n&#125;\n\n//# sourceURL=webpack://commonjs_esmodule/./src/foo.js?&#x27;</span></span><br><span class="line">        );</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      <span class="string">&quot;./src/index.js&quot;</span>:</span><br><span class="line">      <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">        __unused_webpack_module,</span></span></span><br><span class="line"><span class="params"><span class="function">        __webpack_exports__,</span></span></span><br><span class="line"><span class="params"><span class="function">        __webpack_require__</span></span></span><br><span class="line"><span class="params"><span class="function">      </span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="string">&quot;use strict&quot;</span>;</span><br><span class="line">        <span class="built_in">eval</span>(</span><br><span class="line">          <span class="string">&#x27;__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _foo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./foo */ &quot;./src/foo.js&quot;);\n/* harmony import */ var _foo__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_foo__WEBPACK_IMPORTED_MODULE_0__);\nconst &#123; name,age &#125; = __webpack_require__(/*! ./bar */ &quot;./src/bar.js&quot;);\n\n\nconsole.log(name,age);\n(0,_foo__WEBPACK_IMPORTED_MODULE_0__.foo)();\n\n//# sourceURL=webpack://commonjs_esmodule/./src/index.js?&#x27;</span></span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// The module cache</span></span><br><span class="line">  <span class="keyword">var</span> __webpack_module_cache__ = &#123;&#125;;</span><br><span class="line">  <span class="comment">// The require function</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">__webpack_require__</span>(<span class="params">moduleId</span>) &#123;</span><br><span class="line">    <span class="comment">// Check if module is in cache</span></span><br><span class="line">    <span class="keyword">var</span> cachedModule = __webpack_module_cache__[moduleId];</span><br><span class="line">    <span class="keyword">if</span> (cachedModule !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> cachedModule.<span class="property">exports</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Create a new module (and put it into the cache)</span></span><br><span class="line">    <span class="keyword">var</span> <span class="variable language_">module</span> = (__webpack_module_cache__[moduleId] = &#123;</span><br><span class="line">      <span class="comment">// no module.id needed</span></span><br><span class="line">      <span class="comment">// no module.loaded needed</span></span><br><span class="line">      <span class="attr">exports</span>: &#123;&#125;</span><br><span class="line">      </span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Execute the module function</span></span><br><span class="line">    __webpack_modules__[moduleId](</span><br><span class="line">      <span class="variable language_">module</span>,</span><br><span class="line">      <span class="variable language_">module</span>.<span class="property">exports</span>,</span><br><span class="line">      __webpack_require__</span><br><span class="line">    );  </span><br><span class="line">    <span class="comment">// Return the exports of the module</span></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">module</span>.<span class="property">exports</span>; </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* webpack/runtime/compat get default export */</span></span><br><span class="line">  (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// getDefaultExport function for compatibility with non-harmony modules</span></span><br><span class="line">    __webpack_require__.<span class="property">n</span> = <span class="function">(<span class="params"><span class="variable language_">module</span></span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> getter =</span><br><span class="line">        <span class="variable language_">module</span> &amp;&amp; <span class="variable language_">module</span>.<span class="property">__esModule</span></span><br><span class="line">          ? <span class="function">() =&gt;</span> <span class="variable language_">module</span>[<span class="string">&quot;default&quot;</span>]</span><br><span class="line">          : <span class="function">() =&gt;</span> <span class="variable language_">module</span>;</span><br><span class="line">      __webpack_require__.<span class="title function_">d</span>(getter, &#123; <span class="attr">a</span>: getter &#125;);</span><br><span class="line">      <span class="keyword">return</span> getter;</span><br><span class="line">    &#125;; </span><br><span class="line">  &#125;)();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* webpack/runtime/define property getters */</span></span><br><span class="line">  (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// define getter functions for harmony exports</span></span><br><span class="line">    __webpack_require__.<span class="property">d</span> = <span class="function">(<span class="params"><span class="built_in">exports</span>, definition</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> definition) &#123;</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">          __webpack_require__.<span class="title function_">o</span>(definition, key) &amp;&amp;</span><br><span class="line">          !__webpack_require__.<span class="title function_">o</span>(<span class="built_in">exports</span>, key)</span><br><span class="line">        ) &#123;</span><br><span class="line">          <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, key, &#123;</span><br><span class="line">            <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">get</span>: definition[key]</span><br><span class="line">          &#125;); </span><br><span class="line">        &#125; </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;)();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* webpack/runtime/hasOwnProperty shorthand */</span></span><br><span class="line">  (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    __webpack_require__.<span class="property">o</span> = <span class="function">(<span class="params">obj, prop</span>) =&gt;</span></span><br><span class="line">      <span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>.<span class="title function_">call</span>(obj, prop);    </span><br><span class="line">  &#125;)();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* webpack/runtime/make namespace object */</span></span><br><span class="line">  (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// define __esModule on exports</span></span><br><span class="line">    __webpack_require__.<span class="property">r</span> = <span class="function">(<span class="params"><span class="built_in">exports</span></span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="title class_">Symbol</span> !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; <span class="title class_">Symbol</span>.<span class="property">toStringTag</span>) &#123;</span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="title class_">Symbol</span>.<span class="property">toStringTag</span>, &#123;</span><br><span class="line">          <span class="attr">value</span>: <span class="string">&quot;Module&quot;</span></span><br><span class="line">        &#125;);   </span><br><span class="line">      &#125;</span><br><span class="line">      <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="string">&quot;__esModule&quot;</span>, &#123; <span class="attr">value</span>: <span class="literal">true</span> &#125;);  </span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="comment">// startup</span></span><br><span class="line">  <span class="comment">// Load entry module and return exports</span></span><br><span class="line">  <span class="comment">// This entry module can&#x27;t be inlined because the eval devtool is used.</span></span><br><span class="line">  <span class="keyword">var</span> __webpack_exports__ = <span class="title function_">__webpack_require__</span>(<span class="string">&quot;./src/index.js&quot;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-JS%E6%A8%A1%E5%9D%97%E5%8C%96/" title="JavaScript学习笔记15-JS模块化">https://wtlumos.github.io/zh-CN/2019/09/03/JavaScript学习笔记15-JS模块化/</a> -->
+    
+       <a href ="/zh-CN/2019/09/03/JavaScript学习笔记15-JS模块化/" >/zh-CN/2019/09/03/JavaScript学习笔记15-JS模块化/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-09-03 00:36
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-06-02 01:37
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/03/A1129/" rel="prev" title="A1129 Recommendation System (25 point(s))">
+      <i class="fa fa-chevron-left"></i> A1129 Recommendation System (25 point(s))
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/09/03/A1130/" rel="next" title="A1130 Infix Expression (25 point(s))">
+      A1130 Infix Expression (25 point(s)) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-text">1. 模块化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">1.1. 基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E5%8E%86%E5%8F%B2"><span class="nav-text">1.2. 模块化的历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E6%A8%A1%E5%9D%97%E5%8C%96%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.3. 没有模块化带来的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CommonJS%E8%A7%84%E8%8C%83"><span class="nav-text">2. CommonJS规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E8%A7%84%E8%8C%83%E5%92%8CNode%E5%85%B3%E7%B3%BB"><span class="nav-text">2.1. CommonJS规范和Node关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exports%E5%AF%B9%E8%B1%A1"><span class="nav-text">2.2. exports对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#module-exports%E5%AF%B9%E8%B1%A1"><span class="nav-text">2.3. module.exports对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%81%E6%98%8E%E6%98%AF%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="nav-text">2.4. 证明是同一个对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%9B%BE"><span class="nav-text">2.4.1. 内存图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9info%E7%9A%84name%E5%B1%9E%E6%80%A7"><span class="nav-text">2.4.2. 修改info的name属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9bar%E7%9A%84name%E5%B1%9E%E6%80%A7"><span class="nav-text">2.4.3. 修改bar的name属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E8%80%85%E5%BC%95%E7%94%A8%E5%B1%9E%E6%80%A7%E5%80%BC%E6%94%B9%E5%8F%98"><span class="nav-text">2.5. 三者引用属性值改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#require%E5%87%BD%E6%95%B0"><span class="nav-text">2.6. require函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-text">2.6.1. Node核心模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="nav-text">2.6.2. 文件路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node-modules"><span class="nav-text">2.6.3. node_modules</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-text">2.7. 模块的加载过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS%E8%A7%84%E8%8C%83%E7%BC%BA%E7%82%B9"><span class="nav-text">2.8. CommonJS规范缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AMD%E8%A7%84%E8%8C%83"><span class="nav-text">3. AMD规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#require-js%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">3.1. require.js的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-text">3.2. 案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CMD%E8%A7%84%E8%8C%83"><span class="nav-text">4. CMD规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SeaJS%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">4.1. SeaJS的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="nav-text">4.2. 案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ES-Module"><span class="nav-text">5. ES Module</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-ES-Module"><span class="nav-text">5.1. 认识 ES Module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-text">5.2. 案例代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#export%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">5.3. export关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">5.4. import关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#export%E5%92%8Cimport%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-text">5.5. export和import结合使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#util-x2F-math-js"><span class="nav-text">5.5.1. util&#x2F;math.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#util-x2F-format-js"><span class="nav-text">5.5.2. util&#x2F;format.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#util-x2F-index-js"><span class="nav-text">5.5.3. util&#x2F;index.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-js"><span class="nav-text">5.5.4. main.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#index-html"><span class="nav-text">5.5.5. index.html</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#default%E7%94%A8%E6%B3%95"><span class="nav-text">5.6. default用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E5%AF%BC%E5%87%BA"><span class="nav-text">5.6.1. 属性作为默认导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E5%AF%BC%E5%87%BA"><span class="nav-text">5.6.2. 函数作为默认导出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import%E5%87%BD%E6%95%B0"><span class="nav-text">5.7. import函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import-meta"><span class="nav-text">5.8. import meta</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES-Module%E7%9A%84%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B"><span class="nav-text">5.9. ES Module的解析流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E9%98%B6%E6%AE%B5"><span class="nav-text">5.9.1. 构建阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%98%B6%E6%AE%B5-%E2%80%93-%E6%B1%82%E5%80%BC%E9%98%B6%E6%AE%B5"><span class="nav-text">5.9.2. 实例化阶段 – 求值阶段</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CommonJs%E5%92%8CES-Module%E6%B7%B7%E7%94%A8"><span class="nav-text">6. CommonJs和ES Module混用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%B8%8D%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="nav-text">6.1. 浏览器中不能实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node%E4%B8%AD%E9%9C%80%E8%A6%81%E5%91%BD%E5%90%8D%E4%B8%BAx-mjs"><span class="nav-text">6.2. node中需要命名为x.mjs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%8F%AF%E4%BB%A5%E6%B7%B7%E7%94%A8"><span class="nav-text">6.3. webpack环境中可以混用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'ae76809a5bb0d2dbcfbd6cf545112e1f',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

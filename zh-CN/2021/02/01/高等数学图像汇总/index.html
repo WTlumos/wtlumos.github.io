@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="高等数学图像汇总">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/A.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/xa.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/ax.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/logax.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sinx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cosx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/tanx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cotx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/secx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cscx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arcsinx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arccosx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arctanx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arccotx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/xx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/shx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/chx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/thx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arshx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/archx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arthx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/x.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/x-1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sinx-x.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/-sinx.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1-cos.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1+cos.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1-sin.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1+sin.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/t-sint.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cos3.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sin3.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/e.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/e-1.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/aek.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cos2.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sin2.png">
+<meta property="article:published_time" content="2021-01-31T23:51:25.000Z">
+<meta property="article:modified_time" content="2023-09-22T16:15:46.784Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="IT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/A.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>高等数学图像汇总 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高等数学图像汇总
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-01 07:51:25" itemprop="dateCreated datePublished" datetime="2021-02-01T07:51:25+08:00">2021-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-23 00:15:46" itemprop="dateModified" datetime="2023-09-23T00:15:46+08:00">2023-09-23</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center"></blockquote>
+
+<span id="more"></span>
+
+<h1 id="基本初等函数">1. 基本初等函数</h1><h2 id="常数-y-x3D-A">1.1. 常数 y &#x3D; A</h2><ul>
+<li><p>A为常数</p>
+</li>
+<li><p>图形是平行与x轴的水平直线</p>
+</li>
+<li><p>偶函数</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/A.png"></p>
+<h2 id="幂函数-y-x3D-x-a">1.2. 幂函数 $y &#x3D; x^a$</h2><p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/xa.png"></p>
+<ul>
+<li>当 x&gt;0时，y&#x3D;x 与 $y &#x3D; \sqrt{x}$，$y &#x3D; \sqrt[3]{x} $，$y&#x3D;\ln x$ 具有相同的单调性，与 $y&#x3D;\frac{1}{x}$具有相反的单调性<ul>
+<li>见到 $\sqrt{x}，\sqrt[3]{x}$ ，可用 x 来研究最值</li>
+<li>见到 |x|，$|x|&#x3D;\sqrt{x^2}$，可用$x^2$ 来研究最值</li>
+<li>见到 $\mathop\nolimits_1\mathop\nolimits_2\mathop\nolimits_3$，可用 $\ln(\mathop\nolimits_1\mathop\nolimits_2\mathop\nolimits_3)&#x3D;\ln\mathop\nolimits_1+\ln\mathop\nolimits_2+\ln\mathop\nolimits_3$ 来研究最值</li>
+<li>见到 $\frac{1}{x}$，可用 x 来研究最值，$\frac{1}{x}$最大值则x最小值，$\frac{1}{x}$最小值则x最大值</li>
+</ul>
+</li>
+</ul>
+<h2 id="指数-y-x3D-a-x">1.3. 指数 $y &#x3D; a^x$</h2><ul>
+<li>a&gt;0，a$\ne$1</li>
+<li>$x \in (-\infty,+\infty)，y \in (0,+\infty)$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/ax.png"></p>
+<ul>
+<li>$a^0$ &#x3D; 1</li>
+<li>当 a&gt;1 时，图像单调递增，当 0&lt;a&lt;1时，图像单调递减</li>
+<li>a&gt;1时，$\lim_{x \to -\infty} a^x &#x3D; 0, \lim_{x \to +\infty} a^x &#x3D; +\infty$</li>
+</ul>
+<h2 id="对数函数-y-x3D-log-a-x">1.4. 对数函数  $y&#x3D;\log_{a}x$</h2><ul>
+<li>a&gt;0，a$\ne$1 </li>
+<li>是 $y&#x3D;a^x$ 的反函数</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/logax.png"></p>
+<ul>
+<li>当 a&gt;1 时，图像单调递增，当 0&lt;a&lt;1时，图像单调递减</li>
+<li>$\lim_{x \to 0^+} \ln x &#x3D; -\infty, \lim_{x \to +\infty} \ln x &#x3D; +\infty$</li>
+<li>$x &#x3D; e^{\ln x}， u^v &#x3D; e^{\ln u^v} &#x3D; e^{v\ln u}$</li>
+</ul>
+<h2 id="三角函数">1.5. 三角函数</h2><h3 id="正弦函数-y-x3D-sinx">1.5.1. 正弦函数 $y&#x3D;sinx$</h3><ul>
+<li>$x \in (-\infty,+\infty)，y \in [-1,1]$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sinx.png"></p>
+<ul>
+<li><p>奇函数</p>
+</li>
+<li><p>最小正周期为$2\pi$</p>
+</li>
+<li><p>一拱面积</p>
+<ul>
+<li>$\int_{0}^{\pi}sinx &#x3D; 2$</li>
+<li>$\int_{\frac{\pi}{4}}^{\frac{3\pi}{4}}sinx &#x3D; \sqrt2$</li>
+<li>$\int_{0}^{\frac{\pi}{4}}sinx &#x3D; 1-\frac{\sqrt2}{2}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="余弦函数-y-x3D-cosx">1.5.2. 余弦函数 $y&#x3D;cosx$</h3><ul>
+<li>$x \subset (-\infty,+\infty)，y \subset [-1,1]$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cosx.png"></p>
+<ul>
+<li>偶函数</li>
+<li>最小正周期为$2\pi$</li>
+</ul>
+<h3 id="正切函数-y-x3D-tanx">1.5.3. 正切函数 $y&#x3D;tanx$</h3><ul>
+<li><p>$y&#x3D;tanx &#x3D; \frac{sinx}{cosx}$</p>
+</li>
+<li><p>$x\ne k\pi+\frac{\pi}{2}$</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/tanx.png"></p>
+<ul>
+<li>奇函数</li>
+<li>最小正周期为$\pi$</li>
+</ul>
+<h3 id="余切函数-y-x3D-cotx">1.5.4. 余切函数 $y&#x3D;cotx$</h3><ul>
+<li>$y&#x3D;cotx &#x3D; \frac{cosx}{sinx}$</li>
+<li>$x\ne k\pi$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cotx.png"></p>
+<ul>
+<li>奇函数</li>
+<li>最小正周期为$\pi$</li>
+</ul>
+<h3 id="正割函数-y-x3D-secx">1.5.5. 正割函数 $y&#x3D;secx$</h3><ul>
+<li>$y&#x3D;secx&#x3D;\frac{1}{cosx}$</li>
+<li>$x\ne k\pi+\frac{\pi}{2}$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/secx.png"></p>
+<ul>
+<li>偶函数</li>
+<li>最小正周期为$2\pi$</li>
+</ul>
+<h3 id="余割函数-y-x3D-cscx">1.5.6. 余割函数 $y&#x3D;cscx$</h3><ul>
+<li>$y&#x3D;cscx&#x3D;\frac{1}{sinx}$</li>
+<li>$x\ne k\pi$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cscx.png"></p>
+<ul>
+<li>奇函数</li>
+<li>最小正周期为$2\pi$</li>
+</ul>
+<h2 id="反三角函数">1.6. 反三角函数</h2><h3 id="反正弦函数-y-x3D-arcsinx">1.6.1. 反正弦函数 $y&#x3D;arcsinx$</h3><ul>
+<li>$x \in [-1,1]，y \in [-\frac{\pi}{2},\frac{\pi}{2}]$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arcsinx.png"></p>
+<ul>
+<li>奇函数</li>
+<li>图像单调递增</li>
+</ul>
+<h3 id="反余弦函数-y-x3D-arccosx">1.6.2. 反余弦函数 $y&#x3D;arccosx$</h3><ul>
+<li>$x \in [-1,1]，y \in [0,\pi]$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arccosx.png"></p>
+<h3 id="反正切函数-y-x3D-arctanx">1.6.3. 反正切函数 $y&#x3D;arctanx$</h3><ul>
+<li>$x \in R，y \in [-\frac{\pi}{2},\frac{\pi}{2}]$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arctanx.png"></p>
+<h3 id="反余切函数-y-x3D-arccotx">1.6.4. 反余切函数 $y&#x3D;arccotx$</h3><p>$x \in R，y \in [0,\pi]$</p>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arccotx.png"></p>
+<h1 id="初等函数">2. 初等函数</h1><ul>
+<li>由基本初等函数经有限次的四则运算，以及有限次的复合步骤所构成的并且可以由一个式子所表示的函数称为初等函数</li>
+</ul>
+<h2 id="孤立点">2.1. 孤立点</h2><ul>
+<li>初等函数的定义域可以是一个区间，也可以是几个区间的并集，还可以是一些孤立的点</li>
+</ul>
+<p>$y&#x3D;\sqrt{coś\pi x - 1}，x&#x3D;0,\pm1,\pm2,…$</p>
+<h2 id="幂指函数-y-x3D-x-x">2.2. 幂指函数 $y&#x3D;x^x$</h2><ul>
+<li>x&gt;0</li>
+<li>$y&#x3D;x^x&#x3D;e^{\ln x^x} &#x3D; e^{x\ln x}$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/xx.png"></p>
+<ul>
+<li>$A(\frac{1}{e},e^{\frac{1}{e}})$ 为极小值点，也为最小值点</li>
+</ul>
+<h2 id="双曲正弦函数-y-x3D-shx">2.3. 双曲正弦函数 $y&#x3D;shx$</h2><ul>
+<li><p>$y &#x3D; shx&#x3D;\frac{e^x-e^{-x}}{2}$</p>
+</li>
+<li><p>$x \in R$</p>
+</li>
+<li><p>奇函数，单调递增</p>
+</li>
+<li><p>图像在第一象限内接近于曲线 $y&#x3D;e^x$，在第三象限接近于曲线$y&#x3D;-\frac{e^{-x}}{2}$</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/shx.png"></p>
+<h2 id="双曲余弦函数-y-x3D-chx">2.4. 双曲余弦函数 $y&#x3D;chx$</h2><ul>
+<li><p>$y&#x3D;chx&#x3D;\frac{e^x+e^{-x}}{2}$</p>
+</li>
+<li><p>$x \in R$</p>
+</li>
+<li><p>偶函数</p>
+</li>
+<li><p>图像在第一象限内接近于曲线 $y&#x3D;\frac{e^x}{2}$，在第三象限接近于曲线$y&#x3D;\frac{e^{-x}}{2}$</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/chx.png"></p>
+<h2 id="双曲正切函数-y-x3D-thx">2.5. 双曲正切函数  $y&#x3D;thx$</h2><ul>
+<li><p>$y &#x3D; thx&#x3D;\frac{e^x-e^{-x}}{e^x+e^{-x}}$</p>
+</li>
+<li><p>$x \in R$</p>
+</li>
+<li><p>奇函数，单调递增</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/thx.png"></p>
+<h2 id="反双曲正弦函数-y-x3D-arshx">2.6. 反双曲正弦函数 $y&#x3D;arshx$</h2><ul>
+<li><p>$y&#x3D;arshx &#x3D; \ln (x+\sqrt{x^2+1})$</p>
+</li>
+<li><p>$x \in R$</p>
+</li>
+<li><p>奇函数，单调递增</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arshx.png"></p>
+<h2 id="反双曲余弦函数-y-x3D-archx">2.7. 反双曲余弦函数 $y&#x3D;archx$</h2><ul>
+<li><p>$y&#x3D; archx &#x3D; \ln (x+\sqrt{x^2-1})$</p>
+</li>
+<li><p>$x \in [0,+\infty], y \in [1,+\infty]$</p>
+</li>
+<li><p>单调递增</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/archx.png"></p>
+<h2 id="反双曲正切函数-y-x3D-arthx">2.8. 反双曲正切函数 $y&#x3D;arthx$</h2><ul>
+<li><p>$y&#x3D; arthx &#x3D; \frac{1}{2}\ln \frac{1+x}{1-x}$</p>
+</li>
+<li><p>$x \in (-1,1), y \in R$</p>
+</li>
+<li><p>奇函数，单调递增</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/arthx.png"></p>
+<h1 id="分段函数">3. 分段函数</h1><ul>
+<li>在自变量的不同变化范围中，对应法则用不同式子来表示的函数称为分段函数</li>
+</ul>
+<h2 id="绝对值函数-y-x3D-left-x-right">3.1. 绝对值函数 $y&#x3D;\left |x  \right | $</h2><ul>
+<li>$y&#x3D;\left | x \right | &#x3D; \begin{cases} x &amp; x\ge 0 \ -x &amp; x&lt;0 \end{cases}$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/x.png"></p>
+<h2 id="符号函数-y-x3D-sgnx">3.2. 符号函数 $y&#x3D;sgnx$</h2><p>$y&#x3D;sgnx &#x3D; \begin{cases} 1 &amp; x&gt;0 \ 0 &amp;x&#x3D;0 \ -1 &amp; x&lt;0 \end{cases}$</p>
+<p>任何一个 $x&#x3D;|x|sgnx$</p>
+<h2 id="取整函数-y-x3D-left-x-right">3.3. 取整函数 $y&#x3D; \left [ x \right ] $</h2><ul>
+<li>不超过x的最大整数称为x的整数部分</li>
+<li>$x-1\lt [x] \le x$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/x-1.png"></p>
+<ul>
+<li>$\lim_{x \to 0^-} [x]&#x3D; -1, \lim_{x \to 0^+} [x]&#x3D; 0$</li>
+</ul>
+<h2 id="y-x3D-sin-x">3.4. $y&#x3D;sin|x|$</h2><ul>
+<li>偶函数</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sinx-x.png"></p>
+<h2 id="y-x3D-sinx">3.5. $y&#x3D;|sinx|$</h2><ul>
+<li>偶函数</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/-sinx.png"></p>
+<h1 id="笛卡尔心形线-Cardioid">4. 笛卡尔心形线(Cardioid)</h1><h2 id="r-x3D-a-1-cos-theta">4.1. $r &#x3D; a(1-cos\theta)$</h2><ul>
+<li><p>a&gt;0</p>
+</li>
+<li><p>定圆C，动圆d，定圆c的半径等于动圆d的半径</p>
+</li>
+<li><p>要求圆c与圆d相切，选取切点P为外摆线轨迹原点，当动圆d绕着定圆c的外侧逆时针滚动时，点P形成的轨迹就是外摆线</p>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1-cos.png"></p>
+<h2 id="r-x3D-a-1-cos-theta-1">4.2. $r &#x3D; a(1+cos\theta)$</h2><p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1+cos.png"></p>
+<h2 id="r-x3D-a-1-sin-theta">4.3. $r &#x3D; a(1-sin\theta)$</h2><p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1-sin.png"></p>
+<h2 id="r-x3D-a-1-sin-theta-1">4.4. $r &#x3D; a(1+sin\theta)$</h2><p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/1+sin.png"></p>
+<h1 id="平摆线">5. 平摆线</h1><ul>
+<li>圆c沿定直线x轴作纯滚动，圆c圆周上一个定点的轨迹叫做摆线</li>
+</ul>
+<p>$\left{\begin{matrix}<br>x &#x3D;r(t-sint)<br>\y &#x3D; r(1-cost)<br>\end{matrix}\right.$</p>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/t-sint.png"></p>
+<h1 id="内摆线">6. 内摆线</h1><ul>
+<li>大圆c半径为r，小圆d半径为r&#x2F;4，圆d在圆c内部作纯滚动，圆d上任一点P的轨迹称为星形线</li>
+</ul>
+<p>$\left{\begin{matrix}<br>x &#x3D; rcos^3t<br>\y &#x3D; rsin^3t<br>\end{matrix}\right.$</p>
+<p>直角坐标系：</p>
+<p>$x^{\frac{2}{3}} + y^{\frac{2}{3}} &#x3D; r^{\frac{2}{3}}$</p>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cos3.png"></p>
+<h1 id="三叶玫瑰线-r-x3D-asin3-theta">7. 三叶玫瑰线 $r&#x3D;asin3\theta$</h1><p>a&gt;0</p>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sin3.png"></p>
+<h1 id="阿基米德螺线-r-x3D-a-theta">8. 阿基米德螺线 $r&#x3D;a\theta$</h1><ul>
+<li>a&gt;0,$\theta\geqslant0$</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/e.png"></p>
+<ul>
+<li>用直角坐标系观点画极坐标系下的图像<ul>
+<li>y&#x3D;x &#x3D;&gt; r&#x3D;$\theta$，从方程角度看问题，两个方程的形式相同，只是表示变量的字母不同而已，但是坐标系不同，曲线完全不同</li>
+<li>单看直角坐标系下的r&#x3D;f($\theta$)图像，r是随着$\theta$ 的增大而增大的</li>
+</ul>
+</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/e-1.png"></p>
+<h1 id="对数螺线-y-x3D-ae-k-theta">9. 对数螺线 $y&#x3D;ae^{k\theta}$</h1><ul>
+<li>a&gt;0，k&gt;0</li>
+<li>当 $\theta$ 由0逐渐增大时，r由a逐渐增大，当 $\theta$ 无限制增大，r也随之无限制增大；当 $\theta$ 由0逐渐减小，r由a逐渐减小，但r却永远保持正值，当 $\theta$ 由0无限制减小，r也随之无限制接近于0</li>
+</ul>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/aek.png"></p>
+<h1 id="伯努利双纽线">10. 伯努利双纽线</h1><ul>
+<li>设直线AB的长度为2a(a&gt;0)，若有一动点C(x,y)满足|AC|·|BC|&#x3D;$a^2$，那么点C的轨迹就是双纽线</li>
+</ul>
+<h2 id="r-2-x3D-2a-2cos2-theta">10.1. $r^2&#x3D;2a^2cos2\theta$</h2><p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/cos2.png"></p>
+<p>$\theta \in [-\frac{\pi}{4}, \frac{\pi}{4}] \cup [\frac{3\pi}{4}, \frac{5\pi}{4}]$ </p>
+<p>直角坐标系</p>
+<p>$(x^2+y^2)^2 &#x3D; a^2(x^2-y^2)$</p>
+<h2 id="r-2-x3D-2a-2sin2-theta">10.2. $r^2&#x3D;2a^2sin2 \theta$</h2><p>$\theta \in [0, \frac{\pi}{2}] \cup [\pi, \frac{3\pi}{2}]$ </p>
+<p><img src="/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/sin2.png"></p>
+<p>直角坐标系</p>
+<p>$(x^2+y^2)^2 &#x3D; 2a^2xy$</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2021/02/01/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%9B%BE%E5%83%8F%E6%B1%87%E6%80%BB/" title="高等数学图像汇总">https://wtlumos.github.io/zh-CN/2021/02/01/高等数学图像汇总/</a> -->
+    
+       <a href ="/zh-CN/2021/02/01/高等数学图像汇总/" >/zh-CN/2021/02/01/高等数学图像汇总/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2021-02-01 07:51
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2023-09-23 00:15
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2021/02/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%B8%B2/" rel="prev" title="数据结构与算法分析-串">
+      <i class="fa fa-chevron-left"></i> 数据结构与算法分析-串
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2020/11/14/Mac%E5%AE%89%E8%A3%85aria2/" rel="next" title="Mac安装aria2">
+      Mac安装aria2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%88%9D%E7%AD%89%E5%87%BD%E6%95%B0"><span class="nav-text">1. 基本初等函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0-y-x3D-A"><span class="nav-text">1.1. 常数 y &#x3D; A</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%82%E5%87%BD%E6%95%B0-y-x3D-x-a"><span class="nav-text">1.2. 幂函数 $y &#x3D; x^a$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0-y-x3D-a-x"><span class="nav-text">1.3. 指数 $y &#x3D; a^x$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E5%87%BD%E6%95%B0-y-x3D-log-a-x"><span class="nav-text">1.4. 对数函数  $y&#x3D;\log_{a}x$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-text">1.5. 三角函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-sinx"><span class="nav-text">1.5.1. 正弦函数 $y&#x3D;sinx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%99%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-cosx"><span class="nav-text">1.5.2. 余弦函数 $y&#x3D;cosx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-tanx"><span class="nav-text">1.5.3. 正切函数 $y&#x3D;tanx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%99%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-cotx"><span class="nav-text">1.5.4. 余切函数 $y&#x3D;cotx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%89%B2%E5%87%BD%E6%95%B0-y-x3D-secx"><span class="nav-text">1.5.5. 正割函数 $y&#x3D;secx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%99%E5%89%B2%E5%87%BD%E6%95%B0-y-x3D-cscx"><span class="nav-text">1.5.6. 余割函数 $y&#x3D;cscx$</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-text">1.6. 反三角函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E6%AD%A3%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-arcsinx"><span class="nav-text">1.6.1. 反正弦函数 $y&#x3D;arcsinx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BD%99%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-arccosx"><span class="nav-text">1.6.2. 反余弦函数 $y&#x3D;arccosx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-arctanx"><span class="nav-text">1.6.3. 反正切函数 $y&#x3D;arctanx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%BD%99%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-arccotx"><span class="nav-text">1.6.4. 反余切函数 $y&#x3D;arccotx$</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E7%AD%89%E5%87%BD%E6%95%B0"><span class="nav-text">2. 初等函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A4%E7%AB%8B%E7%82%B9"><span class="nav-text">2.1. 孤立点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%82%E6%8C%87%E5%87%BD%E6%95%B0-y-x3D-x-x"><span class="nav-text">2.2. 幂指函数 $y&#x3D;x^x$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E6%9B%B2%E6%AD%A3%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-shx"><span class="nav-text">2.3. 双曲正弦函数 $y&#x3D;shx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E6%9B%B2%E4%BD%99%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-chx"><span class="nav-text">2.4. 双曲余弦函数 $y&#x3D;chx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E6%9B%B2%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-thx"><span class="nav-text">2.5. 双曲正切函数  $y&#x3D;thx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%8F%8C%E6%9B%B2%E6%AD%A3%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-arshx"><span class="nav-text">2.6. 反双曲正弦函数 $y&#x3D;arshx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%8F%8C%E6%9B%B2%E4%BD%99%E5%BC%A6%E5%87%BD%E6%95%B0-y-x3D-archx"><span class="nav-text">2.7. 反双曲余弦函数 $y&#x3D;archx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%8F%8C%E6%9B%B2%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0-y-x3D-arthx"><span class="nav-text">2.8. 反双曲正切函数 $y&#x3D;arthx$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%AE%B5%E5%87%BD%E6%95%B0"><span class="nav-text">3. 分段函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%80%BC%E5%87%BD%E6%95%B0-y-x3D-left-x-right"><span class="nav-text">3.1. 绝对值函数 $y&#x3D;\left |x  \right | $</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E5%87%BD%E6%95%B0-y-x3D-sgnx"><span class="nav-text">3.2. 符号函数 $y&#x3D;sgnx$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E6%95%B4%E5%87%BD%E6%95%B0-y-x3D-left-x-right"><span class="nav-text">3.3. 取整函数 $y&#x3D; \left [ x \right ] $</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#y-x3D-sin-x"><span class="nav-text">3.4. $y&#x3D;sin|x|$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#y-x3D-sinx"><span class="nav-text">3.5. $y&#x3D;|sinx|$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E5%BF%83%E5%BD%A2%E7%BA%BF-Cardioid"><span class="nav-text">4. 笛卡尔心形线(Cardioid)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#r-x3D-a-1-cos-theta"><span class="nav-text">4.1. $r &#x3D; a(1-cos\theta)$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#r-x3D-a-1-cos-theta-1"><span class="nav-text">4.2. $r &#x3D; a(1+cos\theta)$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#r-x3D-a-1-sin-theta"><span class="nav-text">4.3. $r &#x3D; a(1-sin\theta)$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#r-x3D-a-1-sin-theta-1"><span class="nav-text">4.4. $r &#x3D; a(1+sin\theta)$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B3%E6%91%86%E7%BA%BF"><span class="nav-text">5. 平摆线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E6%91%86%E7%BA%BF"><span class="nav-text">6. 内摆线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E5%8F%B6%E7%8E%AB%E7%91%B0%E7%BA%BF-r-x3D-asin3-theta"><span class="nav-text">7. 三叶玫瑰线 $r&#x3D;asin3\theta$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BF%E5%9F%BA%E7%B1%B3%E5%BE%B7%E8%9E%BA%E7%BA%BF-r-x3D-a-theta"><span class="nav-text">8. 阿基米德螺线 $r&#x3D;a\theta$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E8%9E%BA%E7%BA%BF-y-x3D-ae-k-theta"><span class="nav-text">9. 对数螺线 $y&#x3D;ae^{k\theta}$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%AF%E5%8A%AA%E5%88%A9%E5%8F%8C%E7%BA%BD%E7%BA%BF"><span class="nav-text">10. 伯努利双纽线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#r-2-x3D-2a-2cos2-theta"><span class="nav-text">10.1. $r^2&#x3D;2a^2cos2\theta$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#r-2-x3D-2a-2sin2-theta"><span class="nav-text">10.2. $r^2&#x3D;2a^2sin2 \theta$</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'fb7b9165c07fded8ac7e000f233d1ee6',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

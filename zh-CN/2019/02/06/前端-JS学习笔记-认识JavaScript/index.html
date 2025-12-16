@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="编译语言发展，JavaScript的起源，组成，应用，浏览器执行JS过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-JS学习笔记-认识JavaScript">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="编译语言发展，JavaScript的起源，组成，应用，浏览器执行JS过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/h+c+j.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/language.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/history.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/composition.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/ECMAScript.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/DOM.JPG">
+<meta property="article:published_time" content="2019-02-06T14:12:19.000Z">
+<meta property="article:modified_time" content="2024-04-16T06:38:07.933Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/h+c+j.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-JS学习笔记-认识JavaScript | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-JS学习笔记-认识JavaScript
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-06 22:12:19" itemprop="dateCreated datePublished" datetime="2019-02-06T22:12:19+08:00">2019-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-16 14:38:07" itemprop="dateModified" datetime="2024-04-16T14:38:07+08:00">2024-04-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">编译语言发展，JavaScript的起源，组成，应用，浏览器执行JS过程</blockquote>
+
+<span id="more"></span>
+
+<h1 id="计算机语言">1. 计算机语言</h1><ul>
+<li><p>HTML是一种标记语言, CSS是一种样式语言</p>
+<ul>
+<li>但本身都是属于计算机语言，因为都在和计算机沟通交流</li>
+</ul>
+</li>
+<li><p>在生活中两个人想要沟通, 必然是通过某一种语言(中文&#x2F;英语&#x2F;粤语&#x2F;东北话) ，计算机语言就是人和计算机进行交流要学习的语言</p>
+</li>
+<li><p>网页的三大组成HTML，CSS，JavaScript</p>
+<ul>
+<li>JavaScript必然也是一种计算机语言</li>
+</ul>
+<p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/h+c+j.png"></p>
+</li>
+</ul>
+<h1 id="编程语言">2. 编程语言</h1><ul>
+<li>事实上，JavaScript可以对其有更加精准的说法：一种编程语言</li>
+<li>计算机语言和编程语言的关系和区别<ul>
+<li><code>计算机语言(computer language)</code>：指用于人与计算机之间通讯的语言，是人与计算机之间传递信息的介质。但是其概念比通用的编程语言要更广泛。例如，HTML是标记语言，也是计算机语言，但并不是编程语言</li>
+<li><code>编程语言(programming language)</code>：是用来定义计算机程序的形式语言。它是一种被标准化的交流技巧， 用来向计算机发出指令，一种能够让程序员准确地定义计算机所需要使用数据的计算机语言，并精确地定义在不同情况下所应当采取的行动</li>
+</ul>
+</li>
+<li>编程语言的特点<ul>
+<li>数据和数据结构<ul>
+<li>map集合&#x2F;栈&#x2F;队列&#x2F;数组</li>
+</ul>
+</li>
+<li>指令及流程控制<ul>
+<li>while&#x2F;for&#x2F;if&#x2F;else&#x2F;…</li>
+</ul>
+</li>
+<li>引用机制和重用机制</li>
+<li>设计哲学</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见的编程语言">2.1. 常见的编程语言</h2><p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/language.png"></p>
+<h2 id="编程语言的发展历史">2.2. 编程语言的发展历史</h2><h3 id="机器语言">2.2.1. 机器语言</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">100011 00010 01111 0000 0000 0000 0000</span><br><span class="line">100011 00010 10000 0000 0000 0000 0000</span><br><span class="line">101011 00010 10000 0000 0000 0000 0000</span><br><span class="line">101011 00010 01111 0000 0000 0000 0000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>计算机的存储单元只有0和1两种状态，因此一串代码要让计算机“读懂”，这串代码只能由数字0和1组成 </p>
+</li>
+<li><p>像这种由数字0和1按照一定的规律组成的代码就叫机器码，也叫二进制编码</p>
+</li>
+<li><p>一定长度的机器码组成了<code>机器指令</code>，用这些机器指令所编写的程序就称为机器语言</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>代码能被计算机直接识别，不需要经过编译解析</li>
+<li>直接对硬件产生作用，程序的执行效率非常高</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>程序全是些0和1的指令代码，可读性差，还容易出错</li>
+<li>不易编写(目前没有人这样开发)</li>
+</ul>
+</li>
+</ul>
+<h3 id="汇编语言">2.2.2. 汇编语言</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">push %ebp</span><br><span class="line">mov %esp,%ebp</span><br><span class="line">sub $0x10,%esp</span><br><span class="line">mov 0xc(%ebp),%eax</span><br><span class="line">mov ox8(%ebp),%edx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>为了解决机器语言的缺陷而发明了汇编语言</p>
+</li>
+<li><p>这种语言用符号来代替冗长的、难以记忆的0、1代码</p>
+<ul>
+<li>mov&#x2F;push指令，经过汇编器，汇编代码再进一步转成0101</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>像机器语言一样，可以直接访问、控制计算机的各种硬件设备</li>
+<li>占用内存少，执行速度快</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>第一，不同的机器有不同的汇编语言语法和编译器，代码缺乏可移植性<ul>
+<li>也就是说，一个程序只能在一种机器上运行，换到其他机器上可能就不能运行</li>
+</ul>
+</li>
+<li>第二，符号非常多、难记<ul>
+<li>即使是完成简单的功能也需要大量的汇编语言代码，很容易产生BUG，难于调试</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>应用场景</p>
+<ul>
+<li>操作系统内核、驱动程序、单片机程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="高级语言">2.2.3. 高级语言</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> message = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(message);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>最好的编程语言应该是什么? 自然语言</p>
+</li>
+<li><p>而高级语言, 就是接近自然语言, 更符合人类的思维方式</p>
+</li>
+<li><p>跟和人交流的方式很相似, 但是大多数编程语言都是国外发明的, 因为都是接近于英文的交流方式</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>简单、易用、易于理解，语法和结构类似于普通英文</li>
+<li>远离对硬件的直接操作，使得一般人经过学习之后都可以编程，而不用熟悉硬件知识</li>
+<li>一个程序还可以在不同的机器上运行，具有可移植性</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>程序不能直接被计算机识别，需要经编译器翻译成二进制指令后，才能运行到计算机上</li>
+<li>种类繁多：JavaScript 、 C语言、C++、C#、Java、Objective-C 、Python等</li>
+</ul>
+</li>
+</ul>
+<h3 id="机器语言到高级语言">2.2.4. 机器语言到高级语言</h3><p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/history.png"></p>
+<h1 id="JavaScript的重要性">3. JavaScript的重要性</h1><ul>
+<li><p><strong>JavaScript是前端万丈高楼的根基</strong></p>
+<ul>
+<li>前端行业在近几年快速发展，并且开发模式，框架越来越丰富</li>
+<li>但是不管学习的是 Vue，React，Angular包括 jQuery，以及一些新出的框架<ul>
+<li>他们本身都是基于JavaScript的</li>
+<li>使用他们的过程中都必须好好掌握JavaScript</li>
+</ul>
+</li>
+<li>所以<code>JavaScript是前端万丈高楼的根基</code>，无论是前端发展的万丈高楼，还是筑建自己的万丈高楼</li>
+</ul>
+</li>
+<li><p><strong>JavaScript在工作中至关重要</strong></p>
+<ul>
+<li>无论使用什么技术，比如Vue，React，Angular，uniapp，taro，ReactNatice</li>
+<li>也无论做什么平台的应用程序，比如 pc Web，移动端web，小程序，公众号，移动端App</li>
+<li>都离不开JavaScript，并且深入掌握JavaScript不仅可以提高开发效率，也可以快速解决在开发中遇到的各种问题</li>
+<li>面试时，往往会考察JavaScript的功底</li>
+</ul>
+</li>
+<li><p><strong>前端的未来依然是JavaScript</strong></p>
+<ul>
+<li>在可预见的未来中，依然离不开JavaScript</li>
+<li>目前前端快速发展，无论是框架还是构建工具，都像雨后春笋一样，琳琅满目</li>
+<li>而且框架也会进行不断的更新，比如 Vue3，react18，vite2，TypeScript4.x</li>
+<li>前端开发者面对这些不断变化的内容，往往内心会有很多的焦虑，但是其实只要深入掌握了JavaScript，这些框架或者工具都是离不开JavaScript的</li>
+</ul>
+</li>
+</ul>
+<h1 id="认识JavaScript">4. 认识JavaScript</h1><ul>
+<li><p>JavaScript是一门<code>高级的编程语言</code></p>
+<ul>
+<li>计算机本身只认识0&#x2F;1的机器语言</li>
+<li>编程语言作为高级语言，需要转换成机器指令才能在计算机上运行</li>
+</ul>
+</li>
+<li><p>JavaScript是一种运行在客户端的脚本语言</p>
+<ul>
+<li>脚本语言：不需要编译，运行过程中由js引擎逐行来进行解释并执行</li>
+</ul>
+</li>
+<li><p>JavaScript可以基于node.js进行服务器编程</p>
+</li>
+<li><p>维基百科对JavaScript的定义</p>
+<ul>
+<li>JavaScript(通常缩写为JS)是一种高级的、解释型的编程语言</li>
+<li><code>JavaScript是一门基于原型、头等函数的语言，是一门多范式的语言，它支持面向对象程序设计，指令式编程，以及函数式编程</code></li>
+</ul>
+</li>
+<li><p>HTML和CSS也是前端开发的重要组成部分, 而JavaScript是前端开发的灵魂</p>
+</li>
+</ul>
+<h1 id="JavaScript的起源">5. JavaScript的起源</h1><ul>
+<li><p>1994年，网景公司(Netscape)发布了Navigator浏览器0.9版</p>
+<ul>
+<li>这是历史上第一个比较成熟的网络浏览器，轰动一时</li>
+<li>但是，这个版本的浏览器只能用来浏览，不具备与访问者互动的能力</li>
+<li>网景公司急需一种网页脚本语言，使得浏览器可以与网页互动</li>
+</ul>
+</li>
+<li><p>网景公司当时想要选择一种语言来嵌入到浏览器中</p>
+<ul>
+<li>采用现有的语言，比如Perl、Python、Tcl、Scheme等等, 允许它们直接嵌入网页</li>
+<li>1995年网景公司招募了程序员Brendan Eich，希望将<code>Scheme语言</code>作为网页脚本语言的可能性</li>
+</ul>
+</li>
+<li><p>就在这时，发生了另外一件大事-1995年Sun公司将Oak语言改名为Java，正式向市场推出</p>
+<ul>
+<li>Java推出之后立马在市场上引起了轰动，Java当初有一个口号:”write once run anywhere”</li>
+<li>网景公司动了心，决定与Sun公司结成联盟，希望将Java嵌入到网页中来运行</li>
+<li>Brendan Eich本人非常热衷于Scheme，但是管理层那个时候有点倾向于Java，希望可以简化Java来适应网页脚本的需求</li>
+</ul>
+</li>
+<li><p>但是Brendan Eich对此并不感兴趣，用10天时间设计出来了JavaScript</p>
+<ul>
+<li>最初这门语言的名字是Mocha(摩卡)</li>
+<li>在Navigator2.0 beta版本更名为LiveScript</li>
+<li>在Navigator2.0 beta 3版本正式重命名为JavaScript，当时是为了给这门语言搭上Java这个热词</li>
+</ul>
+</li>
+<li><p>当然10天设计出来语言足够说明Brendan Eich是天才，但是这门语言当时更像是一个多种语言的大杂烩</p>
+<ul>
+<li>借鉴<code>C语言</code>的基本语法</li>
+<li>借鉴<code>Java</code>语言的数据类型和<code>内存管理</code></li>
+<li>借鉴<code>Scheme</code>语言，将函数提升到”<code>第一等公民</code>“(first class)的地位</li>
+<li>借鉴<code>Self</code>语言，使用基于<code>原型</code>(prototype)的继承机制</li>
+</ul>
+</li>
+<li><p>Brendan Eich曾经这样描述过JavaScript</p>
+<ul>
+<li>与其说我爱Javascript，不如说我恨它，它是C语言和Self语言一夜情的产物</li>
+<li>十八世纪英国文学家约翰逊博士说得好：“它的优秀之处并非原创，它的原创之处并不优秀”(the part that is good is not original, and the part that is original is not good.)</li>
+</ul>
+</li>
+<li><p>微软公司于1995年首次推出Internet Explorer，从而引发了与Netscape的浏览器大战</p>
+<ul>
+<li>微软对Netscape Navigator解释器进行了逆向工程，创建了<code>JScript</code>，以与处于市场领导地位的网景产品同台竞争</li>
+<li>这个时候对于开发者来说是一场噩耗，因为需要针对不同的浏览器进行不同的适配</li>
+</ul>
+</li>
+<li><p>1996年11月，网景正式向ECMA(欧洲计算机制造商协会)提交语言标准</p>
+</li>
+<li><p>1997年6月，ECMA以JavaScript语言为基础制定了ECMAScript标准规范ECMA-262</p>
+<ul>
+<li>ECMA-262是一份标准，定义了ECMAScript语言</li>
+<li><code>JavaScript成为了ECMAScript最著名的实现之一</code></li>
+<li>除此之外，ActionScript和JScript也都是ECMAScript的实现语言</li>
+</ul>
+</li>
+<li><p>ECMAScript只是对实现规范描述的所有方面的一门语言的称呼，JavaScript是ECMAScript的一种实现</p>
+</li>
+</ul>
+<h2 id="ECMA">5.1. ECMA</h2><ul>
+<li>欧洲计算机制造商协会</li>
+<li>ECMA是个行业标准组织，它所通过的标准都是ECMA-nnn进行编号</li>
+<li>ECMA是ECMAScript规范下的JavaScript语言标准化机构</li>
+</ul>
+<h2 id="TC39">5.2. TC39</h2><ul>
+<li>TC39打造出来ECMA-262(ECMA脚本语言标准)</li>
+<li>TC39是ECMA国际组织第39技术委员会(Technical Committee)，是ECMA的一部分</li>
+<li>TC39由网景，Sun，微软，Borland，Nombas，其他对该脚本语言感兴趣的公司代表构成，包括了阿里和字节</li>
+<li>TC39主要工作就是制定ECMAScript标准，标准生成流程，并实现</li>
+<li>每两个月，TC39都会开会，会议记录在GitHub存储库中公开</li>
+<li>除TC39外，ECMA国际组织还有TC43 Universal 3D(U3D)，TC45 Office Open XML Formats 等等</li>
+</ul>
+<h1 id="JavaScript语言标准">6. JavaScript语言标准</h1><h2 id="ECMA-262">6.1. ECMA-262</h2><ul>
+<li>主标准，由ECMA负责管理</li>
+<li>为了JavaScript和JScript能遵循同一套标准发展而诞生的ECMAScript</li>
+<li>排到了作为ECMA的262号标准，因此得名ECMA-262</li>
+<li>ECMA-262定义了【语法，类型，语句，关键字，保留字，操作符，全局对象】</li>
+</ul>
+<h2 id="ISO-x2F-IEC16262">6.2. ISO&#x2F;IEC16262</h2><ul>
+<li>第二标准，由国际标准化组织(ISO，International Organization for Standardization)和国际电子技术委员会(IEC，International Electrotechnical Commission)负责管理</li>
+<li>出于商标版权的原因，规范标准中将这门语言称为 ECMAScript，所以原则上 JavaScript 与 ECMAScript 指的是同一个东西，但有时也会加以区分</li>
+</ul>
+<h1 id="JavaScript的组成">7. JavaScript的组成</h1><p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/composition.png"></p>
+<h2 id="javascript语法-ECMScript">7.1. javascript语法 ECMScript</h2><ul>
+<li>由ECMA国际（原欧洲计算机制造商协会）进行标准化的一门编程语言</li>
+<li>ECMA-262将ECMAScript作为一个<code>基准</code>，在它之上再构建更稳健的脚本语言</li>
+<li>ECMAScript是ECMA-262定义的语言，并不局限于Web浏览器</li>
+<li>Web浏览器只是ECMAScript实现可能存在的一种宿主环境，提供了ECMAScript的基准实现和与环境自身交互必需的环境</li>
+<li>并且，ECMAScript没有输入和输出方法</li>
+<li>这种语言在万维网上应用广泛，往往被称为JavaScript（网景公司）或JScript（微软公司）</li>
+<li>但实际上两者都是ECMAScript语言的实现和扩展</li>
+<li><code>ECMAScript规定了JS的编程语法和基础核心</code>，是所有浏览器共同蹲守的一套js语法工业标准</li>
+<li>ECMAScript发展</li>
+</ul>
+<p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/ECMAScript.png"></p>
+<h2 id="页面文档对象模型-DOM">7.2. 页面文档对象模型 DOM</h2><ul>
+<li><p>Document Object Model，是W3C组织推荐的处理可扩展标记语言的标准编程接口</p>
+</li>
+<li><p>通过DOM提供的接口可以对页面上的各种元素进行操作（大小，颜色，位置等）</p>
+</li>
+<li><p>DOM会将整个页面抽象为一组分层节点，通过创建表示文档的树，控制网页的内容和结构。删除，添加，替换，修改节点</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Smaple Page<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/DOM.JPG"></p>
+</li>
+</ul>
+<h2 id="浏览器对象模型-BOM">7.3. 浏览器对象模型 BOM</h2><ul>
+<li>Browser Object Model，浏览器对象模型，提供了独立于内容的，可以与浏览器窗口进行互动的对象结构</li>
+<li>用于支持访问和操作浏览器的窗口</li>
+<li>HTML5中以正式规范的形式涵盖尽可能多的BOM特性：<ul>
+<li>弹出新浏览器窗口</li>
+<li>移动，缩放，关闭浏览器窗口</li>
+<li>navigator提供浏览器信息</li>
+<li>location提供浏览器加载页面信息</li>
+<li>screen提供浏览器屏幕分辨率信息</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h1 id="Atwood定律">8. Atwood定律</h1><ul>
+<li>Stack Overflow的创立者之一的 Jeff Atwood 在2007年提出了著名的 Atwood定律<ul>
+<li>Any application that can be written in JavaScript, will eventually be written in JavaScript.</li>
+<li>任何可以使用JavaScript来实现的应用都最终都会使用JavaScript实现</li>
+</ul>
+</li>
+</ul>
+<h1 id="JavaScript应用">9. JavaScript应用</h1><h2 id="web开发">9.1. web开发</h2><ul>
+<li>原生JavaScript</li>
+<li>React开发</li>
+<li>Vue开发</li>
+<li>Angular开发</li>
+</ul>
+<h2 id="移动端开发">9.2. 移动端开发</h2><ul>
+<li>ReactNative</li>
+<li>Weex</li>
+</ul>
+<h2 id="小程序端开发">9.3. 小程序端开发</h2><ul>
+<li>微信小程序</li>
+<li>支付宝小程序</li>
+<li>uniapp</li>
+<li>taro</li>
+</ul>
+<h2 id="桌面应用开发">9.4. 桌面应用开发</h2><ul>
+<li><p>Electron</p>
+<ul>
+<li>VSCode就是Electron开发的</li>
+</ul>
+</li>
+</ul>
+<h2 id="后端开发">9.5. 后端开发</h2><ul>
+<li>Node环境<ul>
+<li>express，koa，egg.js</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%AE%A4%E8%AF%86JavaScript/" title="前端-JS学习笔记-认识JavaScript">https://wtlumos.github.io/zh-CN/2019/02/06/前端-JS学习笔记-认识JavaScript/</a> -->
+    
+       <a href ="/zh-CN/2019/02/06/前端-JS学习笔记-认识JavaScript/" >/zh-CN/2019/02/06/前端-JS学习笔记-认识JavaScript/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-02-06 22:12
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2024-04-16 14:38
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/JS/" rel="tag"><i class="fa fa-tag"></i> JS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" rel="prev" title="前端-JS学习笔记-基础语法">
+      <i class="fa fa-chevron-left"></i> 前端-JS学习笔记-基础语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/04/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B020-%E8%80%83%E6%8B%89%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%AE%9E%E6%88%98/" rel="next" title="前端-CSS学习笔记20-考拉移动端实战">
+      前端-CSS学习笔记20-考拉移动端实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%AD%E8%A8%80"><span class="nav-text">1. 计算机语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-text">2. 编程语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-text">2.1. 常见的编程语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-text">2.2. 编程语言的发展历史</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80"><span class="nav-text">2.2.1. 机器语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-text">2.2.2. 汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-text">2.2.3. 高级语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80%E5%88%B0%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-text">2.2.4. 机器语言到高级语言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-text">3. JavaScript的重要性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86JavaScript"><span class="nav-text">4. 认识JavaScript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E7%9A%84%E8%B5%B7%E6%BA%90"><span class="nav-text">5. JavaScript的起源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ECMA"><span class="nav-text">5.1. ECMA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TC39"><span class="nav-text">5.2. TC39</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86"><span class="nav-text">6. JavaScript语言标准</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ECMA-262"><span class="nav-text">6.1. ECMA-262</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISO-x2F-IEC16262"><span class="nav-text">6.2. ISO&#x2F;IEC16262</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">7. JavaScript的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#javascript%E8%AF%AD%E6%B3%95-ECMScript"><span class="nav-text">7.1. javascript语法 ECMScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E6%96%87%E6%A1%A3%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-DOM"><span class="nav-text">7.2. 页面文档对象模型 DOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-BOM"><span class="nav-text">7.3. 浏览器对象模型 BOM</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Atwood%E5%AE%9A%E5%BE%8B"><span class="nav-text">8. Atwood定律</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E5%BA%94%E7%94%A8"><span class="nav-text">9. JavaScript应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#web%E5%BC%80%E5%8F%91"><span class="nav-text">9.1. web开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">9.2. 移动端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">9.3. 小程序端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91"><span class="nav-text">9.4. 桌面应用开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-text">9.5. 后端开发</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : 'ca8cdb2f5ac933294aa1b0961fb5411d',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

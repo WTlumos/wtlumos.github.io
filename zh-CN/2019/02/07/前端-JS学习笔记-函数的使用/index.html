@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="函数定义，函数参数，函数返回值，递归，变量作用域，函数表达式，函数式编程，回调函数，高阶函数，匿名函数，立即执行函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-JS学习笔记-函数的使用">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="函数定义，函数参数，函数返回值，递归，变量作用域，函数表达式，函数式编程，回调函数，高阶函数，匿名函数，立即执行函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/code.png">
+<meta property="article:published_time" content="2019-02-06T23:11:09.000Z">
+<meta property="article:modified_time" content="2024-04-16T06:37:22.369Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/code.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-JS学习笔记-函数的使用 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-JS学习笔记-函数的使用
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-07 07:11:09" itemprop="dateCreated datePublished" datetime="2019-02-07T07:11:09+08:00">2019-02-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-16 14:37:22" itemprop="dateModified" datetime="2024-04-16T14:37:22+08:00">2024-04-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">函数定义，函数参数，函数返回值，递归，变量作用域，函数表达式，函数式编程，回调函数，高阶函数，匿名函数，立即执行函数</blockquote>
+
+<span id="more"></span>
+
+<h1 id="程序中的foo、bar、baz">1. 程序中的foo、bar、baz</h1><ul>
+<li><p>在学习编程的过程中，会经常看到foo、bar、baz这些名词</p>
+<ul>
+<li>它们通常被用来作为函数、变量、文件的名词</li>
+<li>目前已经编程了计算机编程的术语一部分</li>
+<li>但是它们本身并没有特别的用途和意义</li>
+<li>常被称之为 “伪变量”(metasyntactic variable)</li>
+</ul>
+</li>
+<li><p>它们有什么由来吗?</p>
+<ul>
+<li>事实上，foo、bar这些名词最早从什么时候、地方流行起来的一直是由争论的</li>
+<li>一种说法是通过Digital(迪吉多，数字设备公司，成立于1957年的美国电脑公司)的手册说明流行起来的</li>
+<li>一种说法是说源自于电子学中的反转foo信号</li>
+<li>也有一种说法是foo因为出现在了一个漫画中，漫画中foo代表“好运”，与中文的福读音类似</li>
+</ul>
+</li>
+<li><p>总之，foo、bar、baz已经是编程领域常用的名词</p>
+</li>
+</ul>
+<h1 id="函数">2. 函数</h1><h2 id="函数的定义">2.1. 函数的定义</h2><ul>
+<li><p>什么是函数呢?</p>
+</li>
+<li><p>目前, 已经接触过几个函数了</p>
+<ul>
+<li>alert函数：浏览器弹出一个弹窗</li>
+<li>prompt函数：在浏览器弹窗中接收用户的输入</li>
+<li>console.log函数：在控制台输入内容</li>
+<li>String&#x2F;Number&#x2F;Boolean函数等</li>
+</ul>
+</li>
+<li><p>当谈函数时, 到底在谈些什么?</p>
+<ul>
+<li>函数其实就是某段代码的封装，这段代码完成某一个功能</li>
+<li>默认情况下JavaScript引擎或者浏览器提供一些已经实现好的函数</li>
+<li>也可以编写属于自己的函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="函数使用步骤">2.2. 函数使用步骤</h2><ul>
+<li><p>函数的使用包含两个步骤</p>
+<ul>
+<li>声明函数：封装独立的功能</li>
+<li>调用函数：享受封装的成果</li>
+</ul>
+</li>
+<li><p>声明函数，在JavaScript中也可以称为定义函数</p>
+<ul>
+<li>声明函数的过程是对某些功能的封装过程</li>
+<li>可以根据需求定义很多函数</li>
+</ul>
+</li>
+<li><p>调用函数，也可以称为函数调用</p>
+<ul>
+<li>调用函数是让已存在的函数为己所用</li>
+<li>这些函数可以是封装好的某个功能函数</li>
+<li>也可以使用默认提供的或者其他三方库定义好的函数</li>
+</ul>
+</li>
+<li><p>函数的作用</p>
+<ul>
+<li>在开发程序时，使用函数可以提高编写的效率以及代码的重用</li>
+</ul>
+</li>
+</ul>
+<h3 id="声明函数">2.2.1. 声明函数</h3><ul>
+<li><p>声明函数使用function关键字</p>
+<ul>
+<li>这种写法称之为函数的定义</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> 函数名()&#123; </span><br><span class="line">  <span class="comment">//函数封装的代码 ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意</p>
+<ul>
+<li>函数名的命名规则和变量名的命名规则是相同的</li>
+<li>函数要尽量做到见名知意(并且函数通常是一些行为(action)，所以使用动词会更多一些)</li>
+<li>函数定义完后里面的代码是不会执行的，函数必须调用才会执行</li>
+</ul>
+</li>
+</ul>
+<h3 id="调用函数">2.2.2. 调用函数</h3><ul>
+<li>调用函数通过函数名()即可：比如test()</li>
+</ul>
+<h3 id="函数的练习">2.2.3. 函数的练习</h3><ul>
+<li><p>练习一：定义一个函数，打印一个人的个人信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">info</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&quot;why&quot;</span>;</span><br><span class="line">  <span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`姓名:<span class="subst">$&#123;name&#125;</span>，年龄:<span class="subst">$&#123;age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">info</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习二：定义一个函数，函数中计算10和20之间数字的和，并且打印出结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">10</span>; i&lt;=<span class="number">20</span>; i++)&#123;</span><br><span class="line">    result+=<span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">sum</span>();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="函数的参数">2.3. 函数的参数</h2><ul>
+<li><p>函数的参数</p>
+<ul>
+<li>函数把具有独立功能的代码块组织为一个小模块，在需要的时候调用</li>
+<li>函数的参数，增加函数的通用性，针对相同的数据处理逻辑，能够适应更多的数据<ul>
+<li>在函数内部，把参数当做变量使用，进行需要的数据处理</li>
+<li>函数调用时，按照函数定义的参数顺序，把希望在函数内部处理的数据，通过参数传递</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>形参和实参</p>
+<ul>
+<li><p>形参：<code>定义函数</code>时，小括号中的参数，是用来接收参数用的，在函数内部作为变量使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a,b就是形参</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">a,b</span>)&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实参：<code>调用函数</code>时，小括号中的参数，是用来把数据传递到函数内部用的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 10,20都是实参</span></span><br><span class="line"><span class="title function_">sum</span>(<span class="number">10</span>,<span class="number">20</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>有参数的函数练习</p>
+<ul>
+<li><p>练习一：传入一个名字，对这个人say Hello</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">sayHello</span>(<span class="string">&quot;why&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习二：为某个朋友唱生日快乐歌</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">happySong</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`happy birthday <span class="subst">$&#123;name&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">happySong</span>(<span class="string">&quot;why&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习三：传入两个数字，计算两个数字的和，并且打印结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;a&#125;</span>+<span class="subst">$&#123;b&#125;</span>=<span class="subst">$&#123;a+b&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">sum</span>(<span class="number">10</span>,<span class="number">20</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="函数的返回值">2.4. 函数的返回值</h2><ul>
+<li><p>如prompt函数会返回用户的输入</p>
+</li>
+<li><p>所以说, 函数不仅仅可以有参数, 也可以有返回值</p>
+<ul>
+<li>使用return关键字来返回结果</li>
+<li>一旦在函数中执行return操作，那么当前函数会终止</li>
+<li>如果函数中没有使用 return语句 ，那么函数有默认的返回值：undefined</li>
+<li>如果函数使用 return语句，但是return后面没有任何值，那么函数的返回值也是：undefined</li>
+</ul>
+</li>
+<li><p>函数的练习</p>
+<ul>
+<li><p>练习一：实现一个加法计算器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习二：定义一个函数，传入宽高，计算矩形区域的面积</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">rectangle</span>(<span class="params">width,height</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> width*height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习三：定义一个函数，传入半径，计算圆形的面积</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">cycle</span>(<span class="params">radius</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="title class_">Math</span>.<span class="property">PI</span>*radius*radius).<span class="title function_">toFixed</span>(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习四：定义一个函数，传入n(n为正整数)，计算1~n数字的和</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">n</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    result+=i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>练习五：传入一个数字，可以根据数字转化成显示为亿、万文字显示的文本</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">change</span>(<span class="params">num</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(num&gt;=<span class="number">1_0000_0000</span>)&#123;</span><br><span class="line">    num=<span class="title class_">Math</span>.<span class="title function_">floor</span>(num/<span class="number">1_0000_0000</span>);</span><br><span class="line">    <span class="keyword">return</span> num+<span class="string">&quot;亿&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(num&gt;=<span class="number">10000</span>)&#123;</span><br><span class="line">    num=<span class="title class_">Math</span>.<span class="title function_">floor</span>(num/<span class="number">10000</span>);</span><br><span class="line">    <span class="keyword">return</span> num+<span class="string">&quot;万&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1亿</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">change</span>(<span class="number">100000000</span>));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h1 id="递归">3. 递归</h1><h2 id="函数中调用函数">3.1. 函数中调用函数</h2><ul>
+<li><p>在开发中，函数内部是可以调用另外一个函数的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo函数被调用&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="title function_">foo</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">bar</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>既然函数中可以调用另外一个函数，那么函数是否可以调用自己呢?</p>
+<ul>
+<li><p>当然是可以的</p>
+</li>
+<li><p>但是函数调用自己必须有结束条件，否则会产生无限调用，造成报错</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Uncaught RangeError: Maximum call stack size exceeded</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(count++);</span><br><span class="line">  <span class="title function_">bar</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">bar</span>();</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="函数的递归">3.2. 函数的递归</h2><ul>
+<li><p>事实上，函数调用自己还有一个专业的名词，叫做递归(Recursion)</p>
+</li>
+<li><p>在语言学方面，也可以描述为递归</p>
+</li>
+<li><p>递归是一种重要的编程思想</p>
+<ul>
+<li>将一个复杂的任务，转化成可以重复执行的相同任务</li>
+</ul>
+</li>
+</ul>
+<h2 id="实现幂函数pow">3.3. 实现幂函数pow</h2><ul>
+<li><p>可以先用for循环来实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">pow</span>(<span class="params">x,n</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">    result*=x;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>另一种实现思路是递归实现</p>
+</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">pow_re</span>(<span class="params">x,n</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(n===<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> x*<span class="title function_">pow_re</span>(x,n-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="实现斐波那契数列">3.4. 实现斐波那契数列</h2><ul>
+<li>递归实现</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fibonacci</span>(<span class="params">n</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(n===<span class="number">1</span>||n===<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">fibonacci</span>(n-<span class="number">1</span>)+<span class="title function_">fibonacci</span>(n-<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>for循环实现</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fibonacci</span>(<span class="params">n</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(n===<span class="number">1</span>||n===<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> n1 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> n2 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">3</span>; i &lt;= n; i++)&#123;</span><br><span class="line">    result = n1 + n2;</span><br><span class="line">    n1 = n2;</span><br><span class="line">    n2 = result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="变量作用域">4. 变量作用域</h1><h2 id="作用域定义">4.1. 作用域定义</h2><ul>
+<li>在JavaScript(ES5之前)中没有块级作用域的概念，但是函数可以定义自己的作用域<ul>
+<li>作用域(Scope)表示一些标识符的作用有效范围(所以也有被翻译为有效范围的)</li>
+<li>函数的作用域表示在函数内部定义的变量，只有在函数内部可以被访问到</li>
+</ul>
+</li>
+</ul>
+<h2 id="外部变量和局部变量的概念">4.2. 外部变量和局部变量的概念</h2><ul>
+<li><p>定义在函数内部的变量，被称之为局部变量(Local Variables)</p>
+</li>
+<li><p>定义在函数外部的变量，被称之为外部变量(Outer Variables)</p>
+</li>
+<li><p>全局变量</p>
+<ul>
+<li>在函数之外声明的变量(在script中声明的)，称之为全局变量</li>
+<li>全局变量在任何函数中都是可见的</li>
+<li>通过var声明的全局变量会在window对象上添加一个属性</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// message在哪个范围内可以被使用，称之为message的作用域</span></span><br><span class="line"><span class="keyword">var</span> message = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(message);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(message);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES5之前是没有块级作用域</span></span><br><span class="line"><span class="comment">// var定义的变量是没有块级作用域</span></span><br><span class="line"><span class="comment">// 内外都可以访问到count</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">100</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line"></span><br><span class="line"><span class="comment">// for循环的代码块也是没有自己的作用域的</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">  <span class="keyword">var</span> foo = <span class="string">&quot;foo&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 可以访问到</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES5之前函数会形成自己的作用域</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ReferenceError: a is not defined</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="访问变量的顺序">4.3. 访问变量的顺序</h2><ul>
+<li>优先访问自己函数中的变量，没有找到时，在外部中访问(父函数…-&gt;全局-&gt;window对象)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">message</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> message = <span class="string">&quot;Hello global&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> message = <span class="string">&quot;Hello foo&quot;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> message = <span class="string">&quot;Hello bar&quot;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Hello bar</span></span><br><span class="line"><span class="title function_">foo</span>()();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果删除 <code>var message = &quot;Hello bar&quot;;</code>语句重新运行，结果是 <code>Hello foo</code></li>
+<li>如果再删除 <code>var message = &quot;Hello foo&quot;;</code>语句重新运行，结果是 <code>Hello global</code></li>
+<li>如果再删除 <code>var message = &quot;Hello global&quot;;</code>语句重新运行，结果是 <code>Hello World</code></li>
+<li>如果再删除 <code>window.message = &quot;Hello World&quot;;</code>语句重新运行，结果会报错 <code>message is not defined</code></li>
+</ul>
+<h1 id="函数声明-vs-函数表达式">5. 函数声明 vs 函数表达式</h1><h2 id="函数声明">5.1. 函数声明</h2><ul>
+<li><p>在JavaScript中，函数并不是一种神奇的语法结构，而是一种特殊的值</p>
+</li>
+<li><p>前面定义函数的方式，称之为函数的声明(Function Declaration)</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo函数&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数表达式">5.2. 函数表达式</h2><ul>
+<li><p>而类似变量声明的写法是函数表达式(Function Expressions)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo函数&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意，function 关键字后面没有函数名 </p>
+<ul>
+<li>函数表达式允许省略函数名</li>
+</ul>
+</li>
+</ul>
+<h2 id="两者不同">5.3. 两者不同</h2><ul>
+<li><p>首先，语法不同</p>
+<ul>
+<li><p>函数声明：在主代码流中声明为单独的语句的函数</p>
+</li>
+<li><p>函数表达式：在一个表达式中或另一个语法结构中创建的函数</p>
+</li>
+</ul>
+</li>
+<li><p>其次，JavaScript创建函数的时机不同</p>
+<ul>
+<li>函数表达式是在代码执行到达时被创建，并且仅从那一刻起可用</li>
+<li>在函数声明被定义之前，它就可以被调用<ul>
+<li>这是内部算法的原故</li>
+<li>当 JavaScript 准备运行脚本时，首先会在脚本中寻找全局函数声明，并创建这些函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>开发中如何选择呢?</p>
+<ul>
+<li>需要声明一个函数时，首先考虑函数声明语法</li>
+<li>它能够为组织代码提供更多的灵活性，因为可以在声明这些函数之前调用这些函数</li>
+</ul>
+</li>
+</ul>
+<h1 id="函数式编程概念">6. 函数式编程概念</h1><h2 id="头等函数">6.1. 头等函数</h2><ul>
+<li><p>头等函数(first-class function,第一级函数)是指在程序设计语言中，函数被当作头等公民</p>
+<ul>
+<li><p>头等函数可以被赋值给变量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo1 = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo1&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>头等函数可以在变量之间来回传递</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;foo&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = foo;</span><br><span class="line"><span class="title function_">bar</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>头等函数可以是另外函数的参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">baz</span>(<span class="params">fn</span>)&#123;</span><br><span class="line">  <span class="title function_">fn</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">barz</span>(foo);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>头等函数可以作为另外函数的返回值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">hi</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;hi &quot;</span> + name);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> hi;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fun</span>(<span class="string">&quot;why&quot;</span>)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>头等函数可以存储在另外一个数据结构中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">eating</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;eating&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="title function_">eating</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar1</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar1&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar2</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar3</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar3&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> arr = [bar1,bar2,bar3];</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="函数式编程">6.2. 函数式编程</h2><ul>
+<li><p>通常对作为头等公民的编程方式，称之为<code>函数式编程</code></p>
+<ul>
+<li>JavaScript就是符合函数式编程的语言，这个也是JavaScript的一大特点</li>
+</ul>
+</li>
+</ul>
+<h2 id="回调函数-Callback-Function">6.3. 回调函数(Callback Function)</h2><ul>
+<li><p>函数可以作为一个值相互赋值，也可以传递给另外一个函数</p>
+</li>
+<li><p>bar函数称为回调函数</p>
+<ul>
+<li>通过函数名加括号foo()叫做函数的调用</li>
+<li>通过fn去调用bar函数的过程称之为函数的回调</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">fn</span>)&#123;</span><br><span class="line">  <span class="title function_">fn</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;bar&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>(bar);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="高阶函数-Higher-order-function">6.4. 高阶函数(Higher-order function)</h2><ul>
+<li><p>foo函数称之为高阶函数</p>
+</li>
+<li><p>高阶函数必须至少满足两个条件之一</p>
+<ul>
+<li>接受一个或多个函数作为输入</li>
+<li>输出一个函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="匿名函数-anonymous">6.5. 匿名函数(anonymous)</h2><ul>
+<li>如果在传入一个函数时，没有指定这个函数的名词或者通过函数表达式指定函数对应的变量，那么这个函数称之为匿名函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">request</span>(<span class="params">url, callback</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> list = [<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>];</span><br><span class="line">  <span class="title function_">callback</span>(list);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">request</span>(<span class="string">&quot;url&quot;</span>,<span class="keyword">function</span>(<span class="params">res</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="立即执行函数">7. 立即执行函数</h1><h2 id="什么是立即执行函数">7.1. 什么是立即执行函数</h2><ul>
+<li><p>Immediately-Invoked Function Expression(IIFE 立即调用函数表达式) </p>
+</li>
+<li><p>表达的含义是一个函数定义完后被立即执行</p>
+<ul>
+<li>第一部分是定义了一个匿名函数，这个函数有自己独立的作用域</li>
+<li>第二部分是后面的()，表示这个函数被执行了</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = (<span class="keyword">function</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;立即执行函数&quot;</span>,name);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">&#125;)(<span class="string">&quot;why&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="作用">7.2. 作用</h2><ul>
+<li><p>会创建一个独立的执行上下文环境，可以避免外界访问或修改内部的变量，也避免了对内部变量的修改</p>
+</li>
+<li><p>user.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> userModule = (<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> <span class="variable language_">module</span> = &#123;&#125;;</span><br><span class="line">  <span class="variable language_">module</span>.<span class="property">message</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">module</span>;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(userModule.<span class="property">message</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听每个按钮的点击</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btns = <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;.btn&quot;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; btns.<span class="property">length</span>; i++)&#123;</span><br><span class="line">  (<span class="keyword">function</span>(<span class="params">m</span>)&#123;</span><br><span class="line">    btns[m].<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`第&#123;m&#125;个按钮被点击了`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="其他写法">7.3. 其他写法</h2><ul>
+<li><p>立即执行函数必须是一个表达式，不能是函数声明</p>
+<ul>
+<li>下面的这种写法会报错，因为是一个函数声明，不是一个函数表达式</li>
+<li>当圆括号出现在匿名函数的末尾想要调用函数时，它会默认将函数当成是函数声明</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;立即执行函数&quot;</span>);</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当圆括号包裹函数时，它会默认将函数作为表达式去解析，而不是函数声明</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;立即执行函数&quot;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下面是一个函数表达式，所以可以执行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// +-!都可以</span></span><br><span class="line">+<span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;立即执行函数&quot;</span>);</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;立即执行函数&quot;</span>);</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="函数代码风格">8. 函数代码风格</h1><p><img src="/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/code.png"></p>
+<ul>
+<li>函数名和左括号之间没有空格 <code>pow(</code></li>
+<li>形参之间加逗号+空格 <code>x, n</code></li>
+<li>右括号和左花括号之间有一个空格 <code>) &#123;</code></li>
+<li>左花括号和函数声明放在同一行 <code>pow(x, n)&#123;</code></li>
+<li>内部代码缩进2个空格</li>
+<li>for&#x2F;if&#x2F;while等关键字后有一个空格 <code>for ()</code></li>
+<li>操作符左右各一个空格 <code>i &lt; n</code></li>
+<li>每一行后加分号 <code>result *= x;</code></li>
+<li>代码块之间隔一行</li>
+<li>每行代码文本不宜太长</li>
+<li>else和左花括号在同一行，和if的右花括号也在同一行 <code>&#125; else &#123;</code></li>
+<li>函数调用左右各一空格 <code>alert( pow(x, n) )</code></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/" title="前端-JS学习笔记-函数的使用">https://wtlumos.github.io/zh-CN/2019/02/07/前端-JS学习笔记-函数的使用/</a> -->
+    
+       <a href ="/zh-CN/2019/02/07/前端-JS学习笔记-函数的使用/" >/zh-CN/2019/02/07/前端-JS学习笔记-函数的使用/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-02-07 07:11
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2024-04-16 14:37
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/JS/" rel="tag"><i class="fa fa-tag"></i> JS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/07/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="prev" title="前端-JS学习笔记-面向对象">
+      <i class="fa fa-chevron-left"></i> 前端-JS学习笔记-面向对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/02/06/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-HTML%E4%B8%AD%E7%9A%84JavaScript/" rel="next" title="前端-JS学习笔记-HTML中的JavaScript">
+      前端-JS学习笔记-HTML中的JavaScript <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84foo%E3%80%81bar%E3%80%81baz"><span class="nav-text">1. 程序中的foo、bar、baz</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-text">2. 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">2.1. 函数的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4"><span class="nav-text">2.2. 函数使用步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E5%87%BD%E6%95%B0"><span class="nav-text">2.2.1. 声明函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-text">2.2.2. 调用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E7%BB%83%E4%B9%A0"><span class="nav-text">2.2.3. 函数的练习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-text">2.3. 函数的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-text">2.4. 函数的返回值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%92%E5%BD%92"><span class="nav-text">3. 递归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-text">3.1. 函数中调用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E9%80%92%E5%BD%92"><span class="nav-text">3.2. 函数的递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%B9%82%E5%87%BD%E6%95%B0pow"><span class="nav-text">3.3. 实现幂函数pow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97"><span class="nav-text">3.4. 实现斐波那契数列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-text">4. 变量作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%AE%9A%E4%B9%89"><span class="nav-text">4.1. 作用域定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%96%E9%83%A8%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">4.2. 外部变量和局部变量的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="nav-text">4.3. 访问变量的顺序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E-vs-%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">5. 函数声明 vs 函数表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E"><span class="nav-text">5.1. 函数声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">5.2. 函数表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E8%80%85%E4%B8%8D%E5%90%8C"><span class="nav-text">5.3. 两者不同</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="nav-text">6. 函数式编程概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E7%AD%89%E5%87%BD%E6%95%B0"><span class="nav-text">6.1. 头等函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="nav-text">6.2. 函数式编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0-Callback-Function"><span class="nav-text">6.3. 回调函数(Callback Function)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0-Higher-order-function"><span class="nav-text">6.4. 高阶函数(Higher-order function)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0-anonymous"><span class="nav-text">6.5. 匿名函数(anonymous)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="nav-text">7. 立即执行函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="nav-text">7.1. 什么是立即执行函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-text">7.2. 作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%86%99%E6%B3%95"><span class="nav-text">7.3. 其他写法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="nav-text">8. 函数代码风格</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '76fa98de20a0e319adce5c2175ed4c7d',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

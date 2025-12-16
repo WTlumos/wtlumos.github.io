@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="属性文档，文字属性，字体属性，display，overflow，背景相关属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端-CSS学习笔记02-CSS属性">
+<meta property="og:url" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/index.html">
+<meta property="og:site_name" content="W.T.的博客">
+<meta property="og:description" content="属性文档，文字属性，字体属性，display，overflow，背景相关属性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/justify.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/lineheight.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/repeat.png">
+<meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/position.png">
+<meta property="article:published_time" content="2019-01-25T14:14:56.000Z">
+<meta property="article:modified_time" content="2025-05-18T08:01:56.420Z">
+<meta property="article:author" content="Wang Ting">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/justify.png">
+
+<link rel="canonical" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端-CSS学习笔记02-CSS属性 | W.T.的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">W.T.的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Every day to be a little better</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-books">
+      
+    
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+
+
+      
+        <li class="menu-item menu-item-route">
+      
+    
+
+    <a href="/route/" rel="section"><i class="fas fa-route fa-fw"></i>学习路线</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-language">
+
+    <a href="/en" rel="section"><i class="fas fa-language fa-fw"></i>English</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WTlumos" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Wang Ting">
+      <meta itemprop="description" content="技术成长笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W.T.的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端-CSS学习笔记02-CSS属性
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-25 22:14:56" itemprop="dateCreated datePublished" datetime="2019-01-25T22:14:56+08:00">2019-01-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-18 16:01:56" itemprop="dateModified" datetime="2025-05-18T16:01:56+08:00">2025-05-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote class="blockquote-center">属性文档，文字属性，字体属性，display，overflow，背景相关属性</blockquote>
+
+<span id="more"></span>
+
+<h1 id="CSS属性文档">1. CSS属性文档</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.w3.org/TR/?tag=css">CSS官方文档地址</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference#%E5%85%B3%E9%94%AE%E5%AD%97%E7%B4%A2%E5%BC%95">CSS推荐文档地址</a></p>
+</li>
+<li><p>由于浏览器版本、CSS版本等问题，查询某些CSS是否可用</p>
+<ul>
+<li>可以到<a target="_blank" rel="noopener" href="https://caniuse.com/%E6%9F%A5%E8%AF%A2CSS%E5%B1%9E%E6%80%A7%E7%9A%84%E5%8F%AF%E7%94%A8%E6%80%A7">https://caniuse.com/查询CSS属性的可用性</a></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Value_definition_syntax#hash_mark">CSS 属性值定义语法</a></p>
+</li>
+</ul>
+<h1 id="常见CSS属性">2. 常见CSS属性</h1><h2 id="width">2.1. width</h2><ul>
+<li><p>宽度</p>
+</li>
+<li><p>默认值为 auto，由浏览器决定大小</p>
+</li>
+</ul>
+<h2 id="height">2.2. height</h2><ul>
+<li>高度</li>
+</ul>
+<h2 id="color">2.3. color</h2><ul>
+<li>color属性用来设置文本内容的<code>前景色</code><ul>
+<li>包括文字、装饰线、边框、外轮廓等的颜色</li>
+</ul>
+</li>
+</ul>
+<h1 id="CSS颜色的表示方法">3. CSS颜色的表示方法</h1><ul>
+<li>在CSS中，颜色，有以下几种表示方法<ul>
+<li>颜色关键字</li>
+<li>RGB表示法</li>
+</ul>
+</li>
+</ul>
+<h2 id="颜色关键字">3.1. 颜色关键字</h2><ul>
+<li>不区分大小写的标识符，它表示一个具体的颜色</li>
+<li>可以表示哪些颜色呢?</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value#%E8%AF%AD%E6%B3%95">https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value#%E8%AF%AD%E6%B3%95</a></li>
+</ul>
+<h2 id="RGB的表示方法">3.2. RGB的表示方法</h2><ul>
+<li><p>RGB是一种色彩空间，通过R(red，红色)、G(green，绿色)、B(blue，蓝色)三原色来组成了不同的颜色</p>
+</li>
+<li><p>也就是通过调整这三个颜色不同的比例，可以组合成其他的颜色</p>
+</li>
+<li><p>RGB各个原色的取值范围是 0~255</p>
+</li>
+<li><p>RGB颜色可以通过以#为前缀的十六进制字符，函数(rgb()、rgba())标记表示</p>
+</li>
+<li><p>方式一：十六进制符号</p>
+<ul>
+<li><p><code>#RRGGBB[AA]</code></p>
+</li>
+<li><p>R(红)、G(绿)、B (蓝)和A (alpha)是十六进制字符(0–9、A–F)；A是可选的</p>
+</li>
+<li><p>比如，#ff0000等价于#ff0000ff;</p>
+</li>
+</ul>
+</li>
+<li><p>方式二：十六进制符号</p>
+<ul>
+<li><p><code>#RGB[A]</code></p>
+</li>
+<li><p>R(红)、G(绿)、B (蓝)和A (alpha)是十六进制字符(0–9、A–F)</p>
+</li>
+<li><p>三位数符号(#RGB)是六位数形式(#RRGGBB)的减缩版</p>
+<ul>
+<li>比如，#f09和#ff0099表示同一颜色</li>
+</ul>
+</li>
+<li><p>四位数符号(#RGBA)是八位数形式(#RRGGBBAA)的减缩版</p>
+<ul>
+<li>比如，#0f38和#00ff3388表示相同颜色</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>方式三：函数符</p>
+<ul>
+<li><code>rgb[a](R, G, B[, A])</code></li>
+<li>R(红)、G(绿)、B (蓝)可以是<code>&lt;number&gt;</code>(数字)，或者<code>&lt;percentage&gt;</code>(百分比)，255相当于100%</li>
+<li>A(alpha)可以是0到1之间的数字，或者百分比，数字1相当于100%(完全不透明)</li>
+</ul>
+</li>
+</ul>
+<h1 id="文字属性">4. 文字属性</h1><h2 id="text-decoration">4.1. text-decoration</h2><ul>
+<li><p>用于设置文字的装饰线</p>
+<ul>
+<li>decoration是装饰&#x2F;装饰品的意思</li>
+</ul>
+</li>
+<li><p>text-decoration有如下常见取值</p>
+<ul>
+<li>none：无任何装饰线<ul>
+<li>可以去除a元素默认的下划线</li>
+</ul>
+</li>
+<li>underline：下划线</li>
+<li>overline：上划线</li>
+<li>line-through：中划线(删除线)</li>
+</ul>
+</li>
+<li><p>a元素有下划线的本质是被添加了text-decoration属性</p>
+</li>
+</ul>
+<h2 id="text-transform">4.2. text-transform</h2><ul>
+<li><p>用于设置文字的大小写转换</p>
+<ul>
+<li>Transform单词是使变形&#x2F;变换(形变)</li>
+</ul>
+</li>
+<li><p>text-transform有几个常见的值</p>
+<ul>
+<li>capitalize：(使…首字母大写, 资本化的意思)将每个单词的首字符变为大写</li>
+<li>uppercase：(大写字母)将每个单词的所有字符变为大写</li>
+<li>lowercase：(小写字母)将每个单词的所有字符变为小写</li>
+<li>none：没有任何影响</li>
+</ul>
+</li>
+<li><p>实际开发中用JavaScript代码转化的更多</p>
+</li>
+</ul>
+<h2 id="text-indent">4.3. text-indent</h2><ul>
+<li><p>用于设置第一行内容的缩进</p>
+<ul>
+<li>text-indent: 2em; </li>
+<li>刚好是缩进2个文字</li>
+<li>em：相对于字体的大小</li>
+</ul>
+</li>
+<li><p>可以操作的元素</p>
+<ul>
+<li>textarea，span，a，input，img</li>
+</ul>
+</li>
+</ul>
+<h2 id="text-align">4.4. text-align</h2><ul>
+<li><p>直接翻译：设置文本的对齐方式</p>
+</li>
+<li><p>MDN：<code>定义行内内容(例如文字)如何相对它的块父元素对齐</code></p>
+</li>
+<li><p>常用的值</p>
+<ul>
+<li>left：左对齐</li>
+<li>right：右对齐</li>
+<li>center：正中间显示</li>
+<li>justify：两端对齐</li>
+</ul>
+</li>
+<li><p>注意点：</p>
+</li>
+<li><p>如果需要让文本水平居中，text-align属性设置在文本<code>所在标签的父元素</code></p>
+</li>
+<li><p>W3C中的解释</p>
+<ul>
+<li>This shorthand property sets the ‘text-align-all’ and ‘text-align-last’ properties and describes how the <code>inline-level content</code> of a block is aligned along the inline axis if the content does not completely fill</li>
+<li>定义<code>行内级元素</code>的对齐方式</li>
+<li><code>text-align-last</code>设置最后一行的对齐方式</li>
+</ul>
+</li>
+</ul>
+<h3 id="图像居中">4.4.1. 图像居中</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">div</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">width</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;./photo.png&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="div居中">4.4.2. div居中</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.box</span>&#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.content</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 方式一：改为行内级元素 */</span></span></span><br><span class="line"><span class="language-css">    <span class="attribute">display</span>: inline-block;</span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 方式二：添加外边距 */</span></span></span><br><span class="line"><span class="language-css">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="justify值">4.4.3. justify值</h3><p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/justify.png"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.box</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">background-color</span>: red;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">width</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: white;</span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 文字两端贴边 */</span></span></span><br><span class="line"><span class="language-css">    <span class="attribute">text-align</span>: justify;</span></span><br><span class="line"><span class="language-css">    <span class="comment">/* 最后一行贴边 */</span></span></span><br><span class="line"><span class="language-css">    <span class="attribute">text-align-last</span>: justify;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  W3C publishes a range of technical reports (Standards and supporting Notes) which help move the web forward.</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="text-shadow">4.5. text-shadow</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-shadow">text-shadow</a> 用于给文字添加阴影效果</p>
+</li>
+<li><p>shadow的常见格式如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">text-shadow</span> = <span class="attribute">none</span> | <span class="selector-attr">[ &lt;color&gt;? &amp;&amp; &lt;length&gt;&#123;2,3&#125; ]</span>#  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>每个阴影都有两到三个 <code>&lt;length&gt;</code> 参数，以及一个与阴影颜色相关的 <code>&lt;color&gt;</code> 参数</li>
+<li>前两个 <code>&lt;length&gt;</code> 参数，是以“文字中心”为原点的坐标轴，分别为 x 轴 <code>&lt;offset-x&gt;</code> 和 y 轴 <code>&lt;offset-y&gt;</code> 的值</li>
+<li>如果有第三个 <code>&lt;length&gt;</code> 参数，则第三个数值为形成阴影效果的半径的数值 <code>&lt;blur-radius&gt;</code></li>
+</ul>
+</li>
+<li><p>offset-x</p>
+<ul>
+<li>必选。指定水平偏移量，若是负值则阴影位于文字左侧</li>
+</ul>
+</li>
+<li><p>offset-y</p>
+<ul>
+<li>必选。指定垂直偏移量，若是负值则阴影位于文字上方</li>
+</ul>
+</li>
+<li><p>blur-radius</p>
+<ul>
+<li>可选。如果没有指定，则默认为 0。值越大，模糊半径越大，阴影越大越淡</li>
+</ul>
+</li>
+<li><p>color</p>
+<ul>
+<li>可选。阴影的颜色。可以在偏移量之前或之后指定</li>
+</ul>
+</li>
+<li><p>举例</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* offset-x | offset-y | blur-radius | color */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: <span class="number">1px</span> <span class="number">1px</span> <span class="number">2px</span> black;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* color | offset-x | offset-y | blur-radius */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: <span class="number">#fc0</span> <span class="number">1px</span> <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* offset-x | offset-y | color */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: <span class="number">5px</span> <span class="number">5px</span> <span class="number">#558abb</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* color | offset-x | offset-y */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: white <span class="number">2px</span> <span class="number">5px</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* offset-x | offset-y</span></span><br><span class="line"><span class="comment">/* Use defaults for color and blur-radius */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: <span class="number">5px</span> <span class="number">10px</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试文字的阴影</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://html-css-js.com/css/generator/box-shadow/">https://html-css-js.com/css/generator/box-shadow/</a></li>
+</ul>
+</li>
+<li><p>拓展</p>
+<ul>
+<li>阴影可以叠加设置，每组阴影取值之间以逗号隔开</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 右下方向添加阴影 */</span></span><br><span class="line"><span class="attribute">text-shadow</span>: <span class="number">13px</span> <span class="number">20px</span> <span class="number">12px</span> red,<span class="number">20px</span> <span class="number">30px</span> <span class="number">10px</span> green;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="letter-spacing">4.6. letter-spacing</h2><ul>
+<li>设置单词字母之间的间距<ul>
+<li>默认是0，可以设置为负数</li>
+</ul>
+</li>
+</ul>
+<h2 id="word-spacing">4.7. word-spacing</h2><ul>
+<li>设置单词之间的间距<ul>
+<li>默认是0，可以设置为负数</li>
+</ul>
+</li>
+</ul>
+<h1 id="字体属性">5. 字体属性</h1><h2 id="font-size">5.1. font-size</h2><ul>
+<li><p>决定文字的大小</p>
+</li>
+<li><p>常用的设置</p>
+<ul>
+<li><p>具体数值+单位</p>
+<ul>
+<li><p>比如100px</p>
+</li>
+<li><p>也可以使用em单位(不推荐)</p>
+<ul>
+<li><p>页面1个字符大小的基准值，基准值根据浏览器，用户自定义标准的不同而不同</p>
+</li>
+<li><p>1em代表100%，2em代表200%，0.5em代表50%</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>百分比</p>
+<ul>
+<li>基于父元素的font-size计算，比如50%表示等于父元素font-size的一半</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>chrome默认文字大小是16px</li>
+<li>单位需要设置，否则无效</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">3.5em</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="font-family">5.2. font-family</h2><ul>
+<li><p>用于设置文字的字体名称</p>
+<ul>
+<li>可以设置1个或者多个字体名称</li>
+<li>浏览器会选择列表中第一个该计算机上有安装的字体</li>
+<li>或者是通过 @font-face 指定的可以直接下载的字体</li>
+</ul>
+</li>
+<li><p>常见字体</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>特点</th>
+<th>场景</th>
+<th>常见系列字体</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无衬线字体(sans-serif)</td>
+<td>文字笔画粗细均匀，并且首尾无装饰</td>
+<td>在网页中大多采用无衬线字体</td>
+<td>在mac中将显示有黑体，在Windows中将显示为微软雅黑</td>
+</tr>
+<tr>
+<td>衬线字体(serif)</td>
+<td>文字笔画粗细不均，并且首尾有笔锋装饰</td>
+<td>报刊书籍中应用广泛</td>
+<td>宋体，Times New Roman</td>
+</tr>
+<tr>
+<td>等宽字体(monospace)</td>
+<td>每个字母或文字的宽度相等</td>
+<td>一般用于程序代码编写，有利于代码的阅读和编写</td>
+<td>Consolas，fira code</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>常见取值</p>
+<ul>
+<li><p>具体字体1,具体字体2,…,字体系列</p>
+</li>
+<li><p>具体字体：微软雅黑，黑体，宋体，楷体等</p>
+</li>
+<li><p>字体系列：sans-serif，serif，monosapce等</p>
+</li>
+</ul>
+</li>
+<li><p>渲染规则</p>
+<ul>
+<li>从左到右按照顺序查找，如果未安装该字体，则显示下一个字体</li>
+<li>如果不支持，此时会根据操作系统，显示最后字体系列的默认字体</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>如果字体名称中存在多个单词，推荐使用引号包裹</li>
+<li>最后一项字体系列不需要引号包裹</li>
+<li>网页开发时，尽量使用系统常见自带字体，保证不同用户浏览网页都可以正确显示</li>
+</ul>
+</li>
+<li><p>淘宝使用的字体</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>, <span class="selector-tag">button</span>, <span class="selector-tag">input</span>, select, <span class="selector-tag">textarea</span> &#123;</span><br><span class="line">    <span class="attribute">font</span>: <span class="number">12px</span>/<span class="number">1.5</span> tahoma, arial, <span class="string">&#x27;Hiragino Sans GB&#x27;</span>, <span class="string">&#x27;\5b8b\4f53&#x27;</span>, sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Web-fonts-自定义字体">5.3. Web fonts - 自定义字体</h2><h3 id="认识Web字体">5.3.1. 认识Web字体</h3><ul>
+<li><p>font-family</p>
+<ul>
+<li>需要提供一个或多个字体种类名称，浏览器会在列表中搜寻，直到找到它所运行的系统上可用的字体</li>
+<li>这样的方式完全没有问题，但是对于传统的web开发人员来说，字体选择是有限的</li>
+<li>这就是所谓的 Web-safe 字体</li>
+<li>并且这种默认可选的字体并不能进行一些定制化的需求</li>
+</ul>
+</li>
+<li><p>比如书法等字体样式, 系统的字体肯定是不能实现的</p>
+</li>
+<li><p>是否依然可以在网页中使用这些字体呢? 使用Web Fonts</p>
+</li>
+</ul>
+<h3 id="Web-fonts的工作原理">5.3.2. Web fonts的工作原理</h3><ul>
+<li><p>首先，需要通过一些渠道获取到希望使用的字体(不是开发来做的事情)</p>
+<ul>
+<li>对于某些收费的字体，需要获取到对应的授权</li>
+<li>对于某些公司定制的字体, 需要设计人员来设计</li>
+<li>对于某些免费的字体, 需要获取到对应的字体文件</li>
+</ul>
+</li>
+<li><p>其次，CSS代码当中使用该字体(重要)</p>
+</li>
+<li><p>最后，在部署静态资源时, 将HTML&#x2F;CSS&#x2F;JavaScript&#x2F;Font一起部署在静态服务器中</p>
+</li>
+<li><p>用户的角度</p>
+<ul>
+<li>浏览器一个网页时, 因为代码中有引入字体文件，字体文件会被一起下载下来</li>
+<li>浏览器会根据使用的字体在下载的字体文件中查找、解析、使用对应的字体</li>
+<li>在浏览器中使用对应的字体显示内容</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用Web-Fonts">5.3.3. 使用Web Fonts</h3><ul>
+<li><p>获取字体文件</p>
+<ol>
+<li>在字体天下网站下载一个字体<ul>
+<li><a target="_blank" rel="noopener" href="https://www.fonts.net.cn/fonts-zh-1.html">https://www.fonts.net.cn/fonts-zh-1.html</a></li>
+</ul>
+</li>
+<li>使用字体</li>
+</ol>
+</li>
+<li><p>使用过程</p>
+<ol>
+<li>将字体放到对应的目录中</li>
+<li>通过@font-face来引入字体, 并且设置格式</li>
+<li>使用字体</li>
+</ol>
+</li>
+<li><p>注意：@font-face 用于加载一个自定义的字体</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span>&#123;</span><br><span class="line">  <span class="comment">/* 命名字体名 */</span></span><br><span class="line">  <span class="attribute">font-family</span>: Lato;</span><br><span class="line">  <span class="comment">/* 引入字体储存路径</span></span><br><span class="line"><span class="comment">     eot - IE浏览器支持</span></span><br><span class="line"><span class="comment">     ttf，woff-Chrome，Safari，Firefox</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;./fonts/lato-regular.ttf&#x27;</span>),<span class="built_in">url</span>(<span class="string">&#x27;./fonts/lato-regular.eot&#x27;</span>),<span class="built_in">url</span>(<span class="string">&#x27;./fonts/lato-regular.woff&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h1</span>&#123;</span><br><span class="line">  <span class="attribute">font-family</span>:Lato;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="web-fonts的兼容性">5.3.4. web-fonts的兼容性</h3><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">eot</th>
+<th align="center">otf&#x2F;ttf</th>
+<th align="center">woff</th>
+<th align="center">woff2</th>
+<th align="center">svg</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IE 8-11</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>IE 9-11</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Edge 12-14</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Firefox 40-45</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Chrome 43-49</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Safari 8-9</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td>Opera 32-35</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>IOS Safari 8.4-9.1</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td>Android 4.4-44</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Chrome for Android 46</td>
+<td align="center"></td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>.ttf 是TrueType字体</p>
+<ul>
+<li>在开发中某些浏览器可能不支持该字体, 所以为了浏览器的兼容性问题，需要有对应其他格式的字体</li>
+</ul>
+</li>
+<li><p>TrueType字体：拓展名是 .ttf</p>
+</li>
+<li><p>OpenType&#x2F;TrueType字体：拓展名是 .ttf、.otf，建立在TrueType字体之上</p>
+</li>
+<li><p>Embedded OpenType字体：拓展名是 .eot， OpenType字体的压缩版</p>
+</li>
+<li><p>SVG字体：拓展名是 .svg、 .svgz</p>
+</li>
+<li><p>WOFF表示Web Open Font Format web开放字体：拓展名是 .woff，建立在TrueType字体之上</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://font.qqe2.com/#">https://font.qqe2.com/#</a> 网站来生产对应的字体文件</p>
+</li>
+</ul>
+<h3 id="web-fonts兼容性写法">5.3.5. web fonts兼容性写法</h3><ul>
+<li><p>使其具备很强的兼容性</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&quot;myfont&quot;</span>;</span><br><span class="line">   <span class="comment">/* IE9 */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&quot;./fonts/lato-regular.eot&quot;</span>); </span><br><span class="line">  <span class="attribute">src</span>: </span><br><span class="line">    <span class="comment">/* IE6-8 */</span></span><br><span class="line">    <span class="built_in">url</span>(<span class="string">&quot;./fonts/lato-regular.eot?#iefix&quot;</span>) <span class="built_in">format</span>(<span class="string">&quot;embedded-opentype&quot;</span>),  </span><br><span class="line">    <span class="comment">/* chrome,firefox */</span></span><br><span class="line">    <span class="built_in">url</span>(<span class="string">&quot;./fonts/lato-regular.woff&quot;</span>) <span class="built_in">format</span>(<span class="string">&quot;woff&quot;</span>),  </span><br><span class="line">    <span class="comment">/* chrome,firefox,opera,safari,android */</span></span><br><span class="line">    <span class="built_in">url</span>(<span class="string">&quot;./fonts/lato-regular.ttf&quot;</span>) <span class="built_in">format</span>(<span class="string">&quot;truetype&quot;</span>),  </span><br><span class="line">    <span class="comment">/* ios 4.1- */</span></span><br><span class="line">    <span class="built_in">url</span>(<span class="string">&quot;./fonts/lato-regular.svg#uxfonteditor&quot;</span>) <span class="built_in">format</span>(<span class="string">&quot;svg&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这被称为”bulletproof @font-face syntax(刀枪不入的@font-face语法)“</p>
+<ul>
+<li>这是 Paul Irish早期的一篇文章提及后@font-face开始流行起来 (Bulletproof @font-face Syntax)</li>
+</ul>
+</li>
+<li><p>src用于指定字体资源</p>
+<ul>
+<li>url指定资源的路径</li>
+<li>format用于帮助浏览器快速识别字体的格式</li>
+</ul>
+</li>
+</ul>
+<h2 id="font-weight">5.4. font-weight</h2><ul>
+<li><p>用于设置文字的粗细</p>
+</li>
+<li><p>常见的取值</p>
+<ul>
+<li>100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900，每一个数字表示一个重量</li>
+<li>normal：等于400</li>
+<li>bold：等于700</li>
+<li>strong、b、h1~h6等标签的font-weight默认就是bold</li>
+</ul>
+</li>
+<li><p>注意点：</p>
+<ul>
+<li>不是所有字体都提供了九种粗细，因此部分取值页面中无变化</li>
+<li>实际开发中，以正常，加粗两种取值使用最多</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>&#123;</span><br><span class="line">	<span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="font-style">5.5. font-style</h2><ul>
+<li><p>用于设置文字的常规、斜体显示</p>
+<ul>
+<li>normal：常规显示</li>
+<li>italic(斜体)：用字体的斜体显示(通常会有专门的字体)</li>
+<li>oblique(倾斜)：文本倾斜显示(仅仅是让文字倾斜)</li>
+</ul>
+</li>
+<li><p>em、i、cite、address、var、dfn等元素的font-style默认就是italic</p>
+</li>
+</ul>
+<h2 id="font-variant">5.6. font-variant</h2><ul>
+<li><p>可以影响小写字母的显示形式</p>
+<ul>
+<li>variant是变形的意思</li>
+</ul>
+</li>
+<li><p>可以设置的值如下</p>
+<ul>
+<li>normal：常规显示</li>
+<li>small-caps：将小写字母替换为缩小过的大写字母</li>
+</ul>
+</li>
+</ul>
+<h2 id="line-height">5.7. line-height</h2><ul>
+<li><p>作用</p>
+<ul>
+<li>控制行间距</li>
+<li>给一行上下增加间距</li>
+<li>设置文本的行高</li>
+</ul>
+</li>
+<li><p>取值</p>
+<ul>
+<li>数字+px</li>
+<li>倍数（font-size的倍数）</li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>让单行文本垂直居中可以设置line-height：文字父元素高度</li>
+<li>网页精准布局时，会设置line-height: 1，可以取消上下间距</li>
+</ul>
+</li>
+<li><p>行高可以先简单理解为一行文字所占据的高度</p>
+</li>
+<li><p>行高的严格定义是两行文字基线(baseline)之间的间距</p>
+</li>
+<li><p>基线(baseline)：最底部对齐的线</p>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/lineheight.png"></p>
+</li>
+<li><p>注意区分height和line-height的区别</p>
+<ul>
+<li>height：元素的整体高度</li>
+<li>line-height：元素中每一行文字所占据的高度</li>
+</ul>
+</li>
+</ul>
+<h2 id="font-连写-swsf">5.8. font-连写 swsf</h2><ul>
+<li><p>font是一个缩写属性</p>
+<ul>
+<li>font 属性可以用来作为 font-style, font-variant, font-weight, font-size, line-height 和 font-family 属性的简写</li>
+<li>font-style font-variant font-weight font-size&#x2F;line-height font-family</li>
+</ul>
+</li>
+<li><p>规则</p>
+<ul>
+<li>font-style、font-variant、font-weight可以随意调换顺序，也可以省略</li>
+<li>&#x2F;line-height可以省略，如果不省略，必须跟在font-size后面</li>
+<li>font-size、font-family不可以调换顺序，不可以省略</li>
+</ul>
+</li>
+<li><p>省略要求：只能省略前几个，如果省略了相当于设置了默认值</p>
+</li>
+<li><p>注意点：</p>
+<ul>
+<li>要么把单独的样式写在连写的下面</li>
+<li>要么把单独的样式写在连写的里面</li>
+</ul>
+</li>
+<li><p>MDN形式语法</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/font">https://developer.mozilla.org/zh-CN/docs/Web/CSS/font</a></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">font</span> = </span><br><span class="line">  <span class="selector-attr">[ [ &lt;<span class="string">&#x27;font-style&#x27;</span>&gt; || &lt;font-variant-css2&gt; || &lt;<span class="string">&#x27;font-weight&#x27;</span>&gt; || &lt;font-stretch-css3&gt; ]</span>? &lt;&#x27;<span class="attribute">font-size</span>&#x27;&gt; <span class="selector-attr">[ / &lt;<span class="string">&#x27;line-height&#x27;</span>&gt; ]</span>? &lt;&#x27;<span class="attribute">font-family</span>&#x27;&gt; ]  |</span><br><span class="line">  <span class="selector-tag">caption</span>                                             |</span><br><span class="line">  <span class="attribute">icon</span>                                                |</span><br><span class="line">  <span class="selector-tag">menu</span>                                                |</span><br><span class="line">  message-box                                         |</span><br><span class="line">  small-<span class="selector-tag">caption</span>                                       |</span><br><span class="line">  status-bar</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="背景属性">6. 背景属性</h1><h2 id="background-color">6.1. background-color</h2><ul>
+<li><p>背景颜色</p>
+</li>
+<li><p>属性值：关键字，rgb表示法，rgba表示法，#十六进制</p>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>背景颜色默认值是透明的：rgba(0,0,0,0)，transparent</li>
+<li>背景颜色不会影响盒子大小，并且还能看清盒子的大小和位置，一般在布局中会习惯先给盒子设置背景颜色</li>
+</ul>
+</li>
+</ul>
+<h2 id="linear-gradient">6.2. linear-gradient</h2><ul>
+<li><p>背景线性渐变 </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(起始方向,颜色<span class="number">1</span>,颜色<span class="number">2</span>,...);</span><br><span class="line"></span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">-webkit-linear-gradient</span>(left,red,blue);</span><br><span class="line"></span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">-webkit-linear-gradient</span>(left top,red,blue);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>背景渐变必须添加浏览器私有前缀</p>
+</li>
+<li><p>起始方向可以是方位名词，或者度数，如果省略默认就是top</p>
+</li>
+</ul>
+<h2 id="background-image">6.3. background-image</h2><ul>
+<li><p>background-image用于设置元素的背景图片</p>
+</li>
+<li><p>会盖在(不是覆盖)background-color的上面</p>
+</li>
+<li><p>属性值：background-image: url(‘图片路径’);</p>
+</li>
+<li><p>如果设置了多张图片</p>
+<ul>
+<li>设置的第一张图片将显示在最上面，其他图片按顺序层叠在下面</li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>背景图片中url可以省略引导</li>
+<li>背景图片默认在水平和垂直方向平铺</li>
+<li>背景图片仅仅是指给盒子起到装饰效果，类似于背景颜色，是不能撑开盒子的</li>
+</ul>
+</li>
+</ul>
+<h2 id="background-repeat">6.4. background-repeat</h2><ul>
+<li>background-repeat用于设置背景图片是否要平铺</li>
+<li>常见的取值有</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>repeat</td>
+<td>默认值-水平和垂直方向都平铺</td>
+</tr>
+<tr>
+<td>no-repeat</td>
+<td>不平铺</td>
+</tr>
+<tr>
+<td>repeat-x</td>
+<td>沿着水平方向平铺</td>
+</tr>
+<tr>
+<td>repeat-y</td>
+<td>沿着垂直方向平铺</td>
+</tr>
+</tbody></table>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/repeat.png"></p>
+<h2 id="background-size">6.5. background-size</h2><ul>
+<li>background-size用于设置背景图片的大小</li>
+<li>取值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto</td>
+<td>默认值，以背景图本身大小显示</td>
+</tr>
+<tr>
+<td>数字+px</td>
+<td>简单方便，常用</td>
+</tr>
+<tr>
+<td>百分比</td>
+<td>相对于当前盒子自身的宽高百分比</td>
+</tr>
+<tr>
+<td>contain</td>
+<td>包含，将背景图片<code>等比例缩放</code>，直到<code>不会超出盒子的最大</code></td>
+</tr>
+<tr>
+<td>cover</td>
+<td>覆盖，将背景图片<code>等比例缩放</code>，直到<code>刚好填满整个盒子</code>没有空白</td>
+</tr>
+</tbody></table>
+<h2 id="background-position">6.6. background-position</h2><ul>
+<li><p>background-position用于设置背景图片在水平、垂直方向上的具体位置</p>
+</li>
+<li><p>属性值 - background-position: 水平方向位置 垂直方向位置;</p>
+<ol>
+<li><p>方位名词</p>
+<ul>
+<li><p>水平方向</p>
+<p>left，center，right</p>
+</li>
+<li><p>垂直方向</p>
+<p>top，center，bottom</p>
+</li>
+<li><p>如果只设置了1个方向，另一个方向默认是center</p>
+</li>
+</ul>
+</li>
+<li><p>数字+px（坐标）</p>
+<ul>
+<li><p>坐标系</p>
+<p>原点(0,0) - 盒子的左上角</p>
+<p>x轴 - 水平向右</p>
+<p>y轴 - 垂直向下</p>
+</li>
+<li><p>操作</p>
+<p>将图片左上角与坐标点重合即可</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>方位名词取值和坐标取值可以混使用，第一个取值表示水平，第二个取值表示垂直</li>
+</ul>
+</li>
+</ul>
+<p><img src="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/position.png"></p>
+<h2 id="background-attachment">6.7. background-attachment</h2><ul>
+<li>background-attachment 决定背景图像的位置是在视口内固定，或者随着包含它的区块滚动</li>
+<li>可以设置以下3个值<ul>
+<li>scroll<ul>
+<li>此关键属性值表示背景相对于元素本身固定， 而不是随着它的内容滚动</li>
+</ul>
+</li>
+<li>local<ul>
+<li>此关键属性值表示背景相对于元素的内容固定</li>
+<li>如果一个元素拥有滚动机制，背景将会随着元素的内容滚动</li>
+</ul>
+</li>
+<li>fixed<ul>
+<li>此关键属性值表示背景相对于视口固定</li>
+<li>即使一个元素拥有滚动机制，背景也不会随着元素的内容滚动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="background-连写-CIRPSA">6.8. background-连写 CIRPSA</h2><ul>
+<li><p>background是一系列背景相关属性的简写属性</p>
+</li>
+<li><p>语法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background</span> = <span class="selector-attr">[ &lt;bg-layer&gt;# , ]</span>? &lt;final-bg-layer&gt;  </span><br><span class="line"></span><br><span class="line">&lt;bg-layer&gt; = &lt;bg-image&gt;||&lt;bg-<span class="attribute">position</span>&gt;<span class="selector-attr">[/&lt;bg-size&gt;]</span>?||&lt;repeat-style&gt;||&lt;attachment&gt;||&lt;box&gt;||&lt;box&gt;  </span><br><span class="line"></span><br><span class="line">&lt;final-bg-layer&gt; = &lt;&#x27;<span class="attribute">background-color</span>&#x27;&gt;||&lt;bg-image&gt;||&lt;bg-<span class="attribute">position</span>&gt;<span class="selector-attr">[/&lt;bg-size&gt;]</span>?||&lt;repeat-style&gt;||&lt;attachment&gt;||&lt;box&gt;||&lt;box&gt; </span><br><span class="line"></span><br><span class="line">&lt;box&gt; = <span class="attribute">border</span>-box | <span class="attribute">padding</span>-box | <span class="attribute">content</span>-box  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>顺序</p>
+<ul>
+<li><code>background: color image repeat position/size attachment;</code></li>
+</ul>
+</li>
+<li><p>省略问题</p>
+<ul>
+<li>可以按照需求省略</li>
+<li>在pc端，如果盒子大小和背景图片大小一样，此时可以直接写成 <code>background: url()</code></li>
+</ul>
+</li>
+<li><p>注意点</p>
+<ul>
+<li>background-size可以省略，如果不省略，&#x2F;background-size必须紧跟在background-position的后面</li>
+<li>其他属性也都可以省略，而且顺序任意</li>
+<li>如果需要设置单独的样式和连写，要么把单独的样式写在连写的下面，要么把单独的样式写在连写的里面</li>
+</ul>
+</li>
+</ul>
+<h2 id="img标签和background-image区别">6.9. img标签和background-image区别</h2><ul>
+<li><p>在网页中展示展示一张图片</p>
+<ol>
+<li><p>直接写上img标签</p>
+<ul>
+<li>img标签不设置宽高默认以原尺寸显示</li>
+</ul>
+</li>
+<li><p>div+背景图片</p>
+<ul>
+<li>需要设置div宽高，因为背景图片只是装饰的css样式</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>利用background-image和img都能够实现显示图片的需求，在开发中该如何选择？</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">img</th>
+<th align="center">background-image</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">性质</td>
+<td align="center">HTML元素</td>
+<td align="center">CSS样式</td>
+</tr>
+<tr>
+<td align="center">图片是否占用空间</td>
+<td align="center">✅</td>
+<td align="center">❌</td>
+</tr>
+<tr>
+<td align="center">浏览器右键直接查看地址</td>
+<td align="center">✅</td>
+<td align="center">❌</td>
+</tr>
+<tr>
+<td align="center">支持 CSS Sprite</td>
+<td align="center">❌</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td align="center">更有可能被搜索引擎收录</td>
+<td align="center">✅(结合alt属性)</td>
+<td align="center">❌</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>总结</p>
+<ul>
+<li>img，作为网页内容的重要组成部分，比如广告图片、LOGO图片、文章配图、产品图片</li>
+<li>background-image，可有可无。有，能让网页更加美观。无，也不影响用户获取完整的网页内容信息</li>
+</ul>
+</li>
+</ul>
+<h2 id="精灵图-Sprite">6.10. 精灵图 Sprite</h2><ul>
+<li><p>什么是CSS Sprite</p>
+<ul>
+<li>是一种CSS图像合成技术</li>
+<li>将各种小图片合并到一张图片上，然后利用CSS的背景定位来显示对应的图片部分</li>
+<li>也称为CSS雪碧、CSS精灵</li>
+</ul>
+</li>
+<li><p>使用CSS Sprite的好处</p>
+<ul>
+<li>减少网页的http请求数量，加快网页响应速度，减轻服务器压力</li>
+<li>减小图片总大小</li>
+<li>解决了图片命名的困扰，只需要针对一张集合的图片命名</li>
+</ul>
+</li>
+<li><p>Sprite图片制作(雪碧图、精灵图)</p>
+<ul>
+<li>方法1：Photoshop, 设计人员提供</li>
+<li>方法2：<a target="_blank" rel="noopener" href="https://www.toptal.com/developers/css/sprite-generator">https://www.toptal.com/developers/css/sprite-generator</a></li>
+</ul>
+</li>
+<li><p>精灵图如何使用?</p>
+<ul>
+<li>精灵图的原理是通过只显示图片的很小一部分来展示的</li>
+<li>通常使用背景<ol>
+<li>设置对应元素的宽度和高度</li>
+<li>设置精灵图作为背景图片</li>
+<li>调整背景图片的位置来展示</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>如何获取精灵图的位置</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.spritecow.com/">http://www.spritecow.com/</a></li>
+</ul>
+</li>
+<li><p>使用步骤</p>
+<ol>
+<li>创建一个盒子</li>
+<li>将小图片的宽高设置给盒子</li>
+<li>将精灵如设置为盒子的背景图片</li>
+<li>分别取<code>负值</code>设置给盒子的<code>background-position: x y</code></li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.sprite</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">26px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">13px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">&#x27;./images/taobao.png&#x27;</span>) <span class="number">0</span> -<span class="number">264px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="display">7. display</h1><ul>
+<li><p>CSS中有个display属性，能修改元素的显示类型，有4个常用值</p>
+<ul>
+<li>block：让元素显示为块级元素</li>
+<li>inline：让元素显示为行内级元素</li>
+<li>inline-block：让元素同时具备行内级、块级元素的特征</li>
+<li>none：隐藏元素</li>
+</ul>
+</li>
+<li><p>事实上display还有其他的值, 比如 <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-Flex%E5%B8%83%E5%B1%80">flex</a>，用于响应式布局</p>
+</li>
+</ul>
+<h2 id="block">7.1. block</h2><ul>
+<li><p>显示特点</p>
+<ul>
+<li>独占父元素的一行</li>
+<li>可以随意设置宽高</li>
+<li>高度默认由内容决定</li>
+</ul>
+</li>
+<li><p>代表标签</p>
+<ul>
+<li><code>div，p，h系列，ul，li，dl，dt，dd，form，header，aside，nav，footer，...</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="inline">7.2. inline</h2><ul>
+<li><p>显示特点</p>
+<ul>
+<li>跟其他行内级元素在同一行显示</li>
+<li>不可以随意设置宽高</li>
+<li>宽高都由内容决定</li>
+</ul>
+</li>
+<li><p>代表标签</p>
+<ul>
+<li><code>a，span，b，u，i，s，strong，ins，em，del...</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="行内非替换元素">7.2.1. 行内非替换元素</h3><ul>
+<li>和其他的行内级元素在同一行显示</li>
+<li>不可以设置宽度和高度</li>
+<li>代表标签<ul>
+<li>a，span，strong，i，…</li>
+</ul>
+</li>
+</ul>
+<h3 id="行内非替换元素的注意事项">7.2.2. 行内非替换元素的注意事项</h3><ul>
+<li><p>以下属性对行内级非替换元素不起作用</p>
+<ul>
+<li>width、height、margin-top、margin-bottom</li>
+</ul>
+</li>
+<li><p>以下属性对行内级非替换元素的效果比较特殊</p>
+<ul>
+<li>padding-top、padding-bottom、上下方向的border</li>
+</ul>
+</li>
+</ul>
+<h3 id="行内替换元素">7.2.3. 行内替换元素</h3><ul>
+<li>和其他的行内级元素在同一行显示</li>
+<li>可以设置宽度和高度</li>
+<li>代表标签<ul>
+<li>img，input</li>
+</ul>
+</li>
+</ul>
+<h2 id="inline-block">7.3. inline-block</h2><ul>
+<li><p>显示特点</p>
+<ul>
+<li>跟其他行内级元素在同一行显示</li>
+<li>可以随意设置宽高</li>
+<li>可以这样理解<ul>
+<li>对外来说，它是一个行内级元素</li>
+<li>对内来说，它是一个块级元素</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代表标签</p>
+<ul>
+<li><code>input，textarea，button，select...</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="none">7.4. none</h2><ul>
+<li>元素不显示出来, 并且也不占据位置, 不占据任何空间(和不存在一样)</li>
+</ul>
+<h1 id="overflow">8. overflow</h1><ul>
+<li>overflow用于控制内容溢出时的行为<ul>
+<li>visible：溢出的内容照样可见</li>
+<li>hidden：溢出的内容直接裁剪</li>
+<li>scroll：溢出的内容被裁剪，但可以通过滚动机制查看<ul>
+<li>会一直显示滚动条区域，滚动条区域占用的空间属于width、height</li>
+</ul>
+</li>
+<li>auto：自动根据内容是否溢出来决定是否提供滚动机制</li>
+</ul>
+</li>
+</ul>
+<h1 id="cusor">9. cusor</h1><ul>
+<li><p>cursor可以设置鼠标指针(光标)在元素上面时的显示样式</p>
+</li>
+<li><p>cursor常见的设值</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto</td>
+<td>浏览器根据上下文决定指针的显示样式，比如根据文本和非文本切换指针样式</td>
+</tr>
+<tr>
+<td>default</td>
+<td>由操作系统决定，一般就是一个小箭头</td>
+</tr>
+<tr>
+<td>pointer</td>
+<td>一只小手，鼠标指针挪动到链接上面默认就是这个样式</td>
+</tr>
+<tr>
+<td>text</td>
+<td>一条竖线，鼠标指针挪动到文本输入框上面默认就是这个样式</td>
+</tr>
+<tr>
+<td>none</td>
+<td>没有任何指针显示在元素上面</td>
+</tr>
+<tr>
+<td>move</td>
+<td>十字光标，提示用户可以移动</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>      <div>
+    
+        <div style="margin-top:30px;padding-top:20px;border-top: 1px dashed #b3a9a7;text-align:center;color: #ccc;font-size:20px;">本文结束&nbsp;<i class="fa fa-paw"></i>&nbsp;感谢您的阅读</div>
+    
+</div>  </div>
+        
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Wang Ting
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <!-- <a href="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/" title="前端-CSS学习笔记02-CSS属性">https://wtlumos.github.io/zh-CN/2019/01/25/前端-CSS学习笔记02-CSS属性/</a> -->
+    
+       <a href ="/zh-CN/2019/01/25/前端-CSS学习笔记02-CSS属性/" >/zh-CN/2019/01/25/前端-CSS学习笔记02-CSS属性/</a>
+  </li>
+       <li>
+          <strong>发布时间：</strong>
+          2019-01-25 22:14
+      </li>
+      <li>
+          <strong>更新时间：</strong>
+          2025-05-18 16:01
+
+      </li>
+  
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CSS/" rel="tag"><i class="fa fa-tag"></i> CSS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/26/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013-%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E5%AE%9E%E6%88%98/" rel="prev" title="前端-CSS学习笔记13-网易云音乐实战">
+      <i class="fa fa-chevron-left"></i> 前端-CSS学习笔记13-网易云音乐实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" rel="next" title="前端-CSS学习笔记06-CSS盒子模型">
+      前端-CSS学习笔记06-CSS盒子模型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E5%B1%9E%E6%80%A7%E6%96%87%E6%A1%A3"><span class="nav-text">1. CSS属性文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81CSS%E5%B1%9E%E6%80%A7"><span class="nav-text">2. 常见CSS属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#width"><span class="nav-text">2.1. width</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#height"><span class="nav-text">2.2. height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#color"><span class="nav-text">2.3. color</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E9%A2%9C%E8%89%B2%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3. CSS颜色的表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">3.1. 颜色关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3.2. RGB的表示方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E5%B1%9E%E6%80%A7"><span class="nav-text">4. 文字属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-decoration"><span class="nav-text">4.1. text-decoration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-transform"><span class="nav-text">4.2. text-transform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-indent"><span class="nav-text">4.3. text-indent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-align"><span class="nav-text">4.4. text-align</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.1. 图像居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.2. div居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#justify%E5%80%BC"><span class="nav-text">4.4.3. justify值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-shadow"><span class="nav-text">4.5. text-shadow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#letter-spacing"><span class="nav-text">4.6. letter-spacing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-spacing"><span class="nav-text">4.7. word-spacing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%B1%9E%E6%80%A7"><span class="nav-text">5. 字体属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-size"><span class="nav-text">5.1. font-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-family"><span class="nav-text">5.2. font-family</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-fonts-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-text">5.3. Web fonts - 自定义字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86Web%E5%AD%97%E4%BD%93"><span class="nav-text">5.3.1. 认识Web字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-fonts%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">5.3.2. Web fonts的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Web-Fonts"><span class="nav-text">5.3.3. 使用Web Fonts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-text">5.3.4. web-fonts的兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95"><span class="nav-text">5.3.5. web fonts兼容性写法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-weight"><span class="nav-text">5.4. font-weight</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-style"><span class="nav-text">5.5. font-style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-variant"><span class="nav-text">5.6. font-variant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-height"><span class="nav-text">5.7. line-height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-%E8%BF%9E%E5%86%99-swsf"><span class="nav-text">5.8. font-连写 swsf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%B1%9E%E6%80%A7"><span class="nav-text">6. 背景属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color"><span class="nav-text">6.1. background-color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linear-gradient"><span class="nav-text">6.2. linear-gradient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-image"><span class="nav-text">6.3. background-image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-repeat"><span class="nav-text">6.4. background-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-size"><span class="nav-text">6.5. background-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-position"><span class="nav-text">6.6. background-position</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-attachment"><span class="nav-text">6.7. background-attachment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-%E8%BF%9E%E5%86%99-CIRPSA"><span class="nav-text">6.8. background-连写 CIRPSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E6%A0%87%E7%AD%BE%E5%92%8Cbackground-image%E5%8C%BA%E5%88%AB"><span class="nav-text">6.9. img标签和background-image区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E7%81%B5%E5%9B%BE-Sprite"><span class="nav-text">6.10. 精灵图 Sprite</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#display"><span class="nav-text">7. display</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block"><span class="nav-text">7.1. block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline"><span class="nav-text">7.2. inline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.1. 行内非替换元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">7.2.2. 行内非替换元素的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.3. 行内替换元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline-block"><span class="nav-text">7.3. inline-block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#none"><span class="nav-text">7.4. none</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overflow"><span class="nav-text">8. overflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cusor"><span class="nav-text">9. cusor</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Wang Ting"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Wang Ting</p>
+  <div class="site-description" itemprop="description">技术成长笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WTlumos" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WTlumos" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7807823198" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7807823198" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-glasses fa-fw"></i>
+      最近阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/video/av77638697/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av77638697&#x2F;" rel="noopener" target="_blank">浙江大学-研究生机器学习课程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ting</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span>网站总字数: </span>
+    <span title="站点总字数">3.4m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+        <span>阅读总时长: </span>
+    <span title="站点阅读时长">51:11</span>
+</div>
+
+<span id="sitetime"></span>
+
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2018,07,01,00,00,00); //北京时间2018-07-01 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+
+    if(window.location.pathname=='/en/'){
+           document.getElementById("sitetime").innerHTML=" Run for "+ diffYears+" Year "+ diffDays+" Days "+diffHours+" Hours "+diffMinutes+" Minute "+diffSeconds+" Second";
+    }else{
+          document.getElementById("sitetime").innerHTML=" 已运行 "+ diffYears+" 年 "+ diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+    }
+
+  }
+  siteTime();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'fb5f16fdf7649a9e5208',
+      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
+      repo        : 'wtlumos.github.io',
+      owner       : 'WTlumos',
+      admin       : ['WTlumos'],
+      id          : '5b6d3358cdfdf830b1faa48d86ebab86',
+        language: '',
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
+</html>

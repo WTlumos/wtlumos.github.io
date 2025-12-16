@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-npm/package-lock.png">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-npm/cache.png">
 <meta property="article:published_time" content="2020-06-01T12:30:28.000Z">
-<meta property="article:modified_time" content="2023-04-15T08:19:45.890Z">
+<meta property="article:modified_time" content="2023-05-30T17:12:16.498Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="js">
 <meta property="article:tag" content="nodejs">
@@ -265,7 +265,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-15 16:19:45" itemprop="dateModified" datetime="2023-04-15T16:19:45+08:00">2023-04-15</time>
+                <time title="修改时间：2023-05-31 01:12:16" itemprop="dateModified" datetime="2023-05-31T01:12:16+08:00">2023-05-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,14 +283,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7k</span>
+              <span>9.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -307,103 +307,119 @@
 <span id="more"></span>
 
 <h1 id="共享代码">1. 共享代码</h1><ul>
-<li><p>在JavaScript中可以通过模块化的方式将代码划分成一个个小的结构:</p>
+<li><p>在JavaScript中可以通过模块化的方式将代码划分成一个个小的结构</p>
 <ul>
-<li>可以通过模块化的方式来封装代码，并且封装成一个工具;</li>
-<li>这个工具可以通过导入的方式来使用，甚至可以分享给世界各地的程序员来使用;</li>
+<li>可以通过模块化的方式来封装代码，并且封装成一个工具</li>
+<li>这个工具可以通过导入的方式来使用，甚至可以分享给世界各地的程序员来使用</li>
 </ul>
 </li>
 <li><p><strong>如果分享给世界上所有的程序员使用，有哪些方式呢?</strong></p>
 </li>
 </ul>
 <ol>
-<li>方式一：<ul>
-<li>上传到GitHub上、其他程序员通过GitHub下载代码，手动引用; </li>
-<li>缺点是必须知道代码GitHub的地址，并且从GitHub上手动下载; </li>
-<li>需要在项目中手动的引用，并且管理相关的依赖;</li>
-<li>不需要使用的时候，需要手动来删除相关的依赖;</li>
-<li>当遇到版本升级或者切换时，需要重复上面的操作;</li>
-<li>显然，上面的方式是有效的，但是这种传统的方式非常麻烦，并且容易出错;</li>
+<li>方式一<ul>
+<li>上传到GitHub上、其他程序员通过GitHub下载代码，手动引用</li>
+<li>缺点是必须知道代码GitHub的地址，并且从GitHub上手动下载 </li>
+<li>需要在项目中手动的引用，并且管理相关的依赖</li>
+<li>不需要使用的时候，需要手动来删除相关的依赖</li>
+<li>当遇到版本升级或者切换时，需要重复上面的操作</li>
+<li>显然，上面的方式是有效的，但是这种传统的方式非常麻烦，并且容易出错</li>
 </ul>
 </li>
-<li>方式二:<ul>
-<li>使用一个专业的工具来管理我们的代码</li>
-<li>通过工具将代码发布到特定的位置;</li>
-<li>其他程序员直接通过工具来安装，升级，删除工具代码；</li>
+<li>方式二<ul>
+<li>使用一个专业的工具来管理代码</li>
+<li>通过工具将代码发布到特定的位置</li>
+<li>其他程序员直接通过工具来安装，升级，删除工具代码</li>
 </ul>
 </li>
 </ol>
 <h1 id="包管理工具npm">2. 包管理工具npm</h1><ul>
 <li>显然，通过第二种方式可以更好的管理自己的工具包，其他人也可以更好的使用该工具包</li>
-<li>包管理工具npm:<ul>
-<li><code>Node Package Manager</code>，也就是Node包管理器;</li>
-<li>但是目前已经不仅仅是Node包管理器了，在前端项目中也在使用它来管理依赖的包; </li>
-<li>比如express、koa、react、react-dom、axios、babel、webpack等等;</li>
+<li>包管理工具npm<ul>
+<li><code>Node Package Manager</code>，也就是Node包管理器</li>
+<li>但是目前已经不仅仅是Node包管理器了，在前端项目中也在使用它来管理依赖的包</li>
+<li>比如vue、vue-router、vuex、express、koa、react、react-dom、axios、babel、webpack等等</li>
 </ul>
 </li>
+<li>如何下载npm工具呢?</li>
 <li>npm管理的包可以在哪里查看、搜索呢? <ul>
 <li><a target="_blank" rel="noopener" href="https://www.npmjs.com/">https://www.npmjs.com/</a></li>
-<li>这是安装相关的npm包的官网;</li>
+<li>这是安装相关的npm包的官网</li>
 </ul>
 </li>
 <li>npm管理的包存放在哪里呢?<ul>
-<li>发布的包其实是发布到registry上面的;</li>
-<li>安装一个包时其实是从registry上面下载的包;</li>
+<li>发布的包其实是发布到registry上面的</li>
+<li>安装一个包时其实是从registry上面下载的包</li>
 </ul>
 </li>
 </ul>
 <h1 id="项目配置文件-package-json">3. 项目配置文件 package.json</h1><ul>
-<li>事实上，每一个项目都会有一个对应的配置文件，无论是前端项目还是后端项目: <ul>
-<li>这个配置文件会记录着项目的名称、版本号、项目描述等;</li>
-<li>也会记录着项目所依赖的其他库的信息和依赖库的版本号;</li>
+<li>事实上，每一个项目都会有一个对应的<code>配置文件</code>，无论是前端项目还是后端项目:<ul>
+<li>这个配置文件<code>会记录着项目的名称、版本号、项目描述等</code></li>
+<li>也会记录着项目所依赖的其他库的信息和依赖库的版本号</li>
 </ul>
 </li>
-<li>这个配置文件在Node环境下面(无论是前端还是后端)就是package.json</li>
-</ul>
-<h2 id="创建package-json">3.1. 创建package.json</h2><ul>
-<li><p><code>npm init</code> #创建时填写信息</p>
+<li>这个配置文件在Node环境下(无论是前端还是后端)就是package.json</li>
+<li>那么这个配置文件如何得到呢?<ol>
+<li>方式一：手动从零创建项目，npm init –y</li>
+<li>方式二：通过脚手架创建项目，脚手架生成package.json，并且里面有相关的配置</li>
+</ol>
 </li>
-<li><p><code>npm init -y</code> # 所有信息使用默认的</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;keywords&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;license&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ISC&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="常见的配置文件">3.1. 常见的配置文件</h2><ul>
+<li><p>手动创建</p>
+<ul>
+<li><p><code>npm init</code> 创建时填写信息</p>
+</li>
+<li><p><code>npm init -y</code> 所有信息使用默认的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;npm&quot;</span>,</span><br><span class="line">  <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="string">&quot;description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;main&quot;</span>: <span class="string">&quot;index.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;keywords&quot;</span>: [],</span><br><span class="line">  <span class="string">&quot;author&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;license&quot;</span>: <span class="string">&quot;ISC&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>脚手架创建</p>
+<ul>
+<li><p>vue-cli 创建Vue3项目</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;npm&quot;</span>,</span><br><span class="line">  <span class="string">&quot;version&quot;</span>: <span class="string">&quot;0.1.0&quot;</span>,</span><br><span class="line">  <span class="string">&quot;private&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;serve&quot;</span>: <span class="string">&quot;vue-cli-service serve&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build&quot;</span>: <span class="string">&quot;vue-cli-service build&quot;</span>,</span><br><span class="line">    <span class="string">&quot;lint&quot;</span>: <span class="string">&quot;vue-cli-service lint&quot;</span>,</span><br><span class="line">    <span class="string">&quot;prettier&quot;</span>: <span class="string">&quot;prettier --write .&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;animate.css&quot;</span>: <span class="string">&quot;^4.1.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;core-js&quot;</span>: <span class="string">&quot;^3.8.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;normalize.css&quot;</span>: <span class="string">&quot;^8.0.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;vue&quot;</span>: <span class="string">&quot;^3.2.13&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;@babel/core&quot;</span>: <span class="string">&quot;^7.12.16&quot;</span>,</span><br><span class="line">    <span class="string">&quot;@babel/eslint-parser&quot;</span>: <span class="string">&quot;^7.12.16&quot;</span>,</span><br><span class="line">    <span class="string">&quot;@vue/cli-plugin-babel&quot;</span>: <span class="string">&quot;~5.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;@vue/cli-plugin-eslint&quot;</span>: <span class="string">&quot;~5.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;@vue/cli-service&quot;</span>: <span class="string">&quot;~5.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;commitizen&quot;</span>: <span class="string">&quot;^4.3.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cz-conventional-changelog&quot;</span>: <span class="string">&quot;^3.3.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;eslint&quot;</span>: <span class="string">&quot;^7.32.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;eslint-config-prettier&quot;</span>: <span class="string">&quot;^8.6.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;eslint-plugin-prettier&quot;</span>: <span class="string">&quot;^4.2.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;eslint-plugin-vue&quot;</span>: <span class="string">&quot;^8.0.3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;less-loader&quot;</span>: <span class="string">&quot;^11.1.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;prettier&quot;</span>: <span class="string">&quot;^2.8.3&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;config&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;commitizen&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;path&quot;</span>: <span class="string">&quot;./node_modules/cz-conventional-changelog&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
 </ul>
 <h2 id="常见的属性">3.2. 常见的属性</h2><h3 id="name，version">3.2.1. name，version</h3><p>必须填写的属性：name，version</p>
 <ul>
-<li><p>name是项目的名称;</p>
+<li><p>name是项目的名称</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm&quot;</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>version是当前项目的版本号;</p>
+<li><p>version是当前项目的版本号</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>description是描述信息，很多时候是作为项目的基本描述; </p>
+<li><p>description是描述信息，很多时候是作为项目的基本描述</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>author是作者相关信息(发布时用到);</p>
+<li><p>author是作者相关信息(发布时用到)</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>license是开源协议(发布时用到);</p>
+<li><p>license是开源协议(发布时用到)</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;license&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ISC&quot;</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="private">3.2.2. private</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;private&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br></pre></td></tr></table></figure>
 
-<p>private属性记录当前的项目是否是私有的;</p>
-<p>当值为true时，npm是不能发布它的，这是防止私有项目或模块发布出去的方式；</p>
+<p>private属性记录当前的项目是否是私有的</p>
+<p>当值为true时，npm是不能发布它的，这是防止私有项目或模块发布出去的方式</p>
 <p>但其他使用者依旧可以下载该模块，修改该配置后发布</p>
 <h3 id="main">3.2.3. main</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>设置程序的入口</li>
 <li>很多人会有疑惑，webpack不是会自动找到程序的入口吗?<ul>
-<li>这个入口和webpack打包的入口并不冲突;</li>
-<li>它是在发布一个模块的时候会用到的; </li>
-<li>比如使用axios模块 const axios &#x3D; require(‘axios’); </li>
-<li>实际上是找到对应的main属性查找文件的;</li>
+<li>这个入口和webpack打包的入口并不冲突</li>
+<li>它是在发布一个模块的时候会用到的</li>
+<li>比如使用axios模块 const axios &#x3D; require(‘axios’)</li>
+<li>实际上是找到对应的main属性查找文件的</li>
 </ul>
 </li>
 </ul>
 <h3 id="scripts">3.2.4. scripts</h3><ul>
-<li><p>scripts属性用于配置一些脚本命令，以键值对的形式存在; </p>
+<li><p>scripts属性用于配置一些脚本命令，以键值对的形式存在</p>
 </li>
-<li><p>配置后可以通过 npm run 命令的key来执行这个命令; </p>
+<li><p>配置后可以通过 npm run 命令的key来执行这个命令</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node index.js&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>运行命令</p>
@@ -413,28 +429,38 @@
 </li>
 <li><p>npm start 和 npm run start的区别是什么?</p>
 <ul>
-<li>它们是等价的;</li>
-<li>对于常用的 start、 test、stop、restart可以省略掉run直接通过 npm start等方式运行;</li>
+<li>它们是等价的</li>
+<li>对于常用的 <code>start、 test、stop、restart</code> 可以省略掉run直接通过 npm start等方式运行</li>
 </ul>
 </li>
 </ul>
 <h3 id="dependencies">3.2.5. dependencies</h3><ul>
-<li><p>dependencies属性是指定无论开发环境还是生成环境都需要依赖的包; </p>
-</li>
-<li><p>通常是项目实际开发用到的一些库模块;</p>
-</li>
-<li><p>与之对应的是devDependencies;</p>
-</li>
-<li><p>那么在生成环境如何保证不安装这些包呢? </p>
-<p>生成环境不需要安装时，我们需要通过 <code>npm install --production</code> 来安装文件的依赖</p>
-</li>
+<li>dependencies属性是指定无论开发环境还是生成环境都需要依赖的包</li>
+<li>通常是项目实际开发用到的一些库模块</li>
+<li>与之对应的是devDependencies</li>
 </ul>
 <h3 id="devDependencies">3.2.6. devDependencies</h3><ul>
-<li>一些包在生成环境是不需要的，比如webpack、babel等;</li>
-<li>可以通过 <code>npm install webpack --save-dev</code>，将它安装到devDependencies属性中;</li>
-<li>被引入下载时，开发依赖包不会被安装</li>
+<li><p>一些包在生产环境是不需要的，比如webpack、babel等</p>
+</li>
+<li><p>可以通过 <code>npm install webpack --save-dev</code> 或者 <code>npm install webpack -D</code>，将它添加到devDependencies属性中</p>
+</li>
+<li><p>那么在生产环境如何保证不安装这些包呢? </p>
+<p>通过 <code>npm install --production</code> 来安装文件的依赖</p>
+</li>
+<li><p>即使模块被放在了Dependencies中，项目被打包时，会根据代码查看引入的模块，开发依赖包不会被加载</p>
+</li>
 </ul>
-<h3 id="版本管理的问题">3.2.7. 版本管理的问题</h3><p>引入 axios </p>
+<h3 id="peerDependencies">3.2.7. peerDependencies</h3><ul>
+<li><p>还有一种项目依赖关系是对等依赖，也就是依赖的一个包，它必须是以另外一个宿主包为前提的</p>
+</li>
+<li><p>比如element-plus是依赖于vue3的，ant design是依赖于react、react-dom</p>
+<ul>
+<li><p>在element-plus的package.json中，声明该属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;peerDependencies&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;vue&quot;</span>: <span class="string">&quot;^3.2.0&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="版本管理的问题">3.2.8. 版本管理的问题</h3><p>引入 axios </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i axios</span><br></pre></td></tr></table></figure>
 
 <p>在package.json中自动引入了axios包的版本号</p>
@@ -444,118 +470,113 @@
 
 <ul>
 <li>安装的依赖版本出现：^2.0.3或~2.0.3，这是什么意思呢?</li>
-<li>npm的包通常需要遵从semver版本规范:<ul>
-<li>semver:<a target="_blank" rel="noopener" href="https://semver.org/lang/zh-CN/">https://semver.org/lang/zh-CN/</a></li>
-<li>npm semver:<a target="_blank" rel="noopener" href="https://docs.npmjs.com/misc/semver">https://docs.npmjs.com/misc/semver</a></li>
+<li>npm的包通常需要遵从semver版本规范<ul>
+<li>semver：<a target="_blank" rel="noopener" href="https://semver.org/lang/zh-CN/">https://semver.org/lang/zh-CN/</a></li>
+<li>npm semver：<a target="_blank" rel="noopener" href="https://docs.npmjs.com/misc/semver">https://docs.npmjs.com/misc/semver</a></li>
 </ul>
 </li>
-<li>semver版本规范是X.Y.Z:<ul>
-<li>X主版本号(major)：不兼容的 API 修改(可能不兼容之前的版本);</li>
-<li>Y次版本号(minor)：向下兼容的功能性新增(新功能增加，但是兼容之前的版本); </li>
-<li>Z修订号(patch)：向下兼容的问题修正(没有新功能，修复了之前版本的bug);</li>
+<li>semver版本规范是X.Y.Z<ul>
+<li>X主版本号(major)：<code>不兼容</code>的 API 修改(可能不兼容之前的版本)</li>
+<li>Y次版本号(minor)：向下兼容的功能性<code>新增</code>(新功能增加，但是兼容之前的版本)</li>
+<li>Z修订号(patch)：向下兼容的问题<code>修正</code>(没有新功能，修复了之前版本的bug)</li>
 </ul>
 </li>
-<li>我们这里解释一下 ^和~的区别:<ul>
-<li>^x.y.z：表示x是保持不变的，y和z永远安装最新的版本; </li>
-<li>~x.y.z：表示x和y保持不变的，z永远安装最新的版本;</li>
+<li>我们这里解释一下 ^和~的区别<ul>
+<li>^x.y.z：表示x是保持不变的，y和z永远安装最新的版本</li>
+<li>~x.y.z：表示x和y保持不变的，z永远安装最新的版本</li>
 </ul>
 </li>
 </ul>
-<h3 id="engines">3.2.8. engines</h3><ul>
-<li>用于指定Node和NPM的版本号;</li>
-<li>在安装的过程中，会先检查对应的引擎版本，如果不符合就会报错;</li>
-<li>事实上也可以指定所在的操作系统 “os” : [ “darwin”, “linux” ]，只是很少用到;</li>
+<h3 id="engines">3.2.9. engines</h3><ul>
+<li>用于指定Node和NPM的版本号</li>
+<li>在安装的过程中，会先检查对应的引擎版本，如果不符合就会报错</li>
+<li>事实上也可以指定所在的操作系统 “os” : [ “darwin”, “linux” ]，只是很少用到</li>
 </ul>
-<h3 id="browserslist">3.2.9. browserslist</h3><ul>
-<li>用于配置打包后的JavaScript浏览器的兼容情况; </li>
-<li>否则需要手动的添加polyfills来让支持某些语法;</li>
-<li>也就是说它是为webpack等打包工具服务的一个属性;</li>
+<h3 id="browserslist">3.2.10. browserslist</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;browserlist&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  not ie<span class="punctuation">,</span></span><br><span class="line">  last version</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用于配置打包后的JavaScript浏览器的兼容情况</li>
+<li>否则需要手动的添加polyfills来让支持某些语法</li>
+<li>也就是说它是为webpack等打包工具服务的一个属性</li>
 </ul>
 <h1 id="npm-install-命令">4. npm install 命令</h1><ul>
-<li><p>安装npm包分两种情况</p>
-<ul>
-<li>全局安装(global install): npm install yarn -g; </li>
-<li>项目(局部)安装(local install): npm install</li>
+<li>安装npm包分两种情况<ul>
+<li>全局安装(global install)：npm install webpack -g</li>
+<li>项目(局部)安装(local install)：npm install</li>
 </ul>
 </li>
-<li><p>全局安装</p>
-<ul>
-<li><p>全局安装是直接将某个包安装到全局:</p>
-</li>
-<li><p>比如yarn的全局安装:</p>
-<p><code>npm install yarn -g</code></p>
-</li>
 </ul>
+<h2 id="全局安装">4.1. 全局安装</h2><ul>
+<li><p>全局安装是直接将某个包安装到全局，将可执行文件添加到电脑的环境变量中，电脑终端可以直接使用</p>
+</li>
+<li><p>比如webpack的全局安装</p>
+<p><code>npm install webpack -g</code></p>
 </li>
 <li><p>但是很多人对全局安装有一些误会</p>
 <ul>
-<li>通常使用npm全局安装的包都是一些工具包：yarn、webpack等;</li>
-<li>并不是类似于 axios、express、koa等库文件;</li>
-<li>所以全局安装了之后并不能在所有的项目中使用axios等库；</li>
+<li>通常使用npm全局安装的包都是一些<code>工具包</code>：yarn、webpack等</li>
+<li>并不是类似于 axios、express、koa等库文件</li>
+<li>所以全局安装了之后并不能在所有的项目中使用axios等库</li>
 </ul>
 </li>
 </ul>
-<h2 id="项目安装">4.1. 项目安装</h2><ul>
+<h2 id="项目安装">4.2. 项目安装</h2><ul>
 <li><p>项目安装会在当前目录下生产一个 node_modules 文件夹</p>
 </li>
 <li><p>局部安装分为开发时依赖和生产时依赖</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装开发和生产依赖</span></span><br><span class="line">npm install axios </span><br><span class="line">npm i axios</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开发依赖</span></span><br><span class="line">npm install webpack --save-dev </span><br><span class="line">npm install webpack -D</span><br><span class="line">npm i webpack –D</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据package.json中的依赖包</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="npm-install-原理">4.2. npm install 原理</h2><ul>
-<li>执行 npm install它背后帮助我们完成了什么操作?</li>
+<h2 id="npm-install-原理">4.3. npm install 原理</h2><ul>
+<li>执行 npm install它背后完成了什么操作?</li>
 <li>一起生成的package-lock.json文件，它的作用是什么?</li>
 <li>从npm5开始，npm支持缓存策略(来自yarn的压力)，缓存有什么作用呢?</li>
 </ul>
-<p>npm install 的原理图:</p>
+<p>npm install 的原理图</p>
 <p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-npm/package-lock.png"></p>
 <ul>
-<li>npm install会检测是有package-lock.json文件: <ul>
+<li>npm install会检测是有package-lock.json文件<ul>
 <li>没有lock文件<ul>
-<li>分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况; </li>
-<li>从registry仓库中下载压缩包(如果设置了镜像，那么会从镜像服务器下载压缩包);</li>
-<li>获取到压缩包后会对压缩包进行缓存(从npm5开始有的);</li>
+<li>分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况 </li>
+<li>从registry仓库中下载压缩包(如果设置了镜像，那么会从镜像服务器下载压缩包)</li>
+<li>获取到压缩包后会对压缩包进行缓存(从npm5开始有的)</li>
 <li>将压缩包解压到项目的node_modules文件夹中(require的查找顺序会在该包下面查找)</li>
 </ul>
 </li>
 <li>有lock文件<ul>
-<li>检测lock中包的版本是否和package.json中一致(会按照semver版本规范检测);<ul>
-<li>不一致，那么会重新构建依赖关系，直接会走顶层的流程;</li>
-</ul>
-</li>
-<li>一致的情况下，会去优先查找缓存<ul>
-<li>没有找到，会从registry仓库下载，直接走顶层流程;</li>
-</ul>
-</li>
-<li>查找到，会获取缓存中的压缩文件，并且将压缩文件解压到 node_modules文件夹中；</li>
+<li>检测lock中包的版本是否和package.json中一致(会按照semver版本规范检测)</li>
+<li>不一致，那么会重新构建依赖关系，直接会走顶层的流程</li>
+<li>一致的情况下，会去优先查找缓存</li>
+<li>没有找到，会从registry仓库下载，直接走顶层流程</li>
+<li>查找到，会获取缓存中的压缩文件，并且将压缩文件解压到 node_modules文件夹中</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="package-lock-json">5. package-lock.json</h1><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;lockfileVersion&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;requires&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;packages&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;axios&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.27.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;resolved&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://registry.npmmirror.com/axios/-/axios-0.27.2.tgz&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;integrity&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;requires&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;follow-redirects&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.14.9&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;form-data&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.0.0&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="package-lock-json">4.4. package-lock.json</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;lockfileVersion&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;requires&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;packages&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;axios&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.27.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;resolved&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://registry.npmmirror.com/axios/-/axios-0.27.2.tgz&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;integrity&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;requires&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;follow-redirects&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.14.9&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;form-data&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.0.0&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p>name：项目的名称;</p>
+<li><p>name：项目的名称</p>
 </li>
-<li><p>version：项目的版本; </p>
+<li><p>version：项目的版本</p>
 </li>
-<li><p>lockfileVersion：lock文件的版本;</p>
+<li><p>lockfileVersion：lock文件的版本</p>
 </li>
-<li><p>requires：使用requires来跟着模块的依赖关系; </p>
+<li><p>requires：使用requires来跟着模块的依赖关系</p>
 </li>
-<li><p>dependencies:项目的依赖</p>
+<li><p>dependencies：项目的依赖</p>
 <ul>
-<li><p>当前项目依赖axios，但是axios依赖follow-redirects，form-data;</p>
+<li><p>当前项目依赖axios，但是axios依赖follow-redirects，form-data</p>
 </li>
-<li><p>axios中的属性如下：</p>
+<li><p>axios中的属性如下</p>
 <ul>
-<li><p>version表示实际安装的axios的版本;</p>
+<li><p>version表示实际安装的axios的版本</p>
 </li>
-<li><p>resolved用来记录下载的地址，registry仓库中的位置;</p>
+<li><p>resolved用来记录下载的地址，registry仓库中的位置</p>
 </li>
-<li><p>requires记录当前模块的依赖;</p>
+<li><p>requires记录当前模块的依赖</p>
 </li>
-<li><p>integrity用来从缓存中获取索引，再通过索引去获取压缩包文件;</p>
+<li><p>integrity用来从缓存中获取索引，再通过索引去获取压缩包文件</p>
 </li>
 </ul>
 </li>
@@ -563,17 +584,17 @@
 </li>
 </ul>
 <p><code>查看缓存</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm config get cache</span><br><span class="line">/Users/xx/.npm</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm config get cache</span><br><span class="line">/Users/xxx/.npm</span><br></pre></td></tr></table></figure>
 
 <p><img src="/zh-CN/2020/06/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-npm/cache.png"></p>
-<h1 id="npm其他命令">6. npm其他命令</h1><ul>
-<li><p>卸载某个依赖包:</p>
+<h1 id="npm其他命令">5. npm其他命令</h1><ul>
+<li><p>卸载某个依赖包</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall package</span><br><span class="line"></span><br><span class="line">npm uninstall package --save-dev </span><br><span class="line"></span><br><span class="line">npm uninstall package -D</span><br></pre></td></tr></table></figure>
 
 
 </li>
-<li><p>强制重新build</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm build</span><br></pre></td></tr></table></figure>
+<li><p>强制重新build，重新安装依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm rebuild</span><br></pre></td></tr></table></figure>
 
 
 </li>
@@ -582,15 +603,21 @@
 
 
 </li>
+<li><p>全局环境变量安装位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get prefix</span><br></pre></td></tr></table></figure>
+
+
+</li>
 <li><p>更多的命令，可以根据需要查阅官方文档</p>
 <p><a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli-documentation/cli">https://docs.npmjs.com/cli-documentation/cli</a></p>
 </li>
 </ul>
-<h1 id="Yarn工具">7. Yarn工具</h1><ul>
-<li>yarn是由Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具;</li>
-<li>yarn 是为了弥补 npm 的一些缺陷而出现的;</li>
-<li>早期的npm存在很多的缺陷，比如安装依赖速度很慢、版本依赖混乱等等一系列的问题; </li>
-<li>虽然从npm5版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用yarn;</li>
+<h1 id="Yarn工具">6. Yarn工具</h1><ul>
+<li>yarn是由Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具</li>
+<li>yarn 是为了弥补 npm 的一些缺陷而出现的</li>
+<li>早期的npm存在很多的缺陷，比如安装依赖速度很慢<code>、版本依赖混乱</code>等等一系列的问题</li>
+<li>虽然从npm5版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用yarn</li>
+<li>yarn和npm不能混用</li>
 </ul>
 <ol>
 <li><p>安装yarn工具</p>
@@ -651,29 +678,31 @@
 </tbody></table>
 </li>
 </ol>
-<h1 id="cnpm工具">8. cnpm工具</h1><ul>
+<h1 id="cnpm工具-镜像">7. cnpm工具-镜像</h1><ul>
 <li><p>由于一些特殊的原因，没办法很好的从 <a target="_blank" rel="noopener" href="https://registry.npmjs.org下载下来一些需要的包/">https://registry.npmjs.org下载下来一些需要的包</a></p>
 </li>
 <li><p>查看npm镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>我们可以直接设置npm的镜像</p>
+<li><p>直接设置npm的镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>但是对于大多数人来说，并不希望将npm镜像修改了</p>
 <ol>
-<li>不太希望随意修改npm原本从官方下来包的渠道;</li>
-<li>担心某天淘宝的镜像挂了或者不维护了，又要改来改去;</li>
+<li>不太希望随意修改npm原本从官方下来包的渠道</li>
+<li>担心某天淘宝的镜像挂了或者不维护了，又要改来改去</li>
 </ol>
 </li>
-<li><p>这个时候，可以使用cnpm，并且将cnpm设置为淘宝的镜像：</p>
+<li><p>这个时候，可以使用cnpm，并且将cnpm设置为淘宝的镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br><span class="line">$</span><br><span class="line">$ cnpm config get registry</span><br><span class="line">https://registry.npmmirror.com/</span><br><span class="line">$ </span><br><span class="line">$</span><br><span class="line">$  cnpm -v</span><br><span class="line">cnpm@8.2.0 (/usr/local/lib/node_modules/cnpm/lib/parse_argv.js)</span><br><span class="line">npm@8.13.2 (/usr/local/lib/node_modules/cnpm/node_modules/npm/index.js)</span><br><span class="line">node@16.15.0 (/usr/local/bin/node)</span><br><span class="line">npminstall@6.4.0 (/usr/local/lib/node_modules/cnpm/node_modules/npminstall/lib/index.js)</span><br><span class="line">prefix=/usr/local </span><br><span class="line">darwin x64 19.6.0 </span><br><span class="line">registry=https://registry.npmmirror.com</span><br><span class="line">$ </span><br></pre></td></tr></table></figure></li>
 </ul>
-<h1 id="npx工具">9. npx工具</h1><ul>
+<h1 id="npx工具-版本选择">8. npx工具-版本选择</h1><ul>
 <li><p>npx是npm5.2之后自带的一个命令</p>
-<p>npx的作用非常多，但是比较常见的是使用它来调用项目中的某个模块的指令。</p>
+<ul>
+<li>npx的作用非常多，但是比较常见的是使用它来调用项目中的某个模块的指令</li>
+</ul>
 </li>
-<li><p>以webpack为例:</p>
+<li><p>以webpack为例</p>
 <ul>
 <li>全局安装的是webpack5.1.3 </li>
 <li>项目安装的是webpack3.6.0</li>
@@ -683,12 +712,12 @@
 </li>
 <li><p>显示结果会是 webpack 5.1.3，事实上使用的是全局的，为什么呢?</p>
 </li>
-<li><p>原因非常简单，在当前目录下找不到webpack时，就会去全局找，并且执行命令;</p>
+<li><p>原因非常简单，在当前目录下找不到webpack时，就会去全局找，并且执行命令</p>
 </li>
-<li><p>那么如何使用项目(局部)的webpack，常见的是两种方式: </p>
+<li><p>那么如何使用项目(局部)的webpack，常见的是两种方式</p>
 <ul>
 <li>方式一：明确查找到node_module下面的webpack</li>
-<li>方式二：在 scripts定义脚本，来执行webpack;</li>
+<li>方式二：在 scripts定义脚本，来执行webpack</li>
 </ul>
 </li>
 <li><p>方式一：在终端中使用如下命令(在项目根目录下) </p>
@@ -700,7 +729,29 @@
 <li><p>方式三：使用npx</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack --version</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>npx原理非常简单，会到当前目录的node_modules&#x2F;.bin目录下查找对应的命令；</p>
+<li><p>npx原理非常简单，会到当前目录的node_modules&#x2F;.bin目录下查找对应的命令</p>
+</li>
+</ul>
+<h1 id="npm发布自己的包">9. npm发布自己的包</h1><ul>
+<li><p>注册npm账号</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/">https://www.npmjs.com/</a></li>
+<li>选择sign up</li>
+</ul>
+</li>
+<li><p>在命令行登录：npm login</p>
+</li>
+<li><p>修改package.json n发布到npm registry上：npm publish</p>
+</li>
+<li><p>更新仓库</p>
+<ol>
+<li>修改版本号(最好符合semver规范)</li>
+<li>重新发布</li>
+</ol>
+</li>
+<li><p>删除发布的包：npm unpublish</p>
+</li>
+<li><p>让发布的包过期：npm deprecate</p>
 </li>
 </ul>
 
@@ -734,7 +785,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2023-04-15 16:19
+          2023-05-31 01:12
 
       </li>
   
@@ -823,7 +874,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E4%BB%A3%E7%A0%81"><span class="nav-text">1. 共享代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7npm"><span class="nav-text">2. 包管理工具npm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-package-json"><span class="nav-text">3. 项目配置文件 package.json</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BApackage-json"><span class="nav-text">3.1. 创建package.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-text">3.2. 常见的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#name%EF%BC%8Cversion"><span class="nav-text">3.2.1. name，version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private"><span class="nav-text">3.2.2. private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main"><span class="nav-text">3.2.3. main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scripts"><span class="nav-text">3.2.4. scripts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies"><span class="nav-text">3.2.5. dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#devDependencies"><span class="nav-text">3.2.6. devDependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.2.7. 版本管理的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#engines"><span class="nav-text">3.2.8. engines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#browserslist"><span class="nav-text">3.2.9. browserslist</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm-install-%E5%91%BD%E4%BB%A4"><span class="nav-text">4. npm install 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85"><span class="nav-text">4.1. 项目安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#npm-install-%E5%8E%9F%E7%90%86"><span class="nav-text">4.2. npm install 原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#package-lock-json"><span class="nav-text">5. package-lock.json</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="nav-text">6. npm其他命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Yarn%E5%B7%A5%E5%85%B7"><span class="nav-text">7. Yarn工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cnpm%E5%B7%A5%E5%85%B7"><span class="nav-text">8. cnpm工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npx%E5%B7%A5%E5%85%B7"><span class="nav-text">9. npx工具</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E4%BB%A3%E7%A0%81"><span class="nav-text">1. 共享代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7npm"><span class="nav-text">2. 包管理工具npm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-package-json"><span class="nav-text">3. 项目配置文件 package.json</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">3.1. 常见的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-text">3.2. 常见的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#name%EF%BC%8Cversion"><span class="nav-text">3.2.1. name，version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private"><span class="nav-text">3.2.2. private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main"><span class="nav-text">3.2.3. main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scripts"><span class="nav-text">3.2.4. scripts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies"><span class="nav-text">3.2.5. dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#devDependencies"><span class="nav-text">3.2.6. devDependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#peerDependencies"><span class="nav-text">3.2.7. peerDependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.2.8. 版本管理的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#engines"><span class="nav-text">3.2.9. engines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#browserslist"><span class="nav-text">3.2.10. browserslist</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm-install-%E5%91%BD%E4%BB%A4"><span class="nav-text">4. npm install 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85"><span class="nav-text">4.1. 全局安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85"><span class="nav-text">4.2. 项目安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#npm-install-%E5%8E%9F%E7%90%86"><span class="nav-text">4.3. npm install 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#package-lock-json"><span class="nav-text">4.4. package-lock.json</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="nav-text">5. npm其他命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Yarn%E5%B7%A5%E5%85%B7"><span class="nav-text">6. Yarn工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cnpm%E5%B7%A5%E5%85%B7-%E9%95%9C%E5%83%8F"><span class="nav-text">7. cnpm工具-镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npx%E5%B7%A5%E5%85%B7-%E7%89%88%E6%9C%AC%E9%80%89%E6%8B%A9"><span class="nav-text">8. npx工具-版本选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm%E5%8F%91%E5%B8%83%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8C%85"><span class="nav-text">9. npm发布自己的包</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -839,7 +890,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">381</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -852,7 +903,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -901,7 +952,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -911,13 +962,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span>网站总字数: </span>
-    <span title="站点总字数">2.9m</span>
+    <span title="站点总字数">3.4m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">44:22</span>
+    <span title="站点阅读时长">51:11</span>
 </div>
 
 <span id="sitetime"></span>
