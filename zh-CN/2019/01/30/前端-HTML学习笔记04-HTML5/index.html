@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="语义化标签，音视频元素，data-*">
@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/30/%E5%89%8D%E7%AB%AF-HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-HTML5/header.png">
 <meta property="article:published_time" content="2019-01-29T16:47:19.000Z">
-<meta property="article:modified_time" content="2023-07-06T08:13:15.948Z">
+<meta property="article:modified_time" content="2026-03-18T07:22:06.000Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="HTML">
 <meta name="twitter:card" content="summary">
@@ -263,7 +263,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-07-06 16:13:15" itemprop="dateModified" datetime="2023-07-06T16:13:15+08:00">2023-07-06</time>
+                <time title="修改时间：2026-03-18 15:22:06" itemprop="dateModified" datetime="2026-03-18T15:22:06+08:00">2026-03-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -439,7 +439,7 @@
 <tr>
 <td>preload</td>
 <td>none&#x2F;metadata&#x2F;auto</td>
-<td>是否需要预加载视频.metadata表示预加载元数据(比如视频时长等)</td>
+<td>是否需要预加载视频<br>metadata表示预加载元数据(比如视频时长等)</td>
 </tr>
 <tr>
 <td>poster</td>
@@ -635,7 +635,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2023-07-06 16:13
+          2026-03-18 15:22
 
       </li>
   
@@ -676,7 +676,6 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -819,7 +818,7 @@
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">51:11</span>
+    <span title="站点阅读时长">51:10</span>
 </div>
 
 <span id="sitetime"></span>
@@ -944,26 +943,6 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
   
 
   
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'fb5f16fdf7649a9e5208',
-      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
-      repo        : 'wtlumos.github.io',
-      owner       : 'WTlumos',
-      admin       : ['WTlumos'],
-      id          : '8429804c3cff4f27b89db9f8c6ae7df6',
-        language: '',
-      distractionFreeMode: false
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
 </html>

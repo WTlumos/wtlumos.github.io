@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="三种事件监听方式，事件流，事件对象，EventTarget类，事件委托，鼠标事件，键盘事件，表单元素事件，Document事件，CSS事件">
@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/02/09/%E5%89%8D%E7%AB%AF-JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC/bubble.png">
 <meta property="article:published_time" content="2019-02-09T15:53:53.000Z">
-<meta property="article:modified_time" content="2024-06-12T14:57:44.976Z">
+<meta property="article:modified_time" content="2026-04-08T04:01:12.000Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="JS">
 <meta name="twitter:card" content="summary">
@@ -263,7 +263,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-12 22:57:44" itemprop="dateModified" datetime="2024-06-12T22:57:44+08:00">2024-06-12</time>
+                <time title="修改时间：2026-04-08 12:01:12" itemprop="dateModified" datetime="2026-04-08T12:01:12+08:00">2026-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -327,16 +327,15 @@
 <h2 id="通过元素的on来监听事件">2.2. 通过元素的on来监听事件</h2><ul>
 <li>事件 <code>唯一</code>：同一个元素同一个事件只能设置一个处理函数，最后注册的处理函数将会覆盖前面注册的处理函数</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="通过addEventListener来监听">2.3. 通过addEventListener来监听</h2><ul>
 <li>事件 <code>不唯一</code>：同一个元素同一个事件可以设置多个处理函数</li>
-<li>调用格式<code>eventTarget.addEventListener(type,Listener,useCapture)</code><ul>
+<li>调用格式<code>eventTarget.addEventListener(type,Listener)</code><ul>
 <li>type：事件类型字符串，比如：click，mouseover</li>
 <li>listener：事件处理函数，事件发生时，会调用该监听函数</li>
-<li>useCapture：可选参数，是一个布尔值，默认是false</li>
 </ul>
 </li>
 </ul>
@@ -347,7 +346,7 @@
 <h1 id="解绑事件">3. 解绑事件</h1><ul>
 <li>可以采用两种方法<ul>
 <li>btn.onclick&#x3D;null</li>
-<li>btn.removeEventListener(type,Listener,useCapture)<ul>
+<li>btn.removeEventListener(type,Listener)<ul>
 <li>这里的事件处理函数不能使用匿名函数</li>
 </ul>
 </li>
@@ -520,7 +519,7 @@
 <li><p>在函数中，可以通过this来获取当前的发生元素</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">span.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span> === event.<span class="property">currentTarget</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>这是因为在浏览器内部，调用event handler是绑定到当前的target上的</p>
+<li><p>这是因为在浏览器内部，调用event handler是绑定到当前的currentTarget上的</p>
 </li>
 </ul>
 <h1 id="EventTarget类">6. EventTarget类</h1><ul>
@@ -617,11 +616,11 @@
 <td>鼠标从某元素移开触发，会冒泡，影响父盒子</td>
 </tr>
 <tr>
-<td>mouserenter</td>
+<td>mouseenter</td>
 <td>鼠标移到某元素之上触发，不会冒泡，不影响父盒子</td>
 </tr>
 <tr>
-<td>mouserleave</td>
+<td>mouseleave</td>
 <td>鼠标从某元素移开触发，不会冒泡，不影响父盒子</td>
 </tr>
 <tr>
@@ -795,7 +794,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2024-06-12 22:57
+          2026-04-08 12:01
 
       </li>
   
@@ -836,7 +835,6 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -979,7 +977,7 @@
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">51:11</span>
+    <span title="站点阅读时长">51:10</span>
 </div>
 
 <span id="sitetime"></span>
@@ -1104,26 +1102,6 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
   
 
   
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'fb5f16fdf7649a9e5208',
-      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
-      repo        : 'wtlumos.github.io',
-      owner       : 'WTlumos',
-      admin       : ['WTlumos'],
-      id          : '4810bf19220f9d96ac78e4c97472dd8e',
-        language: '',
-      distractionFreeMode: false
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
 </html>

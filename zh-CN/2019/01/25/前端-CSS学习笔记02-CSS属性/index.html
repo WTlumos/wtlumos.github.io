@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"wtlumos.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="属性文档，文字属性，字体属性，display，overflow，背景相关属性">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/repeat.png">
 <meta property="og:image" content="https://wtlumos.github.io/zh-CN/2019/01/25/%E5%89%8D%E7%AB%AF-CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-CSS%E5%B1%9E%E6%80%A7/position.png">
 <meta property="article:published_time" content="2019-01-25T14:14:56.000Z">
-<meta property="article:modified_time" content="2025-05-18T08:01:56.420Z">
+<meta property="article:modified_time" content="2026-01-17T13:54:34.000Z">
 <meta property="article:author" content="Wang Ting">
 <meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
@@ -266,7 +266,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-18 16:01:56" itemprop="dateModified" datetime="2025-05-18T16:01:56+08:00">2025-05-18</time>
+                <time title="修改时间：2026-01-17 21:54:34" itemprop="dateModified" datetime="2026-01-17T21:54:34+08:00">2026-01-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -320,20 +320,25 @@
 <li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Value_definition_syntax#hash_mark">CSS 属性值定义语法</a></p>
 </li>
 </ul>
-<h1 id="常见CSS属性">2. 常见CSS属性</h1><h2 id="width">2.1. width</h2><ul>
+<h1 id="常见CSS属性">2. 常见CSS属性</h1><h2 id="font-size">2.1. font-size</h2><ul>
+<li>字体大小</li>
+</ul>
+<h2 id="width">2.2. width</h2><ul>
 <li><p>宽度</p>
 </li>
 <li><p>默认值为 auto，由浏览器决定大小</p>
 </li>
 </ul>
-<h2 id="height">2.2. height</h2><ul>
+<h2 id="height">2.3. height</h2><ul>
 <li>高度</li>
+<li>默认由元素内容决定</li>
 </ul>
-<h2 id="color">2.3. color</h2><ul>
-<li>color属性用来设置文本内容的<code>前景色</code><ul>
+<h2 id="color">2.4. color</h2><ul>
+<li>文本内容的<code>前景色</code></li>
 <li>包括文字、装饰线、边框、外轮廓等的颜色</li>
 </ul>
-</li>
+<h2 id="background-color">2.5. background-color</h2><ul>
+<li>元素背景色</li>
 </ul>
 <h1 id="CSS颜色的表示方法">3. CSS颜色的表示方法</h1><ul>
 <li>在CSS中，颜色，有以下几种表示方法<ul>
@@ -360,9 +365,9 @@
 <ul>
 <li><p><code>#RRGGBB[AA]</code></p>
 </li>
-<li><p>R(红)、G(绿)、B (蓝)和A (alpha)是十六进制字符(0–9、A–F)；A是可选的</p>
+<li><p>R(红)、G(绿)、B (蓝)和A (alpha)是十六进制字符(0–9、A–F)，A是可选的</p>
 </li>
-<li><p>比如，#ff0000等价于#ff0000ff;</p>
+<li><p>比如，#ff0000等价于#ff0000ff</p>
 </li>
 </ul>
 </li>
@@ -540,7 +545,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="字体属性">5. 字体属性</h1><h2 id="font-size">5.1. font-size</h2><ul>
+<h1 id="字体属性">5. 字体属性</h1><h2 id="font-size-1">5.1. font-size</h2><ul>
 <li><p>决定文字的大小</p>
 </li>
 <li><p>常用的设置</p>
@@ -712,7 +717,7 @@
 </thead>
 <tbody><tr>
 <td>IE 8-11</td>
-<td align="center">√</td>
+<td align="center">√</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -934,7 +939,7 @@
 </ul>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">font</span> = </span><br><span class="line">  <span class="selector-attr">[ [ &lt;<span class="string">&#x27;font-style&#x27;</span>&gt; || &lt;font-variant-css2&gt; || &lt;<span class="string">&#x27;font-weight&#x27;</span>&gt; || &lt;font-stretch-css3&gt; ]</span>? &lt;&#x27;<span class="attribute">font-size</span>&#x27;&gt; <span class="selector-attr">[ / &lt;<span class="string">&#x27;line-height&#x27;</span>&gt; ]</span>? &lt;&#x27;<span class="attribute">font-family</span>&#x27;&gt; ]  |</span><br><span class="line">  <span class="selector-tag">caption</span>                                             |</span><br><span class="line">  <span class="attribute">icon</span>                                                |</span><br><span class="line">  <span class="selector-tag">menu</span>                                                |</span><br><span class="line">  message-box                                         |</span><br><span class="line">  small-<span class="selector-tag">caption</span>                                       |</span><br><span class="line">  status-bar</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h1 id="背景属性">6. 背景属性</h1><h2 id="background-color">6.1. background-color</h2><ul>
+<h1 id="背景属性">6. 背景属性</h1><h2 id="background-color-1">6.1. background-color</h2><ul>
 <li><p>背景颜色</p>
 </li>
 <li><p>属性值：关键字，rgb表示法，rgba表示法，#十六进制</p>
@@ -1393,7 +1398,7 @@
       </li>
       <li>
           <strong>更新时间：</strong>
-          2025-05-18 16:01
+          2026-01-17 21:54
 
       </li>
   
@@ -1434,7 +1439,6 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -1481,7 +1485,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E5%B1%9E%E6%80%A7%E6%96%87%E6%A1%A3"><span class="nav-text">1. CSS属性文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81CSS%E5%B1%9E%E6%80%A7"><span class="nav-text">2. 常见CSS属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#width"><span class="nav-text">2.1. width</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#height"><span class="nav-text">2.2. height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#color"><span class="nav-text">2.3. color</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E9%A2%9C%E8%89%B2%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3. CSS颜色的表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">3.1. 颜色关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3.2. RGB的表示方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E5%B1%9E%E6%80%A7"><span class="nav-text">4. 文字属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-decoration"><span class="nav-text">4.1. text-decoration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-transform"><span class="nav-text">4.2. text-transform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-indent"><span class="nav-text">4.3. text-indent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-align"><span class="nav-text">4.4. text-align</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.1. 图像居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.2. div居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#justify%E5%80%BC"><span class="nav-text">4.4.3. justify值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-shadow"><span class="nav-text">4.5. text-shadow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#letter-spacing"><span class="nav-text">4.6. letter-spacing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-spacing"><span class="nav-text">4.7. word-spacing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%B1%9E%E6%80%A7"><span class="nav-text">5. 字体属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-size"><span class="nav-text">5.1. font-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-family"><span class="nav-text">5.2. font-family</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-fonts-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-text">5.3. Web fonts - 自定义字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86Web%E5%AD%97%E4%BD%93"><span class="nav-text">5.3.1. 认识Web字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-fonts%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">5.3.2. Web fonts的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Web-Fonts"><span class="nav-text">5.3.3. 使用Web Fonts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-text">5.3.4. web-fonts的兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95"><span class="nav-text">5.3.5. web fonts兼容性写法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-weight"><span class="nav-text">5.4. font-weight</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-style"><span class="nav-text">5.5. font-style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-variant"><span class="nav-text">5.6. font-variant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-height"><span class="nav-text">5.7. line-height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-%E8%BF%9E%E5%86%99-swsf"><span class="nav-text">5.8. font-连写 swsf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%B1%9E%E6%80%A7"><span class="nav-text">6. 背景属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color"><span class="nav-text">6.1. background-color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linear-gradient"><span class="nav-text">6.2. linear-gradient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-image"><span class="nav-text">6.3. background-image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-repeat"><span class="nav-text">6.4. background-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-size"><span class="nav-text">6.5. background-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-position"><span class="nav-text">6.6. background-position</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-attachment"><span class="nav-text">6.7. background-attachment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-%E8%BF%9E%E5%86%99-CIRPSA"><span class="nav-text">6.8. background-连写 CIRPSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E6%A0%87%E7%AD%BE%E5%92%8Cbackground-image%E5%8C%BA%E5%88%AB"><span class="nav-text">6.9. img标签和background-image区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E7%81%B5%E5%9B%BE-Sprite"><span class="nav-text">6.10. 精灵图 Sprite</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#display"><span class="nav-text">7. display</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block"><span class="nav-text">7.1. block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline"><span class="nav-text">7.2. inline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.1. 行内非替换元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">7.2.2. 行内非替换元素的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.3. 行内替换元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline-block"><span class="nav-text">7.3. inline-block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#none"><span class="nav-text">7.4. none</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overflow"><span class="nav-text">8. overflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cusor"><span class="nav-text">9. cusor</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E5%B1%9E%E6%80%A7%E6%96%87%E6%A1%A3"><span class="nav-text">1. CSS属性文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81CSS%E5%B1%9E%E6%80%A7"><span class="nav-text">2. 常见CSS属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-size"><span class="nav-text">2.1. font-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#width"><span class="nav-text">2.2. width</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#height"><span class="nav-text">2.3. height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#color"><span class="nav-text">2.4. color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color"><span class="nav-text">2.5. background-color</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS%E9%A2%9C%E8%89%B2%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3. CSS颜色的表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">3.1. 颜色关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-text">3.2. RGB的表示方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E5%B1%9E%E6%80%A7"><span class="nav-text">4. 文字属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-decoration"><span class="nav-text">4.1. text-decoration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-transform"><span class="nav-text">4.2. text-transform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-indent"><span class="nav-text">4.3. text-indent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-align"><span class="nav-text">4.4. text-align</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.1. 图像居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#div%E5%B1%85%E4%B8%AD"><span class="nav-text">4.4.2. div居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#justify%E5%80%BC"><span class="nav-text">4.4.3. justify值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-shadow"><span class="nav-text">4.5. text-shadow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#letter-spacing"><span class="nav-text">4.6. letter-spacing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-spacing"><span class="nav-text">4.7. word-spacing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%B1%9E%E6%80%A7"><span class="nav-text">5. 字体属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-size-1"><span class="nav-text">5.1. font-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-family"><span class="nav-text">5.2. font-family</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-fonts-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-text">5.3. Web fonts - 自定义字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86Web%E5%AD%97%E4%BD%93"><span class="nav-text">5.3.1. 认识Web字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-fonts%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">5.3.2. Web fonts的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Web-Fonts"><span class="nav-text">5.3.3. 使用Web Fonts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-text">5.3.4. web-fonts的兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-fonts%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95"><span class="nav-text">5.3.5. web fonts兼容性写法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-weight"><span class="nav-text">5.4. font-weight</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-style"><span class="nav-text">5.5. font-style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-variant"><span class="nav-text">5.6. font-variant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-height"><span class="nav-text">5.7. line-height</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-%E8%BF%9E%E5%86%99-swsf"><span class="nav-text">5.8. font-连写 swsf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%B1%9E%E6%80%A7"><span class="nav-text">6. 背景属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color-1"><span class="nav-text">6.1. background-color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linear-gradient"><span class="nav-text">6.2. linear-gradient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-image"><span class="nav-text">6.3. background-image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-repeat"><span class="nav-text">6.4. background-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-size"><span class="nav-text">6.5. background-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-position"><span class="nav-text">6.6. background-position</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-attachment"><span class="nav-text">6.7. background-attachment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-%E8%BF%9E%E5%86%99-CIRPSA"><span class="nav-text">6.8. background-连写 CIRPSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img%E6%A0%87%E7%AD%BE%E5%92%8Cbackground-image%E5%8C%BA%E5%88%AB"><span class="nav-text">6.9. img标签和background-image区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E7%81%B5%E5%9B%BE-Sprite"><span class="nav-text">6.10. 精灵图 Sprite</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#display"><span class="nav-text">7. display</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block"><span class="nav-text">7.1. block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline"><span class="nav-text">7.2. inline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.1. 行内非替换元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E9%9D%9E%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">7.2.2. 行内非替换元素的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0"><span class="nav-text">7.2.3. 行内替换元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline-block"><span class="nav-text">7.3. inline-block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#none"><span class="nav-text">7.4. none</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overflow"><span class="nav-text">8. overflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cusor"><span class="nav-text">9. cusor</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1577,7 +1581,7 @@
       <i class="fa fa-coffee"></i>
     </span>
         <span>阅读总时长: </span>
-    <span title="站点阅读时长">51:11</span>
+    <span title="站点阅读时长">51:10</span>
 </div>
 
 <span id="sitetime"></span>
@@ -1702,26 +1706,6 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
   
 
   
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'fb5f16fdf7649a9e5208',
-      clientSecret: 'bcd95c87cdbab8fa32fc1b006fbb1ce7e8ffae5b',
-      repo        : 'wtlumos.github.io',
-      owner       : 'WTlumos',
-      admin       : ['WTlumos'],
-      id          : '5b6d3358cdfdf830b1faa48d86ebab86',
-        language: '',
-      distractionFreeMode: false
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":125,"height":290,"hOffset":-15,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacity":0.7},"dialog":{"enable":false,"hitokoto":false},"log":false});</script></body>
 </html>
